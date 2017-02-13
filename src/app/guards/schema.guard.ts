@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from "rxjs";
 
 import { RestSchemaService } from "angular2-postgrest";
@@ -11,7 +11,7 @@ export class SchemaGuard implements CanActivate {
   constructor( private schema_service: RestSchemaService,
                private menu_service: MenuService ) { }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  canActivate(route: ActivatedRouteSnapshot) {
     if (localStorage.getItem('paths') && localStorage.getItem('definitions')) {
       return Observable.of(true);
     }

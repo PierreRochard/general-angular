@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+import { StoreModule } from '@ngrx-store';
+
 import {RestSchemaService, RestClient, APP_CONFIG, AuthenticationService} from "angular2-postgrest";
 
 import { AppComponent } from './app.component';
@@ -13,6 +15,8 @@ import {AppConfig} from "./app.config";
 import {MenubarComponent} from "./menubar/menubar.component";
 import {MenubarModule} from "primeng/components/menubar/menubar";
 import {MenuService} from "./services/menu.service";
+
+import { reducer } from './reducers';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -27,6 +31,7 @@ import {MenuService} from "./services/menu.service";
     HttpModule,
     routing,
     MenubarModule,
+    StoreModule.provideSTore(reducer),
   ],
   providers: [
     SchemaGuard,
