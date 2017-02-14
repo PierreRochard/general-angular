@@ -29,6 +29,7 @@ export function reducer(state: any, action: any) {
     return productionReducer(state, action);
   }
   else {
+    console.log(action);
     return developmentReducer(state, action);
   }
 }
