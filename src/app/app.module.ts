@@ -3,7 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { StoreModule } from '@ngrx-store';
+import { StoreModule } from '@ngrx/store';
+import {EffectsModule} from "@ngrx/effects";
+import {RouterStoreModule} from "@ngrx/router-store";
 
 import {RestSchemaService, RestClient, APP_CONFIG, AuthenticationService} from "angular2-postgrest";
 
@@ -17,6 +19,7 @@ import {MenubarModule} from "primeng/components/menubar/menubar";
 import {MenuService} from "./services/menu.service";
 
 import { reducer } from './reducers';
+import {SchemaEffects} from "./effects/schema.effects";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -31,7 +34,9 @@ import { reducer } from './reducers';
     HttpModule,
     routing,
     MenubarModule,
-    StoreModule.provideSTore(reducer),
+    StoreModule.provideStore(reducer),
+    RouterStoreModule.connectRouter(),
+    EffectsModule.run(SchemaEffects),
   ],
   providers: [
     SchemaGuard,

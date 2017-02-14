@@ -41,3 +41,5 @@ export function reducer(state = initialState, action: schema.Actions): State {
     }
   }
 }
+
+export const getSchema = (state: State) => state.schema;
