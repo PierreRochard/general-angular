@@ -7,6 +7,9 @@ import { StoreModule } from '@ngrx/store';
 import {EffectsModule} from "@ngrx/effects";
 import {RouterStoreModule} from "@ngrx/router-store";
 
+import {MenubarModule} from "primeng/components/menubar/menubar";
+import {ButtonModule} from 'primeng/primeng';
+
 import {RestSchemaService, RestClient, APP_CONFIG, AuthenticationService} from "angular2-postgrest";
 
 import { AppComponent } from './app.component';
@@ -15,7 +18,7 @@ import {routing} from "./app.routing";
 import {HomeComponent} from "./pages/home/home.component";
 import {AppConfig} from "./app.config";
 import {MenubarComponent} from "./menubar/menubar.component";
-import {MenubarModule} from "primeng/components/menubar/menubar";
+
 import {MenuService} from "./services/menu.service";
 
 import { reducer } from './reducers';
@@ -34,6 +37,7 @@ import {SchemaEffects} from "./effects/schema.effects";
     HttpModule,
     routing,
     MenubarModule,
+    ButtonModule,
     StoreModule.provideStore(reducer),
     RouterStoreModule.connectRouter(),
     EffectsModule.run(SchemaEffects),

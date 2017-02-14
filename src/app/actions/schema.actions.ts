@@ -25,7 +25,7 @@ export class InvalidateAction implements Action {
 export class RequestAction implements Action {
   type = ActionTypes.REQUEST_SCHEMA;
 
-  constructor(public payload) { }
+  constructor() { }
 }
 
 export class ReceiveAction implements Action {

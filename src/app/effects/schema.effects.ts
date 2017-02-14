@@ -13,16 +13,17 @@ export class SchemaEffects {
     private http: RestClient,
   ) { }
 
-  @Effect() requestSchema$ = this.actions$
+  @Effect()
+  requestSchema$ = this.actions$
     .ofType(schema.ActionTypes.REQUEST_SCHEMA)
-    .switchMap(action => (
-      this.http.get('')
-        .map(
-          (response: Response) => {
-            localStorage.setItem('paths', JSON.stringify(response.json().paths));
-            localStorage.setItem('definitions', JSON.stringify(response.json().definitions));
-            return true
-          })
-    ))
+    .switchMap(action => {
+        return this.http.get('')
+          .map(
+            (response: Response) => {
+              console.log(response.json());
+              new schema.ReceiveAction(response.json());
+            })
+    }
+    )
 
 }
