@@ -17,7 +17,7 @@ export interface State {
 }
 
 const reducers = {
-  search: fromSchema.reducer,
+  schema: fromSchema.reducer,
   router: fromRouter.routerReducer,
 };
 

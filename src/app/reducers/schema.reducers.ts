@@ -1,5 +1,3 @@
-import {ActionReducer} from "@ngrx/store";
-
 import * as schema from '../actions/schema.actions';
 
 export interface State {
@@ -10,7 +8,7 @@ export interface State {
 }
 
 const initialState: State = {
-  schema: {},
+  schema: {'definitions': {}},
   didInvalidate: false,
   isFetching: false,
 };

@@ -1,11 +1,10 @@
+import {Injectable} from "@angular/core";
+
 import {Actions, Effect} from "@ngrx/effects";
 
-
-import {Response} from "@angular/http";
-import {Injectable} from "@angular/core";
-import * as schema from '../actions/schema.actions';
 import {RestClient} from "angular2-postgrest";
-import {Observable} from "rxjs";
+
+import * as schema from '../actions/schema.actions';
 
 @Injectable()
 export class SchemaEffects {

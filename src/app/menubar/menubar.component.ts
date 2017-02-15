@@ -1,15 +1,29 @@
 import {Component} from '@angular/core';
 
-import {MenubarModule,MenuItem} from 'primeng/primeng';
+import {Observable} from "rxjs";
+
+import {Store} from "@ngrx/store";
+
+import {MenuItem} from 'primeng/primeng';
+
+import * as fromRoot from '../reducers';
 
 
 @Component({
   selector: 'menubar',
-  templateUrl: 'menubar.component.html',
+  template: `<p-menubar [model]="items"></p-menubar>`,
 })
 export class MenubarComponent {
+  schema$: Observable<any>;
+  items: MenuItem[];
 
-  private items: MenuItem[];
+  constructor(private store: Store<fromRoot.State>) {
+    this.schema$ = store.select(fromRoot.getSchema)
+      .map(schema => {
+        console.log(schema.definitions.keys())
+      });
+  }
+
 
   ngOnInit() {
     this.items = [
