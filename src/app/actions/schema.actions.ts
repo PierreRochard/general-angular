@@ -32,8 +32,6 @@ export class ReceiveAction implements Action {
   type = ActionTypes.RECEIVE_SCHEMA;
 
   constructor(public payload) {
-    console.log('receive action payload');
-    console.log(payload);
   }
 }
 

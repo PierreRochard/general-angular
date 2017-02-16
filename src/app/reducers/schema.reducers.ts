@@ -14,7 +14,6 @@ const initialState: State = {
 };
 
 export function reducer(state = initialState, action: schema.Actions): State {
-  console.log(action);
   switch (action.type) {
     case schema.ActionTypes.INVALIDATE_SCHEMA: {
       return Object.assign({}, state, {

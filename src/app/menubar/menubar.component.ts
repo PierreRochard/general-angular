@@ -11,94 +11,25 @@ import * as fromRoot from '../reducers';
 
 @Component({
   selector: 'menubar',
-  template: `<p-menubar [model]="items"></p-menubar>`,
+  template: `<p-menubar [model]="items$ | async"></p-menubar>`,
 })
 export class MenubarComponent {
-  schema$: Observable<any>;
-  items: MenuItem[];
+  items$: Observable<MenuItem[]>;
 
   constructor(private store: Store<fromRoot.State>) {
-    this.schema$ = store.select(fromRoot.getSchema)
+    this.items$ = store.select(fromRoot.getSchema)
       .map(schema => {
-        console.log(schema.definitions.keys())
-      });
-  }
-
-
-  ngOnInit() {
-    this.items = [
-      {
-        label: 'File',
-        icon: 'fa-file-o',
-        items: [{
-          label: 'New',
-          icon: 'fa-plus',
-          items: [
-            {label: 'Project'},
-            {label: 'Other'},
-          ]
-        },
-          {label: 'Open'},
-          {label: 'Quit'}
-        ]
-      },
-      {
-        label: 'Edit',
-        icon: 'fa-edit',
-        items: [
-          {label: 'Undo', icon: 'fa-mail-forward'},
-          {label: 'Redo', icon: 'fa-mail-reply'}
-        ]
-      },
-      {
-        label: 'Help',
-        icon: 'fa-question',
-        items: [
-          {
-            label: 'Contents'
-          },
-          {
-            label: 'Search',
-            icon: 'fa-search',
-            items: [
-              {
-                label: 'Text',
-                items: [
-                  {
-                    label: 'Workspace'
-                  }
-                ]
-              },
-              {
-                label: 'File'
-              }
-            ]}
-        ]
-      },
-      {
-        label: 'Actions',
-        icon: 'fa-gear',
-        items: [
-          {
-            label: 'Edit',
-            icon: 'fa-refresh',
-            items: [
-              {label: 'Save', icon: 'fa-save'},
-              {label: 'Update', icon: 'fa-save'},
-            ]
-          },
-          {
-            label: 'Other',
-            icon: 'fa-phone',
-            items: [
-              {label: 'Delete', icon: 'fa-minus'}
-            ]
+        return Object.keys(schema.definitions).map(key => {
+          let icon = 'fa-table';
+          let path = '/';
+          if (key.startsWith('(rpc')) {
+            icon = 'fa-terminal';
+            path += 'rpc/'
           }
-        ]
-      },
-      {
-        label: 'Quit', icon: 'fa-minus'
-      }
-    ];
+          let formatted_key = key.replace('(rpc) ', '');
+          return {'label': formatted_key,
+                  'icon': icon,
+                  'routerLink': [path + formatted_key]}})
+      });
   }
 }
