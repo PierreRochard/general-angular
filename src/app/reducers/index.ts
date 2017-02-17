@@ -44,3 +44,4 @@ export const getSchema = createSelector(getSchemaState, fromSchema.getSchema);
 export const getEndpointsState = (state: State) => state.endpoints;
 
 export const getEndpoints = createSelector(getEndpointsState, fromEndpoints.getEndpoints);
+export const getMenuItems = createSelector(getEndpointsState, fromEndpoints.getMenuItems);

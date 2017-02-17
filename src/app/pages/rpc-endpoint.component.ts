@@ -7,8 +7,8 @@ import {Observable} from "rxjs";
 
 import {Store} from "@ngrx/store";
 
-import * as fromRoot from '../../reducers';
-import * as schema from '../../actions/schema.actions';
+import * as fromRoot from '../reducers';
+import * as schema from '../actions/schema.actions';
 
 @Component({
   template: `

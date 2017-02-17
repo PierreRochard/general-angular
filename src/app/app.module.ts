@@ -15,15 +15,13 @@ import {RestSchemaService, RestClient, APP_CONFIG, AuthenticationService} from "
 import { AppComponent } from './app.component';
 import {SchemaGuard} from "./guards/schema.guard";
 import {routing} from "./app.routing";
-import {HomeComponent} from "./pages/home/home.component";
+import {HomeComponent} from "./pages/home.component";
 import {AppConfig} from "./app.config";
 import {MenubarComponent} from "./menubar/menubar.component";
 
-import {MenuService} from "./services/menu.service";
-
 import { reducer } from './reducers';
 import {SchemaEffects} from "./effects/schema.effects";
-import {RpcEndpointComponent} from "./pages/RpcEndpoint/rpc-endpoint.component";
+import {RpcEndpointComponent} from "./pages/rpc-endpoint.component";
 import {EndpointEffects} from "./effects/endpoint.effects";
 
 @NgModule({
@@ -52,7 +50,6 @@ import {EndpointEffects} from "./effects/endpoint.effects";
     RestSchemaService,
     RestClient,
     { provide: APP_CONFIG, useValue: AppConfig },
-    MenuService,
   ]
 })
 export class AppModule { }
