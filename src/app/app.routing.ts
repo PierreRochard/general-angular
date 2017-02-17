@@ -11,7 +11,7 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: '/rpc/:endpointName',
+    path: 'rpc/:endpointName',
     component: RpcEndpointComponent,
   },
   {

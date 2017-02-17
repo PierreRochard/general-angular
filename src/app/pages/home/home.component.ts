@@ -20,7 +20,6 @@ export class HomeComponent {
     this.schema$ = store.select(fromRoot.getSchema);
   }
 
-
   onclick() {
     this.store.dispatch(new schema.RequestAction())
   }

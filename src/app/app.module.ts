@@ -23,6 +23,8 @@ import {MenuService} from "./services/menu.service";
 
 import { reducer } from './reducers';
 import {SchemaEffects} from "./effects/schema.effects";
+import {RpcEndpointComponent} from "./pages/RpcEndpoint/rpc-endpoint.component";
+import {EndpointEffects} from "./effects/endpoint.effects";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -30,6 +32,7 @@ import {SchemaEffects} from "./effects/schema.effects";
     AppComponent,
     HomeComponent,
     MenubarComponent,
+    RpcEndpointComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +44,7 @@ import {SchemaEffects} from "./effects/schema.effects";
     StoreModule.provideStore(reducer),
     RouterStoreModule.connectRouter(),
     EffectsModule.run(SchemaEffects),
+    EffectsModule.run(EndpointEffects),
   ],
   providers: [
     SchemaGuard,

@@ -10,15 +10,18 @@ import { storeFreeze } from 'ngrx-store-freeze';
 import { combineReducers } from '@ngrx/store';
 
 import * as fromSchema from './schema.reducers';
+import * as fromEndpoints from './endpoint.reducers';
 
 export interface State {
+  endpoints: fromEndpoints.State;
   schema: fromSchema.State;
   router: fromRouter.RouterState;
 }
 
 const reducers = {
-  schema: fromSchema.reducer,
-  router: fromRouter.routerReducer,
+  endpoints: fromEndpoints.reducer,
+  schema:    fromSchema.reducer,
+  router:    fromRouter.routerReducer,
 };
 
 const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
@@ -37,3 +40,7 @@ export function reducer(state: any, action: any) {
 export const getSchemaState = (state: State) => state.schema;
 
 export const getSchema = createSelector(getSchemaState, fromSchema.getSchema);
+
+export const getEndpointsState = (state: State) => state.endpoints;
+
+export const getEndpoints = createSelector(getEndpointsState, fromEndpoints.getEndpoints);
