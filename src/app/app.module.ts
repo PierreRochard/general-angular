@@ -21,7 +21,7 @@ import {MenubarComponent} from "./components/menubar.component";
 
 import { reducer } from './reducers';
 import {SchemaEffects} from "./effects/schema.effects";
-import {RpcEndpointComponent} from "./pages/view-endpoint.page";
+import {ViewEndpointPageComponent} from "./pages/view-endpoint.page";
 import {EndpointEffects} from "./effects/endpoint.effects";
 
 @NgModule({
@@ -30,7 +30,7 @@ import {EndpointEffects} from "./effects/endpoint.effects";
     AppComponent,
     HomeComponent,
     MenubarComponent,
-    RpcEndpointComponent,
+    ViewEndpointPageComponent,
   ],
   imports: [
     BrowserModule,

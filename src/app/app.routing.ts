@@ -1,7 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 import {HomeComponent} from "./pages/home.page";
 import {SchemaGuard} from "./guards/schema.guard";
-import {RpcEndpointComponent} from "./pages/view-endpoint.page";
+import {ViewEndpointPageComponent} from "./pages/view-endpoint.page";
 
 export const routes: Routes = [
   {
@@ -12,7 +12,7 @@ export const routes: Routes = [
   },
   {
     path: 'rpc/:endpointName',
-    component: RpcEndpointComponent,
+    component: ViewEndpointPageComponent,
     canActivate: [SchemaGuard],
   },
   {

@@ -95,3 +95,4 @@ export function reducer(state = initialState, action: endpoints.Actions): State 
 
 export const getEndpoints = (state: State) => state.names;
 export const getMenuItems = (state: State) => state.menuItems;
+export const getEndpointProperties = (state: State) => state.properties;

@@ -3,36 +3,21 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from '../reducers';
-import * as collection from '../actions/collection';
-import { Book } from '../models/book';
 
 
 @Component({
-  selector: 'bc-selected-book-page',
+  selector: 'selected-endpoint-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <bc-book-detail
-      [book]="book$ | async"
-      [inCollection]="isSelectedBookInCollection$ | async"
-      (add)="addToCollection($event)"
-      (remove)="removeFromCollection($event)">
-    </bc-book-detail>
+    <endpoint-detail
+      [endpointProperties]="endpointProperties$ | async"
+    </endpoint-detail>
   `
 })
-export class SelectedBookPageComponent {
-  book$: Observable<Book>;
-  isSelectedBookInCollection$: Observable<boolean>;
+export class SelectedEndpointPageComponent {
+  endpointProperties$: Observable<any>;
 
   constructor(private store: Store<fromRoot.State>) {
-    this.book$ = store.select(fromRoot.getSelectedBook);
-    this.isSelectedBookInCollection$ = store.select(fromRoot.isSelectedBookInCollection);
-  }
-
-  addToCollection(book: Book) {
-    this.store.dispatch(new collection.AddBookAction(book));
-  }
-
-  removeFromCollection(book: Book) {
-    this.store.dispatch(new collection.RemoveBookAction(book));
+    this.endpointProperties$ = store.select(fromRoot.getEndpointProperties);
   }
 }
