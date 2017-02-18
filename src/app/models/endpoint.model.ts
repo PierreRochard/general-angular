@@ -4,9 +4,11 @@ export interface EndpointProperty {
   type: string;
   format: string;
   required: boolean;
+  tag: string;
 }
 
 export interface Endpoint {
   name: string;
   type: string;
+  tag:  string;
 }

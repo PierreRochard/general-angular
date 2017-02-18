@@ -24,12 +24,12 @@ export class RpcEndpointComponent {
     this.endpointName = route.params.select<string>('endpointName');
     this.requiredFields$ = store.select(fromRoot.getSchema)
       .map(schema => {
-        this.endpointName.subscribe(data => {
-          console.log(data);
+          this.endpointName.subscribe(data => {
+            console.log(data);
 
-        });
-        // return Object.keys(schema.definitions[this.endpointName.subscribe(data => '(rpc) ' + data)].properties)
-      }
+          });
+          // return Object.keys(schema.definitions[this.endpointName.subscribe(data => '(rpc) ' + data)].properties)
+        }
       )
   }
 }
