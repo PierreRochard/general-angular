@@ -1,10 +1,11 @@
 import * as endpoints from '../actions/endpoint.actions';
-import {Endpoint} from "../models/endpoint.model";
+import {Endpoint, EndpointProperty} from "../models/endpoint.model";
 import {MenuItem} from "primeng/components/common/api";
 
 export interface State {
   names: string[];
   entities: { [name: string]: Endpoint };
+  properties: EndpointProperty[];
   menuItems: MenuItem[];
   selectedEndpointName: string | null;
 }
@@ -12,7 +13,10 @@ export interface State {
 const initialState: State = {
   names: [],
   entities: {},
-  menuItems: [],
+  properties: [],
+  menuItems: [{label: 'Home',
+               icon: 'fa-home',
+               routerLink: ['']}],
   selectedEndpointName: null,
 };
 
@@ -22,6 +26,7 @@ export function reducer(state = initialState, action: endpoints.Actions): State 
       return {
         names: state.names,
         entities: state.entities,
+        properties: state.properties,
         menuItems: state.menuItems,
         selectedEndpointName: action.payload
       };
@@ -52,7 +57,28 @@ export function reducer(state = initialState, action: endpoints.Actions): State 
       return Object.assign({}, state, {
         names: Object.keys(entities),
         entities: entities,
-        menuItems: menuItems,
+        menuItems: [...initialState.menuItems, ...menuItems]
+      });
+    }
+    case endpoints.ActionTypes.ADD_PROPERTIES: {
+      let properties = [];
+      let definitions = action.payload;
+      let new_endpoints = Object.keys(definitions).map(endpoint => {
+        let definition = definitions[endpoint];
+        let endpoint_properties = Object.keys(definition.properties).map(property => {
+          let is_required = definition.required.includes(property);
+          let new_property = {
+              name: property,
+              endpoint_name: endpoint,
+              required: is_required,
+              format: definition.properties[property].format,
+              type: definition.properties[property].type,
+            };
+          properties = [...properties, new_property];
+        })
+      });
+      return Object.assign({}, state, {
+        properties: [...initialState.properties, ...properties],
       });
     }
     case endpoints.ActionTypes.INITIALIZE_ENDPOINTS: {

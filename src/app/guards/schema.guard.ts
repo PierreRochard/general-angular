@@ -27,7 +27,6 @@ export class SchemaGuard implements CanActivate {
       .map(response => new schema.ReceiveAction(response.json()))
       .do((action: schema.ReceiveAction) => this.store.dispatch(action))
       .map(schema => {
-        console.log(schema);
         return !!schema
       })
       .catch(() => {
@@ -39,7 +38,7 @@ export class SchemaGuard implements CanActivate {
   hasSchemaInStore(): Observable<boolean> {
     return this.store.select(fromRoot.getSchema)
       .map(schema => {
-        return Object.keys(schema).length === 0 && schema.constructor === Object
+        return !(Object.keys(schema.definitions).length === 0)
       })
       .take(1);
   }
@@ -47,7 +46,6 @@ export class SchemaGuard implements CanActivate {
   hasSchema(): Observable<boolean> {
     return this.hasSchemaInStore()
       .switchMap(inStore => {
-        console.log(inStore);
         if (inStore) {
           return of(inStore);
         }

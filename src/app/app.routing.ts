@@ -13,6 +13,7 @@ export const routes: Routes = [
   {
     path: 'rpc/:endpointName',
     component: RpcEndpointComponent,
+    canActivate: [SchemaGuard],
   },
   {
     path: '**',

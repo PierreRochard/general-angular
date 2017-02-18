@@ -24,11 +24,20 @@ export class EndpointEffects {
   }
 
   @Effect()
-  requestSchema$ = this.actions$
+  addEndpoints$ = this.actions$
     .ofType(schema.ActionTypes.RECEIVE_SCHEMA)
     .switchMap(action =>
         this.schema$.map(schema =>
-          new endpoint.AddAction(schema.definitions)
+          new endpoint.AddEndpointsAction(schema.definitions)
         )
+    );
+
+  @Effect()
+  addProperties$ = this.actions$
+    .ofType(endpoint.ActionTypes.ADD_ENDPOINTS)
+    .switchMap(action =>
+      this.schema$.map(schema =>
+        new endpoint.AddPropertiesAction(schema.definitions)
+      )
     );
 }
