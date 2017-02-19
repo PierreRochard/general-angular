@@ -10,28 +10,30 @@ import {ActivatedRoute, Router} from "@angular/router";
 @Component({
   selector: 'rpc-endpoint',
   template: `
-                <h1>RPC {{selectedEndpoint.name}} Endpoint</h1>
-                
-                <p>
-                {{selectedEndpointProperties | json}}
-</p>
-    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="form-horizontal">
-      <div *ngFor="let property of selectedEndpointProperties">
-      {{property | json}}
+<h1>
+  RPC {{selectedEndpoint.name}} Endpoint
+</h1>
+<div>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div *ngFor="let property of selectedEndpointProperties">
+    {{property | json}}
+    </div>
+    
+    
+    <label for="inputEmail3">
+      Email
+    </label>
+    <input [formControl]="form.controls.email" type="email" id="inputEmail3" placeholder="Email">
+    
+    <label for="inputPassword3">
+      Password
+    </label>
+    <input [formControl]="form.controls.password" type="password" id="inputPassword3" placeholder="Password">
+    
+    <button type="submit">Sign in</button>
+  </form>
 </div>
-      <label for="inputEmail3">
-        Email
-      </label>
-      <input [formControl]="form.controls.email" type="email" id="inputEmail3" placeholder="Email">
-      
-      <label for="inputPassword3">
-        Password
-      </label>
-      <input [formControl]="form.controls.password" type="password" id="inputPassword3" placeholder="Password">
-      
-      <button type="submit">Sign in</button>
-    </form>
-                `
+`
 })
 export class RpcEndpointComponent implements OnChanges {
   public form: FormGroup;

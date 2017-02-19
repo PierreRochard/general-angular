@@ -25,6 +25,7 @@ import {ViewEndpointPageComponent} from "./pages/view-endpoint.page";
 import {EndpointEffects} from "./effects/endpoint.effects";
 import {SelectedEndpointPageComponent} from "./pages/selected-endpoint.page";
 import {RpcEndpointComponent} from "./components/rpc-endpoint.component";
+import {FormCreationService} from "./services/form-creation.service";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -54,6 +55,7 @@ import {RpcEndpointComponent} from "./components/rpc-endpoint.component";
     AuthenticationService,
     RestSchemaService,
     RestClient,
+    FormCreationService,
     { provide: APP_CONFIG, useValue: AppConfig },
   ]
 })
