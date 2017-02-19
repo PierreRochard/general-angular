@@ -45,4 +45,8 @@ export const getEndpointsState = (state: State) => state.endpoints;
 
 export const getEndpoints = createSelector(getEndpointsState, fromEndpoints.getEndpoints);
 export const getMenuItems = createSelector(getEndpointsState, fromEndpoints.getMenuItems);
+export const getEntities = createSelector(getEndpointsState, fromEndpoints.getEntities);
+export const getSelectedEndpointName = createSelector(getEndpointsState, fromEndpoints.getSelectedEndpointName);
 export const getEndpointProperties = createSelector(getEndpointsState, fromEndpoints.getEndpointProperties);
+export const getSelectedEndpoint = createSelector(getEndpointsState, fromEndpoints.getSelectedEndpoint);
+export const getSelectedEndpointProperties = createSelector(getEndpointsState, fromEndpoints.getSelectedEndpointProperties);

@@ -1,6 +1,9 @@
+import { createSelector } from 'reselect';
+
+import {MenuItem} from "primeng/components/common/api";
+
 import * as endpoints from '../actions/endpoint.actions';
 import {Endpoint, EndpointProperty} from "../models/endpoint.model";
-import {MenuItem} from "primeng/components/common/api";
 
 export interface State {
   names: string[];
@@ -95,4 +98,12 @@ export function reducer(state = initialState, action: endpoints.Actions): State 
 
 export const getEndpoints = (state: State) => state.names;
 export const getMenuItems = (state: State) => state.menuItems;
+export const getEntities = (state: State) => state.entities;
+export const getSelectedEndpointName = (state: State) => state.selectedEndpointName;
 export const getEndpointProperties = (state: State) => state.properties;
+export const getSelectedEndpoint = createSelector(getEntities, getSelectedEndpointName, (entities, selectedName) => {
+  return entities[selectedName];
+});
+export const getSelectedEndpointProperties = createSelector(getEndpointProperties, getSelectedEndpointName, (properties, selectedName) => {
+  return properties.filter(property => property.endpoint_name === selectedName);
+});

@@ -3,6 +3,6 @@ import {Component} from '@angular/core';
 @Component({
   template: `<h1>Home</h1>`
 })
-export class HomeComponent {
+export class HomePageComponent {
   constructor() { }
 }

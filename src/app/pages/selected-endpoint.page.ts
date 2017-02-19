@@ -9,15 +9,18 @@ import * as fromRoot from '../reducers';
   selector: 'selected-endpoint-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <endpoint-detail
-      [endpointProperties]="endpointProperties$ | async"
-    </endpoint-detail>
+    <rpc-endpoint
+      [selectedEndpoint]="selectedEndpoint$ | async"
+      [selectedEndpointProperties]="selectedEndpointProperties$ | async">
+    </rpc-endpoint>
   `
 })
 export class SelectedEndpointPageComponent {
-  endpointProperties$: Observable<any>;
+  selectedEndpoint$: Observable<any>;
+  selectedEndpointProperties$: Observable<any>;
 
   constructor(private store: Store<fromRoot.State>) {
-    this.endpointProperties$ = store.select(fromRoot.getEndpointProperties);
+    this.selectedEndpoint$ = store.select(fromRoot.getSelectedEndpoint);
+    this.selectedEndpointProperties$ = store.select(fromRoot.getSelectedEndpointProperties);
   }
 }

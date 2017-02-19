@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { StoreModule } from '@ngrx/store';
@@ -15,7 +15,7 @@ import {RestSchemaService, RestClient, APP_CONFIG, AuthenticationService} from "
 import { AppComponent } from './app.component';
 import {SchemaGuard} from "./guards/schema.guard";
 import {routing} from "./app.routing";
-import {HomeComponent} from "./pages/home.page";
+import {HomePageComponent} from "./pages/home.page";
 import {AppConfig} from "./app.config";
 import {MenubarComponent} from "./components/menubar.component";
 
@@ -23,18 +23,23 @@ import { reducer } from './reducers';
 import {SchemaEffects} from "./effects/schema.effects";
 import {ViewEndpointPageComponent} from "./pages/view-endpoint.page";
 import {EndpointEffects} from "./effects/endpoint.effects";
+import {SelectedEndpointPageComponent} from "./pages/selected-endpoint.page";
+import {RpcEndpointComponent} from "./components/rpc-endpoint.component";
 
 @NgModule({
   bootstrap: [AppComponent],
   declarations: [
     AppComponent,
-    HomeComponent,
+    HomePageComponent,
     MenubarComponent,
     ViewEndpointPageComponent,
+    SelectedEndpointPageComponent,
+    RpcEndpointComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     routing,
     MenubarModule,

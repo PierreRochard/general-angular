@@ -1,12 +1,12 @@
 import { Routes, RouterModule } from '@angular/router';
-import {HomeComponent} from "./pages/home.page";
+import {HomePageComponent} from "./pages/home.page";
 import {SchemaGuard} from "./guards/schema.guard";
 import {ViewEndpointPageComponent} from "./pages/view-endpoint.page";
 
 export const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
+    component: HomePageComponent,
     canActivate: [SchemaGuard],
     pathMatch: 'full',
   },
