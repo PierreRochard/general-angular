@@ -1,14 +1,17 @@
-import '@ngrx/core/add/operator/select';
-
 import {Component, Input, OnInit} from '@angular/core';
-import {Endpoint, EndpointProperty} from "../models/endpoint.model";
 import {FormGroup, FormBuilder} from '@angular/forms';
 import {ActivatedRoute, Router} from "@angular/router";
+
+import '@ngrx/core/add/operator/select';
 import {Store} from "@ngrx/store";
-import * as fromRoot from '../reducers';
-import * as endpoint from '../actions/endpoint.actions';
-import {RestClient} from "../services/rest-client.service";
-import {FormCreationService} from "../services/form-creation.service";
+
+import * as fromRoot from '../app.reducers';
+import {RestClient} from "../common/rest-client.service";
+
+import {Endpoint, EndpointProperty} from "../schema/endpoint.model";
+import * as endpoint from '../schema/endpoint.actions';
+
+import {FormCreationService} from "./form-creation.service";
 
 
 @Component({

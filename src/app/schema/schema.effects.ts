@@ -1,11 +1,11 @@
-import 'rxjs';
-
 import {Injectable} from "@angular/core";
 
 import {Actions, Effect} from "@ngrx/effects";
 
-import * as schema from '../actions/schema.actions';
-import {RestClient} from "../services/rest-client.service";
+import 'rxjs';
+
+import * as schema from './schema.actions';
+import {RestClient} from "../common/rest-client.service";
 
 @Injectable()
 export class SchemaEffects {

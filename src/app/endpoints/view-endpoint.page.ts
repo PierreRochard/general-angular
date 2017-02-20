@@ -1,12 +1,14 @@
-import '@ngrx/core/add/operator/select';
-import 'rxjs/add/operator/map';
 import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
 import { Store } from '@ngrx/store';
+import '@ngrx/core/add/operator/select';
+
+import 'rxjs/add/operator/map';
 import { Subscription } from 'rxjs/Subscription';
 
-import * as fromRoot from '../reducers';
-import * as endpoint from '../actions/endpoint.actions';
+import * as fromRoot from '../app.reducers';
+import * as endpoint from '../schema/endpoint.actions';
 
 
 @Component({

@@ -2,8 +2,8 @@ import { createSelector } from 'reselect';
 
 import {MenuItem} from "primeng/components/common/api";
 
-import * as endpoints from '../actions/endpoint.actions';
-import {Endpoint, EndpointProperty} from "../models/endpoint.model";
+import * as endpoints from './endpoint.actions';
+import {Endpoint, EndpointProperty} from "./endpoint.model";
 
 export interface State {
   names: string[];

@@ -1,8 +1,10 @@
 import {Component} from '@angular/core';
+
 import {Observable} from "rxjs";
+
 import {Store} from "@ngrx/store";
 
-import * as fromRoot from '../reducers';
+import * as fromRoot from '../app.reducers';
 
 @Component({
   template: `<h1>Home</h1>

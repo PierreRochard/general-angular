@@ -6,12 +6,11 @@ import {Actions, Effect} from "@ngrx/effects";
 import {Store} from "@ngrx/store";
 
 
-import * as schema from '../actions/schema.actions';
-import * as endpoint from '../actions/endpoint.actions';
+import * as schema from './schema.actions';
+import * as endpoint from './endpoint.actions';
 import * as auth from '../auth/auth.actions'
-import * as fromRoot from '../reducers';
-import {Endpoint} from "../models/endpoint.model";
-import {RestClient} from "../services/rest-client.service";
+import * as fromRoot from '../app.reducers';
+import {RestClient} from "../common/rest-client.service";
 
 @Injectable()
 export class EndpointEffects {

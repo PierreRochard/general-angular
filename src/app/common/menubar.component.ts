@@ -6,7 +6,7 @@ import {Store} from "@ngrx/store";
 
 import {MenuItem} from 'primeng/primeng';
 
-import * as fromRoot from '../reducers';
+import * as fromRoot from '../app.reducers';
 
 
 @Component({

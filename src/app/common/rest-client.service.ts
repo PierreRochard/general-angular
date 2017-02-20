@@ -2,9 +2,10 @@ import {Injectable} from '@angular/core';
 import {Http, Headers, Response} from '@angular/http';
 
 import { Observable } from "rxjs/Observable";
+
 import {Store} from "@ngrx/store";
 
-import * as fromRoot from '../reducers';
+import * as fromRoot from '../app.reducers';
 
 @Injectable()
 export class RestClient {

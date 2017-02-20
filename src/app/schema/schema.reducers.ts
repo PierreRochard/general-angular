@@ -1,4 +1,4 @@
-import * as schema from '../actions/schema.actions';
+import * as schema from './schema.actions';
 
 export interface State {
   schema: any;

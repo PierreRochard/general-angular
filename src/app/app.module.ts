@@ -10,25 +10,25 @@ import {RouterStoreModule} from "@ngrx/router-store";
 import {ButtonModule, MenubarModule, PasswordModule, InputTextModule} from 'primeng/primeng';
 
 
-import {SchemaEffects} from "./effects/schema.effects";
-import {EndpointEffects} from "./effects/endpoint.effects";
+import {SchemaEffects} from "./schema/schema.effects";
+import {EndpointEffects} from "./schema/endpoint.effects";
 
 import { AppComponent } from './app.component';
 
-import {HomePageComponent} from "./pages/home.page";
-import {ViewEndpointPageComponent} from "./pages/view-endpoint.page";
-import {SelectedEndpointPageComponent} from "./pages/selected-endpoint.page";
+import {HomePageComponent} from "./home/home.page";
+import {ViewEndpointPageComponent} from "./endpoints/view-endpoint.page";
+import {SelectedEndpointPageComponent} from "./endpoints/selected-endpoint.page";
 
-import {MenubarComponent} from "./components/menubar.component";
-import {RpcEndpointComponent} from "./components/rpc-endpoint.component";
-import {DynamicFormElementComponent} from "./components/dynamic-form-element.component";
+import {MenubarComponent} from "./common/menubar.component";
+import {RpcEndpointComponent} from "./endpoints/rpc-endpoint.component";
+import {DynamicFormElementComponent} from "./endpoints/dynamic-form-element.component";
 
-import {FormCreationService} from "./services/form-creation.service";
-import {RestClient} from "./services/rest-client.service";
+import {FormCreationService} from "./endpoints/form-creation.service";
+import {RestClient} from "./common/rest-client.service";
 
-import {SchemaGuard} from "./guards/schema.guard";
+import {SchemaGuard} from "./schema/schema.guard";
 
-import { reducer } from './reducers';
+import { reducer } from './app.reducers';
 import {routing} from "./app.routing";
 
 

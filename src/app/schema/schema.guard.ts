@@ -6,10 +6,10 @@ import {of} from "rxjs/observable/of";
 
 import {Store} from "@ngrx/store";
 
-import {RestClient} from "../services/rest-client.service";
+import {RestClient} from "../common/rest-client.service";
 
-import * as fromRoot from '../reducers';
-import * as schema from '../actions/schema.actions';
+import * as fromRoot from '../app.reducers';
+import * as schema from './schema.actions';
 
 @Injectable()
 export class SchemaGuard implements CanActivate {

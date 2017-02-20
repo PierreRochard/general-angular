@@ -1,6 +1,7 @@
 import { Injectable }   from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {EndpointProperty} from "../models/endpoint.model";
+
+import {EndpointProperty} from "../schema/endpoint.model";
 
 
 @Injectable()
