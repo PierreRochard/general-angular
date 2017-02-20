@@ -6,8 +6,14 @@ import { FormGroup }        from '@angular/forms';
   template: `
 <div [formGroup]="form">
   <label [attr.for]="formElement.name">{{formElement.name}}</label>
-    <input *ngIf="!(formElement.name === 'password')" [formControlName]="formElement.name" [id]="formElement.name" pInputText />
-    <input *ngIf="formElement.name === 'password'" type="password" pPassword [formControlName]="formElement.name" />
+    <input *ngIf="!(formElement.name === 'password')" 
+            [formControlName]="formElement.name" 
+            [id]="formElement.name" 
+            pInputText />
+    <input *ngIf="formElement.name === 'password'" 
+            type="password" 
+            [formControlName]="formElement.name" 
+            pPassword />
 </div>
 `
 })

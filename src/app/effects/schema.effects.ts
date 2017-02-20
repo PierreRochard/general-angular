@@ -20,4 +20,12 @@ export class SchemaEffects {
     .switchMap(action => this.http.get('')
           .map(response => new schema.ReceiveAction(response.json()))
     );
+
+  @Effect()
+  refreshSchema$ = this.actions$
+    .ofType(schema.ActionTypes.INVALIDATE_SCHEMA)
+    .switchMap(action => this.http.get('')
+      .map(response => new schema.ReceiveAction(response.json()))
+    )
+
 }

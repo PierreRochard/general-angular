@@ -12,8 +12,8 @@ export class FormCreationService {
 
     formElements.forEach(endpointProperty => {
       group[endpointProperty.name] = endpointProperty.required ?
-        new FormControl(endpointProperty.name || '', Validators.required) :
-        new FormControl(endpointProperty.name || '');
+        new FormControl('', Validators.required) :
+        new FormControl('');
     });
     return new FormGroup(group);
   }

@@ -17,8 +17,7 @@ export class RestClient {
     this.token$ = store.select(fromRoot.getToken);
   }
 
-  createAuthorizationHeader(headers: Headers, token: string) {
-    console.log(token);
+  static createAuthorizationHeader(headers: Headers, token: string) {
     if (!!token) {
       headers.append('Authorization', 'Bearer ' + token );
     }
@@ -27,7 +26,7 @@ export class RestClient {
   }
 
   get(endpoint): Observable<Response> {
-    return this.token$.map(token => this.createAuthorizationHeader(new Headers(), token))
+    return this.token$.map(token => RestClient.createAuthorizationHeader(new Headers(), token))
       .switchMap(headers => this.http.get(this.apiEndpoint.concat(endpoint), {headers: headers}))
       .catch(error => {
         console.log(error);
@@ -36,7 +35,7 @@ export class RestClient {
   }
 
   post(endpoint, data): Observable<Response> {
-    return this.token$.map(token => this.createAuthorizationHeader(new Headers(), token))
+    return this.token$.map(token => RestClient.createAuthorizationHeader(new Headers(), token))
       .switchMap(headers => this.http.post(this.apiEndpoint.concat(endpoint), data, {headers: headers}))
       .catch(error => {
         console.log(error);

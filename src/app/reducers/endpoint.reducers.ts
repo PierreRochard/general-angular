@@ -70,7 +70,11 @@ export function reducer(state = initialState, action: endpoints.Actions): State 
         let modified_endpoint_name = endpoint_name.replace('(rpc) ', '');
         let definition = definitions[endpoint_name];
         let endpoint_properties = Object.keys(definition.properties).map(property => {
-          let is_required = definition.required.includes(property);
+          let is_required = false;
+          if (definition.hasOwnProperty('required')) {
+            is_required = definition.required.includes(property);
+          }
+
           let new_property = {
               name: property,
               endpoint_name: modified_endpoint_name,

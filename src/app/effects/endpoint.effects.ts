@@ -59,7 +59,6 @@ export class EndpointEffects {
     .ofType(endpoint.ActionTypes.RECEIVE_POST)
     .switchMap(action => {
       let response = action.payload[0];
-      console.log(JSON.stringify(response));
       if (response.hasOwnProperty('token')) {
         return [new auth.AddTokenAction(response.token),
                 new schema.InvalidateAction()]
