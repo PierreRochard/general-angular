@@ -9,16 +9,19 @@ import { storeFreeze } from 'ngrx-store-freeze';
 
 import { combineReducers } from '@ngrx/store';
 
-import * as fromSchema from './schema.reducers';
+import * as fromAuth from '../auth/auth.reducers';
 import * as fromEndpoints from './endpoint.reducers';
+import * as fromSchema from './schema.reducers';
 
 export interface State {
+  auth: fromAuth.State;
   endpoints: fromEndpoints.State;
   schema: fromSchema.State;
   router: fromRouter.RouterState;
 }
 
 const reducers = {
+  auth: fromAuth.reducer,
   endpoints: fromEndpoints.reducer,
   schema:    fromSchema.reducer,
   router:    fromRouter.routerReducer,
@@ -38,11 +41,9 @@ export function reducer(state: any, action: any) {
 }
 
 export const getSchemaState = (state: State) => state.schema;
-
 export const getSchema = createSelector(getSchemaState, fromSchema.getSchema);
 
 export const getEndpointsState = (state: State) => state.endpoints;
-
 export const getEndpoints = createSelector(getEndpointsState, fromEndpoints.getEndpoints);
 export const getMenuItems = createSelector(getEndpointsState, fromEndpoints.getMenuItems);
 export const getEntities = createSelector(getEndpointsState, fromEndpoints.getEntities);
@@ -50,3 +51,6 @@ export const getSelectedEndpointName = createSelector(getEndpointsState, fromEnd
 export const getEndpointProperties = createSelector(getEndpointsState, fromEndpoints.getEndpointProperties);
 export const getSelectedEndpoint = createSelector(getEndpointsState, fromEndpoints.getSelectedEndpoint);
 export const getSelectedEndpointProperties = createSelector(getEndpointsState, fromEndpoints.getSelectedEndpointProperties);
+
+export const getAuthState = (state: State) => state.auth;
+export const getToken = createSelector(getAuthState, fromAuth.getToken);

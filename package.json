@@ -24,7 +24,6 @@
     "@ngrx/effects": "^2.0.0",
     "@ngrx/router-store": "^1.2.5",
     "@ngrx/store": "^2.2.1",
-    "angular2-postgrest": "^3.5.0",
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
     "primeng": "^2.0.0-rc.3",

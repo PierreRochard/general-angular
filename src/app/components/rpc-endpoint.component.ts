@@ -2,9 +2,12 @@ import '@ngrx/core/add/operator/select';
 
 import {Component, Input, OnInit} from '@angular/core';
 import {Endpoint, EndpointProperty} from "../models/endpoint.model";
-import {FormGroup, AbstractControl, FormBuilder, Validators, FormControl} from '@angular/forms';
-import {RestClient} from "angular2-postgrest/dist";
+import {FormGroup, FormBuilder} from '@angular/forms';
 import {ActivatedRoute, Router} from "@angular/router";
+import {Store} from "@ngrx/store";
+import * as fromRoot from '../reducers';
+import * as endpoint from '../actions/endpoint.actions';
+import {RestClient} from "../services/rest-client.service";
 import {FormCreationService} from "../services/form-creation.service";
 
 
@@ -30,23 +33,30 @@ import {FormCreationService} from "../services/form-creation.service";
 export class RpcEndpointComponent implements OnInit {
   public form: FormGroup;
   public payload: string;
+  public returnUrl:string;
+
   @Input() selectedEndpoint:Endpoint;
   @Input() selectedEndpointProperties:EndpointProperty[];
 
   constructor(private form_builder: FormBuilder,
+              private store: Store<fromRoot.State>,
               private router: Router,
               private route: ActivatedRoute,
               private http: RestClient,
               private form_creation: FormCreationService) {
-
+    this.returnUrl = this.route.snapshot.params['returnUrl'] || '/';
   }
 
   ngOnInit() {
     this.form = this.form_creation.toFormGroup(this.selectedEndpointProperties);
   }
 
-  onSubmit() {
-    this.payload = JSON.stringify(this.form.value);
+  public onSubmit() {
+    let action_payload = {};
+    action_payload['properties'] = this.form.value;
+    action_payload['path'] = 'rpc/' + this.selectedEndpoint.name;
+    this.store.dispatch(new endpoint.SubmitFormAction(action_payload));
+    this.router.navigate([this.returnUrl]);
   }
 
 }

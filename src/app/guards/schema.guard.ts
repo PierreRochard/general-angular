@@ -6,7 +6,7 @@ import {of} from "rxjs/observable/of";
 
 import {Store} from "@ngrx/store";
 
-import {RestClient} from "angular2-postgrest";
+import {RestClient} from "../services/rest-client.service";
 
 import * as fromRoot from '../reducers';
 import * as schema from '../actions/schema.actions';

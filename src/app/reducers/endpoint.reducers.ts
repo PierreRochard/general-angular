@@ -67,7 +67,7 @@ export function reducer(state = initialState, action: endpoints.Actions): State 
       let properties = [];
       let definitions = action.payload;
       let new_endpoints = Object.keys(definitions).map(endpoint_name => {
-        let modified_endpoint_name = endpoint_name.replace('(rpc) ', '')
+        let modified_endpoint_name = endpoint_name.replace('(rpc) ', '');
         let definition = definitions[endpoint_name];
         let endpoint_properties = Object.keys(definition.properties).map(property => {
           let is_required = definition.required.includes(property);
@@ -79,7 +79,6 @@ export function reducer(state = initialState, action: endpoints.Actions): State 
               format: definition.properties[property].format,
               type: definition.properties[property].type,
             };
-          console.log(new_property);
           properties = [...properties, new_property];
         })
       });

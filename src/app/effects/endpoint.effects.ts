@@ -5,12 +5,13 @@ import {Observable} from "rxjs";
 import {Actions, Effect} from "@ngrx/effects";
 import {Store} from "@ngrx/store";
 
-import {RestClient} from "angular2-postgrest";
 
 import * as schema from '../actions/schema.actions';
 import * as endpoint from '../actions/endpoint.actions';
+import * as auth from '../auth/auth.actions'
 import * as fromRoot from '../reducers';
 import {Endpoint} from "../models/endpoint.model";
+import {RestClient} from "../services/rest-client.service";
 
 @Injectable()
 export class EndpointEffects {
@@ -40,4 +41,29 @@ export class EndpointEffects {
         new endpoint.AddPropertiesAction(schema.definitions)
       )
     );
+
+  @Effect()
+  submitForm$ = this.actions$
+    .ofType(endpoint.ActionTypes.SUBMIT_FORM)
+    .switchMap(action => {
+      let formData = action.payload;
+      return this.http.post(formData.path, formData.properties)
+        .map(response => {
+          console.log(response.json());
+          return new endpoint.ReceivePostAction(response.json())
+        })
+      }
+    );
+
+  @Effect()
+  ProcessPostResponse$ = this.actions$
+    .ofType(endpoint.ActionTypes.RECEIVE_POST)
+    .switchMap(action => {
+      let response = action.payload;
+      if (response.hasOwnProperty('token')) {
+        return [new auth.AddTokenAction(response.token), ]
+      } else {
+        return []
+      }
+    })
 }

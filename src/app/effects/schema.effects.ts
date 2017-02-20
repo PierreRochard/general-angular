@@ -1,10 +1,11 @@
+import 'rxjs';
+
 import {Injectable} from "@angular/core";
 
 import {Actions, Effect} from "@ngrx/effects";
 
-import {RestClient} from "angular2-postgrest";
-
 import * as schema from '../actions/schema.actions';
+import {RestClient} from "../services/rest-client.service";
 
 @Injectable()
 export class SchemaEffects {

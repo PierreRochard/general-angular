@@ -6,6 +6,8 @@ export const ActionTypes = {
   ADD_ENDPOINTS:    type('ADD_ENDPOINTS'),
   ADD_PROPERTIES:    type('ADD_PROPERTIES'),
   INITIALIZE_ENDPOINTS: type('INITIALIZE_ENDPOINTS'),
+  SUBMIT_FORM: type('SUBMIT_FORM'),
+  RECEIVE_POST: type('RECEIVE_POST'),
 };
 
 export class SelectAction implements Action {
@@ -32,8 +34,21 @@ export class InitializeAction implements Action {
   constructor() { }
 }
 
+export class SubmitFormAction implements Action {
+  type = ActionTypes.SUBMIT_FORM;
+
+  constructor(public payload) { }
+}
+
+export class ReceivePostAction implements Action {
+  type = ActionTypes.RECEIVE_POST;
+
+  constructor(public payload) { }
+}
+
 export type Actions
   = SelectAction
   | AddEndpointsAction
   | AddPropertiesAction
-  | InitializeAction;
+  | InitializeAction
+  | SubmitFormAction;
