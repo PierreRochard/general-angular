@@ -14,12 +14,14 @@ import {FormCreationService} from "../services/form-creation.service";
 <h1>
   {{selectedEndpoint.name}} - RPC Endpoint
 </h1>
-<div>
+<div class="ui-g">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div *ngFor="let endpointProperty of selectedEndpointProperties">
+    <div class="ui-g-12" *ngFor="let endpointProperty of selectedEndpointProperties">
       <dynamic-form-element [formElement]="endpointProperty" [form]="form"></dynamic-form-element>
     </div>
-    <button type="submit" label="{{selectedEndpoint.name}}" pButton ></button>
+    <div class="ui-g-12">
+      <button type="submit" label="{{selectedEndpoint.name}}" pButton ></button>
+    </div>
   </form>
   {{payload}}
 </div>
