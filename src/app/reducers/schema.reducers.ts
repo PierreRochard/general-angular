@@ -3,13 +3,13 @@ import * as schema from '../actions/schema.actions';
 export interface State {
   schema: any;
   isFetching: boolean,
-  didInvalidate?: boolean,
+  valid_status: boolean,
   lastUpdated?: Date,
 }
 
 const initialState: State = {
   schema: {'definitions': {}},
-  didInvalidate: false,
+  valid_status: false,
   isFetching: false,
 };
 
@@ -17,19 +17,18 @@ export function reducer(state = initialState, action: schema.Actions): State {
   switch (action.type) {
     case schema.ActionTypes.INVALIDATE_SCHEMA: {
       return Object.assign({}, state, {
-        didInvalidate: true,
+        valid_status: false,
       });
     }
     case schema.ActionTypes.REQUEST_SCHEMA: {
       return Object.assign({}, state, {
         isFetching: true,
-        didInvalidate: false,
       })
     }
     case schema.ActionTypes.RECEIVE_SCHEMA: {
       return Object.assign({}, state, {
         isFetching: false,
-        didInvalidate: false,
+        valid_status: true,
         schema: action.payload,
         lastUpdated: Date.now(),
       })
@@ -41,3 +40,4 @@ export function reducer(state = initialState, action: schema.Actions): State {
 }
 
 export const getSchema = (state: State) => state.schema;
+export const getStatus = (state: State) => state.valid_status;

@@ -28,17 +28,13 @@ export class SchemaGuard implements CanActivate {
       .do((action: schema.ReceiveAction) => this.store.dispatch(action))
       .map(schema => {
         return !!schema
-      })
-      .catch(() => {
-        this.router.navigate(['/404']);
-        return of(false);
       });
   }
 
   hasSchemaInStore(): Observable<boolean> {
-    return this.store.select(fromRoot.getSchema)
-      .map(schema => {
-        return !(Object.keys(schema.definitions).length === 0)
+    return this.store.select(fromRoot.getStatus)
+      .map(status => {
+        return status
       })
       .take(1);
   }

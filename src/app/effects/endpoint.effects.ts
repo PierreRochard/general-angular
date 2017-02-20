@@ -49,7 +49,6 @@ export class EndpointEffects {
       let formData = action.payload;
       return this.http.post(formData.path, formData.properties)
         .map(response => {
-          console.log(response.json());
           return new endpoint.ReceivePostAction(response.json())
         })
       }
@@ -59,9 +58,11 @@ export class EndpointEffects {
   ProcessPostResponse$ = this.actions$
     .ofType(endpoint.ActionTypes.RECEIVE_POST)
     .switchMap(action => {
-      let response = action.payload;
+      let response = action.payload[0];
+      console.log(JSON.stringify(response));
       if (response.hasOwnProperty('token')) {
-        return [new auth.AddTokenAction(response.token), ]
+        return [new auth.AddTokenAction(response.token),
+                new schema.InvalidateAction()]
       } else {
         return []
       }

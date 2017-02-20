@@ -19,7 +19,7 @@ export class SelectAction implements Action {
 export class InvalidateAction implements Action {
   type = ActionTypes.INVALIDATE_SCHEMA;
 
-  constructor(public payload) { }
+  constructor() { }
 }
 
 export class RequestAction implements Action {

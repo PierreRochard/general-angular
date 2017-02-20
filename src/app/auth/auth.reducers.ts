@@ -5,13 +5,13 @@ export interface State {
 }
 
 const initialState: State = {
-  token: '',
+  token: null,
 };
 
 export function reducer(state = initialState, action: auth.Actions): State {
   switch (action.type) {
     case auth.ActionTypes.ADD_TOKEN: {
-      return Object.assign({}, state, { token: action.payload.token });
+      return Object.assign({}, state, { token: action.payload });
     }
     case auth.ActionTypes.REMOVE_TOKEN: {
       return Object.assign({}, state, { token: ''});

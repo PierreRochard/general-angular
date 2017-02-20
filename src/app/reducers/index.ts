@@ -42,6 +42,7 @@ export function reducer(state: any, action: any) {
 
 export const getSchemaState = (state: State) => state.schema;
 export const getSchema = createSelector(getSchemaState, fromSchema.getSchema);
+export const getStatus = createSelector(getSchemaState, fromSchema.getStatus);
 
 export const getEndpointsState = (state: State) => state.endpoints;
 export const getEndpoints = createSelector(getEndpointsState, fromEndpoints.getEndpoints);
