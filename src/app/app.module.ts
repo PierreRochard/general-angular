@@ -26,6 +26,9 @@ import {EndpointEffects} from "./effects/endpoint.effects";
 import {SelectedEndpointPageComponent} from "./pages/selected-endpoint.page";
 import {RpcEndpointComponent} from "./components/rpc-endpoint.component";
 import {FormCreationService} from "./services/form-creation.service";
+import {DynamicFormElementComponent} from "./components/dynamic-form-element.component";
+import {PasswordModule} from "primeng/components/password/password";
+import {InputTextModule} from "primeng/components/inputtext/inputtext";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -36,6 +39,7 @@ import {FormCreationService} from "./services/form-creation.service";
     ViewEndpointPageComponent,
     SelectedEndpointPageComponent,
     RpcEndpointComponent,
+    DynamicFormElementComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,6 +48,8 @@ import {FormCreationService} from "./services/form-creation.service";
     HttpModule,
     routing,
     MenubarModule,
+    InputTextModule,
+    PasswordModule,
     ButtonModule,
     StoreModule.provideStore(reducer),
     RouterStoreModule.connectRouter(),

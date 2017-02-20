@@ -1,25 +1,17 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup }        from '@angular/forms';
-import { QuestionBase }     from './question-base';
+
 @Component({
-  moduleId: module.id,
-  selector: 'df-question',
+  selector: 'dynamic-form-element',
   template: `
 <div [formGroup]="form">
-  <label [attr.for]="question.key">{{question.label}}</label>
-  <div [ngSwitch]="question.controlType">
-    <input *ngSwitchCase="'textbox'" [formControlName]="question.key"
-            [id]="question.key" [type]="question.type">
-    <select [id]="question.key" *ngSwitchCase="'dropdown'" [formControlName]="question.key">
-      <option *ngFor="let opt of question.options" [value]="opt.key">{{opt.value}}</option>
-    </select>
-  </div> 
-  <div class="errorMessage" *ngIf="!isValid">{{question.label}} is required</div>
+  <label [attr.for]="formElement.name">{{formElement.name}}</label>
+    <input *ngIf="!(formElement.name === 'password')" [formControlName]="formElement.name" [id]="formElement.name" pInputText />
+    <input *ngIf="formElement.name === 'password'" type="password" pPassword [formControlName]="formElement.name" />
 </div>
 `
 })
-export class DynamicFormQuestionComponent {
-  @Input() question: QuestionBase<any>;
+export class DynamicFormElementComponent {
+  @Input() formElement;
   @Input() form: FormGroup;
-  get isValid() { return this.form.controls[this.question.key].valid; }
 }

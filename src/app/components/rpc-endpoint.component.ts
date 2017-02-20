@@ -19,16 +19,15 @@ import {FormCreationService} from "../services/form-creation.service";
     <div *ngFor="let endpointProperty of selectedEndpointProperties">
       <dynamic-form-element [formElement]="endpointProperty" [form]="form"></dynamic-form-element>
     </div>
-    <button type="submit">
-      {{selectedEndpoint.name}}
-    </button>
+    <button type="submit" label="{{selectedEndpoint.name}}" pButton ></button>
   </form>
+  {{payload}}
 </div>
 `
 })
 export class RpcEndpointComponent implements OnInit {
   public form: FormGroup;
-
+  public payload: string;
   @Input() selectedEndpoint:Endpoint;
   @Input() selectedEndpointProperties:EndpointProperty[];
 
@@ -41,7 +40,11 @@ export class RpcEndpointComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.form_creation.toFormGroup(this.selectedEndpointProperties);
+    this.form = this.form_creation.toFormGroup(this.selectedEndpointProperties);
+  }
+
+  onSubmit() {
+    this.payload = JSON.stringify(this.form.value);
   }
 
 }
