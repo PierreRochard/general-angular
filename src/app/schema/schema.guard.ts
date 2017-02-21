@@ -1,26 +1,22 @@
 import { Injectable } from '@angular/core';
-import {CanActivate, ActivatedRouteSnapshot, Router} from '@angular/router';
+import {CanActivate, ActivatedRouteSnapshot} from '@angular/router';
 
-import { Observable } from "rxjs";
-import {of} from "rxjs/observable/of";
+import { Observable } from 'rxjs';
+import {of} from 'rxjs/observable/of';
 
-import {Store} from "@ngrx/store";
+import {Store} from '@ngrx/store';
 
-import {RestClient} from "../common/rest-client.service";
+import {RestClient} from '../common/rest-client.service';
 
 import * as fromRoot from '../app.reducers';
 import * as schema from './schema.actions';
 
 @Injectable()
 export class SchemaGuard implements CanActivate {
-  private schema$:Observable<any>;
   constructor(
     private store: Store<fromRoot.State>,
     private http: RestClient,
-    private router: Router,
-  ) {
-    this.schema$ = store.select(fromRoot.getSchema);
-  }
+  ) { }
 
   getSchema(): Observable<boolean> {
     return this.http.get('')
@@ -32,7 +28,7 @@ export class SchemaGuard implements CanActivate {
   }
 
   hasSchemaInStore(): Observable<boolean> {
-    return this.store.select(fromRoot.getStatus)
+    return this.store.select(fromRoot.getIsValid)
       .map(status => {
         return status
       })

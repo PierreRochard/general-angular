@@ -41,12 +41,14 @@ export function reducer(state: any, action: any) {
 }
 
 export const getSchemaState = (state: State) => state.schema;
-export const getSchema = createSelector(getSchemaState, fromSchema.getSchema);
-export const getStatus = createSelector(getSchemaState, fromSchema.getStatus);
+export const getPaths = createSelector(getSchemaState, fromSchema.getPaths);
+export const getDefinitions = createSelector(getSchemaState, fromSchema.getDefinitions);
+export const getIsValid = createSelector(getSchemaState, fromSchema.getIsValid);
+
+export const getMenuItems = createSelector(getSchemaState, fromSchema.getMenuItems);
 
 export const getEndpointsState = (state: State) => state.endpoints;
 export const getEndpoints = createSelector(getEndpointsState, fromEndpoints.getEndpoints);
-export const getMenuItems = createSelector(getEndpointsState, fromEndpoints.getMenuItems);
 export const getEntities = createSelector(getEndpointsState, fromEndpoints.getEntities);
 export const getSelectedEndpointName = createSelector(getEndpointsState, fromEndpoints.getSelectedEndpointName);
 export const getEndpointProperties = createSelector(getEndpointsState, fromEndpoints.getEndpointProperties);

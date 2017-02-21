@@ -56,7 +56,6 @@ import {routing} from "./app.routing";
     StoreModule.provideStore(reducer),
     RouterStoreModule.connectRouter(),
     EffectsModule.run(SchemaEffects),
-    EffectsModule.run(EndpointEffects),
   ],
   providers: [
     SchemaGuard,

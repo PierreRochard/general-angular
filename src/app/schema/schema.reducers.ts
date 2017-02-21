@@ -34,9 +34,10 @@ export function reducer(state = initialState, action: schema.Actions): State {
     }
     case schema.ActionTypes.RECEIVE_SCHEMA: {
       return Object.assign({}, state, {
+        paths: action.payload.paths,
+        definitions: action.payload.definitions,
         isFetching: false,
         isValid: true,
-        schema: action.payload,
         lastUpdated: Date.now(),
       })
     }
@@ -48,12 +49,31 @@ export function reducer(state = initialState, action: schema.Actions): State {
 
 export const getPaths = (state: State) => state.paths;
 export const getDefinitions = (state: State) => state.definitions;
-export const getStatus = (state: State) => state.isValid;
+export const getIsValid = (state: State) => state.isValid;
 export const getLastUpdated = (state: State) => state.lastUpdated;
 export const getSelectedPathName = (state: State) => state.selectedPathName;
 
 export const getPathNames = (state: State) => Object.keys(state.paths);
 export const getDefinitionNames = (state: State) => Object.keys(state.definitions);
+
+export const getMenuItems = createSelector(getPathNames, (pathNames) => {
+  let menuItems = pathNames
+    .map(pathName => {
+      let icon: string;
+      if (pathName === '/') {
+          icon = 'fa-home';
+      } else if (pathName.startsWith('/rpc/')) {
+          icon = 'fa-terminal';
+      } else {
+          icon = 'fa-table';
+      }
+      return {label: pathName,
+              icon: icon,
+              routerLink: pathName.substring(1)}
+    });
+  // let homeMenuItem = {label: 'Home', icon: 'fa-home', routerLink: ['']};
+  return [...menuItems]
+});
 
 export const getSelectedPath = createSelector(getPaths, getSelectedPathName, (paths, selectedPathName) => {
   return paths[selectedPathName];
