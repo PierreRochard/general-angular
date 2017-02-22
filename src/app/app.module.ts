@@ -16,14 +16,14 @@ import {EndpointEffects} from "./schema/endpoint.effects";
 import { AppComponent } from './app.component';
 
 import {HomePageComponent} from "./home/home.page";
-import {ViewEndpointPageComponent} from "./endpoints/view-endpoint.page";
-import {SelectedEndpointPageComponent} from "./endpoints/selected-endpoint.page";
+import {ViewEndpointPageComponent} from "./paths/view-endpoint.page";
+import {SelectedEndpointPageComponent} from "./paths/selected-endpoint.page";
 
 import {MenubarComponent} from "./common/menubar.component";
-import {RpcEndpointComponent} from "./endpoints/rpc-endpoint.component";
-import {DynamicFormElementComponent} from "./endpoints/dynamic-form-element.component";
+import {RpcEndpointComponent} from "./paths/rpc-endpoint.component";
+import {DynamicFormElementComponent} from "./paths/dynamic-form-element.component";
 
-import {FormCreationService} from "./endpoints/form-creation.service";
+import {FormCreationService} from "./paths/form-creation.service";
 import {RestClient} from "./common/rest-client.service";
 
 import {SchemaGuard} from "./schema/schema.guard";

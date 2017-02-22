@@ -1,4 +1,6 @@
 export interface Property {
+  name?: string,
+  required?: boolean;
   format: string,
   type: string,
 }

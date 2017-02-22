@@ -8,6 +8,8 @@ export const ActionTypes = {
   INVALIDATE_SCHEMA:   type('INVALIDATE_SCHEMA'),
   REQUEST_SCHEMA:      type('REQUEST_SCHEMA'),
   RECEIVE_SCHEMA:      type('RECEIVE_SCHEMA'),
+  SUBMIT_FORM:         type('SUBMIT_FORM'),
+  RECEIVE_POST:        type('RECEIVE_POST'),
 };
 
 
@@ -36,9 +38,16 @@ export class ReceiveAction implements Action {
   }
 }
 
+export class ReceivePostAction implements Action {
+  type = ActionTypes.RECEIVE_POST;
+
+  constructor(public payload) {
+  }
+}
 
 export type Actions
   = SelectAction
   | InvalidateAction
   | RequestAction
-  | ReceiveAction;
+  | ReceiveAction
+  | ReceivePostAction;

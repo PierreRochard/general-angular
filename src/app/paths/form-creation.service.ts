@@ -1,18 +1,18 @@
 import { Injectable }   from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import {EndpointProperty} from "../schema/endpoint.model";
+import {Parameter, Property} from "../schema/schema.model";
 
 
 @Injectable()
 export class FormCreationService {
   constructor() { }
 
-  toFormGroup(formElements:EndpointProperty[] ) {
+  toFormGroup(parameters:Property[] ) {
     let group: any = {};
 
-    formElements.forEach(endpointProperty => {
-      group[endpointProperty.name] = endpointProperty.required ?
+    parameters.forEach(property => {
+      group[property.name] = property.required ?
         new FormControl('', Validators.required) :
         new FormControl('');
     });

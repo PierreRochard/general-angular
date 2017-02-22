@@ -69,7 +69,7 @@ export const getMenuItems = createSelector(getPathNames, (pathNames) => {
       }
       return {label: pathName,
               icon: icon,
-              routerLink: pathName.substring(1)}
+              routerLink: [pathName.substring(1)]}
     });
   // let homeMenuItem = {label: 'Home', icon: 'fa-home', routerLink: ['']};
   return [...menuItems]
@@ -81,4 +81,12 @@ export const getSelectedPath = createSelector(getPaths, getSelectedPathName, (pa
 export const getSelectedPathPostBodyDefinition = createSelector(getSelectedPath, getDefinitions, (selectedPath, definitions) => {
   let definition_name = selectedPath.post.parameters.filter(parameter => parameter.name === 'args')[0].schema.$ref.split('/')[-1];
   return definitions[definition_name];
+});
+export const getSelectedPathPostBodyRequiredProperties = createSelector(getSelectedPathPostBodyDefinition, )
+export const getSelectedPathPostBodyProperties = createSelector(getSelectedPathPostBodyDefinition, (selectedPathPostBodyDefinition) => {
+  return Object.keys(selectedPathPostBodyDefinition.properties).map(property_name => {
+    let property = selectedPathPostBodyDefinition.properties[property_name];
+    property['name'] = property_name;
+    return property
+  })
 });

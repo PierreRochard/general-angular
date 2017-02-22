@@ -8,10 +8,10 @@ import {Store} from "@ngrx/store";
 import * as fromRoot from '../app.reducers';
 import {RestClient} from "../common/rest-client.service";
 
-import {Endpoint, EndpointProperty} from "../schema/endpoint.model";
 import * as endpoint from '../schema/endpoint.actions';
 
 import {FormCreationService} from "./form-creation.service";
+import {Path, Definition, Property} from "../schema/schema.model";
 
 
 @Component({
@@ -33,25 +33,23 @@ import {FormCreationService} from "./form-creation.service";
 </div>
 `
 })
-export class RpcEndpointComponent implements OnInit {
+export class RpcPathComponent implements OnInit {
   public form: FormGroup;
   public payload: string;
   public returnUrl:string;
 
-  @Input() selectedEndpoint:Endpoint;
-  @Input() selectedEndpointProperties:EndpointProperty[];
+  @Input() selectedPath:Path;
+  @Input() selectedPathPostBodyProperties:Property[];
 
-  constructor(private form_builder: FormBuilder,
-              private store: Store<fromRoot.State>,
+  constructor(private store: Store<fromRoot.State>,
               private router: Router,
               private route: ActivatedRoute,
-              private http: RestClient,
               private form_creation: FormCreationService) {
     this.returnUrl = this.route.snapshot.params['returnUrl'] || '/';
   }
 
   ngOnInit() {
-    this.form = this.form_creation.toFormGroup(this.selectedEndpointProperties);
+    this.form = this.form_creation.toFormGroup(this.selectedPathPostBodyProperties);
   }
 
   public onSubmit() {
