@@ -24,7 +24,7 @@ export class ViewPathPageComponent implements OnDestroy {
   constructor(store: Store<fromRoot.State>, route: ActivatedRoute) {
     this.actionsSubscription = route.params
       .select<string>('pathName')
-      .map(pathName => new schema.SelectAction(pathName))
+      .map(pathName => new schema.SelectPathNameAction('/rpc/'+ pathName))
       .subscribe(store);
   }
 

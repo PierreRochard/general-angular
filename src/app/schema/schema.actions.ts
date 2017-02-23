@@ -4,20 +4,14 @@ import { type } from '../util';
 
 
 export const ActionTypes = {
-  SELECT_SCHEMA:       type('SELECT_SCHEMA'),
   INVALIDATE_SCHEMA:   type('INVALIDATE_SCHEMA'),
   REQUEST_SCHEMA:      type('REQUEST_SCHEMA'),
   RECEIVE_SCHEMA:      type('RECEIVE_SCHEMA'),
+  SELECT_PATH_NAME:         type('SELECT_PATH_NAME'),
   SUBMIT_FORM:         type('SUBMIT_FORM'),
   RECEIVE_POST:        type('RECEIVE_POST'),
 };
 
-
-export class SelectAction implements Action {
-  type = ActionTypes.SELECT_SCHEMA;
-
-  constructor(public payload) { }
-}
 
 export class InvalidateAction implements Action {
   type = ActionTypes.INVALIDATE_SCHEMA;
@@ -38,11 +32,10 @@ export class ReceiveAction implements Action {
   }
 }
 
-export class ReceivePostAction implements Action {
-  type = ActionTypes.RECEIVE_POST;
+export class SelectPathNameAction implements Action {
+  type = ActionTypes.SELECT_PATH_NAME;
 
-  constructor(public payload) {
-  }
+  constructor(public payload: string) { }
 }
 
 export class SubmitFormAction implements Action {
@@ -52,8 +45,15 @@ export class SubmitFormAction implements Action {
   }
 }
 
+export class ReceivePostAction implements Action {
+  type = ActionTypes.RECEIVE_POST;
+
+  constructor(public payload) {
+  }
+}
+
 export type Actions
-  = SelectAction
+  = SelectPathNameAction
   | InvalidateAction
   | RequestAction
   | ReceiveAction

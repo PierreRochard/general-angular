@@ -8,11 +8,12 @@ import {Parameter, Property} from "../schema/schema.model";
 export class FormCreationService {
   constructor() { }
 
-  toFormGroup(parameters:Property[] ) {
+  toFormGroup(properties:Property[], required_properties:string[]) {
     let group: any = {};
 
-    parameters.forEach(property => {
-      group[property.name] = property.required ?
+    Object.keys(properties).forEach(property_name => {
+
+      group[property_name] = required_properties.includes(property_name) ?
         new FormControl('', Validators.required) :
         new FormControl('');
     });

@@ -35,10 +35,11 @@ import {Path, Property} from "../schema/schema.model";
 export class RpcPathComponent implements OnInit {
   public form: FormGroup;
   public payload: string;
-  public returnUrl:string;
+  public returnUrl: string;
 
   @Input() selectedPath:Path;
   @Input() selectedPathPostBodyProperties:Property[];
+  @Input() selectedPathPostBodyRequiredPropertyNames:string[];
 
   constructor(private store: Store<fromRoot.State>,
               private router: Router,
@@ -48,7 +49,8 @@ export class RpcPathComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.form = this.form_creation.toFormGroup(this.selectedPathPostBodyProperties);
+    this.form = this.form_creation.toFormGroup(this.selectedPathPostBodyProperties,
+    this.selectedPathPostBodyRequiredPropertyNames);
   }
 
   public onSubmit() {

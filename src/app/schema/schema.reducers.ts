@@ -22,6 +22,11 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: schema.Actions): State {
   switch (action.type) {
+    case schema.ActionTypes.SELECT_PATH_NAME: {
+      return Object.assign({}, state, {
+        selectedPathName: action.payload,
+      });
+    }
     case schema.ActionTypes.INVALIDATE_SCHEMA: {
       return Object.assign({}, state, {
         isValid: false,
@@ -79,16 +84,13 @@ export const getSelectedPath = createSelector(getPaths, getSelectedPathName, (pa
   return paths[selectedPathName];
 });
 export const getSelectedPathPostBodyDefinition = createSelector(getSelectedPath, getDefinitions, (selectedPath, definitions) => {
-  let definition_name = selectedPath.post.parameters.filter(parameter => parameter.name === 'args')[0].schema.$ref.split('/')[-1];
+  let definition_name = selectedPath.post.parameters
+    .filter(parameter => parameter.name === 'args')[0].schema.$ref.split('/').pop();
   return definitions[definition_name];
 });
-export const getSelectedPathPostBodyRequiredProperties = createSelector(getSelectedPathPostBodyDefinition, (selectedPathPostBodyDefinition) => {
+export const getselectedPathPostBodyRequiredPropertyNames = createSelector(getSelectedPathPostBodyDefinition, (selectedPathPostBodyDefinition) => {
   return selectedPathPostBodyDefinition.required;
 });
 export const getSelectedPathPostBodyProperties = createSelector(getSelectedPathPostBodyDefinition, (selectedPathPostBodyDefinition) => {
-  return Object.keys(selectedPathPostBodyDefinition.properties).map(property_name => {
-    let property = selectedPathPostBodyDefinition.properties[property_name];
-    property['name'] = property_name;
-    return property
-  })
+  return selectedPathPostBodyDefinition.properties
 });

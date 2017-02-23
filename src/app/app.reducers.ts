@@ -49,6 +49,7 @@ export const getMenuItems = createSelector(getSchemaState, fromSchema.getMenuIte
 export const getSelectedPath = createSelector(getSchemaState, fromSchema.getSelectedPath);
 export const getSelectedPathPostBodyDefinition = createSelector(getSchemaState, fromSchema.getSelectedPathPostBodyDefinition);
 export const getSelectedPathPostBodyProperties = createSelector(getSchemaState, fromSchema.getSelectedPathPostBodyProperties);
+export const getselectedPathPostBodyRequiredPropertyNames = createSelector(getSchemaState, fromSchema.getselectedPathPostBodyRequiredPropertyNames);
 
 export const getAuthState = (state: State) => state.auth;
 export const getToken = createSelector(getAuthState, fromAuth.getToken);
