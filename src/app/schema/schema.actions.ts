@@ -45,6 +45,13 @@ export class ReceivePostAction implements Action {
   }
 }
 
+export class SubmitFormAction implements Action {
+  type = ActionTypes.SUBMIT_FORM;
+
+  constructor(public payload) {
+  }
+}
+
 export type Actions
   = SelectAction
   | InvalidateAction

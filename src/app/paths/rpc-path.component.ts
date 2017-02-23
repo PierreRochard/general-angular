@@ -1,32 +1,31 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormGroup, FormBuilder} from '@angular/forms';
+import {FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from "@angular/router";
 
 import '@ngrx/core/add/operator/select';
 import {Store} from "@ngrx/store";
 
 import * as fromRoot from '../app.reducers';
-import {RestClient} from "../common/rest-client.service";
 
-import * as endpoint from '../schema/endpoint.actions';
+import * as schema from '../schema/schema.actions';
 
 import {FormCreationService} from "./form-creation.service";
-import {Path, Definition, Property} from "../schema/schema.model";
+import {Path, Property} from "../schema/schema.model";
 
 
 @Component({
-  selector: 'rpc-endpoint',
+  selector: 'rpc-path',
   template: `
 <h1>
-  {{selectedEndpoint.name}} - RPC Endpoint
+  {{selectedPath.name}} - RPC Path
 </h1>
 <div class="ui-g">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="ui-g-12" *ngFor="let endpointProperty of selectedEndpointProperties">
-      <dynamic-form-element [formElement]="endpointProperty" [form]="form"></dynamic-form-element>
+    <div class="ui-g-12" *ngFor="let pathProperty of selectedPathProperties">
+      <dynamic-form-element [formElement]="pathProperty" [form]="form"></dynamic-form-element>
     </div>
     <div class="ui-g-12">
-      <button type="submit" label="{{selectedEndpoint.name}}" pButton ></button>
+      <button type="submit" label="{{selectedPath.name}}" pButton ></button>
     </div>
   </form>
   {{payload}}
@@ -55,8 +54,8 @@ export class RpcPathComponent implements OnInit {
   public onSubmit() {
     let action_payload = {};
     action_payload['properties'] = this.form.value;
-    action_payload['path'] = 'rpc/' + this.selectedEndpoint.name;
-    this.store.dispatch(new endpoint.SubmitFormAction(action_payload));
+    action_payload['path'] = this.selectedPath;
+    this.store.dispatch(new schema.SubmitFormAction(action_payload));
     this.router.navigate([this.returnUrl]);
   }
 

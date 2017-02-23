@@ -1,7 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 import {HomePageComponent} from "./home/home.page";
 import {SchemaGuard} from "./schema/schema.guard";
-import {ViewEndpointPageComponent} from "./paths/view-endpoint.page";
+import {ViewPathPageComponent} from "./paths/view-path.page";
 
 export const routes: Routes = [
   {
@@ -11,8 +11,8 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'rpc/:endpointName',
-    component: ViewEndpointPageComponent,
+    path: 'rpc/:pathName',
+    component: ViewPathPageComponent,
     canActivate: [SchemaGuard],
   },
   {

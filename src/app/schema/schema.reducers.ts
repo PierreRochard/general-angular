@@ -82,7 +82,9 @@ export const getSelectedPathPostBodyDefinition = createSelector(getSelectedPath,
   let definition_name = selectedPath.post.parameters.filter(parameter => parameter.name === 'args')[0].schema.$ref.split('/')[-1];
   return definitions[definition_name];
 });
-export const getSelectedPathPostBodyRequiredProperties = createSelector(getSelectedPathPostBodyDefinition, )
+export const getSelectedPathPostBodyRequiredProperties = createSelector(getSelectedPathPostBodyDefinition, (selectedPathPostBodyDefinition) => {
+  return selectedPathPostBodyDefinition.required;
+});
 export const getSelectedPathPostBodyProperties = createSelector(getSelectedPathPostBodyDefinition, (selectedPathPostBodyDefinition) => {
   return Object.keys(selectedPathPostBodyDefinition.properties).map(property_name => {
     let property = selectedPathPostBodyDefinition.properties[property_name];

@@ -8,23 +8,23 @@ import 'rxjs/add/operator/map';
 import { Subscription } from 'rxjs/Subscription';
 
 import * as fromRoot from '../app.reducers';
-import * as endpoint from '../schema/endpoint.actions';
+import * as schema from '../schema/schema.actions';
 
 
 @Component({
-  selector: 'view-endpoint-page',
+  selector: 'view-path-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <selected-endpoint-page></selected-endpoint-page>
+    <selected-path-page></selected-path-page>
   `
 })
-export class ViewEndpointPageComponent implements OnDestroy {
+export class ViewPathPageComponent implements OnDestroy {
   actionsSubscription: Subscription;
 
   constructor(store: Store<fromRoot.State>, route: ActivatedRoute) {
     this.actionsSubscription = route.params
-      .select<string>('endpointName')
-      .map(endpoint_name => new endpoint.SelectAction(endpoint_name))
+      .select<string>('pathName')
+      .map(pathName => new schema.SelectAction(pathName))
       .subscribe(store);
   }
 

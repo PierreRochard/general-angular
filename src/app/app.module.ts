@@ -11,16 +11,15 @@ import {ButtonModule, MenubarModule, PasswordModule, InputTextModule} from 'prim
 
 
 import {SchemaEffects} from "./schema/schema.effects";
-import {EndpointEffects} from "./schema/endpoint.effects";
 
 import { AppComponent } from './app.component';
 
 import {HomePageComponent} from "./home/home.page";
-import {ViewEndpointPageComponent} from "./paths/view-endpoint.page";
-import {SelectedEndpointPageComponent} from "./paths/selected-endpoint.page";
+import {ViewPathPageComponent} from "./paths/view-path.page";
+import {SelectedPathPageComponent} from "./paths/selected-path.page";
 
 import {MenubarComponent} from "./common/menubar.component";
-import {RpcEndpointComponent} from "./paths/rpc-endpoint.component";
+import {RpcPathComponent} from "./paths/rpc-path.component";
 import {DynamicFormElementComponent} from "./paths/dynamic-form-element.component";
 
 import {FormCreationService} from "./paths/form-creation.service";
@@ -38,9 +37,9 @@ import {routing} from "./app.routing";
     AppComponent,
     HomePageComponent,
     MenubarComponent,
-    ViewEndpointPageComponent,
-    SelectedEndpointPageComponent,
-    RpcEndpointComponent,
+    ViewPathPageComponent,
+    SelectedPathPageComponent,
+    RpcPathComponent,
     DynamicFormElementComponent,
   ],
   imports: [
