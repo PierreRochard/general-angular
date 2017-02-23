@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from '../app.reducers';
+import {Path, Property} from "../schema/schema.model";
 
 
 @Component({
@@ -20,10 +21,10 @@ import * as fromRoot from '../app.reducers';
   `
 })
 export class SelectedPathPageComponent {
-  selectedPathName$: Observable<any>;
-  selectedPath$: Observable<any>;
-  selectedPathPostBodyProperties$: Observable<any>;
-  selectedPathPostBodyRequiredPropertyNames$: Observable<any>;
+  selectedPathName$: Observable<string>;
+  selectedPath$: Observable<Path>;
+  selectedPathPostBodyProperties$: Observable<{[name: string]: Property[]; }>;
+  selectedPathPostBodyRequiredPropertyNames$: Observable<string[]>;
 
   constructor(private store: Store<fromRoot.State>) {
     this.selectedPathName$ = store.select(fromRoot.getSelectedPathName);
