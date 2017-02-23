@@ -17,7 +17,7 @@ import {Path, Property} from "../schema/schema.model";
   selector: 'rpc-path',
   template: `
 <h1>
-  {{selectedPath.name}} - RPC Path
+  {{selectedPathName}} - RPC Path
 </h1>
 <div class="ui-g">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -25,7 +25,7 @@ import {Path, Property} from "../schema/schema.model";
       <dynamic-form-element [formElement]="pathProperty" [form]="form"></dynamic-form-element>
     </div>
     <div class="ui-g-12">
-      <button type="submit" label="{{selectedPath.name}}" pButton ></button>
+      <button type="submit" label="{{selectedPathName}}" pButton ></button>
     </div>
   </form>
   {{payload}}
@@ -37,6 +37,7 @@ export class RpcPathComponent implements OnInit {
   public payload: string;
   public returnUrl: string;
 
+  @Input() selectedPathName:string;
   @Input() selectedPath:Path;
   @Input() selectedPathPostBodyProperties:Property[];
   @Input() selectedPathPostBodyRequiredPropertyNames:string[];

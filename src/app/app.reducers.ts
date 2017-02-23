@@ -46,6 +46,7 @@ export const getIsValid = createSelector(getSchemaState, fromSchema.getIsValid);
 export const getMenuItems = createSelector(getSchemaState, fromSchema.getMenuItems);
 
 
+export const getSelectedPathName = createSelector(getSchemaState, fromSchema.getSelectedPathName);
 export const getSelectedPath = createSelector(getSchemaState, fromSchema.getSelectedPath);
 export const getSelectedPathPostBodyDefinition = createSelector(getSchemaState, fromSchema.getSelectedPathPostBodyDefinition);
 export const getSelectedPathPostBodyProperties = createSelector(getSchemaState, fromSchema.getSelectedPathPostBodyProperties);
