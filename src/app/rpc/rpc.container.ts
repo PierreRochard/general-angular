@@ -9,17 +9,17 @@ import {Path, Property} from "../schema/schema.model";
 
 
 @Component({
-  selector: 'selected-rpc-path-container',
+  selector: 'rpc-container',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<rpc-path
+  template: `<rpc-form
       [selectedPathName]="selectedPathName$ | async"
       [selectedPath]="selectedPath$ | async"
       [selectedPathPostBodyProperties]="selectedPathPostBodyProperties$ | async"
       [selectedPathPostBodyRequiredPropertyNames]="selectedPathPostBodyRequiredPropertyNames$ | async">
-    </rpc-path>
+    </rpc-form>
   `
 })
-export class SelectedRpcPathContainerComponent {
+export class RpcContainer {
   selectedPathName$: Observable<string>;
   selectedPath$: Observable<Path>;
   selectedPathPostBodyProperties$: Observable<{[name: string]: Property[]; }>;

@@ -4,6 +4,7 @@ import * as schema from './schema.actions';
 
 import {Definition, Path} from "./schema.model";
 import {create} from "domain";
+import {getLatestUrl} from "@ngrx/router-store/src/connect";
 
 
 export interface State {
@@ -87,9 +88,6 @@ export const getSelectedPathPostBodyDefinition = createSelector(getSelectedPath,
   let definition_name = selectedPath.post.parameters
     .filter(parameter => parameter.name === 'args')[0].schema.$ref.split('/').pop();
   return definitions[definition_name];
-});
-export const getSelectedPathPostBodyRequiredPropertyNames = createSelector(getSelectedPathPostBodyDefinition, (selectedPathPostBodyDefinition) => {
-  return selectedPathPostBodyDefinition.required;
 });
 export const getSelectedPathPostBodyProperties = createSelector(getSelectedPathPostBodyDefinition, (selectedPathPostBodyDefinition) => {
   console.log(selectedPathPostBodyDefinition);

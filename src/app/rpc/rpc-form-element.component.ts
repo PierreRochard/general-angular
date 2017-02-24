@@ -17,7 +17,7 @@ import { FormGroup }        from '@angular/forms';
 </div>
 `
 })
-export class DynamicFormElementComponent {
+export class RpcFormElementComponent {
   @Input() formElementName;
   @Input() form: FormGroup;
 }

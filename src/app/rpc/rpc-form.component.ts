@@ -9,12 +9,12 @@ import * as fromRoot from '../app.reducers';
 
 import * as schema from '../schema/schema.actions';
 
-import {FormCreationService} from "./form-creation.service";
+import {RpcFormCreationService} from "./rpc-form-creation.service";
 import {Path, Property} from "../schema/schema.model";
 
 
 @Component({
-  selector: 'rpc-path',
+  selector: 'rpc-form',
   template: `
 <h1>
   {{selectedPathName}} - RPC Path
@@ -32,7 +32,7 @@ import {Path, Property} from "../schema/schema.model";
 </div>
 `
 })
-export class RpcPathComponent implements OnInit {
+export class RpcFormComponent implements OnInit {
   public form: FormGroup;
   public payload: string;
   public returnUrl: string;
@@ -46,7 +46,7 @@ export class RpcPathComponent implements OnInit {
   constructor(private store: Store<fromRoot.State>,
               private router: Router,
               private route: ActivatedRoute,
-              private form_creation: FormCreationService) {
+              private form_creation: RpcFormCreationService) {
     this.returnUrl = this.route.snapshot.params['returnUrl'] || '/';
     console.log(this.route.snapshot.url);
   }

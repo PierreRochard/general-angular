@@ -5,7 +5,7 @@ import {Property} from "../schema/schema.model";
 
 
 @Injectable()
-export class FormCreationService {
+export class RpcFormCreationService {
   constructor() { }
 
   toFormGroup(properties:{[name: string]: Property[]; }, required_properties:string[]) {

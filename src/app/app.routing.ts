@@ -1,23 +1,13 @@
 import { Routes, RouterModule } from '@angular/router';
-import {HomePageComponent} from "./home/home.page";
+
 import {SchemaGuard} from "./schema/schema.guard";
-import {ViewPathPageComponent} from "./paths/view-path.container";
+import {PathContainer} from "./paths/path.container";
 
 export const routes: Routes = [
   {
-    path: '',
-    component: HomePageComponent,
-    canActivate: [SchemaGuard],
-    pathMatch: 'full',
-  },
-  {
-    path: 'rpc/:pathName',
-    component: ViewPathPageComponent,
-    canActivate: [SchemaGuard],
-  },
-  {
+    component: PathContainer,
     path: '**',
-    redirectTo: 'pages/home',
+    canActivate: [SchemaGuard],
   },
 ];
 
