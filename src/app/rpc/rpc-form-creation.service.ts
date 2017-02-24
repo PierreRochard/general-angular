@@ -11,7 +11,6 @@ export class RpcFormCreationService {
   toFormGroup(properties:{[name: string]: Property[]; }, required_properties:string[]) {
     let group: any = {};
     Object.keys(properties).forEach(property_name => {
-      console.log(property_name);
       group[property_name] = required_properties.includes(property_name) ?
         new FormControl('', Validators.required) :
         new FormControl('');

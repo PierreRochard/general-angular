@@ -12,7 +12,7 @@ import {Observable} from "rxjs";
 @Component({
   selector: 'path-container',
   template: `
-    <div [ngSwitch]="routeUrlLength$ | async">
+    <div [ngSwitch]="pathNameLength$ | async">
       <home-container *ngSwitchCase="0" ></home-container>
       <table-container *ngSwitchCase="1" ></table-container>
       <rpc-container *ngSwitchCase="2" ></rpc-container>
@@ -20,10 +20,10 @@ import {Observable} from "rxjs";
   `
 })
 export class PathContainer {
-  routeUrlLength$: Observable<number>;
+  pathNameLength$: Observable<number>;
 
   constructor(store: Store<fromRoot.State>) {
-    this.routeUrlLength$ = store.select(fromRoot.getSelectedPath)
+    this.pathNameLength$ = store.select(fromRoot.getSelectedPathName)
                                 .map(path => path.split('/').filter(part => part.length > 0).length)
   }
 }

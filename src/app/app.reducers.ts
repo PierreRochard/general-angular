@@ -39,24 +39,44 @@ export function reducer(state: any, action: any) {
 
 export const getSchemaState = (state: State) => state.schema;
 export const getPaths = createSelector(getSchemaState, fromSchema.getPaths);
+export const getPathNames = createSelector(getSchemaState, fromSchema.getPathNames);
 export const getDefinitions = createSelector(getSchemaState, fromSchema.getDefinitions);
 export const getIsValid = createSelector(getSchemaState, fromSchema.getIsValid);
 
-export const getMenuItems = createSelector(getSchemaState, fromSchema.getMenuItems);
-
 export const getRouterState = (state: State) => state.router;
-export const getSelectedPath = createSelector(getRouterState, (routerState) => {
-  console.log(routerState.path);
+
+export const getSelectedPathName = createSelector(getRouterState, (routerState) => {
   return routerState.path;
 });
 
-export const getSelectedPathName = createSelector(getSchemaState, fromSchema.getSelectedPathName);
-// export const getSelectedPath = createSelector(getSchemaState, fromSchema.getSelectedPath);
-export const getSelectedPathPostBodyDefinition = createSelector(getSchemaState, fromSchema.getSelectedPathPostBodyDefinition);
-export const getSelectedPathPostBodyProperties = createSelector(getSchemaState, fromSchema.getSelectedPathPostBodyProperties);
+export const getSelectedPath = createSelector(getPaths, getSelectedPathName, (paths, selectedPathName) => {
+  return paths[selectedPathName];
+});
+
+export const getSelectedPathPostBodyDefinition = createSelector(getSelectedPath, getDefinitions, (selectedPath, definitions) => {
+  if (selectedPath.hasOwnProperty('post')){
+    let definition_name = selectedPath.post.parameters
+      .filter(parameter => parameter.name === 'args')[0].schema.$ref.split('/').pop();
+    return definitions[definition_name];
+  } else {
+    return null;
+  }
+});
+
+export const getSelectedPathPostBodyProperties = createSelector(getSelectedPathPostBodyDefinition, (selectedPathPostBodyDefinition) => {
+  if (!!selectedPathPostBodyDefinition) {
+    return selectedPathPostBodyDefinition.properties
+  } else {
+    return null;
+  }
+});
 
 export const getSelectedPathPostBodyRequiredPropertyNames = createSelector(getSelectedPathPostBodyDefinition, (selectedPathPostBodyDefinition) => {
-  return selectedPathPostBodyDefinition.required;
+  if (!!selectedPathPostBodyDefinition) {
+    return selectedPathPostBodyDefinition.required;
+  } else {
+    return null;
+  }
 });
 
 export const getAuthState = (state: State) => state.auth;

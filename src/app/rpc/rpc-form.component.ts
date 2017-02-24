@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-import {ActivatedRoute, Router} from "@angular/router";
 
 import '@ngrx/core/add/operator/select';
 import {Store} from "@ngrx/store";
+import {go} from "@ngrx/router-store";
 
 import * as fromRoot from '../app.reducers';
 
@@ -35,7 +35,6 @@ import {Path, Property} from "../schema/schema.model";
 export class RpcFormComponent implements OnInit {
   public form: FormGroup;
   public payload: string;
-  public returnUrl: string;
   public selectedPathPostBodyPropertyNames: string[];
 
   @Input() selectedPathName:string;
@@ -44,11 +43,7 @@ export class RpcFormComponent implements OnInit {
   @Input() selectedPathPostBodyRequiredPropertyNames:string[];
 
   constructor(private store: Store<fromRoot.State>,
-              private router: Router,
-              private route: ActivatedRoute,
               private form_creation: RpcFormCreationService) {
-    this.returnUrl = this.route.snapshot.params['returnUrl'] || '/';
-    console.log(this.route.snapshot.url);
   }
 
   ngOnInit() {
@@ -58,11 +53,12 @@ export class RpcFormComponent implements OnInit {
   }
 
   public onSubmit() {
-    let action_payload = {};
-    action_payload['properties'] = this.form.value;
-    action_payload['path'] = this.selectedPathName;
+    let action_payload = {
+      properties: this.form.value,
+      path: this.selectedPathName,
+    };
     this.store.dispatch(new schema.SubmitFormAction(action_payload));
-    this.router.navigate([this.returnUrl]);
+    this.store.dispatch(go(['/']));
   }
 
 }

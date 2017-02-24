@@ -12,7 +12,6 @@ export interface State {
   definitions: { [name: string]: Definition };
   isValid: boolean;
   lastUpdated?: Date;
-  selectedPathName?: string | null;
 }
 
 const initialState: State = {
@@ -23,11 +22,6 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: schema.Actions): State {
   switch (action.type) {
-    case schema.ActionTypes.SELECT_PATH_NAME: {
-      return Object.assign({}, state, {
-        selectedPathName: action.payload,
-      });
-    }
     case schema.ActionTypes.INVALIDATE_SCHEMA: {
       return Object.assign({}, state, {
         isValid: false,
@@ -57,40 +51,6 @@ export const getPaths = (state: State) => state.paths;
 export const getDefinitions = (state: State) => state.definitions;
 export const getIsValid = (state: State) => state.isValid;
 export const getLastUpdated = (state: State) => state.lastUpdated;
-export const getSelectedPathName = (state: State) => state.selectedPathName;
 
 export const getPathNames = (state: State) => Object.keys(state.paths);
 export const getDefinitionNames = (state: State) => Object.keys(state.definitions);
-
-export const getMenuItems = createSelector(getPathNames, (pathNames) => {
-  let menuItems = pathNames
-    .map(pathName => {
-      let icon: string;
-      if (pathName === '/') {
-          icon = 'fa-home';
-      } else if (pathName.startsWith('/rpc/')) {
-          icon = 'fa-terminal';
-      } else {
-          icon = 'fa-table';
-      }
-      return {label: pathName,
-              icon: icon,
-              routerLink: [pathName.substring(1)]}
-    });
-  // let homeMenuItem = {label: 'Home', icon: 'fa-home', routerLink: ['']};
-  return [...menuItems]
-});
-
-export const getSelectedPath = createSelector(getPaths, getSelectedPathName, (paths, selectedPathName) => {
-  return paths[selectedPathName];
-});
-export const getSelectedPathPostBodyDefinition = createSelector(getSelectedPath, getDefinitions, (selectedPath, definitions) => {
-  let definition_name = selectedPath.post.parameters
-    .filter(parameter => parameter.name === 'args')[0].schema.$ref.split('/').pop();
-  return definitions[definition_name];
-});
-export const getSelectedPathPostBodyProperties = createSelector(getSelectedPathPostBodyDefinition, (selectedPathPostBodyDefinition) => {
-  console.log(selectedPathPostBodyDefinition);
-  console.log(selectedPathPostBodyDefinition.properties);
-  return selectedPathPostBodyDefinition.properties
-});

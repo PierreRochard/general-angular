@@ -12,7 +12,7 @@ import {ButtonModule, MenubarModule, PasswordModule, InputTextModule} from 'prim
 
 import {SchemaEffects} from "./schema/schema.effects";
 
-import {MenubarComponent} from "./common/menubar.component";
+import {MenubarComponent} from "./common/menubar.container";
 
 import {PathContainer} from "./paths/path.container";
 import {HomeContainer} from "./home/home.container";
