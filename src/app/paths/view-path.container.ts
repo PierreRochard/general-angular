@@ -9,17 +9,21 @@ import { Subscription } from 'rxjs/Subscription';
 
 import * as fromRoot from '../app.reducers';
 import * as schema from '../schema/schema.actions';
+import {Observable} from "rxjs";
 
 
 @Component({
   selector: 'view-path-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <selected-path-page></selected-path-page>
+    <div [ngSwitch]="routeUrlLength">
+      <selected-rpc-path-container *ngSwitchCase="2" ></selected-rpc-path-container>
+    </div>
   `
 })
 export class ViewPathPageComponent implements OnDestroy {
   actionsSubscription: Subscription;
+  routeUrlLength: Observable<number>;
 
   constructor(store: Store<fromRoot.State>, route: ActivatedRoute) {
     this.actionsSubscription = route.params

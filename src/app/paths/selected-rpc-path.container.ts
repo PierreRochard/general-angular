@@ -9,7 +9,7 @@ import {Path, Property} from "../schema/schema.model";
 
 
 @Component({
-  selector: 'selected-path-page',
+  selector: 'selected-rpc-path-container',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<rpc-path
       [selectedPathName]="selectedPathName$ | async"
@@ -19,7 +19,7 @@ import {Path, Property} from "../schema/schema.model";
     </rpc-path>
   `
 })
-export class SelectedPathPageComponent {
+export class SelectedRpcPathContainerComponent {
   selectedPathName$: Observable<string>;
   selectedPath$: Observable<Path>;
   selectedPathPostBodyProperties$: Observable<{[name: string]: Property[]; }>;

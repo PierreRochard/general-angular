@@ -15,8 +15,8 @@ import {SchemaEffects} from "./schema/schema.effects";
 import { AppComponent } from './app.component';
 
 import {HomePageComponent} from "./home/home.page";
-import {ViewPathPageComponent} from "./paths/view-path.page";
-import {SelectedPathPageComponent} from "./paths/selected-path.page";
+import {ViewPathPageComponent} from "./paths/view-path.container";
+import {SelectedRpcPathContainerComponent} from "./paths/selected-rpc-path.container";
 
 import {MenubarComponent} from "./common/menubar.component";
 import {RpcPathComponent} from "./paths/rpc-path.component";
@@ -38,7 +38,7 @@ import {routing} from "./app.routing";
     HomePageComponent,
     MenubarComponent,
     ViewPathPageComponent,
-    SelectedPathPageComponent,
+    SelectedRpcPathContainerComponent,
     RpcPathComponent,
     DynamicFormElementComponent,
   ],

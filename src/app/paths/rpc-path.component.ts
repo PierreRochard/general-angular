@@ -48,6 +48,7 @@ export class RpcPathComponent implements OnInit {
               private route: ActivatedRoute,
               private form_creation: FormCreationService) {
     this.returnUrl = this.route.snapshot.params['returnUrl'] || '/';
+    console.log(this.route.snapshot.url);
   }
 
   ngOnInit() {

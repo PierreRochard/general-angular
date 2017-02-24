@@ -1,7 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 import {HomePageComponent} from "./home/home.page";
 import {SchemaGuard} from "./schema/schema.guard";
-import {ViewPathPageComponent} from "./paths/view-path.page";
+import {ViewPathPageComponent} from "./paths/view-path.container";
 
 export const routes: Routes = [
   {
