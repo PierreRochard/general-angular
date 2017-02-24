@@ -5,19 +5,19 @@ import { FormGroup }        from '@angular/forms';
   selector: 'dynamic-form-element',
   template: `
 <div [formGroup]="form">
-  <label [attr.for]="formElement.name">{{formElement.name}}</label>
-    <input *ngIf="!(formElement.name === 'password')" 
-            [formControlName]="formElement.name" 
-            [id]="formElement.name" 
+  <label [attr.for]="formElementName">{{formElementName}}</label>
+    <input *ngIf="!(formElementName === 'password')" 
+            [formControlName]="formElementName" 
+            [id]="formElementName" 
             pInputText />
-    <input *ngIf="formElement.name === 'password'" 
+    <input *ngIf="formElementName === 'password'" 
             type="password" 
-            [formControlName]="formElement.name" 
+            [formControlName]="formElementName" 
             pPassword />
 </div>
 `
 })
 export class DynamicFormElementComponent {
-  @Input() formElement;
+  @Input() formElementName;
   @Input() form: FormGroup;
 }

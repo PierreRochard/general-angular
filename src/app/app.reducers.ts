@@ -50,7 +50,7 @@ export const getSelectedPathName = createSelector(getSchemaState, fromSchema.get
 export const getSelectedPath = createSelector(getSchemaState, fromSchema.getSelectedPath);
 export const getSelectedPathPostBodyDefinition = createSelector(getSchemaState, fromSchema.getSelectedPathPostBodyDefinition);
 export const getSelectedPathPostBodyProperties = createSelector(getSchemaState, fromSchema.getSelectedPathPostBodyProperties);
-export const getselectedPathPostBodyRequiredPropertyNames = createSelector(getSchemaState, fromSchema.getselectedPathPostBodyRequiredPropertyNames);
+export const getSelectedPathPostBodyRequiredPropertyNames = createSelector(getSchemaState, fromSchema.getSelectedPathPostBodyRequiredPropertyNames);
 
 export const getAuthState = (state: State) => state.auth;
 export const getToken = createSelector(getAuthState, fromAuth.getToken);

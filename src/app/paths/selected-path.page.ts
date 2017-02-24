@@ -11,8 +11,7 @@ import {Path, Property} from "../schema/schema.model";
 @Component({
   selector: 'selected-path-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <rpc-path
+  template: `<rpc-path
       [selectedPathName]="selectedPathName$ | async"
       [selectedPath]="selectedPath$ | async"
       [selectedPathPostBodyProperties]="selectedPathPostBodyProperties$ | async"
@@ -30,6 +29,6 @@ export class SelectedPathPageComponent {
     this.selectedPathName$ = store.select(fromRoot.getSelectedPathName);
     this.selectedPath$ = store.select(fromRoot.getSelectedPath);
     this.selectedPathPostBodyProperties$ = store.select(fromRoot.getSelectedPathPostBodyProperties);
-    this.selectedPathPostBodyRequiredPropertyNames$ = store.select(fromRoot.getselectedPathPostBodyRequiredPropertyNames);
+    this.selectedPathPostBodyRequiredPropertyNames$ = store.select(fromRoot.getSelectedPathPostBodyRequiredPropertyNames);
   }
 }

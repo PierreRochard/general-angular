@@ -9,7 +9,7 @@ import * as fromRoot from '../app.reducers';
 
 @Injectable()
 export class RestClient {
-  public apiEndpoint: string = "http://localhost:4545/";
+  public apiEndpoint: string = "http://localhost:4545";
   public token$: Observable<any>;
 
   constructor(private http: Http,

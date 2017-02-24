@@ -22,7 +22,7 @@ import {Path, Property} from "../schema/schema.model";
 <div class="ui-g">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="ui-g-12" *ngFor="let pathPropertyName of selectedPathPostBodyPropertyNames">
-      <dynamic-form-element [formElement]="form[pathPropertyName]" [form]="form"></dynamic-form-element>
+      <dynamic-form-element [formElementName]="pathPropertyName" [form]="form"></dynamic-form-element>
     </div>
     <div class="ui-g-12">
       <button type="submit" label="{{selectedPathName}}" pButton ></button>
@@ -48,18 +48,18 @@ export class RpcPathComponent implements OnInit {
               private route: ActivatedRoute,
               private form_creation: FormCreationService) {
     this.returnUrl = this.route.snapshot.params['returnUrl'] || '/';
-    this.selectedPathPostBodyPropertyNames = Object.keys(this.selectedPathPostBodyProperties);
   }
 
   ngOnInit() {
+    this.selectedPathPostBodyPropertyNames = Object.keys(this.selectedPathPostBodyProperties);
     this.form = this.form_creation.toFormGroup(this.selectedPathPostBodyProperties,
-    this.selectedPathPostBodyRequiredPropertyNames);
+                                               this.selectedPathPostBodyRequiredPropertyNames);
   }
 
   public onSubmit() {
     let action_payload = {};
     action_payload['properties'] = this.form.value;
-    action_payload['path'] = this.selectedPath;
+    action_payload['path'] = this.selectedPathName;
     this.store.dispatch(new schema.SubmitFormAction(action_payload));
     this.router.navigate([this.returnUrl]);
   }

@@ -18,14 +18,14 @@ export class SchemaEffects {
   @Effect()
   requestSchema$ = this.actions$
     .ofType(schema.ActionTypes.REQUEST_SCHEMA)
-    .switchMap(action => this.http.get('')
+    .switchMap(action => this.http.get('/')
           .map(response => new schema.ReceiveAction(response.json()))
     );
 
   @Effect()
   refreshSchema$ = this.actions$
     .ofType(schema.ActionTypes.INVALIDATE_SCHEMA)
-    .switchMap(action => this.http.get('')
+    .switchMap(action => this.http.get('/')
       .map(response => new schema.ReceiveAction(response.json()))
     );
 
