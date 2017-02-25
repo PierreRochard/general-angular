@@ -12,6 +12,7 @@ import {RestClient} from "../common/rest-client.service";
 import {Observable} from "rxjs";
 import {of} from "rxjs/observable/of";
 import {Store} from "@ngrx/store";
+import {Response} from "@angular/http";
 
 @Injectable()
 export class RpcEffects {
@@ -41,13 +42,21 @@ export class RpcEffects {
   ProcessPostResponse$ = this.actions$
     .ofType(rpc.ActionTypes.RECEIVE_POST)
     .switchMap(action => {
+      let response: Response = action.payload;
       console.log(action.payload);
-      let response = action.payload.json()[0];
-      if (response.hasOwnProperty('token')) {
-        return [new auth.AddTokenAction(response.token),
-          new schema.InvalidateAction()]
-      } else {
-        return []
+      switch (response.status) {
+        case 403: {
+          return []
+        }
+        case 200: {
+          let responseBody = action.payload.json()[0];
+          if (responseBody.hasOwnProperty('token')) {
+            return [new auth.AddTokenAction(responseBody.token),
+              new schema.InvalidateAction()]
+          } else {
+            return []
+          }
+        }
       }
     });
 
