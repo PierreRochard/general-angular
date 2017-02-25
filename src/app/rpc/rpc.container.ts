@@ -18,7 +18,7 @@ import {Path, Property} from "../schema/schema.models";
       [selectedPath]="selectedPath$ | async"
       [selectedPathPostBodyProperties]="selectedPathPostBodyProperties$ | async"
       [selectedPathPostBodyRequiredPropertyNames]="selectedPathPostBodyRequiredPropertyNames$ | async"
-      (submit)="submit($event)">
+      (onSubmit)="onSubmit($event)">
     </rpc-form>
   `
 })
@@ -34,8 +34,7 @@ export class RpcContainer {
     this.selectedPathPostBodyProperties$ = store.select(fromRoot.getSelectedPathPostBodyProperties);
     this.selectedPathPostBodyRequiredPropertyNames$ = store.select(fromRoot.getSelectedPathPostBodyRequiredPropertyNames);
   }
-  public submit(formValue: any) {
-    console.log('submit');
+  public onSubmit(formValue: any) {
     this.store.dispatch(new rpc.SubmitFormAction(formValue));
   }
 }

@@ -17,7 +17,7 @@ import {Path, Property} from "../schema/schema.models";
   {{selectedPathName}} - RPC Path
 </h1>
 <div class="ui-g">
-  <form [formGroup]="form" (ngSubmit)="submit.emit(form.value)">
+  <form [formGroup]="form" (ngSubmit)="onSubmit.emit(form.value)">
     <div class="ui-g-12" *ngFor="let pathPropertyName of selectedPathPostBodyPropertyNames">
       <dynamic-form-element [formElementName]="pathPropertyName" [form]="form"></dynamic-form-element>
     </div>
@@ -36,7 +36,7 @@ export class RpcFormComponent implements OnChanges {
   @Input() selectedPath:Path;
   @Input() selectedPathPostBodyProperties:{[name: string]: Property[]; };
   @Input() selectedPathPostBodyRequiredPropertyNames:string[];
-  @Output() submit = new EventEmitter<any>();
+  @Output() onSubmit = new EventEmitter<any>();
 
   constructor(private form_creation: RpcFormCreationService) {
   }
