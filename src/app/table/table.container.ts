@@ -8,8 +8,7 @@ import * as fromRoot from '../app.reducers';
 
 @Component({
   selector: 'table-container',
-  template: `<h1>Home</h1>
-{{schemaDefinitions$ | async | json}}`
+  template: `<h1>Table</h1>`
 })
 export class TableContainer {
   schemaDefinitions$: Observable<any>;

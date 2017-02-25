@@ -59,7 +59,7 @@ export const getSelectedPath = createSelector(getPaths, getSelectedPathName, (pa
 export const getSelectedPathPostBodyDefinition = createSelector(getSelectedPath, getDefinitions, (selectedPath, definitions) => {
   if (selectedPath.hasOwnProperty('post')){
     let definition_name = selectedPath.post.parameters
-      .filter(parameter => parameter.name === 'args')[0].schema.$ref.split('/').pop();
+      .filter(parameter => ['args', 'body'].includes(parameter.name))[0].schema.$ref.split('/').pop();
     return definitions[definition_name];
   } else {
     return null;

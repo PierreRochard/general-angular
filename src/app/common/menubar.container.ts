@@ -30,10 +30,9 @@ export class MenubarComponent {
       return {
         label: pathName,
         icon: icon,
-        // routerLink: [pathName.substring(1)]
-        command: function () { store.dispatch(go([pathName]))}
-        // url: pathName,
-      }}
-    ));
+        command: () => store.dispatch(go([pathName]))
+      }
+    })
+    );
   }
 }

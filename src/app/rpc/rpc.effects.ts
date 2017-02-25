@@ -27,7 +27,6 @@ export class RpcEffects {
     .switchMap(action => {
       return this.store.select(fromRoot.getSelectedPathName)
         .switchMap(pathName => {
-        console.log(pathName);
         return this.http.post(pathName, action.payload)
           .map(response => {
             return new rpc.ReceivePostAction(response)
@@ -48,6 +47,9 @@ export class RpcEffects {
         case 403: {
           return []
         }
+        case 401: {
+          return []
+        }
         case 200: {
           let responseBody = action.payload.json()[0];
           if (responseBody.hasOwnProperty('token')) {
@@ -56,6 +58,9 @@ export class RpcEffects {
           } else {
             return []
           }
+        }
+        default: {
+          return []
         }
       }
     });
