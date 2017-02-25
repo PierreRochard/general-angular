@@ -20,8 +20,8 @@ export class SchemaGuard implements CanActivate {
 
   getSchema(): Observable<boolean> {
     return this.http.get('')
-      .map(response => new schema.ReceiveAction(response.json()))
-      .do((action: schema.ReceiveAction) => this.store.dispatch(action))
+      .map(response => new schema.ReceiveSchemaAction(response.json()))
+      .do((action: schema.ReceiveSchemaAction) => this.store.dispatch(action))
       .map(schema => {
         return !!schema
       });

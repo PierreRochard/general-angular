@@ -1,10 +1,6 @@
-import { createSelector } from 'reselect';
-
 import * as schema from './schema.actions';
 
-import {Definition, Path} from "./schema.model";
-import {create} from "domain";
-import {getLatestUrl} from "@ngrx/router-store/src/connect";
+import {Definition, Path} from "./schema.models";
 
 
 export interface State {

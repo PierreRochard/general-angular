@@ -1,7 +1,7 @@
 import { Injectable }   from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import {Property} from "../schema/schema.model";
+import {Property} from "../schema/schema.models";
 
 
 @Injectable()

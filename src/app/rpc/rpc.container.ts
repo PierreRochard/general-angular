@@ -4,8 +4,10 @@ import { Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs/Observable';
 
+import * as rpc from './rpc.actions';
+
 import * as fromRoot from '../app.reducers';
-import {Path, Property} from "../schema/schema.model";
+import {Path, Property} from "../schema/schema.models";
 
 
 @Component({
@@ -15,7 +17,8 @@ import {Path, Property} from "../schema/schema.model";
       [selectedPathName]="selectedPathName$ | async"
       [selectedPath]="selectedPath$ | async"
       [selectedPathPostBodyProperties]="selectedPathPostBodyProperties$ | async"
-      [selectedPathPostBodyRequiredPropertyNames]="selectedPathPostBodyRequiredPropertyNames$ | async">
+      [selectedPathPostBodyRequiredPropertyNames]="selectedPathPostBodyRequiredPropertyNames$ | async"
+      (submit)="submit($event)">
     </rpc-form>
   `
 })
@@ -30,5 +33,9 @@ export class RpcContainer {
     this.selectedPath$ = store.select(fromRoot.getSelectedPath);
     this.selectedPathPostBodyProperties$ = store.select(fromRoot.getSelectedPathPostBodyProperties);
     this.selectedPathPostBodyRequiredPropertyNames$ = store.select(fromRoot.getSelectedPathPostBodyRequiredPropertyNames);
+  }
+  public submit(formValue: any) {
+    console.log('submit');
+    this.store.dispatch(new rpc.SubmitFormAction(formValue));
   }
 }

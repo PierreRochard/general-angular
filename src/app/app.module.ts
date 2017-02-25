@@ -10,6 +10,7 @@ import {RouterStoreModule} from "@ngrx/router-store";
 import {ButtonModule, MenubarModule, PasswordModule, InputTextModule} from 'primeng/primeng';
 
 
+import {RpcEffects} from "./rpc/rpc.effects";
 import {SchemaEffects} from "./schema/schema.effects";
 
 import {MenubarComponent} from "./common/menubar.container";
@@ -29,7 +30,7 @@ import {RestClient} from "./common/rest-client.service";
 
 import {SchemaGuard} from "./schema/schema.guard";
 
-import {rootReducer} from './app.reducers';
+import {reducer} from './app.reducers';
 import {routing} from "./app.routing";
 import {AppComponent} from "./app.component";
 
@@ -56,9 +57,10 @@ import {AppComponent} from "./app.component";
     InputTextModule,
     PasswordModule,
     ButtonModule,
-    StoreModule.provideStore(rootReducer),
+    StoreModule.provideStore(reducer),
     RouterStoreModule.connectRouter(),
     EffectsModule.run(SchemaEffects),
+    EffectsModule.run(RpcEffects),
   ],
   providers: [
     SchemaGuard,

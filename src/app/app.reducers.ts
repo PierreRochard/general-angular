@@ -40,9 +40,6 @@ export function reducer(state: any, action: any) {
   }
 }
 
-// export const rootReducer = compose(localStorageSync([localStorageState], true), reducer);
-export const rootReducer = reducer;
-
 export const getSchemaState = (state: State) => state.schema;
 export const getPaths = createSelector(getSchemaState, fromSchema.getPaths);
 export const getPathNames = createSelector(getSchemaState, fromSchema.getPathNames);
