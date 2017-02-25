@@ -1,9 +1,9 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import {HttpModule} from '@angular/http';
 
-import { StoreModule } from '@ngrx/store';
+import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from "@ngrx/effects";
 import {RouterStoreModule} from "@ngrx/router-store";
 
@@ -29,7 +29,7 @@ import {RestClient} from "./common/rest-client.service";
 
 import {SchemaGuard} from "./schema/schema.guard";
 
-import { reducer } from './app.reducers';
+import {rootReducer} from './app.reducers';
 import {routing} from "./app.routing";
 import {AppComponent} from "./app.component";
 
@@ -56,7 +56,7 @@ import {AppComponent} from "./app.component";
     InputTextModule,
     PasswordModule,
     ButtonModule,
-    StoreModule.provideStore(reducer),
+    StoreModule.provideStore(rootReducer),
     RouterStoreModule.connectRouter(),
     EffectsModule.run(SchemaEffects),
   ],

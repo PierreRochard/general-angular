@@ -11,6 +11,7 @@ import { combineReducers } from '@ngrx/store';
 import * as fromAuth from './auth/auth.reducers';
 import * as fromRouter from '@ngrx/router-store';
 import * as fromSchema from './schema/schema.reducers';
+import {localStorageSync} from "ngrx-store-localstorage";
 
 export interface State {
   auth: fromAuth.State;
@@ -19,12 +20,14 @@ export interface State {
 }
 
 const reducers = {
-  auth: fromAuth.reducer,
+  auth:      fromAuth.reducer,
   schema:    fromSchema.reducer,
   router:    fromRouter.routerReducer,
 };
 
-const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
+const developmentReducer: ActionReducer<State> = compose(storeFreeze,
+                                                         localStorageSync(['auth'], true),
+                                                          combineReducers)(reducers);
 const productionReducer: ActionReducer<State> = combineReducers(reducers);
 
 export function reducer(state: any, action: any) {
@@ -36,6 +39,9 @@ export function reducer(state: any, action: any) {
     return developmentReducer(state, action);
   }
 }
+
+// export const rootReducer = compose(localStorageSync([localStorageState], true), reducer);
+export const rootReducer = reducer;
 
 export const getSchemaState = (state: State) => state.schema;
 export const getPaths = createSelector(getSchemaState, fromSchema.getPaths);
