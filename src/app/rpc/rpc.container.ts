@@ -17,24 +17,21 @@ import {Path, Property} from "../schema/schema.models";
 <h1>
   {{selectedPathName$ | async}}
 </h1>
-<form
+<form-component
       [selectedPathName]="selectedPathName$ | async"
-      [selectedPath]="selectedPath$ | async"
       [selectedPathPostBodyProperties]="selectedPathPostBodyProperties$ | async"
       [selectedPathPostBodyRequiredPropertyNames]="selectedPathPostBodyRequiredPropertyNames$ | async"
       (onSubmit)="onSubmit($event)">
-    </form>
+    </form-component>
   `
 })
 export class RpcContainer {
   selectedPathName$: Observable<string>;
-  selectedPath$: Observable<Path>;
   selectedPathPostBodyProperties$: Observable<{[name: string]: Property[]; }>;
   selectedPathPostBodyRequiredPropertyNames$: Observable<string[]>;
 
   constructor(private store: Store<fromRoot.State>) {
     this.selectedPathName$ = store.select(fromRoot.getSelectedPathName);
-    this.selectedPath$ = store.select(fromRoot.getSelectedPath);
     this.selectedPathPostBodyProperties$ = store.select(fromRoot.getSelectedPathPostBodyProperties);
     this.selectedPathPostBodyRequiredPropertyNames$ = store.select(fromRoot.getSelectedPathPostBodyRequiredPropertyNames);
   }

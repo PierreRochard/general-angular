@@ -8,7 +8,7 @@ import {Path, Property} from "../schema/schema.models";
 
 
 @Component({
-  selector: 'form',
+  selector: 'form-component',
   template: `
 <div class="ui-g">
   <form [formGroup]="form" (ngSubmit)="onSubmit.emit(form.value)">
@@ -27,7 +27,6 @@ export class FormComponent implements OnChanges {
   public selectedPathPostBodyPropertyNames: string[];
 
   @Input() selectedPathName:string;
-  @Input() selectedPath:Path;
   @Input() selectedPathPostBodyProperties:{[name: string]: Property[]; };
   @Input() selectedPathPostBodyRequiredPropertyNames:string[];
   @Output() onSubmit = new EventEmitter<any>();
