@@ -32,8 +32,6 @@ export class MenubarComponent {
       } else {
         icon = 'fa-table';
       }
-      console.log(pathName);
-      console.log(token);
       if (pathName === '/rpc/login' && !(token === '')) {
         return {
           label: 'Logout',
@@ -45,7 +43,7 @@ export class MenubarComponent {
           label: pathName,
           icon: icon,
           command: () => store.dispatch(go([pathName])),
-          // For some reason this is not working
+          // This is not working
           visible: (pathName === '/rpc/login') ? (token === '') : true,
         };
       }

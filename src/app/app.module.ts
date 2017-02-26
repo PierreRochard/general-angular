@@ -33,6 +33,7 @@ import {SchemaGuard} from "./schema/schema.guard";
 import {reducer} from './app.reducers';
 import {routing} from "./app.routing";
 import {AppComponent} from "./app.component";
+import {AuthEffects} from "./auth/auth.effects";
 
 
 @NgModule({
@@ -59,6 +60,7 @@ import {AppComponent} from "./app.component";
     ButtonModule,
     StoreModule.provideStore(reducer),
     RouterStoreModule.connectRouter(),
+    EffectsModule.run(AuthEffects),
     EffectsModule.run(SchemaEffects),
     EffectsModule.run(RpcEffects),
   ],

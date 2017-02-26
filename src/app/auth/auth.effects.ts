@@ -8,13 +8,10 @@ import * as auth from './auth.actions'
 import * as schema from '../schema/schema.actions';
 import * as fromRoot from '../app.reducers';
 import {RestClient} from "../common/rest-client.service";
-import {Observable} from "rxjs";
-import {of} from "rxjs/observable/of";
 import {Store} from "@ngrx/store";
-import {Response} from "@angular/http";
 
 @Injectable()
-export class RpcEffects {
+export class AuthEffects {
   constructor(private actions$: Actions,
               private http: RestClient,
               private store: Store<fromRoot.State>,) {
