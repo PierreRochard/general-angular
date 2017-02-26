@@ -7,7 +7,7 @@ import 'rxjs';
 import * as auth from './auth.actions'
 import * as schema from '../schema/schema.actions';
 import * as fromRoot from '../app.reducers';
-import {RestClient} from "../common/rest-client.service";
+import {RestClient} from "../rest/rest.service";
 import {Store} from "@ngrx/store";
 
 @Injectable()

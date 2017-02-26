@@ -6,7 +6,7 @@ import 'rxjs';
 
 import * as schema from './schema.actions';
 
-import {RestClient} from "../common/rest-client.service";
+import {RestClient} from "../rest/rest.service";
 
 @Injectable()
 export class SchemaEffects {

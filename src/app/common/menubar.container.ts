@@ -1,15 +1,13 @@
-import { createSelector } from 'reselect';
-
 import {Component} from '@angular/core';
 
 import {Observable} from "rxjs";
 
 import {Store} from "@ngrx/store";
+import {go} from "@ngrx/router-store";
 
 import {MenuItem} from 'primeng/primeng';
 
 import * as fromRoot from '../app.reducers';
-import {go} from "@ngrx/router-store";
 import {RemoveTokenAction} from "../auth/auth.actions";
 
 

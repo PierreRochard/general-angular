@@ -10,7 +10,7 @@ import {RouterStoreModule} from "@ngrx/router-store";
 import {ButtonModule, DataTableModule, MenubarModule, PasswordModule, InputTextModule} from 'primeng/primeng';
 
 
-import {RpcEffects} from "./rpc/rpc.effects";
+import {RestEffects} from "./rest/rest.effects";
 import {SchemaEffects} from "./schema/schema.effects";
 
 import {MenubarComponent} from "./common/menubar.container";
@@ -27,7 +27,7 @@ import {FormCreationService} from "./form/form-creation.service";
 
 import {TableDatatableComponent} from "./table/table-datatable.component";
 
-import {RestClient} from "./common/rest-client.service";
+import {RestClient} from "./rest/rest.service";
 
 import {SchemaGuard} from "./schema/schema.guard";
 
@@ -56,7 +56,7 @@ import {AuthEffects} from "./auth/auth.effects";
     DataTableModule,
     EffectsModule.run(AuthEffects),
     EffectsModule.run(SchemaEffects),
-    EffectsModule.run(RpcEffects),
+    EffectsModule.run(RestEffects),
     FormsModule,
     HttpModule,
     InputTextModule,

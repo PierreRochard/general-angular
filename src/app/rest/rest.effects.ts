@@ -6,17 +6,17 @@ import 'rxjs';
 import 'rxjs/add/operator/withLatestFrom';
 
 import * as auth from '../auth/auth.actions'
-import * as rpc from './rpc.actions';
+import * as rest from './rest.actions';
 import * as schema from '../schema/schema.actions';
 import * as fromRoot from '../app.reducers';
-import {RestClient} from "../common/rest-client.service";
+import {RestClient} from "./rest.service";
 
 import {of} from "rxjs/observable/of";
 import {Store} from "@ngrx/store";
 import {Response} from "@angular/http";
 
 @Injectable()
-export class RpcEffects {
+export class RestEffects {
   constructor (
     private actions$: Actions,
     private http: RestClient,
@@ -24,21 +24,21 @@ export class RpcEffects {
   ) { }
   @Effect()
   submitForm$ = this.actions$
-    .ofType(rpc.ActionTypes.RPC_SUBMIT_FORM)
+    .ofType(rest.ActionTypes.SUBMIT_FORM)
     .withLatestFrom(this.store)
     .switchMap(([action, store]) => {
       return this.http.post(store.router.path, action.payload)
           .map(response => {
-            return new rpc.ReceivePostAction(response)
+            return new rest.ReceivePostAction(response)
           })
           .catch(error => {
-            return of(new rpc.ReceivePostAction(error));
+            return of(new rest.ReceivePostAction(error));
           })
     });
 
   @Effect()
   ProcessPostResponse$ = this.actions$
-    .ofType(rpc.ActionTypes.RPC_RECEIVE_POST)
+    .ofType(rest.ActionTypes.RECEIVE_POST)
     .switchMap(action => {
       let response: Response = action.payload;
       switch (response.status) {

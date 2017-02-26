@@ -6,7 +6,7 @@ import {of} from 'rxjs/observable/of';
 
 import {Store} from '@ngrx/store';
 
-import {RestClient} from '../common/rest-client.service';
+import {RestClient} from '../rest/rest.service';
 
 import * as fromRoot from '../app.reducers';
 import * as schema from './schema.actions';

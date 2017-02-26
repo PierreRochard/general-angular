@@ -1,6 +1,6 @@
 import {Response} from "@angular/http";
 
-import * as rpc from './rpc.actions';
+import * as rest from './rest.actions';
 
 
 
@@ -15,15 +15,15 @@ const initialState: State = {
   received: false,
 };
 
-export function reducer(state = initialState, action: rpc.Actions): State {
+export function reducer(state = initialState, action: rest.Actions): State {
   switch (action.type) {
-    case rpc.ActionTypes.RPC_SUBMIT_FORM: {
+    case rest.ActionTypes.SUBMIT_FORM: {
       return Object.assign({}, state, {
         submitted: true,
         received: false,
       })
     }
-    case rpc.ActionTypes.RPC_RECEIVE_POST: {
+    case rest.ActionTypes.RECEIVE_POST: {
       return Object.assign({}, state, {
         submitted: false,
         received: true,

@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs/Observable';
 
-import * as rpc from './rpc.actions';
+import * as rpc from '../rest/rest.actions';
 
 import * as fromRoot from '../app.reducers';
 import {Path, Property} from "../schema/schema.models";
@@ -36,7 +36,6 @@ export class RpcContainer {
     this.selectedPathPostBodyRequiredPropertyNames$ = store.select(fromRoot.getSelectedPathPostBodyRequiredPropertyNames);
   }
   public onSubmit(formValue: any) {
-    console.log('ONSUBMIT FORM');
     this.store.dispatch(new rpc.SubmitFormAction(formValue));
   }
 }
