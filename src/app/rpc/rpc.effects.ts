@@ -27,7 +27,6 @@ export class RpcEffects {
     .ofType(rpc.ActionTypes.RPC_SUBMIT_FORM)
     .withLatestFrom(this.store)
     .switchMap(([action, store]) => {
-      console.log(store.router.path);
       return this.http.post(store.router.path, action.payload)
           .map(response => {
             return new rpc.ReceivePostAction(response)
@@ -42,14 +41,7 @@ export class RpcEffects {
     .ofType(rpc.ActionTypes.RPC_RECEIVE_POST)
     .switchMap(action => {
       let response: Response = action.payload;
-      console.log(response);
       switch (response.status) {
-        case 403: {
-          return []
-        }
-        case 401: {
-          return []
-        }
         case 200: {
           let responseBody = action.payload.json()[0];
           if (responseBody.hasOwnProperty('token')) {

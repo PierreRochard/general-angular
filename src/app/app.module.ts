@@ -7,7 +7,7 @@ import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from "@ngrx/effects";
 import {RouterStoreModule} from "@ngrx/router-store";
 
-import {ButtonModule, MenubarModule, PasswordModule, InputTextModule} from 'primeng/primeng';
+import {ButtonModule, DataTableModule, MenubarModule, PasswordModule, InputTextModule} from 'primeng/primeng';
 
 
 import {RpcEffects} from "./rpc/rpc.effects";
@@ -25,6 +25,7 @@ import {RpcFormComponent} from "./rpc/rpc-form.component";
 import {RpcFormElementComponent} from "./rpc/rpc-form-element.component";
 import {RpcFormCreationService} from "./rpc/rpc-form-creation.service";
 
+import {TableDatatableComponent} from "./table/table-datatable.component";
 
 import {RestClient} from "./common/rest-client.service";
 
@@ -40,34 +41,36 @@ import {AuthEffects} from "./auth/auth.effects";
   bootstrap: [AppComponent],
   declarations: [
     AppComponent,
+    HomeContainer,
     MenubarComponent,
     PathContainer,
-    HomeContainer,
     RpcContainer,
     RpcFormComponent,
     RpcFormElementComponent,
     TableContainer,
+    TableDatatableComponent,
   ],
   imports: [
     BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpModule,
-    routing,
-    MenubarModule,
-    InputTextModule,
-    PasswordModule,
     ButtonModule,
-    StoreModule.provideStore(reducer),
-    RouterStoreModule.connectRouter(),
+    DataTableModule,
     EffectsModule.run(AuthEffects),
     EffectsModule.run(SchemaEffects),
     EffectsModule.run(RpcEffects),
+    FormsModule,
+    HttpModule,
+    InputTextModule,
+    MenubarModule,
+    PasswordModule,
+    ReactiveFormsModule,
+    RouterStoreModule.connectRouter(),
+    routing,
+    StoreModule.provideStore(reducer),
   ],
   providers: [
-    SchemaGuard,
     RestClient,
     RpcFormCreationService,
+    SchemaGuard,
   ]
 })
 export class AppModule { }
