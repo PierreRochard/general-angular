@@ -17,13 +17,13 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: rpc.Actions): State {
   switch (action.type) {
-    case rpc.ActionTypes.SUBMIT_FORM: {
+    case rpc.ActionTypes.RPC_SUBMIT_FORM: {
       return Object.assign({}, state, {
         submitted: true,
         received: false,
       })
     }
-    case rpc.ActionTypes.RECEIVE_POST: {
+    case rpc.ActionTypes.RPC_RECEIVE_POST: {
       return Object.assign({}, state, {
         submitted: false,
         received: true,

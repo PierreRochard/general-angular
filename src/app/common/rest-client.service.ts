@@ -3,6 +3,8 @@ import {Http, Headers, Response} from '@angular/http';
 
 import { Observable } from "rxjs/Observable";
 
+import 'rxjs';
+
 import {Store} from "@ngrx/store";
 
 import * as fromRoot from '../app.reducers';
@@ -10,13 +12,10 @@ import * as fromRoot from '../app.reducers';
 @Injectable()
 export class RestClient {
   public apiEndpoint: string = "http://localhost:4545";
-  public token$: Observable<any>;
 
   constructor(private http: Http,
               private store: Store<fromRoot.State>,
-  ) {
-    this.token$ = store.select(fromRoot.getToken);
-  }
+  ) {}
 
   static createAuthorizationHeader(headers: Headers, token: string) {
     if (!!token) {
@@ -27,19 +26,20 @@ export class RestClient {
   }
 
   get(endpoint): Observable<Response> {
-    return this.token$.map(token => RestClient.createAuthorizationHeader(new Headers(), token))
-      .switchMap(headers => this.http.get(this.apiEndpoint.concat(endpoint), {headers: headers}))
-      .catch(error => {
-        console.log(error);
-        return Observable.throw(error.json().error || 'Server error')
-      })
-  }
+    return this.store.take(1).switchMap(state => {
+      let headers = RestClient.createAuthorizationHeader(new Headers(), state.auth.token);
+        return this.http.get(this.apiEndpoint.concat(endpoint), {headers: headers})
+      }
+    )
+  };
 
   post(endpoint, data): Observable<Response> {
-    return this.token$.map(token => RestClient.createAuthorizationHeader(new Headers(), token))
-      .switchMap(headers => this.http.post(this.apiEndpoint.concat(endpoint), data, {headers: headers}))
-  }
-
+    return this.store.take(1).switchMap(state => {
+        let headers = RestClient.createAuthorizationHeader(new Headers(), state.auth.token);
+        return this.http.post(this.apiEndpoint.concat(endpoint), data, {headers: headers})
+      }
+    )
+  };
   // delete(endpoint, searchParam): Observable<Response> {
   //   let headers = new Headers();
   //   RestClient.createAuthorizationHeader(headers);

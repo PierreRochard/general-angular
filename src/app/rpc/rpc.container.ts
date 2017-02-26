@@ -35,6 +35,7 @@ export class RpcContainer {
     this.selectedPathPostBodyRequiredPropertyNames$ = store.select(fromRoot.getSelectedPathPostBodyRequiredPropertyNames);
   }
   public onSubmit(formValue: any) {
+    console.log('ONSUBMIT FORM');
     this.store.dispatch(new rpc.SubmitFormAction(formValue));
   }
 }
