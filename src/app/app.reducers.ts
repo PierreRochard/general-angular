@@ -76,7 +76,7 @@ export const getSelectedPathPostBodyProperties = createSelector(getSelectedPathP
 
 export const getSelectedPathPostBodyRequiredPropertyNames = createSelector(getSelectedPathPostBodyDefinition, (selectedPathPostBodyDefinition) => {
   if (!!selectedPathPostBodyDefinition) {
-    return selectedPathPostBodyDefinition.required;
+    return selectedPathPostBodyDefinition.required || [];
   } else {
     return null;
   }
