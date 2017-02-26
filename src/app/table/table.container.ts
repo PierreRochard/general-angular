@@ -31,6 +31,6 @@ export class TableContainer {
     this.selectedPathPostBodyRequiredPropertyNames$ = store.select(fromRoot.getSelectedPathPostBodyRequiredPropertyNames);
   }
   public onSubmit(formValue: any) {
-    this.store.dispatch(new rpc.SubmitFormAction(formValue));
+    this.store.dispatch(new rest.SubmitFormAction(formValue));
   }
 }

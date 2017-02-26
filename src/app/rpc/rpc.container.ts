@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs/Observable';
 
-import * as rpc from '../rest/rest.actions';
+
 
 import * as fromRoot from '../app.reducers';
 import {Path, Property} from "../schema/schema.models";
@@ -17,25 +17,9 @@ import {Path, Property} from "../schema/schema.models";
 <h1>
   {{selectedPathName$ | async}}
 </h1>
-<form-component
-      [selectedPathName]="selectedPathName$ | async"
-      [selectedPathPostBodyProperties]="selectedPathPostBodyProperties$ | async"
-      [selectedPathPostBodyRequiredPropertyNames]="selectedPathPostBodyRequiredPropertyNames$ | async"
-      (onSubmit)="onSubmit($event)">
-    </form-component>
+<form-component></form-component>
   `
 })
 export class RpcContainer {
-  selectedPathName$: Observable<string>;
-  selectedPathPostBodyProperties$: Observable<{[name: string]: Property[]; }>;
-  selectedPathPostBodyRequiredPropertyNames$: Observable<string[]>;
 
-  constructor(private store: Store<fromRoot.State>) {
-    this.selectedPathName$ = store.select(fromRoot.getSelectedPathName);
-    this.selectedPathPostBodyProperties$ = store.select(fromRoot.getSelectedPathPostBodyProperties);
-    this.selectedPathPostBodyRequiredPropertyNames$ = store.select(fromRoot.getSelectedPathPostBodyRequiredPropertyNames);
-  }
-  public onSubmit(formValue: any) {
-    this.store.dispatch(new rpc.SubmitFormAction(formValue));
-  }
 }
