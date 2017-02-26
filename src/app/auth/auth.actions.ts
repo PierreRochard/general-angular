@@ -16,7 +16,7 @@ export class AddTokenAction implements Action {
 export class RemoveTokenAction implements Action {
   type = ActionTypes.REMOVE_TOKEN;
 
-  constructor(public payload) { }
+  constructor() { }
 }
 
 export type Actions
