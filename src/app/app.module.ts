@@ -22,6 +22,7 @@ import {TableContainer} from "./table/table.container";
 
 
 import {FormComponent} from "./form/form.component";
+import {FormContainer} from "./form/form.container";
 import {FormElementComponent} from "./form/form-element.component";
 import {FormCreationService} from "./form/form-creation.service";
 
@@ -46,6 +47,7 @@ import {AuthEffects} from "./auth/auth.effects";
     PathContainer,
     RpcContainer,
     FormComponent,
+    FormContainer,
     FormElementComponent,
     TableContainer,
     TableDatatableComponent,

@@ -17,7 +17,7 @@ import {Path, Property} from "../schema/schema.models";
 <h1>
   {{selectedPathName$ | async}}
 </h1>
-<form-component></form-component>
+<form-container></form-container>
   `
 })
 export class RpcContainer {
