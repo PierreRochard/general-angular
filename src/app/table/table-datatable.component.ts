@@ -1,25 +1,32 @@
-import {Component} from '@angular/core';
-
-import {Observable} from "rxjs";
-
-import {Store} from "@ngrx/store";
-
-import * as fromRoot from '../app.reducers';
+import {Component, Input, OnChanges} from '@angular/core';
 
 @Component({
   selector: 'table-datatable',
   template: `
-<p-dataTable [value]="cars">
-    <p-column field="vin" header="Vin"></p-column>
-    <p-column field="year" header="Year"></p-column>
-    <p-column field="brand" header="Brand"></p-column>
-    <p-column field="color" header="Color"></p-column>
+<p-dataTable [value]="data"
+              [resizableColumns]="true"
+              (onColResize)="onColResize($event)"
+              >
+    <p-column *ngFor="let columnName of columnNames" 
+              field="{{columnName}}" 
+              header="{{columnName}}"
+              ></p-column>
 </p-dataTable>
 `
 })
-export class TableDatatableComponent {
-  schemaDefinitions$: Observable<any>;
-  constructor(private store: Store<fromRoot.State>) {
-    this.schemaDefinitions$ = store.select(fromRoot.getDefinitions);
+export class TableDatatableComponent implements OnChanges {
+  columnNames: string[];
+  @Input() data:any[];
+
+  ngOnChanges() {
+    if (this.data) {
+      this.columnNames = Object.keys(this.data[0]);
+    } else {
+      this.columnNames = [];
+    }
+  }
+
+  onColResize(event) {
+    console.log(event);
   }
 }

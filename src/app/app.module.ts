@@ -21,9 +21,9 @@ import {RpcContainer} from "./rpc/rpc.container";
 import {TableContainer} from "./table/table.container";
 
 
-import {RpcFormComponent} from "./rpc/rpc-form.component";
-import {RpcFormElementComponent} from "./rpc/rpc-form-element.component";
-import {RpcFormCreationService} from "./rpc/rpc-form-creation.service";
+import {FormComponent} from "./form/form.component";
+import {FormElementComponent} from "./form/form-element.component";
+import {FormCreationService} from "./form/form-creation.service";
 
 import {TableDatatableComponent} from "./table/table-datatable.component";
 
@@ -45,8 +45,8 @@ import {AuthEffects} from "./auth/auth.effects";
     MenubarComponent,
     PathContainer,
     RpcContainer,
-    RpcFormComponent,
-    RpcFormElementComponent,
+    FormComponent,
+    FormElementComponent,
     TableContainer,
     TableDatatableComponent,
   ],
@@ -69,7 +69,7 @@ import {AuthEffects} from "./auth/auth.effects";
   ],
   providers: [
     RestClient,
-    RpcFormCreationService,
+    FormCreationService,
     SchemaGuard,
   ]
 })

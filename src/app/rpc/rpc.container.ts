@@ -13,13 +13,17 @@ import {Path, Property} from "../schema/schema.models";
 @Component({
   selector: 'rpc-container',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<rpc-form
+  template: `
+<h1>
+  {{selectedPathName$ | async}}
+</h1>
+<form
       [selectedPathName]="selectedPathName$ | async"
       [selectedPath]="selectedPath$ | async"
       [selectedPathPostBodyProperties]="selectedPathPostBodyProperties$ | async"
       [selectedPathPostBodyRequiredPropertyNames]="selectedPathPostBodyRequiredPropertyNames$ | async"
       (onSubmit)="onSubmit($event)">
-    </rpc-form>
+    </form>
   `
 })
 export class RpcContainer {

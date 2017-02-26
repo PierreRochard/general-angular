@@ -2,20 +2,14 @@ import {Component, Input, OnChanges, Output, EventEmitter} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 
 import '@ngrx/core/add/operator/select';
-import {Store} from "@ngrx/store";
 
-import * as fromRoot from '../app.reducers';
-
-import {RpcFormCreationService} from "./rpc-form-creation.service";
+import {FormCreationService} from "./form-creation.service";
 import {Path, Property} from "../schema/schema.models";
 
 
 @Component({
-  selector: 'rpc-form',
+  selector: 'form',
   template: `
-<h1>
-  {{selectedPathName}} - RPC Path
-</h1>
 <div class="ui-g">
   <form [formGroup]="form" (ngSubmit)="onSubmit.emit(form.value)">
     <div class="ui-g-12" *ngFor="let pathPropertyName of selectedPathPostBodyPropertyNames">
@@ -28,7 +22,7 @@ import {Path, Property} from "../schema/schema.models";
 </div>
 `
 })
-export class RpcFormComponent implements OnChanges {
+export class FormComponent implements OnChanges {
   public form: FormGroup;
   public selectedPathPostBodyPropertyNames: string[];
 
@@ -38,7 +32,7 @@ export class RpcFormComponent implements OnChanges {
   @Input() selectedPathPostBodyRequiredPropertyNames:string[];
   @Output() onSubmit = new EventEmitter<any>();
 
-  constructor(private form_creation: RpcFormCreationService) {
+  constructor(private form_creation: FormCreationService) {
   }
 
   ngOnChanges() {
