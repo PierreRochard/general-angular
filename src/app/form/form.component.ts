@@ -32,8 +32,7 @@ export class FormComponent implements OnChanges {
   @Input() selectedPathPostBodyRequiredPropertyNames:string[];
   @Output() onSubmit = new EventEmitter<any>();
 
-  constructor(private form_creation: FormCreationService) {
-  }
+  constructor(private form_creation: FormCreationService) { }
 
   ngOnChanges() {
     this.selectedPathPostBodyPropertyNames = Object.keys(this.selectedPathPostBodyProperties);

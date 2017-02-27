@@ -6,17 +6,13 @@ export const ActionTypes = {
   REMOVE_TOKEN: type('REMOVE_TOKEN'),
 };
 
-
 export class AddTokenAction implements Action {
   type = ActionTypes.ADD_TOKEN;
-
   constructor(public payload) { }
 }
 
 export class RemoveTokenAction implements Action {
   type = ActionTypes.REMOVE_TOKEN;
-
-  constructor() { }
 }
 
 export type Actions

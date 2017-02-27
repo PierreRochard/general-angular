@@ -23,18 +23,12 @@ export function reducer(state = initialState, action: schema.Actions): State {
         isValid: false,
       });
     }
-    case schema.ActionTypes.REQUEST_SCHEMA: {
-      return Object.assign({}, state, {
-        isFetching: true,
-      })
-    }
-    case schema.ActionTypes.RECEIVE_SCHEMA: {
+    case schema.ActionTypes.UPDATE_SCHEMA: {
       return Object.assign({}, state, {
         paths: action.payload.paths,
         definitions: action.payload.definitions,
-        isFetching: false,
-        isValid: true,
         lastUpdated: Date.now(),
+        isValid: true,
       })
     }
     default: {

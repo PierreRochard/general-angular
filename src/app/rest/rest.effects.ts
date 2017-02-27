@@ -22,6 +22,14 @@ export class RestEffects {
     private http: RestClient,
     private store: Store<fromRoot.State>,
   ) { }
+
+  @Effect()
+  requestSchema$ = this.actions$
+    .ofType(schema.ActionTypes.REQUEST_SCHEMA, schema.ActionTypes.INVALIDATE_SCHEMA)
+    .switchMap(action => this.http.get('/')
+      .map(response => new schema.ReceiveSchemaAction(response.json()))
+    );
+
   @Effect()
   submitForm$ = this.actions$
     .ofType(rest.ActionTypes.SUBMIT_FORM)
