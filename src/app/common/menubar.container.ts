@@ -15,7 +15,7 @@ import {RemoveTokenAction} from "../auth/auth.actions";
   selector: 'menubar',
   template: `<p-menubar [model]="items$ | async"></p-menubar>`,
 })
-export class MenubarComponent {
+export class MenubarContainer {
   items$: Observable<MenuItem[]>;
 
   constructor(private store: Store<fromRoot.State>) {

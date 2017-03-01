@@ -7,13 +7,14 @@ export interface State {
   submittedForm: boolean;
   receivedForm: boolean;
   gettingSchema: boolean;
-  response?: Response;
+  response: Response;
 }
 
 const initialState: State = {
   submittedForm: false,
   receivedForm: false,
   gettingSchema: false,
+  response: null
 };
 
 export function reducer(state = initialState, action: rest.Actions): State {
@@ -34,7 +35,7 @@ export function reducer(state = initialState, action: rest.Actions): State {
         received: false,
       })
     }
-    case rest.ActionTypes.RECEIVE_POST: {
+    case rest.ActionTypes.RECEIVED_POST_RESPONSE: {
       return Object.assign({}, state, {
         submitted: false,
         received: true,
@@ -46,3 +47,5 @@ export function reducer(state = initialState, action: rest.Actions): State {
     }
   }
 }
+
+export const getResponse = (state: State) => state.response;

@@ -42,16 +42,16 @@ export class RestEffects {
     .switchMap(([action, store]) => {
       return this.http.post(store.router.path, action.payload)
           .map(response => {
-            return new rest.ReceivePostAction(response)
+            return new rest.ReceivedPostResponseAction(response)
           })
           .catch(error => {
-            return of(new rest.ReceivePostAction(error));
+            return of(new rest.ReceivedPostResponseAction(error));
           })
     });
 
   @Effect()
   ProcessPostResponse$ = this.actions$
-    .ofType(rest.ActionTypes.RECEIVE_POST)
+    .ofType(rest.ActionTypes.RECEIVED_POST_RESPONSE)
     .switchMap(action => {
       let response: Response = action.payload;
       switch (response.status) {

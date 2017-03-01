@@ -9,18 +9,21 @@ import { storeFreeze } from 'ngrx-store-freeze';
 import { combineReducers } from '@ngrx/store';
 
 import * as fromAuth from './auth/auth.reducers';
+import * as fromRest from './rest/rest.reducers';
 import * as fromRouter from '@ngrx/router-store';
 import * as fromSchema from './schema/schema.reducers';
 import {localStorageSync} from "ngrx-store-localstorage";
 
 export interface State {
   auth: fromAuth.State;
+  rest: fromRest.State;
   router: fromRouter.RouterState;
   schema: fromSchema.State;
 }
 
 const reducers = {
   auth:      fromAuth.reducer,
+  rest:      fromRest.reducer,
   schema:    fromSchema.reducer,
   router:    fromRouter.routerReducer,
 };
@@ -84,3 +87,6 @@ export const getSelectedPathPostBodyRequiredPropertyNames = createSelector(getSe
 
 export const getAuthState = (state: State) => state.auth;
 export const getToken = createSelector(getAuthState, fromAuth.getToken);
+
+export const getRestState = (state: State) => state.rest;
+export const getResponse = createSelector(getRestState, fromRest.getResponse);

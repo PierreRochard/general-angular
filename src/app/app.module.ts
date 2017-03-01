@@ -7,12 +7,13 @@ import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from "@ngrx/effects";
 import {RouterStoreModule} from "@ngrx/router-store";
 
-import {ButtonModule, DataTableModule, MenubarModule, PasswordModule, InputTextModule} from 'primeng/primeng';
+import {ButtonModule, DataTableModule, GrowlModule, InputTextModule, MenubarModule, PasswordModule} from 'primeng/primeng';
 
 
 import {RestEffects} from "./rest/rest.effects";
 
-import {MenubarComponent} from "./common/menubar.container";
+import {GrowlContainer} from "./common/growl.container";
+import {MenubarContainer} from "./common/menubar.container";
 
 import {PathContainer} from "./paths/path.container";
 import {HomeContainer} from "./home/home.container";
@@ -42,12 +43,13 @@ import {AuthEffects} from "./auth/auth.effects";
   declarations: [
     AppComponent,
     HomeContainer,
-    MenubarComponent,
+    MenubarContainer,
     PathContainer,
     RpcContainer,
     FormComponent,
     FormContainer,
     FormElementComponent,
+    GrowlContainer,
     TableContainer,
     TableDatatableComponent,
   ],
@@ -58,6 +60,7 @@ import {AuthEffects} from "./auth/auth.effects";
     EffectsModule.run(AuthEffects),
     EffectsModule.run(RestEffects),
     FormsModule,
+    GrowlModule,
     HttpModule,
     InputTextModule,
     MenubarModule,
