@@ -14,13 +14,12 @@ import {Path, Property} from "../schema/schema.models";
   selector: 'form-container',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<form-component
-      [selectedPathName]="selectedPathName$ | async"
-      [selectedPath]="selectedPath$ | async"
-      [selectedPathPostBodyProperties]="selectedPathPostBodyProperties$ | async"
-      [selectedPathPostBodyRequiredPropertyNames]="selectedPathPostBodyRequiredPropertyNames$ | async"
-      (onSubmit)="onSubmit($event)">
-    </form-component>
-  `
+                [selectedPathName]="selectedPathName$ | async"
+                [selectedPath]="selectedPath$ | async"
+                [selectedPathPostBodyProperties]="selectedPathPostBodyProperties$ | async"
+                [selectedPathPostBodyRequiredPropertyNames]="selectedPathPostBodyRequiredPropertyNames$ | async"
+                (onSubmit)="onSubmit($event)">
+              </form-component>`
 })
 export class FormContainer {
   selectedPathName$: Observable<string>;
@@ -35,6 +34,8 @@ export class FormContainer {
     this.selectedPathPostBodyRequiredPropertyNames$ = store.select(fromRoot.getSelectedPathPostBodyRequiredPropertyNames);
   }
   public onSubmit(formValue: any) {
+    Object.keys(formValue).filter(key => formValue[key] === '')
+                          .map(key=> delete formValue[key]);
     this.store.dispatch(new rest.SubmitFormAction(formValue));
   }
 }

@@ -40,6 +40,7 @@ export class RestEffects {
     .ofType(rest.ActionTypes.SUBMIT_FORM)
     .withLatestFrom(this.store)
     .switchMap(([action, store]) => {
+      let data = action.payload;
       return this.http.post(store.router.path, action.payload)
           .map(response => {
             return new rest.ReceivedPostResponseAction(response)

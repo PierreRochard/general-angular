@@ -9,18 +9,18 @@ import {Path, Property} from "../schema/schema.models";
 
 @Component({
   selector: 'form-component',
-  template: `
-<div class="ui-g">
-  <form [formGroup]="form" (ngSubmit)="onSubmit.emit(form.value)">
-    <div class="ui-g-12" *ngFor="let pathPropertyName of selectedPathPostBodyPropertyNames">
-      <dynamic-form-element [formElementName]="pathPropertyName" [form]="form"></dynamic-form-element>
-    </div>
-    <div class="ui-g-12">
-      <button type="submit" label="{{selectedPathName}}" pButton ></button>
-    </div>
-  </form>
-</div>
-`
+  template: `<form [formGroup]="form" (ngSubmit)="onSubmit.emit(form.value)">
+              <div class="ui-g">
+                <div class="ui-g-4" *ngFor="let pathPropertyName of selectedPathPostBodyPropertyNames">
+                  <dynamic-form-element [formElementName]="pathPropertyName" [form]="form"></dynamic-form-element>
+                </div>
+              </div>
+              <div class="ui-g">
+                <div class="ui-g-12">
+                  <button type="submit" label="{{selectedPathName}}" pButton ></button>
+                </div>
+              </div>
+            </form>`
 })
 export class FormComponent implements OnChanges {
   public form: FormGroup;

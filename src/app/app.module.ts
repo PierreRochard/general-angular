@@ -7,7 +7,7 @@ import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from "@ngrx/effects";
 import {RouterStoreModule} from "@ngrx/router-store";
 
-import {ButtonModule, DataTableModule, GrowlModule, InputTextModule, MenubarModule, PasswordModule} from 'primeng/primeng';
+import {ButtonModule, DataTableModule, FieldsetModule, GrowlModule, InputTextModule, MenubarModule, PasswordModule} from 'primeng/primeng';
 
 
 import {RestEffects} from "./rest/rest.effects";
@@ -59,6 +59,7 @@ import {AuthEffects} from "./auth/auth.effects";
     DataTableModule,
     EffectsModule.run(AuthEffects),
     EffectsModule.run(RestEffects),
+    FieldsetModule,
     FormsModule,
     GrowlModule,
     HttpModule,
