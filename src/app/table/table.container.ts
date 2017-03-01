@@ -10,9 +10,8 @@ import {RestClient} from "../rest/rest.service";
 @Component({
   selector: 'table-container',
   template: `<h1>Table</h1>
-<form-container></form-container>
-<table-datatable [data]="data$ | async"></table-datatable>
-`
+              <form-container></form-container>
+              <table-datatable [data]="data$ | async"></table-datatable>`
 })
 export class TableContainer {
   data$: Observable<any[]>;

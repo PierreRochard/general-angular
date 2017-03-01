@@ -19,11 +19,9 @@ export class TableDatatableComponent implements OnChanges {
   @Input() data:any[];
 
   ngOnChanges() {
-    if (this.data) {
-      this.columnNames = Object.keys(this.data[0]);
-    } else {
-      this.columnNames = [];
-    }
+    this.columnNames = (this.data === null || this.data.length === 0) ?
+      [] :
+      Object.keys(this.data[0]);
   }
 
   onColResize(event) {
