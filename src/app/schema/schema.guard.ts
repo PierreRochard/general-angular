@@ -10,6 +10,7 @@ import {RestClient} from '../rest/rest.service';
 
 import * as fromRoot from '../app.reducers';
 import * as schema from './schema.actions';
+import * as rest from '../rest/rest.actions';
 
 @Injectable()
 export class SchemaGuard implements CanActivate {
@@ -19,10 +20,11 @@ export class SchemaGuard implements CanActivate {
   ) { }
 
   getSchema(): Observable<boolean> {
-    return this.http.get('')
-      .map(response => new schema.ReceiveSchemaAction(response.json()))
-      .do((action: schema.ReceiveSchemaAction) => this.store.dispatch(action))
+    return this.http.get('/')
+      .map(response => new schema.UpdateSchemaAction(response.json()))
+      .do((action: schema.UpdateSchemaAction) => this.store.dispatch(action))
       .map(schema => {
+        console.log(schema);
         return !!schema
       });
   }

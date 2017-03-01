@@ -25,9 +25,14 @@ export class RestEffects {
 
   @Effect()
   requestSchema$ = this.actions$
-    .ofType(schema.ActionTypes.REQUEST_SCHEMA, schema.ActionTypes.INVALIDATE_SCHEMA)
+    .ofType(rest.ActionTypes.REQUEST_SCHEMA, schema.ActionTypes.INVALIDATE_SCHEMA)
     .switchMap(action => this.http.get('/')
-      .map(response => new schema.ReceiveSchemaAction(response.json()))
+      .mergeMap(response => {
+        return [
+          new rest.ReceivedSchemaAction(response),
+          new schema.UpdateSchemaAction(response.json())
+      ]
+      })
     );
 
   @Effect()

@@ -1,0 +1,10 @@
+@startuml
+title Component Architecture
+
+package App <<Folder>> {
+  class AppComponent
+  class MenubarComponent
+
+}
+
+@enduml

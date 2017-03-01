@@ -11,7 +11,6 @@ import {ButtonModule, DataTableModule, MenubarModule, PasswordModule, InputTextM
 
 
 import {RestEffects} from "./rest/rest.effects";
-import {SchemaEffects} from "./schema/schema.effects";
 
 import {MenubarComponent} from "./common/menubar.container";
 
@@ -57,7 +56,6 @@ import {AuthEffects} from "./auth/auth.effects";
     ButtonModule,
     DataTableModule,
     EffectsModule.run(AuthEffects),
-    EffectsModule.run(SchemaEffects),
     EffectsModule.run(RestEffects),
     FormsModule,
     HttpModule,

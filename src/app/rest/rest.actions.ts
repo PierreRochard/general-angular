@@ -6,7 +6,7 @@ export const ActionTypes = {
   SUBMIT_FORM:         type('SUBMIT_FORM'),
   RECEIVE_POST:        type('RECEIVE_POST'),
   REQUEST_SCHEMA:      type('REQUEST_SCHEMA'),
-  RECEIVE_SCHEMA:      type('RECEIVE_SCHEMA'),
+  RECEIVED_SCHEMA:     type('RECEIVED_SCHEMA'),
 };
 
 export class SubmitFormAction implements Action {
@@ -20,12 +20,13 @@ export class ReceivePostAction implements Action {
 export class RequestSchemaAction implements Action {
   type = ActionTypes.REQUEST_SCHEMA;
 }
-export class ReceiveSchemaAction implements Action {
-  type = ActionTypes.RECEIVE_SCHEMA;
+export class ReceivedSchemaAction implements Action {
+  type = ActionTypes.RECEIVED_SCHEMA;
+  constructor(public payload) {}
 }
 
 export type Actions
   = SubmitFormAction
   | ReceivePostAction
   | RequestSchemaAction
-  | ReceiveSchemaAction;
+  | ReceivedSchemaAction;

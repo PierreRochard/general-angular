@@ -23,7 +23,7 @@ export function reducer(state = initialState, action: rest.Actions): State {
         gettingSchema: true,
       })
     }
-    case rest.ActionTypes.RECEIVE_SCHEMA: {
+    case rest.ActionTypes.RECEIVED_SCHEMA: {
       return Object.assign({}, state, {
         gettingSchema: false,
       })
