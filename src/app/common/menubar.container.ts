@@ -30,7 +30,7 @@ export class MenubarContainer {
       } else {
         icon = 'fa-table';
       }
-      if (pathName === '/rpc/login' && !(token === '')) {
+      if (pathName === '/rpc/login' && token) {
         return {
           label: 'Logout',
           icon: icon,

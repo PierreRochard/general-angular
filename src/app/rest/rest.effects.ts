@@ -12,7 +12,7 @@ import * as fromRoot from '../app.reducers';
 import {RestClient} from "./rest.service";
 
 import {of} from "rxjs/observable/of";
-import {Store} from "@ngrx/store";
+import {Store, Action} from "@ngrx/store";
 import {Response} from "@angular/http";
 
 @Injectable()
@@ -24,44 +24,60 @@ export class RestEffects {
   ) { }
 
   @Effect()
-  requestSchema$ = this.actions$
-    .ofType(rest.ActionTypes.REQUEST_SCHEMA, schema.ActionTypes.INVALIDATE_SCHEMA)
+  sendGetRequest = this.actions$
+    .ofType(rest.ActionTypes.SEND_GET_REQUEST,
+            schema.ActionTypes.INVALIDATE_SCHEMA,
+            auth.ActionTypes.ADD_APIURL)
     .switchMap(action => this.http.get('/')
       .mergeMap(response => {
         return [
-          new rest.ReceivedSchemaAction(response),
-          new schema.UpdateSchemaAction(response.json())
+          new rest.ReceivedResponseAction(response),
       ]
+      })
+      .catch(error => {
+        return of(new rest.ReceivedResponseAction(error));
       })
     );
 
   @Effect()
-  submitForm$ = this.actions$
-    .ofType(rest.ActionTypes.SUBMIT_FORM)
+  sendPostRequest$ = this.actions$
+    .ofType(rest.ActionTypes.SEND_POST_REQUEST)
     .withLatestFrom(this.store)
     .switchMap(([action, store]) => {
       let data = action.payload;
       return this.http.post(store.router.path, action.payload)
           .map(response => {
-            return new rest.ReceivedPostResponseAction(response)
+            return new rest.ReceivedResponseAction(response)
           })
           .catch(error => {
-            return of(new rest.ReceivedPostResponseAction(error));
+            return of(new rest.ReceivedResponseAction(error));
           })
     });
 
   @Effect()
-  ProcessPostResponse$ = this.actions$
-    .ofType(rest.ActionTypes.RECEIVED_POST_RESPONSE)
-    .switchMap(action => {
+  processResponse$ = this.actions$
+    .ofType(rest.ActionTypes.RECEIVED_RESPONSE)
+    .switchMap((action: Action): Action[] => {
       let response: Response = action.payload;
       switch (response.status) {
         case 200: {
-          let responseBody = action.payload.json()[0];
-          if (responseBody.hasOwnProperty('token')) {
-            return [new auth.AddTokenAction(responseBody.token),
+          let responseJSON = action.payload.json();
+          if (responseJSON.hasOwnProperty('swagger')) {
+            return [new schema.UpdateSchemaAction(responseJSON), ]
+          }
+          responseJSON = action.payload.json()[0];
+          if (responseJSON.hasOwnProperty('token')) {
+            return [new auth.AddTokenAction(responseJSON.token),
                     new schema.InvalidateAction()]
           } else {
+            return []
+          }
+        }
+        case 401: {
+          if (response.json().message === 'JWT expired') {
+            return [new auth.RemoveTokenAction(), ]
+          } else {
+            console.log(response);
             return []
           }
         }

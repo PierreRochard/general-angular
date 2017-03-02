@@ -4,40 +4,36 @@ import * as rest from './rest.actions';
 
 
 export interface State {
-  submittedForm: boolean;
+  posting: boolean;
   receivedForm: boolean;
-  gettingSchema: boolean;
+  getting: boolean;
   response: Response;
 }
 
 const initialState: State = {
-  submittedForm: false,
+  posting: false,
   receivedForm: false,
-  gettingSchema: false,
+  getting: false,
   response: null
 };
 
 export function reducer(state = initialState, action: rest.Actions): State {
   switch (action.type) {
-    case rest.ActionTypes.REQUEST_SCHEMA: {
+    case rest.ActionTypes.SEND_GET_REQUEST: {
       return Object.assign({}, state, {
-        gettingSchema: true,
-      })
-    }
-    case rest.ActionTypes.RECEIVED_SCHEMA: {
-      return Object.assign({}, state, {
-        gettingSchema: false,
-      })
-    }
-    case rest.ActionTypes.SUBMIT_FORM: {
-      return Object.assign({}, state, {
-        submitted: true,
+        getting: true,
         received: false,
       })
     }
-    case rest.ActionTypes.RECEIVED_POST_RESPONSE: {
+    case rest.ActionTypes.SEND_POST_REQUEST: {
       return Object.assign({}, state, {
-        submitted: false,
+        posting: true,
+        received: false,
+      })
+    }
+    case rest.ActionTypes.RECEIVED_RESPONSE: {
+      return Object.assign({}, state, {
+        posting: false,
         received: true,
         response: action.payload,
       })

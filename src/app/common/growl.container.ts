@@ -24,14 +24,23 @@ export class GrowlContainer {
         return [];
       }
       let severity = 'info';
-      if (response.status >= 200 && response.status < 300) {
-        severity = 'success'
+      let summary = '';
+      let detail = '';
+      if (response.status === 0) {
+        summary = 'Unable to connect to the API';
+        severity = 'error'
+      } else if (response.status >= 200 && response.status < 300) {
+        summary = response.status.toString() + ': ' + response.statusText;
+        detail = response.json().message;
+        severity = 'success';
       } else if (response.status >= 400 && response.status < 600) {
+        summary = response.status.toString() + ': ' + response.statusText;
+        detail = response.json().message;
         severity = 'error'
       }
       return [{severity: severity,
-               summary: response.status.toString() + ': ' + response.statusText,
-               detail: response.json().message}]
+               summary: summary,
+               detail: detail}]
     })
   }
 }

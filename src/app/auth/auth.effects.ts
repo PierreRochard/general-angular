@@ -18,7 +18,7 @@ export class AuthEffects {
   }
 
   @Effect()
-  submitForm$ = this.actions$
+  removeToken$ = this.actions$
     .ofType(auth.ActionTypes.REMOVE_TOKEN)
     .switchMap(action => [new schema.InvalidateAction()]);
 }

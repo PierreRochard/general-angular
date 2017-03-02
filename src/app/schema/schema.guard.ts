@@ -25,10 +25,10 @@ export class SchemaGuard implements CanActivate {
       .map(response => new schema.UpdateSchemaAction(response.json()))
       .do((action: schema.UpdateSchemaAction) => this.store.dispatch(action))
       .map(schema => {
-        console.log(schema);
         return !!schema
       })
       .catch(error => {
+        this.store.dispatch(new rest.ReceivedResponseAction(error));
         return Observable.of(true);
       });
   }
