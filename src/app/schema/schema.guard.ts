@@ -11,6 +11,7 @@ import {RestClient} from '../rest/rest.service';
 import * as fromRoot from '../app.reducers';
 import * as schema from './schema.actions';
 import * as rest from '../rest/rest.actions';
+import {go} from "@ngrx/router-store";
 
 @Injectable()
 export class SchemaGuard implements CanActivate {
@@ -26,6 +27,9 @@ export class SchemaGuard implements CanActivate {
       .map(schema => {
         console.log(schema);
         return !!schema
+      })
+      .catch(error => {
+        return Observable.of(true);
       });
   }
 

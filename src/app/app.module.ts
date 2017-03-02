@@ -12,6 +12,8 @@ import {ButtonModule, DataTableModule, FieldsetModule, GrowlModule, InputTextMod
 
 import {RestEffects} from "./rest/rest.effects";
 
+import {ApiUrlComponent} from "./home/apiurl.component";
+
 import {GrowlContainer} from "./common/growl.container";
 import {MenubarContainer} from "./common/menubar.container";
 
@@ -41,6 +43,7 @@ import {AuthEffects} from "./auth/auth.effects";
 @NgModule({
   bootstrap: [AppComponent],
   declarations: [
+    ApiUrlComponent,
     AppComponent,
     HomeContainer,
     MenubarContainer,

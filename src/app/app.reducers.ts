@@ -87,6 +87,7 @@ export const getSelectedPathPostBodyRequiredPropertyNames = createSelector(getSe
 
 export const getAuthState = (state: State) => state.auth;
 export const getToken = createSelector(getAuthState, fromAuth.getToken);
+export const getApiUrl = createSelector(getAuthState, fromAuth.getApiUrl);
 
 export const getRestState = (state: State) => state.rest;
 export const getResponse = createSelector(getRestState, fromRest.getResponse);
