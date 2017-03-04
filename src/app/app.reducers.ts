@@ -12,6 +12,7 @@ import * as fromAuth from './auth/auth.reducers';
 import * as fromRest from './rest/rest.reducers';
 import * as fromRouter from '@ngrx/router-store';
 import * as fromSchema from './schema/schema.reducers';
+import * as fromTable from './table/table.reducers';
 import {localStorageSync} from "ngrx-store-localstorage";
 
 export interface State {
@@ -19,13 +20,15 @@ export interface State {
   rest: fromRest.State;
   router: fromRouter.RouterState;
   schema: fromSchema.State;
+  table: fromTable.State;
 }
 
 const reducers = {
   auth:      fromAuth.reducer,
   rest:      fromRest.reducer,
-  schema:    fromSchema.reducer,
   router:    fromRouter.routerReducer,
+  schema:    fromSchema.reducer,
+  table:     fromTable.reducer,
 };
 
 const developmentReducer: ActionReducer<State> = compose(storeFreeze,
@@ -91,3 +94,6 @@ export const getApiUrl = createSelector(getAuthState, fromAuth.getApiUrl);
 
 export const getRestState = (state: State) => state.rest;
 export const getResponse = createSelector(getRestState, fromRest.getResponse);
+
+export const getTableState = (state: State) => state.table;
+export const getRecords = createSelector(getTableState, fromTable.getRecords);

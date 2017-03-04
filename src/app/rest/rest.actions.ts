@@ -16,6 +16,7 @@ export class SendPostRequestAction implements Action {
 }
 export class SendGetRequestAction implements Action {
   type = ActionTypes.SEND_GET_REQUEST;
+  constructor(public payload: string) {}
 }
 export class ReceivedResponseAction implements Action {
   type = ActionTypes.RECEIVED_RESPONSE;

@@ -33,11 +33,13 @@ import {TableDatatableComponent} from "./table/table-datatable.component";
 import {RestClient} from "./rest/rest.service";
 
 import {SchemaGuard} from "./schema/schema.guard";
+import {SchemaEffects} from "./schema/schema.effects";
 
 import {reducer} from './app.reducers';
 import {routing} from "./app.routing";
 import {AppComponent} from "./app.component";
 import {AuthEffects} from "./auth/auth.effects";
+import {TableEffects} from "./table/table.effects";
 
 
 @NgModule({
@@ -62,6 +64,8 @@ import {AuthEffects} from "./auth/auth.effects";
     DataTableModule,
     EffectsModule.run(AuthEffects),
     EffectsModule.run(RestEffects),
+    EffectsModule.run(SchemaEffects),
+    EffectsModule.run(TableEffects),
     FieldsetModule,
     FormsModule,
     GrowlModule,

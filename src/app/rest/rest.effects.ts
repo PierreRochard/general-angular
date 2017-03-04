@@ -8,6 +8,7 @@ import 'rxjs/add/operator/withLatestFrom';
 import * as auth from '../auth/auth.actions'
 import * as rest from './rest.actions';
 import * as schema from '../schema/schema.actions';
+import * as table from '../table/table.actions';
 import * as fromRoot from '../app.reducers';
 import {RestClient} from "./rest.service";
 
@@ -24,11 +25,9 @@ export class RestEffects {
   ) { }
 
   @Effect()
-  sendGetRequest = this.actions$
-    .ofType(rest.ActionTypes.SEND_GET_REQUEST,
-            schema.ActionTypes.INVALIDATE_SCHEMA,
-            auth.ActionTypes.ADD_APIURL)
-    .switchMap(action => this.http.get('/')
+  sendGetRequest$ = this.actions$
+    .ofType(rest.ActionTypes.SEND_GET_REQUEST)
+    .switchMap(action => this.http.get(action.payload)
       .mergeMap(response => {
         return [
           new rest.ReceivedResponseAction(response),
@@ -57,20 +56,20 @@ export class RestEffects {
   @Effect()
   processResponse$ = this.actions$
     .ofType(rest.ActionTypes.RECEIVED_RESPONSE)
-    .switchMap((action: Action): Action[] => {
+    .withLatestFrom(this.store)
+    .switchMap(([action, store]): Action[] => {
       let response: Response = action.payload;
       switch (response.status) {
         case 200: {
-          let responseJSON = action.payload.json();
-          if (responseJSON.hasOwnProperty('swagger')) {
-            return [new schema.UpdateSchemaAction(responseJSON), ]
-          }
-          responseJSON = action.payload.json()[0];
-          if (responseJSON.hasOwnProperty('token')) {
-            return [new auth.AddTokenAction(responseJSON.token),
-                    new schema.InvalidateAction()]
+          let response_data = action.payload.json();
+          let response_url = action.payload.url;
+
+          if (response_url === store.auth.apiUrl + '/') {
+            return [new schema.UpdateSchemaAction(response_data)]
+          } else if (response_url === store.auth.apiUrl + '/rpc/login') {
+            return [new auth.AddTokenAction(response_data[0].token)]
           } else {
-            return []
+            return [new table.PopulateRecordsAction(response_data)]
           }
         }
         case 401: {
