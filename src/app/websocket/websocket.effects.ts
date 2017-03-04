@@ -32,7 +32,11 @@ export class WebsocketEffects {
           let message = JSON.parse(response.data);
           switch (message.type) {
             case 'INSERT':
-              this.store.dispatch(new table.AddRecordAction(message.row))
+              this.store.dispatch(new table.AddRecordAction(message.row));
+              break;
+            case 'DELETE':
+              this.store.dispatch(new table.RemoveRecordAction(message.row));
+              break;
           }
         },
         error => console.log('Error: ' + error.message),

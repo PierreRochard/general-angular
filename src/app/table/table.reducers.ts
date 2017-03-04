@@ -21,6 +21,11 @@ export function reducer(state = initialState, action: table.Actions): State {
         records: [action.payload, ...state.records]
       });
     }
+    case table.ActionTypes.REMOVE_RECORD: {
+      return Object.assign({}, state, {
+        records: state.records.filter(record => record.id !== action.payload.id)
+      });
+    }
     default: {
       return state;
     }
