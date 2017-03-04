@@ -1,10 +1,8 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component} from '@angular/core';
 
 import {Observable} from "rxjs";
 
 import {Store} from "@ngrx/store";
-
-import {$WebSocket} from 'angular2-websocket/angular2-websocket';
 
 import * as fromRoot from '../app.reducers';
 
@@ -24,28 +22,11 @@ import * as fromRoot from '../app.reducers';
                 </div>
               </div>`
 })
-export class TableContainer implements OnDestroy {
+export class TableContainer {
   public records$: Observable<any[]>;
-  private ws: $WebSocket;
 
   constructor(private store: Store<fromRoot.State>) {
     this.records$ = this.store.select(fromRoot.getRecords);
-  }
-  ngOnInit() {
-    this.ws = new $WebSocket('ws://localhost:4545/' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtb2RlIjoicnciLCJjaGFubmVsIjoibWVzc2FnZXNfdGFibGVfdXBkYXRlIn0.zZDpPodeBkvAfpmhq9YMLCAAzWk5WzlUwb9oa9M_Rvk');
-    this.ws.getDataStream().subscribe(
-      response => {
-        console.log(response);
-        return response.data;
-      },
-      error => console.log('Error: ' + error.message),
-      () => console.log('Completed'),
-    )
-  }
-
-  ngOnDestroy() {
-    this.ws.close();
-    console.log('WebSocket Closed');
   }
 }
 
