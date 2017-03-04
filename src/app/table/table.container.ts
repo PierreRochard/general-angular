@@ -7,7 +7,6 @@ import {Store} from "@ngrx/store";
 import {$WebSocket} from 'angular2-websocket/angular2-websocket';
 
 import * as fromRoot from '../app.reducers';
-import {RestClient} from "../rest/rest.service";
 
 @Component({
   selector: 'table-container',

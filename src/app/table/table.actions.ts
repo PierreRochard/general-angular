@@ -3,13 +3,21 @@ import { Action } from '@ngrx/store';
 import { type } from '../util';
 
 export const ActionTypes = {
-  POPULATE_RECORDS:   type('POPULATE_RECORDS'),
+  INITIALIZE_RECORDS:   type('INITIALIZE_RECORDS'),
+  ADD_RECORD:           type('ADD_RECORD'),
 };
 
-export class PopulateRecordsAction implements Action {
-  type = ActionTypes.POPULATE_RECORDS;
+export class InitializeRecordsAction implements Action {
+  type = ActionTypes.INITIALIZE_RECORDS;
   constructor(public payload) {}
 }
 
+export class AddRecordAction implements Action {
+  type = ActionTypes.ADD_RECORD;
+  constructor(public payload) {}
+}
+
+
 export type Actions
-  = PopulateRecordsAction;
+  = InitializeRecordsAction
+  | AddRecordAction;

@@ -69,7 +69,7 @@ export class RestEffects {
           } else if (response_url === store.auth.apiUrl + '/rpc/login') {
             return [new auth.AddTokenAction(response_data[0].token)]
           } else {
-            return [new table.PopulateRecordsAction(response_data)]
+            return [new table.InitializeRecordsAction(response_data)]
           }
         }
         case 401: {

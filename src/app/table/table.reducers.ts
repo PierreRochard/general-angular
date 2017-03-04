@@ -11,9 +11,14 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: table.Actions): State {
   switch (action.type) {
-    case table.ActionTypes.POPULATE_RECORDS: {
+    case table.ActionTypes.INITIALIZE_RECORDS: {
       return Object.assign({}, state, {
         records: action.payload
+      });
+    }
+    case table.ActionTypes.ADD_RECORD: {
+      return Object.assign({}, state, {
+        records: [action.payload, ...state.records]
       });
     }
     default: {

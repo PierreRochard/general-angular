@@ -6,6 +6,7 @@ import 'rxjs';
 
 import {routerActions} from '@ngrx/router-store';
 import * as rest from '../rest/rest.actions';
+import * as websocket from '../websocket/websocket.actions';
 
 @Injectable()
 export class TableEffects {
@@ -19,7 +20,8 @@ export class TableEffects {
       if (action.payload.path.startsWith('/rpc/') || action.payload.path === '/'){
         return []
       } else {
-        return [new rest.SendGetRequestAction(action.payload.path)]
+        return [new rest.SendGetRequestAction(action.payload.path),
+                new websocket.ConnectAction(action.payload.path)]
       }
     });
 }

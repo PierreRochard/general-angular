@@ -40,6 +40,7 @@ import {routing} from "./app.routing";
 import {AppComponent} from "./app.component";
 import {AuthEffects} from "./auth/auth.effects";
 import {TableEffects} from "./table/table.effects";
+import {WebsocketEffects} from "./websocket/websocket.effects";
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import {TableEffects} from "./table/table.effects";
     EffectsModule.run(RestEffects),
     EffectsModule.run(SchemaEffects),
     EffectsModule.run(TableEffects),
+    EffectsModule.run(WebsocketEffects),
     FieldsetModule,
     FormsModule,
     GrowlModule,
