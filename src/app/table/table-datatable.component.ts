@@ -2,11 +2,12 @@ import {Component, Input, OnChanges, EventEmitter, Output} from '@angular/core';
 
 @Component({
   selector: 'table-datatable',
-  template: `<p-dataTable [value]="records"
+  template: `<p-dataTable 
+             [value]="records"
+             [selection]="selectedRecords"
              [rows]="10"
              [paginator]="true"
              (selectionChange)="selectionChange.emit($event)"
-             [selection]="selectedRecords"
               >
                 <p-column selectionMode="multiple"
                           [style]="{'width':'20%'}">

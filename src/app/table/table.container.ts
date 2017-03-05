@@ -33,10 +33,12 @@ import * as fromRoot from '../app.reducers';
 })
 export class TableContainer {
   public records$: Observable<any[]>;
+  public selectedRecords$: Observable<any[]>;
   public routerPath$: Observable<string>;
 
   constructor(private store: Store<fromRoot.State>) {
     this.records$ = this.store.select(fromRoot.getRecords);
+    this.selectedRecords$ = this.store.select(fromRoot.getSelectedRecords);
     this.routerPath$ = this.store.select(fromRoot.routerPath);
   }
 

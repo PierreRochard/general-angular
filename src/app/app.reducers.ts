@@ -97,3 +97,4 @@ export const getResponse = createSelector(getRestState, fromRest.getResponse);
 
 export const getTableState = (state: State) => state.table;
 export const getRecords = createSelector(getTableState, fromTable.getRecords);
+export const getSelectedRecords = createSelector(getTableState, fromTable.getSelectedRecords);

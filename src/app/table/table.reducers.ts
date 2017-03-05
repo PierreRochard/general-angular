@@ -35,3 +35,4 @@ export function reducer(state = initialState, action: table.Actions): State {
 }
 
 export const getRecords = (state: State) => state.records;
+export const getSelectedRecords = (state: State) => state.selectedRecords;
