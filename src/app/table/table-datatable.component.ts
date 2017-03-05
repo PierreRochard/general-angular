@@ -18,7 +18,7 @@ import {Component, Input, OnChanges, EventEmitter, Output} from '@angular/core';
                 ></p-column>
                 <p-header>
                   <div class="ui-helper-clearfix" >
-                     <button [disabled]="selectedRecords.length === 0"
+                     <button [disabled]="!!!selectedRecords"
                              type="button" 
                              class="ui-button-danger ui-button--float-left"
                              pButton 
