@@ -1,8 +1,8 @@
-import {Component, Input, OnChanges} from '@angular/core';
+import {Component, Input, OnChanges, EventEmitter, Output} from '@angular/core';
 
 @Component({
   selector: 'table-datatable',
-  template: `<p-dataTable [value]="data"
+  template: `<p-dataTable [value]="records"
              [rows]="10"
              [paginator]="true"
              (selectionChange)="selectionChange($event)" 
@@ -17,12 +17,12 @@ import {Component, Input, OnChanges} from '@angular/core';
                 ></p-column>
                 <p-header>
                   <div class="ui-helper-clearfix" >
-                     <button [disabled]="selectedData.length === 0"
+                     <button [disabled]="selectedRecords.length === 0"
                              type="button" 
                              class="ui-button-danger ui-button--float-left"
                              pButton 
                              icon="fa-trash" 
-                             (click)="deleteRecords()" 
+                             (click)="onDelete.emit(selectedRecords)" 
                              label="Delete">
                      </button>
                   </div>
@@ -36,15 +36,17 @@ import {Component, Input, OnChanges} from '@angular/core';
   `]
 })
 export class TableDatatableComponent implements OnChanges {
-  columnNames: string[];
-  @Input() data:any[];
+  public columnNames: string[];
+  public selectedRecords:any[] = [];
+
+  @Input() records:any[];
   @Input() selectedPathName:string;
-  selectedData:any[] = [];
+  @Output() onDelete = new EventEmitter<any>();
 
   ngOnChanges() {
-    this.columnNames = (this.data === null || this.data.length === 0) ?
+    this.columnNames = (this.records === null || this.records.length === 0) ?
       [] :
-      Object.keys(this.data[0]);
+      Object.keys(this.records[0]);
   }
 
   onColResize(event) {
@@ -52,9 +54,7 @@ export class TableDatatableComponent implements OnChanges {
   }
 
   selectionChange(event) {
-    this.selectedData = event;
+    this.selectedRecords = event;
     console.log(event);
   }
-
-
 }

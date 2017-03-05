@@ -4,18 +4,23 @@ import { Action } from '@ngrx/store';
 import { type } from '../util';
 
 export const ActionTypes = {
-  SEND_POST_REQUEST:   type('SEND_POST_REQUEST'),
-  RECEIVED_RESPONSE:   type('RECEIVED_RESPONSE'),
   SEND_GET_REQUEST:    type('SEND_GET_REQUEST'),
+  SEND_POST_REQUEST:   type('SEND_POST_REQUEST'),
+  SEND_DELETE_REQUEST: type('SEND_DELETE_REQUEST'),
+  RECEIVED_RESPONSE:   type('RECEIVED_RESPONSE'),
   RECEIVED_SCHEMA:     type('RECEIVED_SCHEMA'),
 };
 
+export class SendGetRequestAction implements Action {
+  type = ActionTypes.SEND_GET_REQUEST;
+  constructor(public payload: string) {}
+}
 export class SendPostRequestAction implements Action {
   type = ActionTypes.SEND_POST_REQUEST;
   constructor(public payload: any) {}
 }
-export class SendGetRequestAction implements Action {
-  type = ActionTypes.SEND_GET_REQUEST;
+export class SendDeleteRequestAction implements Action {
+  type = ActionTypes.SEND_DELETE_REQUEST;
   constructor(public payload: string) {}
 }
 export class ReceivedResponseAction implements Action {
@@ -24,6 +29,7 @@ export class ReceivedResponseAction implements Action {
 }
 
 export type Actions
-  = SendPostRequestAction
-  | ReceivedResponseAction
-  | SendGetRequestAction;
+  = SendGetRequestAction
+  | SendPostRequestAction
+  | SendDeleteRequestAction
+  | ReceivedResponseAction;

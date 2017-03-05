@@ -52,6 +52,22 @@ export class RestEffects {
             return of(new rest.ReceivedResponseAction(error));
           })
     });
+  @Effect()
+
+  sendDeleteRequest$ = this.actions$
+    .ofType(rest.ActionTypes.SEND_DELETE_REQUEST)
+    .withLatestFrom(this.store)
+    .switchMap(([action, store]) => {
+      let data = action.payload;
+      return this.http.delete(store.router.path, action.payload)
+        .map(response => {
+          console.log(response);
+          return new rest.ReceivedResponseAction(response)
+        })
+        .catch(error => {
+          return of(new rest.ReceivedResponseAction(error));
+        })
+    });
 
   @Effect()
   processResponse$ = this.actions$
@@ -71,6 +87,9 @@ export class RestEffects {
           } else {
             return [new table.InitializeRecordsAction(response_data)]
           }
+        }
+        case 204: {
+          return []
         }
         case 401: {
           if (response.json().message === 'JWT expired') {

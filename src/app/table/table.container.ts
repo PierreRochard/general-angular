@@ -4,6 +4,8 @@ import {Observable} from "rxjs";
 
 import {Store} from "@ngrx/store";
 
+import * as rest from '../rest/rest.actions';
+
 import * as fromRoot from '../app.reducers';
 
 @Component({
@@ -17,8 +19,11 @@ import * as fromRoot from '../app.reducers';
                 </div>
                 <div class="ui-g-12">
                   <p-fieldset legend="Read">
-                  <table-datatable [data]="records$ | async"
-                                   [selectedPathName]="selectedPathName$ | async"></table-datatable>
+                  <table-datatable [records]="records$ | async"
+                                   [selectedPathName]="selectedPathName$ | async"
+                                   (onDelete)="onDelete($event)"
+                                   >
+                  </table-datatable>
                   </p-fieldset>
                 </div>
               </div>`
@@ -31,5 +36,10 @@ export class TableContainer {
     this.records$ = this.store.select(fromRoot.getRecords);
     this.selectedPathName$ = this.store.select(fromRoot.getSelectedPathName);
   }
+
+  public onDelete(records: any[]) {
+    records.map(record => this.store.dispatch(new rest.SendDeleteRequestAction(record.id)))
+  }
+
 }
 

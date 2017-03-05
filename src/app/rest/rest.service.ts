@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Http, Headers, Response} from '@angular/http';
+import {Http, Headers, Response, URLSearchParams} from '@angular/http';
 
 import { Observable } from "rxjs/Observable";
 
@@ -21,38 +21,43 @@ export class RestClient {
     if (!!token) {
       headers.append('Authorization', 'Bearer ' + token );
     }
-    headers.append("prefer", "return=representation");
     return headers;
   }
 
   get(endpoint): Observable<Response> {
     return this.store.take(1).switchMap(state => {
       let headers = RestClient.createAuthorizationHeader(new Headers(), state.auth.token);
-        return this.http.get(this.apiEndpoint.concat(endpoint), {headers: headers})
+      headers.append("prefer", "return=representation");
+      return this.http.get(this.apiEndpoint.concat(endpoint), {headers: headers})
       }
     )
   };
 
   post(endpoint, data): Observable<Response> {
     return this.store.take(1).switchMap(state => {
-        let headers = RestClient.createAuthorizationHeader(new Headers(), state.auth.token);
-        return this.http.post(this.apiEndpoint.concat(endpoint), data, {headers: headers})
+      let headers = RestClient.createAuthorizationHeader(new Headers(), state.auth.token);
+      headers.append("prefer", "return=representation");
+      return this.http.post(this.apiEndpoint.concat(endpoint), data, {headers: headers})
       }
     )
   };
-  // delete(endpoint, searchParam): Observable<Response> {
-  //   let headers = new Headers();
-  //   RestClient.createAuthorizationHeader(headers);
-  //   return this.http.delete(this.apiEndpoint.concat(endpoint), {
-  //     headers: headers,
-  //     search: searchParam
-  //   });
-  // }
+  delete(endpoint, id): Observable<Response> {
+    return this.store.take(1).switchMap(state => {
+      let headers = RestClient.createAuthorizationHeader(new Headers(), state.auth.token);
+      headers.append("prefer", "return=minimal");
+      let params: URLSearchParams = new URLSearchParams();
+      params.set('id', 'eq.' + id);
+      return this.http.delete(this.apiEndpoint.concat(endpoint), {
+        headers: headers,
+        search: params
+      })
+    });
+  }
   //
-  // patch(endpoint, data, searchParam): Observable<Response> {
+  // patch(endpoint, records, searchParam): Observable<Response> {
   //   let headers = new Headers();
   //   RestClient.createAuthorizationHeader(headers);
-  //   return this.http.patch(this.apiEndpoint.concat(endpoint), data, {
+  //   return this.http.patch(this.apiEndpoint.concat(endpoint), records, {
   //     headers: headers,
   //     search: searchParam
   //   });
