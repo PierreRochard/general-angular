@@ -9,14 +9,6 @@ import {Component, Input, OnChanges, EventEmitter, Output} from '@angular/core';
              [paginator]="true"
              (selectionChange)="selectionChange.emit($event)"
               >
-                <p-column selectionMode="multiple"
-                          [style]="{'width':'20%'}">
-                </p-column>
-                <p-column *ngFor="let columnName of columnNames" 
-                field="{{columnName}}" 
-                header="{{columnName}}"
-                [style]="{'width':'100%'}"
-                ></p-column>
                 <p-header>
                   <div class="ui-helper-clearfix" >
                      <button [disabled]="!!!selectedRecords"
@@ -29,6 +21,23 @@ import {Component, Input, OnChanges, EventEmitter, Output} from '@angular/core';
                      </button>
                   </div>
                 </p-header>
+                <p-column *ngIf="false" selectionMode="multiple"
+                          [style]="{'width':'20%'}">
+                </p-column>
+                <p-column styleClass="col-button"
+                          [style]="{'width':'30%'}">
+                    <template pTemplate="header">
+                        <button type="button" pButton icon="fa-trash" class="ui-button-danger"></button>
+                    </template>
+                    <template let-record="rowData" pTemplate="body">
+                        <button type="button" pButton (click)="onDelete.emit([record])" icon="fa-trash" class="ui-button-danger"></button>
+                    </template>
+                </p-column>
+                <p-column *ngFor="let columnName of columnNames" 
+                          field="{{columnName}}" 
+                          header="{{columnName}}"
+                          [style]="{'width':'100%'}"
+                ></p-column>
               </p-dataTable>`,
   styles: [`
     .ui-button--float-left {
