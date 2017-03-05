@@ -3,10 +3,12 @@ import * as table from './table.actions';
 
 export interface State {
   records: any[];
+  selectedRecords: any[];
 }
 
 const initialState: State = {
-  records: null
+  records: null,
+  selectedRecords: null,
 };
 
 export function reducer(state = initialState, action: table.Actions): State {
@@ -22,7 +24,6 @@ export function reducer(state = initialState, action: table.Actions): State {
       });
     }
     case table.ActionTypes.REMOVE_RECORD: {
-      console.log(state.records.filter(record => record.id !== action.payload.id));
       return Object.assign({}, state, {
         records: state.records.filter(record => record.id !== action.payload.id)
       });

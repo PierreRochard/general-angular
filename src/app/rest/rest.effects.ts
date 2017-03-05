@@ -61,7 +61,6 @@ export class RestEffects {
       let data = action.payload;
       return this.http.delete(store.router.path, action.payload)
         .map(response => {
-          console.log(response);
           return new rest.ReceivedResponseAction(response)
         })
         .catch(error => {
@@ -95,7 +94,6 @@ export class RestEffects {
           if (response.json().message === 'JWT expired') {
             return [new auth.RemoveTokenAction(), ]
           } else {
-            console.log(response);
             return []
           }
         }

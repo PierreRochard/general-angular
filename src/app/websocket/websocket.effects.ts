@@ -28,7 +28,6 @@ export class WebsocketEffects {
       this.ws = new $WebSocket('ws://localhost:4545/' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtb2RlIjoicnciLCJjaGFubmVsIjoibWVzc2FnZXNfdGFibGVfdXBkYXRlIn0.zZDpPodeBkvAfpmhq9YMLCAAzWk5WzlUwb9oa9M_Rvk');
       this.ws.getDataStream().subscribe(
         response => {
-          console.log(response);
           let message = JSON.parse(response.data);
           switch (message.type) {
             case 'INSERT':

@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {Store} from "@ngrx/store";
 
 import * as rest from '../rest/rest.actions';
+import * as table from './table.actions';
 
 import * as fromRoot from '../app.reducers';
 
@@ -20,8 +21,10 @@ import * as fromRoot from '../app.reducers';
                 <div class="ui-g-12">
                   <p-fieldset legend="Read">
                   <table-datatable [records]="records$ | async"
-                                   [selectedPathName]="selectedPathName$ | async"
+                                   [selectedRecords]="selectedRecords$ | async"
+                                   [routerPath]="routerPath$ | async"
                                    (onDelete)="onDelete($event)"
+                                   (selectionChange)="selectionChange($event)"
                                    >
                   </table-datatable>
                   </p-fieldset>
@@ -30,15 +33,19 @@ import * as fromRoot from '../app.reducers';
 })
 export class TableContainer {
   public records$: Observable<any[]>;
-  public selectedPathName$: Observable<string>;
+  public routerPath$: Observable<string>;
 
   constructor(private store: Store<fromRoot.State>) {
     this.records$ = this.store.select(fromRoot.getRecords);
-    this.selectedPathName$ = this.store.select(fromRoot.getSelectedPathName);
+    this.routerPath$ = this.store.select(fromRoot.routerPath);
   }
 
   public onDelete(records: any[]) {
     records.map(record => this.store.dispatch(new rest.SendDeleteRequestAction(record.id)))
+  }
+
+  public selectionChange(records: any[]) {
+    this.store.dispatch(new table.SelectRecordsAction(records))
   }
 
 }

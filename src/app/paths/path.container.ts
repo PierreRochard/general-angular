@@ -23,7 +23,7 @@ export class PathContainer {
   pathNameLength$: Observable<number>;
 
   constructor(store: Store<fromRoot.State>) {
-    this.pathNameLength$ = store.select(fromRoot.getSelectedPathName)
+    this.pathNameLength$ = store.select(fromRoot.routerPath)
                                 .map(path => path.split('/').filter(part => part.length > 0).length)
   }
 }

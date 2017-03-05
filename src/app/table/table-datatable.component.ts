@@ -5,7 +5,8 @@ import {Component, Input, OnChanges, EventEmitter, Output} from '@angular/core';
   template: `<p-dataTable [value]="records"
              [rows]="10"
              [paginator]="true"
-             (selectionChange)="selectionChange($event)" 
+             (selectionChange)="selectionChange.emit($event)"
+             [selection]="selectedRecords"
               >
                 <p-column selectionMode="multiple"
                           [style]="{'width':'20%'}">
@@ -22,7 +23,7 @@ import {Component, Input, OnChanges, EventEmitter, Output} from '@angular/core';
                              class="ui-button-danger ui-button--float-left"
                              pButton 
                              icon="fa-trash" 
-                             (click)="onDelete.emit(selectedRecords)" 
+                             (click)="onDelete.emit($event)" 
                              label="Delete">
                      </button>
                   </div>
@@ -37,11 +38,12 @@ import {Component, Input, OnChanges, EventEmitter, Output} from '@angular/core';
 })
 export class TableDatatableComponent implements OnChanges {
   public columnNames: string[];
-  public selectedRecords:any[] = [];
 
   @Input() records:any[];
-  @Input() selectedPathName:string;
+  @Input() selectedRecords:any[];
+  @Input() routerPath:string;
   @Output() onDelete = new EventEmitter<any>();
+  @Output() selectionChange = new EventEmitter<any>();
 
   ngOnChanges() {
     this.columnNames = (this.records === null || this.records.length === 0) ?
@@ -50,11 +52,6 @@ export class TableDatatableComponent implements OnChanges {
   }
 
   onColResize(event) {
-    console.log(event);
-  }
-
-  selectionChange(event) {
-    this.selectedRecords = event;
     console.log(event);
   }
 }

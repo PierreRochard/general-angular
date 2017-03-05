@@ -54,11 +54,11 @@ export const getIsValid = createSelector(getSchemaState, fromSchema.getIsValid);
 
 export const getRouterState = (state: State) => state.router;
 
-export const getSelectedPathName = createSelector(getRouterState, (routerState) => {
+export const routerPath = createSelector(getRouterState, (routerState) => {
   return routerState.path;
 });
 
-export const getSelectedPath = createSelector(getPaths, getSelectedPathName, (paths, selectedPathName) => {
+export const getSelectedPath = createSelector(getPaths, routerPath, (paths, selectedPathName) => {
   return paths[selectedPathName];
 });
 

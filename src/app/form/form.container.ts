@@ -28,7 +28,7 @@ export class FormContainer {
   selectedPathPostBodyRequiredPropertyNames$: Observable<string[]>;
 
   constructor(private store: Store<fromRoot.State>) {
-    this.selectedPathName$ = store.select(fromRoot.getSelectedPathName);
+    this.selectedPathName$ = store.select(fromRoot.routerPath);
     this.selectedPath$ = store.select(fromRoot.getSelectedPath);
     this.selectedPathPostBodyProperties$ = store.select(fromRoot.getSelectedPathPostBodyProperties);
     this.selectedPathPostBodyRequiredPropertyNames$ = store.select(fromRoot.getSelectedPathPostBodyRequiredPropertyNames);
