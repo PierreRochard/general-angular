@@ -17,16 +17,19 @@ import * as fromRoot from '../app.reducers';
                 </div>
                 <div class="ui-g-12">
                   <p-fieldset legend="Read">
-                  <table-datatable [data]="records$ | async"></table-datatable>
+                  <table-datatable [data]="records$ | async"
+                                   [selectedPathName]="selectedPathName$ | async"></table-datatable>
                   </p-fieldset>
                 </div>
               </div>`
 })
 export class TableContainer {
   public records$: Observable<any[]>;
+  public selectedPathName$: Observable<string>;
 
   constructor(private store: Store<fromRoot.State>) {
     this.records$ = this.store.select(fromRoot.getRecords);
+    this.selectedPathName$ = this.store.select(fromRoot.getSelectedPathName);
   }
 }
 

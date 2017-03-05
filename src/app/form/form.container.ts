@@ -36,6 +36,7 @@ export class FormContainer {
   public onSubmit(formValue: any) {
     Object.keys(formValue).filter(key => formValue[key] === '')
                           .map(key=> delete formValue[key]);
+    console.log(formValue);
     this.store.dispatch(new rest.SendPostRequestAction(formValue));
   }
 }
