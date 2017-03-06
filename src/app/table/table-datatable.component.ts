@@ -8,8 +8,9 @@ import {Component, Input, OnChanges, EventEmitter, Output} from '@angular/core';
              [rows]="10"
              [paginator]="true"
              (selectionChange)="selectionChange.emit($event)"
+             [sortMode]="multiple"
               >
-                <p-header *ngIf="false">
+                <p-header *ngIf="true">
                   <div class="ui-helper-clearfix" >
                      <button [disabled]="!!!selectedRecords"
                              type="button" 
@@ -21,19 +22,25 @@ import {Component, Input, OnChanges, EventEmitter, Output} from '@angular/core';
                      </button>
                   </div>
                 </p-header>
-                <p-column *ngIf="false" selectionMode="multiple"
+                <p-column *ngIf="true" selectionMode="multiple"
                           [style]="{'width':'20%'}">
                 </p-column>
                 <p-column styleClass="col-button"
                           [style]="{'width':'30%'}">
                     <template let-record="rowData" pTemplate="body">
-                        <button type="button" pButton (click)="onDelete.emit([record])" icon="fa-trash" class="ui-button-danger"></button>
+                        <button type="button" 
+                                pButton 
+                                (click)="onDelete.emit([record])" 
+                                icon="fa-trash" 
+                                class="ui-button-danger"
+                        ></button>
                     </template>
                 </p-column>
                 <p-column *ngFor="let columnName of columnNames" 
-                          field="{{columnName}}" 
-                          header="{{columnName}}"
+                          [field]="columnName" 
+                          [header]="columnName"
                           [style]="{'width':'100%'}"
+                          [sortable]="true"
                 ></p-column>
               </p-dataTable>`,
   styles: [`
