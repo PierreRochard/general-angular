@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ChangeDetectorRef} from '@angular/core';
 
 import {Observable} from "rxjs";
 
@@ -36,17 +36,19 @@ export class TableContainer {
   public selectedRecords$: Observable<any[]>;
   public routerPath$: Observable<string>;
 
-  constructor(private store: Store<fromRoot.State>) {
+  constructor(private store: Store<fromRoot.State>, private changeDetectorRef: ChangeDetectorRef) {
     this.records$ = this.store.select(fromRoot.getRecords);
+    this.selectedRecords$ = this.store.select(fromRoot.getSelectedRecords);
     this.routerPath$ = this.store.select(fromRoot.routerPath);
   }
 
   public onDelete() {
-    this.selectedRecords$.map(records => records.map(record => this.store.dispatch(new rest.SendDeleteRequestAction(record.id))));
+    this.selectedRecords$.subscribe(records => records.map(record => this.store.dispatch(new rest.SendDeleteRequestAction(record.id))));
     this.store.dispatch(new table.DeselectRecordsAction())
   }
 
   public selectionChange(records: any[]) {
+    this.changeDetectorRef.detectChanges();
     this.store.dispatch(new table.SelectRecordsAction(records))
   }
 

@@ -4,11 +4,10 @@ import {Component, Input, OnChanges, EventEmitter, Output} from '@angular/core';
   selector: 'table-datatable',
   template: `{{selectedRecords | json}}<p-dataTable 
              [value]="records"
-             [selection]="selectedRecords"
              [rows]="10"
              [paginator]="true"
-             (selectionChange)="selectionChange.emit($event)"
              [sortMode]="multiple"
+             (selectionChange)="selectionChange.emit($event)"
               >
                 <p-header *ngIf="true">
                   <div class="ui-helper-clearfix" >
@@ -17,7 +16,7 @@ import {Component, Input, OnChanges, EventEmitter, Output} from '@angular/core';
                              class="ui-button-danger ui-button--float-left"
                              pButton 
                              icon="fa-trash" 
-                             (click)="onDelete.emit(selectedRecords)" 
+                             (click)="onDelete.emit($event)" 
                              label="Delete">
                      </button>
                   </div>
@@ -54,6 +53,7 @@ export class TableDatatableComponent implements OnChanges {
   public columnNames: string[];
 
   @Input() records:any[];
+  @Input() selectedRecords:any[];
   @Input() routerPath:string;
   @Output() onDelete = new EventEmitter<any>();
   @Output() selectionChange = new EventEmitter<any>();
