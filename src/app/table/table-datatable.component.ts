@@ -27,7 +27,7 @@ import {Component, Input, OnChanges, EventEmitter, Output} from '@angular/core';
                 <p-column styleClass="col-button"
                           [style]="{'width':'30%'}">
                     <template pTemplate="header">
-                        <button type="button" pButton icon="fa-trash" class="ui-button-danger"></button>
+                        <button type="button" pButton (click)="onDelete.emit(records)" icon="fa-trash" class="ui-button-danger"></button>
                     </template>
                     <template let-record="rowData" pTemplate="body">
                         <button type="button" pButton (click)="onDelete.emit([record])" icon="fa-trash" class="ui-button-danger"></button>
