@@ -35,6 +35,7 @@ export class WebsocketEffects {
               break;
             case 'DELETE':
               this.store.dispatch(new table.RemoveRecordAction(message.row));
+              this.store.dispatch(new table.DeselectRecordAction(message.row));
               break;
           }
         },

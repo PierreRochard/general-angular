@@ -33,6 +33,11 @@ export function reducer(state = initialState, action: table.Actions): State {
         selectedRecords: action.payload
       });
     }
+    case table.ActionTypes.DESELECT_RECORD: {
+      return Object.assign({}, state, {
+        selectedRecords: state.selectedRecords.filter(record => record.id !== action.payload.id)
+      });
+    }
     case table.ActionTypes.DESELECT_RECORDS: {
       return Object.assign({}, state, {
         selectedRecords: []

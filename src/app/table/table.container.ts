@@ -43,8 +43,7 @@ export class TableContainer {
   }
 
   public onDelete() {
-    this.selectedRecords$.subscribe(records => records.map(record => this.store.dispatch(new rest.SendDeleteRequestAction(record.id))));
-    this.store.dispatch(new table.DeselectRecordsAction())
+    this.selectedRecords$.take(1).subscribe(records => records.map(record => this.store.dispatch(new rest.SendDeleteRequestAction(record.id))));
   }
 
   public selectionChange(records: any[]) {
