@@ -43,6 +43,7 @@ export class TableContainer {
   }
 
   public onDelete(records: any[]) {
+    console.log(records);
     records.map(record => this.store.dispatch(new rest.SendDeleteRequestAction(record.id)))
   }
 
