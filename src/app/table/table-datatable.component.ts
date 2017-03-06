@@ -2,7 +2,7 @@ import {Component, Input, OnChanges, EventEmitter, Output} from '@angular/core';
 
 @Component({
   selector: 'table-datatable',
-  template: `{{selectedRecords | json}}<p-dataTable 
+  template: `{{selectedRecords | json}}<p-dataTable #dataTable
              [value]="records"
              [rows]="10"
              [paginator]="true"
