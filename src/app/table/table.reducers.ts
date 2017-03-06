@@ -28,6 +28,11 @@ export function reducer(state = initialState, action: table.Actions): State {
         records: state.records.filter(record => record.id !== action.payload.id)
       });
     }
+    case table.ActionTypes.SELECT_RECORDS: {
+      return Object.assign({}, state, {
+        selectedRecords: action.payload
+      });
+    }
     default: {
       return state;
     }

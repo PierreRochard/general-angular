@@ -2,7 +2,7 @@ import {Component, Input, OnChanges, EventEmitter, Output} from '@angular/core';
 
 @Component({
   selector: 'table-datatable',
-  template: `<p-dataTable 
+  template: `{{selectedRecords | json}}<p-dataTable 
              [value]="records"
              [selection]="selectedRecords"
              [rows]="10"
@@ -12,7 +12,7 @@ import {Component, Input, OnChanges, EventEmitter, Output} from '@angular/core';
               >
                 <p-header *ngIf="true">
                   <div class="ui-helper-clearfix" >
-                     <button [disabled]="!!!selectedRecords"
+                     <button [disabled]="!selectedRecords"
                              type="button" 
                              class="ui-button-danger ui-button--float-left"
                              pButton 
