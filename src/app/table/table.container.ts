@@ -38,13 +38,12 @@ export class TableContainer {
 
   constructor(private store: Store<fromRoot.State>) {
     this.records$ = this.store.select(fromRoot.getRecords);
-    this.selectedRecords$ = this.store.select(fromRoot.getSelectedRecords);
     this.routerPath$ = this.store.select(fromRoot.routerPath);
   }
 
-  public onDelete(records: any[]) {
-    console.log(records);
-    records.map(record => this.store.dispatch(new rest.SendDeleteRequestAction(record.id)))
+  public onDelete() {
+    this.selectedRecords$.map(records => records.map(record => this.store.dispatch(new rest.SendDeleteRequestAction(record.id))));
+    this.store.dispatch(new table.DeselectRecordsAction())
   }
 
   public selectionChange(records: any[]) {

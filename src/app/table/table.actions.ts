@@ -38,7 +38,6 @@ export class DeselectRecordAction implements Action {
 
 export class DeselectRecordsAction implements Action {
   type = ActionTypes.DESELECT_RECORDS;
-  constructor(public payload) {}
 }
 
 
