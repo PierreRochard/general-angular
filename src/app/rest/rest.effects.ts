@@ -41,10 +41,8 @@ export class RestEffects {
   @Effect()
   sendPostRequest$ = this.actions$
     .ofType(rest.ActionTypes.SEND_POST_REQUEST)
-    .withLatestFrom(this.store)
-    .switchMap(([action, store]) => {
-      let data = action.payload;
-      return this.http.post(store.router.path, action.payload)
+    .switchMap(action => {
+      return this.http.post(action.payload.path, action.payload.body)
           .map(response => {
             return new rest.ReceivedResponseAction(response)
           })

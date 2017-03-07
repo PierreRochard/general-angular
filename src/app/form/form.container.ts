@@ -37,6 +37,7 @@ export class FormContainer {
     Object.keys(formValue).filter(key => formValue[key] === '')
                           .map(key=> delete formValue[key]);
     console.log(formValue);
-    this.store.dispatch(new rest.SendPostRequestAction(formValue));
+    this.store.select(fromRoot.routerPath).take(1)
+      .map(routerPath => this.store.dispatch(new rest.SendPostRequestAction(formValue)))
   }
 }

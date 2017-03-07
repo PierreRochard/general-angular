@@ -3,6 +3,8 @@ import { Action } from '@ngrx/store';
 
 import { type } from '../util';
 
+import {PostActionPayload} from "./rest.models";
+
 export const ActionTypes = {
   SEND_GET_REQUEST:    type('SEND_GET_REQUEST'),
   SEND_POST_REQUEST:   type('SEND_POST_REQUEST'),
@@ -17,7 +19,7 @@ export class SendGetRequestAction implements Action {
 }
 export class SendPostRequestAction implements Action {
   type = ActionTypes.SEND_POST_REQUEST;
-  constructor(public payload: any) {}
+  constructor(public payload: PostActionPayload) {}
 }
 export class SendDeleteRequestAction implements Action {
   type = ActionTypes.SEND_DELETE_REQUEST;
