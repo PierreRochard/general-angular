@@ -2,16 +2,16 @@ import {Component, Input, OnChanges, EventEmitter, Output} from '@angular/core';
 
 @Component({
   selector: 'table-datatable',
-  template: `<p-dataTable 
+  template: `{{selectedRecords | json}}<p-dataTable #dataTable
              [value]="records"
-             [selection]="selectedRecords"
              [rows]="10"
              [paginator]="true"
+             [sortMode]="multiple"
              (selectionChange)="selectionChange.emit($event)"
               >
-                <p-header>
+                <p-header *ngIf="true">
                   <div class="ui-helper-clearfix" >
-                     <button [disabled]="!!!selectedRecords"
+                     <button [disabled]="!selectedRecords"
                              type="button" 
                              class="ui-button-danger ui-button--float-left"
                              pButton 
@@ -21,22 +21,25 @@ import {Component, Input, OnChanges, EventEmitter, Output} from '@angular/core';
                      </button>
                   </div>
                 </p-header>
-                <p-column *ngIf="false" selectionMode="multiple"
+                <p-column *ngIf="true" selectionMode="multiple"
                           [style]="{'width':'20%'}">
                 </p-column>
                 <p-column styleClass="col-button"
                           [style]="{'width':'30%'}">
-                    <template pTemplate="header">
-                        <button type="button" pButton (click)="onDelete.emit(records)" icon="fa-trash" class="ui-button-danger"></button>
-                    </template>
                     <template let-record="rowData" pTemplate="body">
-                        <button type="button" pButton (click)="onDelete.emit([record])" icon="fa-trash" class="ui-button-danger"></button>
+                        <button type="button" 
+                                pButton 
+                                (click)="onDelete.emit([record])" 
+                                icon="fa-trash" 
+                                class="ui-button-danger"
+                        ></button>
                     </template>
                 </p-column>
                 <p-column *ngFor="let columnName of columnNames" 
-                          field="{{columnName}}" 
-                          header="{{columnName}}"
+                          [field]="columnName" 
+                          [header]="columnName"
                           [style]="{'width':'100%'}"
+                          [sortable]="true"
                 ></p-column>
               </p-dataTable>`,
   styles: [`

@@ -31,9 +31,10 @@ const reducers = {
   table:     fromTable.reducer,
 };
 
-const developmentReducer: ActionReducer<State> = compose(storeFreeze,
-                                                         localStorageSync(['auth'], true),
-                                                          combineReducers)(reducers);
+const developmentReducer: ActionReducer<State> = compose(
+  // storeFreeze,
+  localStorageSync(['auth'], true),
+  combineReducers)(reducers);
 const productionReducer: ActionReducer<State> = combineReducers(reducers);
 
 export function reducer(state: any, action: any) {
