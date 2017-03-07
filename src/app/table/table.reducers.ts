@@ -4,11 +4,13 @@ import * as table from './table.actions';
 export interface State {
   records: any[];
   selectedRecords: any[];
+  settings: any[];
 }
 
 const initialState: State = {
   records: null,
   selectedRecords: null,
+  settings: null,
 };
 
 export function reducer(state = initialState, action: table.Actions): State {
@@ -28,6 +30,11 @@ export function reducer(state = initialState, action: table.Actions): State {
         records: state.records.filter(record => record.id !== action.payload.id)
       });
     }
+    case table.ActionTypes.INITIALIZE_SETTINGS: {
+      return Object.assign({}, state, {
+        settings: action.payload
+      });
+    }
     default: {
       return state;
     }
@@ -36,3 +43,4 @@ export function reducer(state = initialState, action: table.Actions): State {
 
 export const getRecords = (state: State) => state.records;
 export const getSelectedRecords = (state: State) => state.selectedRecords;
+export const getSettings = (state: State) => state.settings;

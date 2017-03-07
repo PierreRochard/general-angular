@@ -11,8 +11,7 @@ import * as fromRoot from '../app.reducers';
 
 @Component({
   selector: 'table-container',
-  template: `<h1>Table</h1>
-              <div class="ui-g">
+  template: `<div class="ui-g">
                 <div class="ui-g-12">
                   <p-fieldset legend="Create">
                   <form-container></form-container>

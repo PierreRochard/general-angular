@@ -20,6 +20,7 @@ export class TableEffects {
       if (action.payload.path.startsWith('/rpc/') || action.payload.path === '/'){
         return []
       } else {
+
         return [new rest.SendGetRequestAction(action.payload.path),
                 new websocket.ConnectAction(action.payload.path)]
       }
