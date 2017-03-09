@@ -38,6 +38,6 @@ export class FormContainer {
                           .map(key=> delete formValue[key]);
     console.log(formValue);
     this.store.select(fromRoot.routerPath).take(1)
-      .map(routerPath => this.store.dispatch(new rest.SendPostRequestAction(formValue)))
+      .subscribe(routerPath => this.store.dispatch(new rest.SendPostRequestAction({path: routerPath, data: formValue})))
   }
 }

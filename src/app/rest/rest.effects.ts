@@ -42,7 +42,7 @@ export class RestEffects {
   sendPostRequest$ = this.actions$
     .ofType(rest.ActionTypes.SEND_POST_REQUEST)
     .switchMap(action => {
-      return this.http.post(action.payload.path, action.payload.body)
+      return this.http.post(action.payload.path, action.payload.data)
           .map(response => {
             return new rest.ReceivedResponseAction(response)
           })
