@@ -16,7 +16,7 @@ import {go} from "@ngrx/router-store";
 @Injectable()
 export class SchemaGuard implements CanActivate {
   constructor(
-    private store: Store<fromRoot.State>,
+    private store: Store<fromRoot.AppState>,
     private http: RestClient,
   ) { }
 

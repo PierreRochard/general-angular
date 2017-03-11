@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { ActionReducer } from '@ngrx/store';
+import {ActionReducer, State} from '@ngrx/store';
 import { environment } from '../environments/environment';
 
 import { compose } from '@ngrx/core/compose';
@@ -15,11 +15,11 @@ import * as fromSchema from './schema/schema.reducers';
 import * as fromTable from './table/table.reducers';
 import {localStorageSync} from "ngrx-store-localstorage";
 
-export interface State {
+export interface AppState {
   auth: fromAuth.State;
   rest: fromRest.State;
   router: fromRouter.RouterState;
-  schema: fromSchema.State;
+  schema: fromSchema.SchemaState;
   table: fromTable.TableState;
 }
 
@@ -31,11 +31,11 @@ const reducers = {
   table:     fromTable.reducer,
 };
 
-const developmentReducer: ActionReducer<State> = compose(
+const developmentReducer: ActionReducer<AppState> = compose(
   // storeFreeze,
   localStorageSync(['auth'], true),
   combineReducers)(reducers);
-const productionReducer: ActionReducer<State> = combineReducers(reducers);
+const productionReducer: ActionReducer<AppState> = combineReducers(reducers);
 
 export function reducer(state: any, action: any) {
   if (environment.production) {
@@ -47,56 +47,21 @@ export function reducer(state: any, action: any) {
   }
 }
 
-export const getSchemaState = (state: State) => state.schema;
+export const getRouterState = (state: AppState) => state.router;
+
+export const getSchemaState = (state: AppState) => state.schema;
 export const getPaths = createSelector(getSchemaState, fromSchema.getPaths);
 export const getPathNames = createSelector(getSchemaState, fromSchema.getPathNames);
 export const getDefinitions = createSelector(getSchemaState, fromSchema.getDefinitions);
 export const getIsValid = createSelector(getSchemaState, fromSchema.getIsValid);
 
-export const getRouterState = (state: State) => state.router;
-
-export const routerPath = createSelector(getRouterState, (routerState) => {
-  return routerState.path;
-});
-
-export const getSelectedPath = createSelector(getPaths, routerPath, (paths, selectedPathName) => {
-  return paths[selectedPathName];
-});
-
-export const getSelectedPathPostBodyDefinition = createSelector(getSelectedPath, getDefinitions, (selectedPath, definitions) => {
-  if (selectedPath.hasOwnProperty('post')){
-    let definition_name = selectedPath.post.parameters
-      .filter(parameter => ['args', 'body'].includes(parameter.name))[0].schema.$ref.split('/').pop();
-    return definitions[definition_name];
-  } else {
-    // TODO return empty object
-    return null;
-  }
-});
-
-export const getSelectedPathPostBodyProperties = createSelector(getSelectedPathPostBodyDefinition, (selectedPathPostBodyDefinition) => {
-  if (!!selectedPathPostBodyDefinition) {
-    return selectedPathPostBodyDefinition.properties
-  } else {
-    return null;
-  }
-});
-
-export const getSelectedPathPostBodyRequiredPropertyNames = createSelector(getSelectedPathPostBodyDefinition, (selectedPathPostBodyDefinition) => {
-  if (!!selectedPathPostBodyDefinition) {
-    return selectedPathPostBodyDefinition.required || [];
-  } else {
-    return null;
-  }
-});
-
-export const getAuthState = (state: State) => state.auth;
+export const getAuthState = (state: AppState) => state.auth;
 export const getToken = createSelector(getAuthState, fromAuth.getToken);
 export const getApiUrl = createSelector(getAuthState, fromAuth.getApiUrl);
 
-export const getRestState = (state: State) => state.rest;
+export const getRestState = (state: AppState) => state.rest;
 export const getResponse = createSelector(getRestState, fromRest.getResponse);
 
-export const getTableState = (state: State) => state.table;
+export const getTableState = (state: AppState) => state.table;
 export const getRecords = createSelector(getTableState, fromTable.getRecords);
 export const getSelectedRecords = createSelector(getTableState, fromTable.getSelectedRecords);

@@ -22,8 +22,8 @@ import {Observable} from "rxjs";
 export class PathContainer {
   pathNameLength$: Observable<number>;
 
-  constructor(store: Store<fromRoot.State>) {
-    this.pathNameLength$ = store.select(fromRoot.routerPath)
-                                .map(path => path.split('/').filter(part => part.length > 0).length)
+  constructor(store: Store<fromRoot.AppState>) {
+    this.pathNameLength$ = store.select(fromRoot.getRouterState)
+                                .map(state => state.path.split('/').filter(part => part.length > 0).length)
   }
 }

@@ -14,7 +14,7 @@ export class RestClient {
   public apiEndpoint: string = "http://localhost:4545";
 
   constructor(private http: Http,
-              private store: Store<fromRoot.State>,
+              private store: Store<fromRoot.AppState>,
   ) {}
 
   static createAuthorizationHeader(headers: Headers, token: string) {

@@ -19,7 +19,7 @@ import * as fromRoot from "../app.reducers";
 export class GrowlContainer {
   messages$: Observable<Message[]>;
 
-  constructor(private store: Store<fromRoot.State>) {
+  constructor(private store: Store<fromRoot.AppState>) {
     this.messages$ = store.select(fromRoot.getResponse)
       .filter(response => response !== null)
       .map((response: Response) => {

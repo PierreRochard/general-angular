@@ -16,10 +16,10 @@ export class SchemaEffects {
   @Effect()
   invalidateSchema$ = this.actions$
     .ofType(schema.ActionTypes.INVALIDATE_SCHEMA)
-    .switchMap(action => [new rest.SendGetRequestAction('/')]);
+    .switchMap(action => [new rest.SendGetRequestAction({path: '/'})]);
 
-  // @Effect()
-  // selectPath$ = this.actions$
-  //   .ofType(routerActions.UPDATE_LOCATION)
-  //   .switchMap(action => [new schema.selectPath(action.payload.path)]);
+  @Effect()
+  selectPath$ = this.actions$
+    .ofType(routerActions.UPDATE_LOCATION)
+    .switchMap(action => [new schema.SelectPathAction(action.payload.path)]);
 }

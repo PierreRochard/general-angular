@@ -18,7 +18,7 @@ import {RemoveTokenAction} from "../auth/auth.actions";
 export class MenubarContainer {
   items$: Observable<MenuItem[]>;
 
-  constructor(private store: Store<fromRoot.State>) {
+  constructor(private store: Store<fromRoot.AppState>) {
     this.items$ = Observable.combineLatest(store.select(fromRoot.getPathNames), store.select(fromRoot.getToken),
       (pathNames, token) => pathNames.map(pathName => {
 

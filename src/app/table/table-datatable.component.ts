@@ -54,7 +54,6 @@ export class TableDatatableComponent implements OnChanges {
 
   @Input() records:any[];
   @Input() selectedRecords:any[];
-  @Input() routerPath:string;
   @Output() onDelete = new EventEmitter<any>();
   @Output() selectionChange = new EventEmitter<any>();
 

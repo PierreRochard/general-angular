@@ -12,7 +12,7 @@ import * as fromRoot from '../app.reducers';
 @Injectable()
 export class ApiUrlGuard implements CanActivate {
   constructor(
-    private store: Store<fromRoot.State>,
+    private store: Store<fromRoot.AppState>,
   ) { }
 
   hasApiUrlInStore(): Observable<boolean> {

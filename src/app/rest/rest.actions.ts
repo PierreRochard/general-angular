@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 
 import { type } from '../util';
 
-import {PostActionPayload} from "./rest.models";
+import {RequestActionPayload} from "./rest.models";
 
 export const ActionTypes = {
   SEND_GET_REQUEST:    type('SEND_GET_REQUEST'),
@@ -15,15 +15,15 @@ export const ActionTypes = {
 
 export class SendGetRequestAction implements Action {
   type = ActionTypes.SEND_GET_REQUEST;
-  constructor(public payload: string) {}
+  constructor(public payload: RequestActionPayload) {}
 }
 export class SendPostRequestAction implements Action {
   type = ActionTypes.SEND_POST_REQUEST;
-  constructor(public payload: PostActionPayload) {}
+  constructor(public payload: RequestActionPayload) {}
 }
 export class SendDeleteRequestAction implements Action {
   type = ActionTypes.SEND_DELETE_REQUEST;
-  constructor(public payload: string) {}
+  constructor(public payload: RequestActionPayload) {}
 }
 export class ReceivedResponseAction implements Action {
   type = ActionTypes.RECEIVED_RESPONSE;

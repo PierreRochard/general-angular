@@ -14,7 +14,7 @@ import {Store} from "@ngrx/store";
 export class AuthEffects {
   constructor(private actions$: Actions,
               private http: RestClient,
-              private store: Store<fromRoot.State>,) {
+              private store: Store<fromRoot.AppState>,) {
   }
 
   @Effect()

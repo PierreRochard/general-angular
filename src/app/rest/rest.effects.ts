@@ -21,7 +21,7 @@ export class RestEffects {
   constructor (
     private actions$: Actions,
     private http: RestClient,
-    private store: Store<fromRoot.State>,
+    private store: Store<fromRoot.AppState>,
   ) { }
 
   @Effect()
@@ -50,8 +50,8 @@ export class RestEffects {
             return of(new rest.ReceivedResponseAction(error));
           })
     });
-  @Effect()
 
+  @Effect()
   sendDeleteRequest$ = this.actions$
     .ofType(rest.ActionTypes.SEND_DELETE_REQUEST)
     .withLatestFrom(this.store)

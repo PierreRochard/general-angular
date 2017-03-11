@@ -20,7 +20,7 @@ export class HomeContainer {
   schemaDefinitions$: Observable<any>;
   apiUrl$: Observable<string>;
 
-  constructor(private store: Store<fromRoot.State>) {
+  constructor(private store: Store<fromRoot.AppState>) {
     this.schemaDefinitions$ = store.select(fromRoot.getDefinitions);
     this.apiUrl$ = store.select(fromRoot.getApiUrl);
   }

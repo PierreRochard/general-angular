@@ -4,7 +4,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   selector: 'rpc-container',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template:  `<h1>
-                {{routerPath$ | async}}
+                {{selectedPath$ | async}}
               </h1>
               <form-container></form-container>`
 })

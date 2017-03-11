@@ -21,7 +21,7 @@ export class WebsocketEffects {
   constructor (
     private actions$: Actions,
     private websocket$: WebsocketService,
-    private store: Store<fromRoot.State>,
+    private store: Store<fromRoot.AppState>,
   ) { }
 
   @Effect()

@@ -12,7 +12,7 @@ export class WebsocketService {
   private ws: $WebSocket;
   private subscriptions: Subscription;
 
-  constructor(private store: Store<fromRoot.State>) {
+  constructor(private store: Store<fromRoot.AppState>) {
     this.store.select(fromRoot.getRecords);
   };
 

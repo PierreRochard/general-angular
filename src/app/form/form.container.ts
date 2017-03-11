@@ -8,36 +8,30 @@ import * as rest from '../rest/rest.actions';
 
 import * as fromRoot from '../app.reducers';
 import {Path, Property} from "../schema/schema.models";
+import {SchemaState} from "../schema/schema.reducers";
 
 
 @Component({
   selector: 'form-container',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<form-component
-                [selectedPathName]="selectedPathName$ | async"
-                [selectedPath]="selectedPath$ | async"
-                [selectedPathPostBodyProperties]="selectedPathPostBodyProperties$ | async"
-                [selectedPathPostBodyRequiredPropertyNames]="selectedPathPostBodyRequiredPropertyNames$ | async"
+                [schemaState]="schemaState$ | async"
                 (onSubmit)="onSubmit($event)">
               </form-component>`
 })
 export class FormContainer {
-  selectedPathName$: Observable<string>;
-  selectedPath$: Observable<Path>;
-  selectedPathPostBodyProperties$: Observable<{[name: string]: Property[]; }>;
-  selectedPathPostBodyRequiredPropertyNames$: Observable<string[]>;
+  schemaState$: Observable<SchemaState>;
 
-  constructor(private store: Store<fromRoot.State>) {
-    this.selectedPathName$ = store.select(fromRoot.routerPath);
-    this.selectedPath$ = store.select(fromRoot.getSelectedPath);
-    this.selectedPathPostBodyProperties$ = store.select(fromRoot.getSelectedPathPostBodyProperties);
-    this.selectedPathPostBodyRequiredPropertyNames$ = store.select(fromRoot.getSelectedPathPostBodyRequiredPropertyNames);
+  constructor(private store: Store<fromRoot.AppState>) {
+    this.schemaState$ = store.select(fromRoot.getSchemaState);
   }
   public onSubmit(formValue: any) {
     Object.keys(formValue).filter(key => formValue[key] === '')
                           .map(key=> delete formValue[key]);
     console.log(formValue);
-    this.store.select(fromRoot.routerPath).take(1)
-      .subscribe(routerPath => this.store.dispatch(new rest.SendPostRequestAction({path: routerPath, data: formValue})))
+    this.store.select(fromRoot.getSchemaState).take(1)
+      .subscribe(schemaState => this.store.dispatch(
+        new rest.SendPostRequestAction({path: schemaState.selectedPathName, data: formValue}))
+      )
   }
 }

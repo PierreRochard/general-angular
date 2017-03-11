@@ -1,4 +1,4 @@
-export interface PostActionPayload {
+export interface RequestActionPayload {
   path: string,
-  data: any,
+  data?: any,
 }

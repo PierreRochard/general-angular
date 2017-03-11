@@ -21,7 +21,6 @@ import * as fromRoot from '../app.reducers';
                   <p-fieldset legend="Read">
                   <table-datatable [records]="records$ | async"
                                    [selectedRecords]="selectedRecords$ | async"
-                                   [routerPath]="routerPath$ | async"
                                    (onDelete)="onDelete($event)"
                                    (selectionChange)="selectionChange($event)"
                                    >
@@ -33,12 +32,10 @@ import * as fromRoot from '../app.reducers';
 export class TableContainer {
   public records$: Observable<any[]>;
   public selectedRecords$: Observable<any[]>;
-  public routerPath$: Observable<string>;
 
-  constructor(private store: Store<fromRoot.State>, private changeDetectorRef: ChangeDetectorRef) {
+  constructor(private store: Store<fromRoot.AppState>, private changeDetectorRef: ChangeDetectorRef) {
     this.records$ = this.store.select(fromRoot.getRecords);
     this.selectedRecords$ = this.store.select(fromRoot.getSelectedRecords);
-    this.routerPath$ = this.store.select(fromRoot.routerPath);
   }
 
   public onDelete() {
