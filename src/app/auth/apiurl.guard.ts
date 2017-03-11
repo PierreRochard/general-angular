@@ -5,12 +5,9 @@ import { Observable } from 'rxjs';
 import {of} from 'rxjs/observable/of';
 
 import {Store} from '@ngrx/store';
-
-import {RestClient} from '../rest/rest.service';
+import {go} from "@ngrx/router-store";
 
 import * as fromRoot from '../app.reducers';
-import * as rest from '../rest/rest.actions';
-import {go} from "@ngrx/router-store";
 
 @Injectable()
 export class ApiUrlGuard implements CanActivate {

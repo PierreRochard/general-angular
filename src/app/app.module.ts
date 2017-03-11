@@ -33,6 +33,7 @@ import {TableDatatableComponent} from "./table/table-datatable.component";
 
 import {RestClient} from "./rest/rest.service";
 
+import {ApiUrlGuard} from "./auth/apiurl.guard";
 import {SchemaGuard} from "./schema/schema.guard";
 import {SchemaEffects} from "./schema/schema.effects";
 
@@ -84,6 +85,7 @@ import {WebsocketService} from "./websocket/websocket.service";
     StoreModule.provideStore(reducer),
   ],
   providers: [
+    ApiUrlGuard,
     RestClient,
     FormCreationService,
     SchemaGuard,
