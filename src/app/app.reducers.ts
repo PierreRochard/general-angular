@@ -17,7 +17,7 @@ import {localStorageSync} from "ngrx-store-localstorage";
 
 export interface AppState {
   auth: fromAuth.State;
-  rest: fromRest.State;
+  rest: fromRest.RestState;
   router: fromRouter.RouterState;
   schema: fromSchema.SchemaState;
   table: fromTable.TableState;

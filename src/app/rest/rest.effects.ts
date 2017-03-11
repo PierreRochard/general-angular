@@ -27,7 +27,7 @@ export class RestEffects {
   @Effect()
   sendGetRequest$ = this.actions$
     .ofType(rest.ActionTypes.SEND_GET_REQUEST)
-    .switchMap(action => this.http.get(action.payload)
+    .switchMap(action => this.http.get(action.payload.path)
       .mergeMap(response => {
         return [
           new rest.ReceivedResponseAction(response),

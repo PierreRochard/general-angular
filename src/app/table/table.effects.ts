@@ -17,6 +17,6 @@ export class TableEffects {
   getTable$ = this.actions$
     .ofType(routerActions.UPDATE_LOCATION)
     .filter(action => !(action.payload.path.startsWith('/rpc/') || action.payload.path === '/'))
-    .mergeMap(action => [new rest.SendGetRequestAction(action.payload.path),
+    .mergeMap(action => [new rest.SendGetRequestAction({path: action.payload.path}),
                          new websocket.ConnectAction(action.payload.path)]);
 }
