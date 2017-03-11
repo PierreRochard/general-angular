@@ -13,38 +13,38 @@ import * as fromRoot from "../app.reducers";
 @Component({
   selector: 'growl',
   template: `<p-growl [value]="messages$ | async"
-                      [sticky]="true"></p-growl>`,
+                      [sticky]="false"
+                      [life]="2000"></p-growl>`,
 })
 export class GrowlContainer {
   messages$: Observable<Message[]>;
 
   constructor(private store: Store<fromRoot.State>) {
-    this.messages$ = store.select(fromRoot.getResponse).map((response: Response) => {
-      if (response == null) {
-        return [];
-      }
-      let severity = 'info';
-      let summary = '';
-      let detail = '';
-      let response_message = '';
-      if (response.json()) {
-        response_message = response.json().message
-      }
-      if (response.status === 0) {
-        summary = 'Unable to connect to the API';
-        severity = 'error'
-      } else if (response.status >= 200 && response.status < 300) {
-        summary = response.status.toString() + ': ' + response.statusText;
-        detail = response_message;
-        severity = 'success';
-      } else if (response.status >= 400 && response.status < 600) {
-        summary = response.status.toString() + ': ' + response.statusText;
-        detail = response_message;
-        severity = 'error'
-      }
-      return [{severity: severity,
-               summary: summary,
-               detail: detail}]
+    this.messages$ = store.select(fromRoot.getResponse)
+      .filter(response => response !== null)
+      .map((response: Response) => {
+        let severity = 'info';
+        let summary = '';
+        let detail = '';
+        let response_message = '';
+        if (response.json()) {
+          response_message = response.json().message
+        }
+        if (response.status === 0) {
+          summary = 'Unable to connect to the API';
+          severity = 'error'
+        } else if (response.status >= 200 && response.status < 300) {
+          summary = response.status.toString() + ': ' + response.statusText;
+          detail = response_message;
+          severity = 'success';
+        } else if (response.status >= 400 && response.status < 600) {
+          summary = response.status.toString() + ': ' + response.statusText;
+          detail = response_message;
+          severity = 'error'
+        }
+        return [{severity: severity,
+                 summary: summary,
+                 detail: detail}]
     })
   }
 }
