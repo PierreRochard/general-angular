@@ -16,13 +16,7 @@ export class TableEffects {
   @Effect()
   getTable$ = this.actions$
     .ofType(routerActions.UPDATE_LOCATION)
-    .switchMap(action => {
-      if (action.payload.path.startsWith('/rpc/') || action.payload.path === '/'){
-        return []
-      } else {
-
-        return [new rest.SendGetRequestAction(action.payload.path),
-                new websocket.ConnectAction(action.payload.path)]
-      }
-    });
+    .filter(action => !(action.payload.path.startsWith('/rpc/') || action.payload.path === '/'))
+    .mergeMap(action => [new rest.SendGetRequestAction(action.payload.path),
+                         new websocket.ConnectAction(action.payload.path)]);
 }

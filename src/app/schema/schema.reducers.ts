@@ -8,6 +8,7 @@ export interface State {
   definitions: { [name: string]: Definition };
   isValid: boolean;
   lastUpdated?: Date;
+  selectedPath?: Path;
 }
 
 const initialState: State = {

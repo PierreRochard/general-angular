@@ -1,19 +1,19 @@
 import * as table from './table.actions';
 
 
-export interface State {
+export interface TableState {
   records: any[];
   selectedRecords: any[];
   settings: any[];
 }
 
-const initialState: State = {
+const initialState: TableState = {
   records: null,
   selectedRecords: null,
   settings: null,
 };
 
-export function reducer(state = initialState, action: table.Actions): State {
+export function reducer(state = initialState, action: table.Actions): TableState {
   switch (action.type) {
     case table.ActionTypes.INITIALIZE_RECORDS: {
       return Object.assign({}, state, {
@@ -56,6 +56,6 @@ export function reducer(state = initialState, action: table.Actions): State {
   }
 }
 
-export const getRecords = (state: State) => state.records;
-export const getSelectedRecords = (state: State) => state.selectedRecords;
-export const getSettings = (state: State) => state.settings;
+export const getRecords = (state: TableState) => state.records;
+export const getSelectedRecords = (state: TableState) => state.selectedRecords;
+export const getSettings = (state: TableState) => state.settings;

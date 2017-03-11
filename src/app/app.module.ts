@@ -1,3 +1,4 @@
+///<reference path="websocket/websocket.service.ts"/>
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -40,7 +41,9 @@ import {routing} from "./app.routing";
 import {AppComponent} from "./app.component";
 import {AuthEffects} from "./auth/auth.effects";
 import {TableEffects} from "./table/table.effects";
+
 import {WebsocketEffects} from "./websocket/websocket.effects";
+import {WebsocketService} from "./websocket/websocket.service";
 
 
 @NgModule({
@@ -84,6 +87,7 @@ import {WebsocketEffects} from "./websocket/websocket.effects";
     RestClient,
     FormCreationService,
     SchemaGuard,
+    WebsocketService,
   ]
 })
 export class AppModule { }

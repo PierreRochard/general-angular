@@ -20,7 +20,7 @@ export interface State {
   rest: fromRest.State;
   router: fromRouter.RouterState;
   schema: fromSchema.State;
-  table: fromTable.State;
+  table: fromTable.TableState;
 }
 
 const reducers = {
@@ -69,6 +69,7 @@ export const getSelectedPathPostBodyDefinition = createSelector(getSelectedPath,
       .filter(parameter => ['args', 'body'].includes(parameter.name))[0].schema.$ref.split('/').pop();
     return definitions[definition_name];
   } else {
+    // TODO return empty object
     return null;
   }
 });

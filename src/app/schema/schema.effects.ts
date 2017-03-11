@@ -6,6 +6,7 @@ import 'rxjs';
 
 import * as rest from '../rest/rest.actions';
 import * as schema from './schema.actions';
+import {routerActions} from '@ngrx/router-store';
 
 @Injectable()
 export class SchemaEffects {
@@ -16,4 +17,9 @@ export class SchemaEffects {
   invalidateSchema$ = this.actions$
     .ofType(schema.ActionTypes.INVALIDATE_SCHEMA)
     .switchMap(action => [new rest.SendGetRequestAction('/')]);
+
+  // @Effect()
+  // selectPath$ = this.actions$
+  //   .ofType(routerActions.UPDATE_LOCATION)
+  //   .switchMap(action => [new schema.selectPath(action.payload.path)]);
 }
