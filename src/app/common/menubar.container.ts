@@ -34,7 +34,7 @@ export class MenubarContainer {
         return {
           label: 'Logout',
           icon: icon,
-          command: () => store.dispatch(new RemoveTokenAction())
+          command: () => store.dispatch(new RemoveTokenAction(''))
         };
       } else {
         return {

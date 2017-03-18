@@ -14,32 +14,32 @@ export const ActionTypes = {
 
 export class InitializeRecordsAction implements Action {
   type = ActionTypes.INITIALIZE_RECORDS;
-  constructor(public payload) {}
+  constructor(public payload: any) {}
 }
 
 export class AddRecordAction implements Action {
   type = ActionTypes.ADD_RECORD;
-  constructor(public payload) {}
+  constructor(public payload: any) {}
 }
 
 export class RemoveRecordAction implements Action {
   type = ActionTypes.REMOVE_RECORD;
-  constructor(public payload) {}
+  constructor(public payload: any) {}
 }
 
 export class InitializeSettingsAction implements Action {
   type = ActionTypes.INITIALIZE_SETTINGS;
-  constructor(public payload) {}
+  constructor(public payload: any) {}
 }
 
 export class SelectRecordsAction implements Action {
   type = ActionTypes.SELECT_RECORDS;
-  constructor(public payload) {}
+  constructor(public payload: any) {}
 }
 
 export class DeselectRecordAction implements Action {
   type = ActionTypes.DESELECT_RECORD;
-  constructor(public payload) {}
+  constructor(public payload: any) {}
 }
 
 export class DeselectRecordsAction implements Action {

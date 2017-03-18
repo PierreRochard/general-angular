@@ -2,7 +2,8 @@ import {Component, Input, OnChanges, EventEmitter, Output} from '@angular/core';
 
 @Component({
   selector: 'table-datatable',
-  template: `{{selectedRecords | json}}<p-dataTable #dataTable
+  template: `{{selectedRecords | json}}
+             <p-dataTable #dataTable
              [value]="records"
              [rows]="10"
              [paginator]="true"
@@ -16,7 +17,7 @@ import {Component, Input, OnChanges, EventEmitter, Output} from '@angular/core';
                              class="ui-button-danger ui-button--float-left"
                              pButton 
                              icon="fa-trash" 
-                             (click)="onDelete.emit($event)" 
+                             (click)="onDelete.emit()" 
                              label="Delete">
                      </button>
                   </div>

@@ -90,7 +90,7 @@ export class RestEffects {
         }
         case 401: {
           if (response.json().message === 'JWT expired') {
-            return [new auth.RemoveTokenAction(), ]
+            return [new auth.RemoveTokenAction(''), ]
           } else {
             return []
           }

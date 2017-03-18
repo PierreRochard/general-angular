@@ -19,12 +19,12 @@ import * as fromRoot from '../app.reducers';
                 </div>
                 <div class="ui-g-12">
                   <p-fieldset legend="Read">
-                  <table-datatable [records]="records$ | async"
+                  <table-ngx-datatable [records]="records$ | async"
                                    [selectedRecords]="selectedRecords$ | async"
-                                   (onDelete)="onDelete($event)"
+                                   (onDelete)="onDelete()"
                                    (selectionChange)="selectionChange($event)"
                                    >
-                  </table-datatable>
+                  </table-ngx-datatable>
                   </p-fieldset>
                 </div>
               </div>`

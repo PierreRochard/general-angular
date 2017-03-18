@@ -15,6 +15,7 @@ export class AddTokenAction implements Action {
 
 export class RemoveTokenAction implements Action {
   type = ActionTypes.REMOVE_TOKEN;
+  constructor(public payload: string) { }
 }
 
 export class AddApiUrlAction implements Action {
@@ -24,6 +25,7 @@ export class AddApiUrlAction implements Action {
 
 export class RemoveApiUrlAction implements Action {
   type = ActionTypes.REMOVE_APIURL;
+  constructor(public payload: string) { }
 }
 
 export type Actions

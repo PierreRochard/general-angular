@@ -4,8 +4,7 @@ import {FormGroup} from '@angular/forms';
 import '@ngrx/core/add/operator/select';
 
 import {FormCreationService} from "./form-creation.service";
-import {Path, Property} from "../schema/schema.models";
-import {SchemaState} from "../schema/schema.reducers";
+import {Property} from "../schema/schema.models";
 
 
 @Component({
@@ -26,7 +25,7 @@ import {SchemaState} from "../schema/schema.reducers";
 export class FormComponent implements OnChanges {
   public form: FormGroup;
 
-  @Input() schemaState:SchemaState;
+  @Input() schemaState;
   @Output() onSubmit = new EventEmitter<any>();
 
   constructor(private form_creation: FormCreationService) { }

@@ -30,6 +30,7 @@ import {FormElementComponent} from "./form/form-element.component";
 import {FormCreationService} from "./form/form-creation.service";
 
 import {TableDatatableComponent} from "./table/table-datatable.component";
+import {TableNgxDatatableComponent} from "./table/table-ngx-datatable.component";
 
 import {RestClient} from "./rest/rest.service";
 
@@ -45,6 +46,8 @@ import {TableEffects} from "./table/table.effects";
 
 import {WebsocketEffects} from "./websocket/websocket.effects";
 import {WebsocketService} from "./websocket/websocket.service";
+
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 
 @NgModule({
@@ -62,6 +65,7 @@ import {WebsocketService} from "./websocket/websocket.service";
     GrowlContainer,
     TableContainer,
     TableDatatableComponent,
+    TableNgxDatatableComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,6 +82,7 @@ import {WebsocketService} from "./websocket/websocket.service";
     HttpModule,
     InputTextModule,
     MenubarModule,
+    NgxDatatableModule,
     PasswordModule,
     ReactiveFormsModule,
     RouterStoreModule.connectRouter(),
