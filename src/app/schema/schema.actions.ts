@@ -10,6 +10,7 @@ export const ActionTypes = {
 
 export class InvalidateAction implements Action {
   type = ActionTypes.INVALIDATE_SCHEMA;
+  constructor(public payload) {}
 }
 export class UpdateSchemaAction implements Action {
   type = ActionTypes.UPDATE_SCHEMA;

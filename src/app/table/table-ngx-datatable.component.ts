@@ -5,14 +5,9 @@ import {Component, Input, OnChanges, EventEmitter, Output} from '@angular/core';
   template: `{{selectedRecords | json}}
              <ngx-datatable #dataTable
              [rows]="records"
+             [columns]="columnNames"
               >
-              </ngx-datatable>`,
-  styles: [`
-    .ui-button--float-left {
-      float: left;
-    }
-    
-  `]
+              </ngx-datatable>`
 })
 export class TableNgxDatatableComponent implements OnChanges {
   public columnNames: string[];
