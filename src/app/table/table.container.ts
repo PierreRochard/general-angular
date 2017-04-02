@@ -20,9 +20,6 @@ import * as fromRoot from '../app.reducers';
                 <div class="ui-g-12">
                   <p-fieldset legend="Read">
                   <table-datatable [records]="records$ | async"
-                                   [selectedRecords]="selectedRecords$ | async"
-                                   (onDelete)="onDelete()"
-                                   (selectionChange)="selectionChange($event)"
                                    >
                   </table-datatable>
                   </p-fieldset>
@@ -40,15 +37,5 @@ export class TableContainer {
     });
     this.selectedRecords$ = this.store.select(fromRoot.getSelectedRecords);
   }
-
-  public onDelete() {
-    this.selectedRecords$.take(1).subscribe(records => records.map(record => this.store.dispatch(new rest.SendDeleteRequestAction(record.id))));
-  }
-
-  public selectionChange(records: any[]) {
-    this.changeDetectorRef.detectChanges();
-    this.store.dispatch(new table.SelectRecordsAction(records))
-  }
-
 }
 

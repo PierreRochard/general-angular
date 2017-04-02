@@ -2,70 +2,29 @@ import {Component, Input, OnChanges, EventEmitter, Output} from '@angular/core';
 
 @Component({
   selector: 'table-datatable',
-  template: `{{selectedRecords | json}}
-             <p-dataTable #dataTable
+  template: `<p-dataTable #dataTable
              [value]="records"
              [rows]="10"
              [paginator]="true"
              [sortMode]="multiple"
-             (selectionChange)="selectionChange.emit($event)"
               >
-                <p-header *ngIf="true">
-                  <div class="ui-helper-clearfix" >
-                     <button [disabled]="!selectedRecords"
-                             type="button" 
-                             class="ui-button-danger ui-button--float-left"
-                             pButton 
-                             icon="fa-trash" 
-                             (click)="onDelete.emit()" 
-                             label="Delete">
-                     </button>
-                  </div>
-                </p-header>
-                <p-column *ngIf="true" selectionMode="multiple"
-                          [style]="{'width':'20%'}">
-                </p-column>
-                <p-column styleClass="col-button"
-                          [style]="{'width':'30%'}">
-                    <ng-template let-record="rowData" pTemplate="body">
-                        <button type="button" 
-                                pButton 
-                                (click)="onDelete.emit([record])" 
-                                icon="fa-trash" 
-                                class="ui-button-danger"
-                        ></button>
-                    </ng-template>
-                </p-column>
                 <p-column *ngFor="let columnName of columnNames" 
                           [field]="columnName" 
                           [header]="columnName"
                           [style]="{'width':'100%'}"
                           [sortable]="true"
                 ></p-column>
-              </p-dataTable>`,
-  styles: [`
-    .ui-button--float-left {
-      float: left;
-    }
-    
-  `]
+              </p-dataTable>`
 })
 export class TableDatatableComponent implements OnChanges {
   public columnNames: string[];
 
   @Input() records:any[];
-  @Input() selectedRecords:any[];
-  @Output() onDelete = new EventEmitter<any>();
-  @Output() selectionChange = new EventEmitter<any>();
 
   ngOnChanges() {
     this.columnNames = (this.records === null || this.records.length === 0) ?
       [] :
       Object.keys(this.records[0]);
     console.log(this.records);
-  }
-
-  onColResize(event) {
-    console.log(event);
   }
 }
