@@ -27,14 +27,14 @@ import {Component, Input, OnChanges, EventEmitter, Output} from '@angular/core';
                 </p-column>
                 <p-column styleClass="col-button"
                           [style]="{'width':'30%'}">
-                    <template let-record="rowData" pTemplate="body">
+                    <ng-template let-record="rowData" pTemplate="body">
                         <button type="button" 
                                 pButton 
                                 (click)="onDelete.emit([record])" 
                                 icon="fa-trash" 
                                 class="ui-button-danger"
                         ></button>
-                    </template>
+                    </ng-template>
                 </p-column>
                 <p-column *ngFor="let columnName of columnNames" 
                           [field]="columnName" 
@@ -62,6 +62,7 @@ export class TableDatatableComponent implements OnChanges {
     this.columnNames = (this.records === null || this.records.length === 0) ?
       [] :
       Object.keys(this.records[0]);
+    console.log(this.records);
   }
 
   onColResize(event) {

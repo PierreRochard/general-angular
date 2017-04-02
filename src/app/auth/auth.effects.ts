@@ -20,10 +20,10 @@ export class AuthEffects {
   @Effect()
   addToken$ = this.actions$
     .ofType(auth.ActionTypes.ADD_TOKEN)
-    .switchMap(action => [new schema.InvalidateAction()]);
+    .switchMap(action => [new schema.InvalidateAction(null)]);
 
   @Effect()
   removeToken$ = this.actions$
     .ofType(auth.ActionTypes.REMOVE_TOKEN)
-    .switchMap(action => [new schema.InvalidateAction()]);
+    .switchMap(action => [new schema.InvalidateAction(null)]);
 }

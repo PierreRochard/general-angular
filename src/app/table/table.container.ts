@@ -19,12 +19,12 @@ import * as fromRoot from '../app.reducers';
                 </div>
                 <div class="ui-g-12">
                   <p-fieldset legend="Read">
-                  <table-ngx-datatable [records]="records$ | async"
+                  <table-datatable [records]="records$ | async"
                                    [selectedRecords]="selectedRecords$ | async"
                                    (onDelete)="onDelete()"
                                    (selectionChange)="selectionChange($event)"
                                    >
-                  </table-ngx-datatable>
+                  </table-datatable>
                   </p-fieldset>
                 </div>
               </div>`
@@ -34,7 +34,10 @@ export class TableContainer {
   public selectedRecords$: Observable<any[]>;
 
   constructor(private store: Store<fromRoot.AppState>, private changeDetectorRef: ChangeDetectorRef) {
-    this.records$ = this.store.select(fromRoot.getRecords);
+    this.records$ = this.store.select(fromRoot.getRecords).map(records => {
+      console.log(records);
+      return records;
+    });
     this.selectedRecords$ = this.store.select(fromRoot.getSelectedRecords);
   }
 
