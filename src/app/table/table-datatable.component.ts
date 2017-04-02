@@ -21,10 +21,8 @@ export class TableDatatableComponent implements OnChanges {
   @Input() records:any[];
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
     this.columnNames = (this.records === null || this.records.length === 0) ?
       [] :
       Object.keys(this.records[0]);
-    console.log(this.records);
   }
 }
