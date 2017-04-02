@@ -3,12 +3,12 @@ import {Component, Input, OnChanges, EventEmitter, Output, SimpleChanges} from '
 @Component({
   selector: 'table-datatable',
   template: `<p-dataTable
+             [dataKey]="dataKey"
+             [paginator]="paginator"
              [value]="records"
-             [rows]="10"
-             [paginator]="true"
-             sortMode="multiple"
-             (onRowSelect)="onRowSelect($event)" 
-             (onRowUnselect)="onRowUnselect($event)"
+             [rows]="rows"
+             [sortMode]="sortMode"
+             (selectionChange)="selectionChange($event)" 
               >
               <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
                 <p-column *ngFor="let columnName of columnNames" 
@@ -17,12 +17,15 @@ import {Component, Input, OnChanges, EventEmitter, Output, SimpleChanges} from '
                           [style]="{'width':'100%'}"
                           [sortable]="true"
                 ></p-column>
-              </p-dataTable>
-{{selectedRecords | json}}`
+              </p-dataTable>`
 })
 export class TableDatatableComponent implements OnChanges {
   public columnNames: string[];
+  public dataKey: string = 'id';
+  public paginator: boolean = true;
+  public rows: number = 10;
   public selectedRecords: any[] = [];
+  public sortMode: string = 'multiple';
 
   @Input() records:any[];
 
@@ -32,11 +35,8 @@ export class TableDatatableComponent implements OnChanges {
       Object.keys(this.records[0]);
   }
 
-  onRowSelect(event) {
-    this.selectedRecords = [...this.selectedRecords, event.data];
+  selectionChange(event) {
+    this.selectedRecords = event;
   }
 
-  onRowUnselect(event) {
-    this.selectedRecords = this.selectedRecords.filter(record => record.id !== event.data.id)
-  }
 }
