@@ -13,7 +13,6 @@ import {SchemaState} from "../schema/schema.reducers";
 
 @Component({
   selector: 'form-container',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<form-component
                 [schemaState]="schemaState$ | async"
                 (onSubmit)="onSubmit($event)">
