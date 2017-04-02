@@ -15,6 +15,7 @@ import {RestClient} from "./rest.service";
 import {of} from "rxjs/observable/of";
 import {Store, Action} from "@ngrx/store";
 import {Response} from "@angular/http";
+import {go} from "@ngrx/router-store";
 
 @Injectable()
 export class RestEffects {
@@ -90,7 +91,7 @@ export class RestEffects {
         }
         case 401: {
           if (response.json().message === 'JWT expired') {
-            return [new auth.RemoveTokenAction(''), ]
+            return [new auth.RemoveTokenAction(''), go(['/rpc/login'])]
           } else {
             return []
           }

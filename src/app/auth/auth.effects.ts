@@ -9,6 +9,7 @@ import * as schema from '../schema/schema.actions';
 import * as fromRoot from '../app.reducers';
 import {RestClient} from "../rest/rest.service";
 import {Store} from "@ngrx/store";
+import {go} from "@ngrx/router-store";
 
 @Injectable()
 export class AuthEffects {
@@ -20,10 +21,10 @@ export class AuthEffects {
   @Effect()
   addToken$ = this.actions$
     .ofType(auth.ActionTypes.ADD_TOKEN)
-    .switchMap(action => [new schema.InvalidateAction(null)]);
+    .switchMap(action => [new schema.InvalidateAction(null), go(['/'])]);
 
   @Effect()
   removeToken$ = this.actions$
     .ofType(auth.ActionTypes.REMOVE_TOKEN)
-    .switchMap(action => [new schema.InvalidateAction(null)]);
+    .switchMap(action => [new schema.InvalidateAction(null), go(['/'])]);
 }
