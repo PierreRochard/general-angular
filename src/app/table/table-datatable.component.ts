@@ -22,7 +22,7 @@ import {Component, Input, OnChanges, EventEmitter, Output, SimpleChanges} from '
 })
 export class TableDatatableComponent implements OnChanges {
   public columnNames: string[];
-  public selectedRecords: any[];
+  public selectedRecords: any[] = [];
 
   @Input() records:any[];
 
@@ -33,10 +33,10 @@ export class TableDatatableComponent implements OnChanges {
   }
 
   onRowSelect(event) {
-    this.selectedRecords = event.data;
+    this.selectedRecords = [...this.selectedRecords, event.data];
   }
 
   onRowUnselect(event) {
-    this.selectedRecords = event.data;
+    this.selectedRecords = this.selectedRecords.filter(record => record.id !== event.data.id)
   }
 }
