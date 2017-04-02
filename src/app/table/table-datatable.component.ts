@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, EventEmitter, Output} from '@angular/core';
+import {Component, Input, OnChanges, EventEmitter, Output, SimpleChanges} from '@angular/core';
 
 @Component({
   selector: 'table-datatable',
@@ -20,7 +20,8 @@ export class TableDatatableComponent implements OnChanges {
 
   @Input() records:any[];
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes);
     this.columnNames = (this.records === null || this.records.length === 0) ?
       [] :
       Object.keys(this.records[0]);
