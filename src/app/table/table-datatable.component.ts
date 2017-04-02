@@ -2,11 +2,10 @@ import {Component, Input, OnChanges, EventEmitter, Output} from '@angular/core';
 
 @Component({
   selector: 'table-datatable',
-  template: `<p-dataTable #dataTable
+  template: `<p-dataTable
              [value]="records"
              [rows]="10"
              [paginator]="true"
-             [sortMode]="multiple"
               >
                 <p-column *ngFor="let columnName of columnNames" 
                           [field]="columnName" 

@@ -27,7 +27,6 @@
     "@ngrx/effects": "^2.0.0",
     "@ngrx/router-store": "^1.2.5",
     "@ngrx/store": "^2.2.1",
-    "@swimlane/ngx-datatable": "^7.1.1",
     "@types/node": "^6.0.65",
     "angular2-websocket": "^0.9.1",
     "core-js": "^2.4.1",

@@ -1,4 +1,3 @@
-///<reference path="websocket/websocket.service.ts"/>
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -30,7 +29,6 @@ import {FormElementComponent} from "./form/form-element.component";
 import {FormCreationService} from "./form/form-creation.service";
 
 import {TableDatatableComponent} from "./table/table-datatable.component";
-import {TableNgxDatatableComponent} from "./table/table-ngx-datatable.component";
 
 import {RestClient} from "./rest/rest.service";
 
@@ -65,7 +63,6 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     GrowlContainer,
     TableContainer,
     TableDatatableComponent,
-    TableNgxDatatableComponent,
   ],
   imports: [
     BrowserModule,
