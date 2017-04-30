@@ -35,7 +35,6 @@ import {TableDatatableComponent} from "./table/table-datatable.component";
 import {RestClient} from "./rest/rest.service";
 
 import {ApiUrlGuard} from "./auth/apiurl.guard";
-import {AuthGuard} from "./auth/auth.guard";
 import {SchemaGuard} from "./schema/schema.guard";
 import {SchemaEffects} from "./schema/schema.effects";
 
@@ -97,7 +96,6 @@ if (!environment.production) {
     ApiUrlGuard,
     RestClient,
     FormCreationService,
-    AuthGuard,
     SchemaGuard,
     WebsocketService,
   ]

@@ -47,6 +47,7 @@ export function reducer(state: any, action: any) {
   }
 }
 
+export const getState = (state: AppState) => state;
 export const getRouterState = (state: AppState) => state.router;
 
 export const getSchemaState = (state: AppState) => state.schema;
