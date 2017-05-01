@@ -15,6 +15,7 @@ import {RestClient} from "./rest.service";
 import {of} from "rxjs/observable/of";
 import {Store, Action} from "@ngrx/store";
 import {Response} from "@angular/http";
+import {go} from "@ngrx/router-store";
 
 @Injectable()
 export class RestEffects {
@@ -56,7 +57,6 @@ export class RestEffects {
     .ofType(rest.ActionTypes.SEND_DELETE_REQUEST)
     .withLatestFrom(this.store)
     .switchMap(([action, store]) => {
-      let data = action.payload;
       return this.http.delete(store.router.path, action.payload)
         .map(response => {
           return new rest.ReceivedResponseAction(response)
@@ -76,10 +76,9 @@ export class RestEffects {
         case 200: {
           let response_data = action.payload.json();
           let response_url = action.payload.url;
-
-          if (response_url === store.auth.apiUrl + '/') {
+          if (response_url === 'https://api.rochard.org/') {
             return [new schema.UpdateSchemaAction(response_data)]
-          } else if (response_url === store.auth.apiUrl + '/rpc/login') {
+          } else if (response_url === 'https://api.rochard.org/rpc/login') {
             return [new auth.AddTokenAction(response_data[0].token)]
           } else {
             return [new table.InitializeRecordsAction(response_data)]
@@ -90,7 +89,7 @@ export class RestEffects {
         }
         case 401: {
           if (response.json().message === 'JWT expired') {
-            return [new auth.RemoveTokenAction(''), ]
+            return [new auth.RemoveTokenAction(''), go(['/rpc/login'])]
           } else {
             return []
           }

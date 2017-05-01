@@ -11,8 +11,12 @@ import {Property} from "../schema/schema.models";
   selector: 'form-component',
   template: `<form [formGroup]="form" (ngSubmit)="onSubmit.emit(form.value)">
               <div class="ui-g">
-                <div class="ui-g-4" *ngFor="let pathPropertyName of selectedPathPostBodyPropertyNames">
-                  <dynamic-form-element [formElementName]="pathPropertyName" [form]="form"></dynamic-form-element>
+                <div class="ui-g-4">
+                  <dynamic-form-element  
+                        *ngFor="let pathPropertyName of selectedPathPostBodyPropertyNames"
+                        [formElementName]="pathPropertyName" 
+                        [form]="form">
+                   </dynamic-form-element>
                 </div>
               </div>
               <div class="ui-g">

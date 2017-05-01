@@ -1,19 +1,17 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import {Component} from '@angular/core';
 
-import { Store } from '@ngrx/store';
+import {Store} from '@ngrx/store';
 
-import { Observable } from 'rxjs/Observable';
+import {Observable} from 'rxjs/Observable';
 
 import * as rest from '../rest/rest.actions';
 
 import * as fromRoot from '../app.reducers';
-import {Path, Property} from "../schema/schema.models";
 import {SchemaState} from "../schema/schema.reducers";
 
 
 @Component({
   selector: 'form-container',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<form-component
                 [schemaState]="schemaState$ | async"
                 (onSubmit)="onSubmit($event)">
@@ -28,7 +26,6 @@ export class FormContainer {
   public onSubmit(formValue: any) {
     Object.keys(formValue).filter(key => formValue[key] === '')
                           .map(key=> delete formValue[key]);
-    console.log(formValue);
     this.store.select(fromRoot.getSchemaState).take(1)
       .subscribe(schemaState => this.store.dispatch(
         new rest.SendPostRequestAction({path: schemaState.selectedPathName, data: formValue}))

@@ -15,6 +15,7 @@ import {RemoveTokenAction} from "../auth/auth.actions";
   selector: 'menubar',
   template: `<p-menubar [model]="items$ | async"></p-menubar>`,
 })
+// TODO Implement onInit
 export class MenubarContainer {
   items$: Observable<MenuItem[]>;
 
