@@ -52,7 +52,6 @@ export class SchemaGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot) {
-    console.log('here');
     return this.hasSchema();
   }
 }

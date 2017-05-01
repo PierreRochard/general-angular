@@ -11,7 +11,7 @@ import * as fromRoot from '../app.reducers';
 
 @Injectable()
 export class RestClient {
-  public apiEndpoint: string = "https://api.rochard.org/";
+  public apiEndpoint: string = "https://api.rochard.org";
 
   constructor(private http: Http,
               private store: Store<fromRoot.AppState>,
