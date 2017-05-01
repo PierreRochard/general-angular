@@ -4,8 +4,6 @@ import { type } from '../util';
 export const ActionTypes = {
   ADD_TOKEN:     type('ADD_TOKEN'),
   REMOVE_TOKEN:  type('REMOVE_TOKEN'),
-  ADD_APIURL:    type('ADD_APIURL'),
-  REMOVE_APIURL: type('REMOVE_APIURL'),
 };
 
 export class AddTokenAction implements Action {
@@ -18,18 +16,6 @@ export class RemoveTokenAction implements Action {
   constructor(public payload: string) { }
 }
 
-export class AddApiUrlAction implements Action {
-  type = ActionTypes.ADD_APIURL;
-  constructor(public payload: string) { }
-}
-
-export class RemoveApiUrlAction implements Action {
-  type = ActionTypes.REMOVE_APIURL;
-  constructor(public payload: string) { }
-}
-
 export type Actions
   = AddTokenAction
-  | RemoveTokenAction
-  | AddApiUrlAction
-  | RemoveApiUrlAction;
+  | RemoveTokenAction;

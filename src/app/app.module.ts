@@ -14,8 +14,6 @@ import { environment } from '../environments/environment';
 
 import {RestEffects} from "./rest/rest.effects";
 
-import {ApiUrlComponent} from "./home/apiurl.component";
-
 import {GrowlContainer} from "./common/growl.container";
 import {MenubarContainer} from "./common/menubar.container";
 
@@ -34,7 +32,6 @@ import {TableDatatableComponent} from "./table/table-datatable.component";
 
 import {RestClient} from "./rest/rest.service";
 
-import {ApiUrlGuard} from "./auth/apiurl.guard";
 import {SchemaGuard} from "./schema/schema.guard";
 import {SchemaEffects} from "./schema/schema.effects";
 
@@ -57,7 +54,6 @@ if (!environment.production) {
 @NgModule({
   bootstrap: [AppComponent],
   declarations: [
-    ApiUrlComponent,
     AppComponent,
     HomeContainer,
     MenubarContainer,
@@ -93,7 +89,6 @@ if (!environment.production) {
     ...optionalImports,
   ],
   providers: [
-    ApiUrlGuard,
     RestClient,
     FormCreationService,
     SchemaGuard,

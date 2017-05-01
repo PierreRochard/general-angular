@@ -58,7 +58,6 @@ export const getIsValid = createSelector(getSchemaState, fromSchema.getIsValid);
 
 export const getAuthState = (state: AppState) => state.auth;
 export const getToken = createSelector(getAuthState, fromAuth.getToken);
-export const getApiUrl = createSelector(getAuthState, fromAuth.getApiUrl);
 
 export const getRestState = (state: AppState) => state.rest;
 export const getResponse = createSelector(getRestState, fromRest.getResponse);

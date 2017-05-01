@@ -76,10 +76,9 @@ export class RestEffects {
         case 200: {
           let response_data = action.payload.json();
           let response_url = action.payload.url;
-
-          if (response_url === store.auth.apiUrl + '/') {
+          if (response_url === 'https://api.rochard.org/') {
             return [new schema.UpdateSchemaAction(response_data)]
-          } else if (response_url === store.auth.apiUrl + '/rpc/login') {
+          } else if (response_url === 'https://api.rochard.org/rpc/login') {
             return [new auth.AddTokenAction(response_data[0].token)]
           } else {
             return [new table.InitializeRecordsAction(response_data)]
