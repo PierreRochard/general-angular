@@ -35,7 +35,10 @@ const developmentReducer: ActionReducer<AppState> = compose(
   // storeFreeze,
   localStorageSync(['auth'], true),
   combineReducers)(reducers);
-const productionReducer: ActionReducer<AppState> = combineReducers(reducers);
+
+const productionReducer: ActionReducer<AppState> = compose(
+  localStorageSync(['auth'], true),
+  combineReducers)(reducers);
 
 export function reducer(state: any, action: any) {
   if (environment.production) {
