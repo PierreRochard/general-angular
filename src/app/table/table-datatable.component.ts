@@ -6,18 +6,17 @@ import {Component, Input, OnChanges, EventEmitter, Output, SimpleChanges} from '
              [dataKey]="dataKey"
              [paginator]="paginator"
              (onColReorder)="onColReorder($event)"
-             (onColumnResize)="onColumnResize($event)"
              [reorderableColumns]="reorderableColumns"
-             [resizableColumns]="resizableColumns"
              [rows]="rows"
              (selectionChange)="selectionChange($event)"
              [sortMode]="sortMode"
              [value]="records"
               >
-              <p-column [selectionMode]="selectionMode"></p-column>
+              <p-column [style]="{'width':'38px'}" [selectionMode]="selectionMode"></p-column>
                 <p-column *ngFor="let columnName of columnNames" 
                           [field]="columnName" 
                           [header]="columnName"
+                          [style]="{'width':'100%'}"
                           [sortable]="true"
                 ></p-column>
               </p-dataTable>`
