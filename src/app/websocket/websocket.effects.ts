@@ -24,9 +24,9 @@ export class WebsocketEffects {
     private store: Store<fromRoot.AppState>,
   ) { }
 
-  @Effect()
-  connect$ = this.actions$
-    .ofType(websocket.ActionTypes.CONNECT)
-    .switchMap(action => [this.websocket$.connect('ws://localhost:4545/' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtb2RlIjoicnciLCJjaGFubmVsIjoibWVzc2FnZXNfdGFibGVfdXBkYXRlIn0.zZDpPodeBkvAfpmhq9YMLCAAzWk5WzlUwb9oa9M_Rvk')]
-    )
+  // @Effect()
+  // connect$ = this.actions$
+  //   .ofType(websocket.ActionTypes.CONNECT)
+  //   .switchMap(action => [this.websocket$.connect('ws://localhost:4545/' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtb2RlIjoicnciLCJjaGFubmVsIjoibWVzc2FnZXNfdGFibGVfdXBkYXRlIn0.zZDpPodeBkvAfpmhq9YMLCAAzWk5WzlUwb9oa9M_Rvk')]
+  //   )
 }
