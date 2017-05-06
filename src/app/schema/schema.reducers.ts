@@ -42,6 +42,7 @@ export function reducer(state = initialState, action: schema.Actions): SchemaSta
       let selectedPathName = action.payload;
       let selectedPath = state.paths[selectedPathName];
       let selectedPathPostBodyDefinition = null;
+
       if (selectedPath.hasOwnProperty('post')){
         let definition_name = selectedPath.post.parameters
           .filter(parameter => ['args', 'body'].includes(parameter.name))[0].schema.$ref.split('/').pop();

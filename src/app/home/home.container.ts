@@ -15,6 +15,6 @@ export class HomeContainer {
   schemaDefinitions$: Observable<any>;
 
   constructor(private store: Store<fromRoot.AppState>) {
-    this.schemaDefinitions$ = store.select(fromRoot.getDefinitions);
+    this.schemaDefinitions$ = store.select(fromRoot.getSchemaState);
   }
 }

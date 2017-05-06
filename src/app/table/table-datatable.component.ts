@@ -46,6 +46,10 @@ export class TableDatatableComponent implements OnChanges {
 
   onColReorder(event) {
     console.log(event);
+    let old_index = event.dragIndex - 1;
+    let new_index = event.dropIndex - 1;
+    console.log(old_index);
+    console.log(new_index);
   }
 
   onColumnResize(event) {
