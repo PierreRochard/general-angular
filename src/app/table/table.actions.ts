@@ -13,37 +13,37 @@ export const TableActionTypes = {
 };
 
 export class InitializeRecordsAction implements Action {
-  type = ActionTypes.INITIALIZE_RECORDS;
+  type = TableActionTypes.INITIALIZE_RECORDS;
   constructor(public payload: any) {}
 }
 
 export class AddRecordAction implements Action {
-  type = ActionTypes.ADD_RECORD;
+  type = TableActionTypes.ADD_RECORD;
   constructor(public payload: any) {}
 }
 
 export class RemoveRecordAction implements Action {
-  type = ActionTypes.REMOVE_RECORD;
+  type = TableActionTypes.REMOVE_RECORD;
   constructor(public payload: any) {}
 }
 
 export class InitializeSettingsAction implements Action {
-  type = ActionTypes.INITIALIZE_SETTINGS;
+  type = TableActionTypes.INITIALIZE_SETTINGS;
   constructor(public payload: any) {}
 }
 
 export class SelectRecordsAction implements Action {
-  type = ActionTypes.SELECT_RECORDS;
+  type = TableActionTypes.SELECT_RECORDS;
   constructor(public payload: any) {}
 }
 
 export class DeselectRecordAction implements Action {
-  type = ActionTypes.DESELECT_RECORD;
+  type = TableActionTypes.DESELECT_RECORD;
   constructor(public payload: any) {}
 }
 
 export class DeselectRecordsAction implements Action {
-  type = ActionTypes.DESELECT_RECORDS;
+  type = TableActionTypes.DESELECT_RECORDS;
   constructor(public payload: any) {}
 }
 
