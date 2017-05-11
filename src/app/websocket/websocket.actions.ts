@@ -2,14 +2,14 @@ import { Action } from '@ngrx/store';
 
 import { type } from '../util';
 
-export const ActionTypes = {
+export const WebsocketActionTypes = {
   CONNECT:   type('CONNECT'),
 };
 
 export class ConnectAction implements Action {
-  type = ActionTypes.CONNECT;
+  type = WebsocketActionTypes.CONNECT;
   constructor(public payload: string) {}
 }
 
-export type Actions
+export type WebsocketActions
   = ConnectAction;

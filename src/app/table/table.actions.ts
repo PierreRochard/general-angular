@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { type } from '../util';
 
-export const ActionTypes = {
+export const TableActionTypes = {
   INITIALIZE_RECORDS:   type('INITIALIZE_RECORDS'),
   ADD_RECORD:           type('ADD_RECORD'),
   REMOVE_RECORD:        type('REMOVE_RECORD'),
@@ -49,7 +49,7 @@ export class DeselectRecordsAction implements Action {
 
 
 
-export type Actions
+export type TableActions
   = InitializeRecordsAction
   | AddRecordAction
   | RemoveRecordAction

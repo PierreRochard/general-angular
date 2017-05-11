@@ -5,7 +5,7 @@ import '@ngrx/core/add/operator/select';
 
 import 'rxjs/add/operator/map';
 
-import * as fromRoot from '../app.reducers';
+import {AppState, getRouterState} from '../app.reducers';
 import {Observable} from "rxjs";
 
 
@@ -22,8 +22,8 @@ import {Observable} from "rxjs";
 export class PathContainer {
   pathNameLength$: Observable<number>;
 
-  constructor(store: Store<fromRoot.AppState>) {
-    this.pathNameLength$ = store.select(fromRoot.getRouterState)
+  constructor(store: Store<AppState>) {
+    this.pathNameLength$ = store.select(getRouterState)
                                 .map(state => state.path.split('/').filter(part => part.length > 0).length)
   }
 }

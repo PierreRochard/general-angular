@@ -1,13 +1,13 @@
 import {Component} from "@angular/core";
 import {Response} from "@angular/http";
 
-import {Observable} from "rxjs";
+import {Observable} from "rxjs/Observable";
 
 import {Store} from "@ngrx/store";
 
 import {Message} from "primeng/primeng";
 
-import * as fromRoot from "../app.reducers";
+import {AppState, getRestResponse} from "../app.reducers";
 
 
 @Component({
@@ -19,8 +19,8 @@ import * as fromRoot from "../app.reducers";
 export class GrowlContainer {
   messages$: Observable<Message[]>;
 
-  constructor(private store: Store<fromRoot.AppState>) {
-    this.messages$ = store.select(fromRoot.getResponse)
+  constructor(private store: Store<AppState>) {
+    this.messages$ = store.select(getRestResponse)
       .filter(response => response !== null)
       .map((response: Response) => {
         let severity = 'info';

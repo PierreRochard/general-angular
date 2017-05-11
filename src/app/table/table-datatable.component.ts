@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, EventEmitter, Output, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges} from '@angular/core';
 
 @Component({
   selector: 'table-datatable',

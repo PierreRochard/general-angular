@@ -4,7 +4,7 @@ import {Observable} from "rxjs";
 
 import {Store} from "@ngrx/store";
 
-import * as fromRoot from '../app.reducers';
+import  {AppState, getRecords} from '../app.reducers';
 
 @Component({
   selector: 'table-container',
@@ -22,8 +22,8 @@ import * as fromRoot from '../app.reducers';
 export class TableContainer {
   public records$: Observable<any[]>;
 
-  constructor(private store: Store<fromRoot.AppState>) {
-    this.records$ = this.store.select(fromRoot.getRecords)
+  constructor(private store: Store<AppState>) {
+    this.records$ = this.store.select(getRecords)
   }
 }
 

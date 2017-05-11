@@ -2,9 +2,9 @@ import {$WebSocket} from 'angular2-websocket/angular2-websocket';
 import {Injectable} from "@angular/core";
 import {Store} from "@ngrx/store";
 
-import * as fromRoot from '../app.reducers';
+import {AppState, getRecords} from '../app.reducers';
 import {Subscription} from "rxjs";
-import * as table from '../table/table.actions';
+import {AddRecordAction, DeselectRecordAction, RemoveRecordAction} from '../table/table.actions';
 
 
 @Injectable()
@@ -12,8 +12,8 @@ export class WebsocketService {
   private ws: $WebSocket;
   private subscriptions: Subscription;
 
-  constructor(private store: Store<fromRoot.AppState>) {
-    this.store.select(fromRoot.getRecords);
+  constructor(private store: Store<AppState>) {
+    this.store.select(getRecords);
   };
 
   connect(url) {
@@ -24,11 +24,11 @@ export class WebsocketService {
         let message = JSON.parse(response.data);
         switch (message.type) {
           case 'INSERT':
-            this.store.dispatch(new table.AddRecordAction(message.row));
+            this.store.dispatch(new AddRecordAction(message.row));
             break;
           case 'DELETE':
-            this.store.dispatch(new table.RemoveRecordAction(message.row));
-            this.store.dispatch(new table.DeselectRecordAction(message.row));
+            this.store.dispatch(new RemoveRecordAction(message.row));
+            this.store.dispatch(new DeselectRecordAction(message.row));
             break;
         }
       },

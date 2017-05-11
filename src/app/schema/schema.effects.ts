@@ -2,10 +2,8 @@ import {Injectable} from "@angular/core";
 
 import {Actions, Effect} from "@ngrx/effects";
 
-import 'rxjs';
-
-import * as rest from '../rest/rest.actions';
-import * as schema from './schema.actions';
+import {SendGetRequestAction} from '../rest/rest.actions';
+import {SchemaActionTypes, SelectPathAction} from './schema.actions';
 import {routerActions} from '@ngrx/router-store';
 
 @Injectable()
@@ -15,11 +13,11 @@ export class SchemaEffects {
 
   @Effect()
   invalidateSchema$ = this.actions$
-    .ofType(schema.ActionTypes.INVALIDATE_SCHEMA)
-    .switchMap(action => [new rest.SendGetRequestAction({path: '/'})]);
+    .ofType(SchemaActionTypes.INVALIDATE_SCHEMA)
+    .switchMap(action => [new SendGetRequestAction({path: '/'})]);
 
   @Effect()
   selectPath$ = this.actions$
     .ofType(routerActions.UPDATE_LOCATION)
-    .switchMap(action => [new schema.SelectPathAction(action.payload.path)]);
+    .switchMap(action => [new SelectPathAction(action.payload.path)]);
 }

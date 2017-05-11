@@ -1,30 +1,24 @@
 import {Injectable} from "@angular/core";
 
 import {Actions, Effect} from "@ngrx/effects";
-
-import 'rxjs';
-
-import * as auth from './auth.actions'
-import * as schema from '../schema/schema.actions';
-import * as fromRoot from '../app.reducers';
-import {RestClient} from "../rest/rest.service";
-import {Store} from "@ngrx/store";
 import {go} from "@ngrx/router-store";
+
+import {AuthActionTypes} from './auth.actions'
+import {InvalidateAction} from '../schema/schema.actions';
+
 
 @Injectable()
 export class AuthEffects {
-  constructor(private actions$: Actions,
-              private http: RestClient,
-              private store: Store<fromRoot.AppState>,) {
+  constructor(private actions$: Actions) {
   }
 
   @Effect()
   addToken$ = this.actions$
-    .ofType(auth.ActionTypes.ADD_TOKEN)
-    .switchMap(action => [new schema.InvalidateAction(null), go(['/'])]);
+    .ofType(AuthActionTypes.ADD_TOKEN)
+    .switchMap(action => [new InvalidateAction(null), go(['/'])]);
 
   @Effect()
   removeToken$ = this.actions$
-    .ofType(auth.ActionTypes.REMOVE_TOKEN)
-    .switchMap(action => [new schema.InvalidateAction(null), go(['/'])]);
+    .ofType(AuthActionTypes.REMOVE_TOKEN)
+    .switchMap(action => [new InvalidateAction(null), go(['/'])]);
 }

@@ -7,7 +7,7 @@ import {go} from "@ngrx/router-store";
 
 import {MenuItem} from 'primeng/primeng';
 
-import * as fromRoot from '../app.reducers';
+import {AppState, getAuthToken, getPathNames} from '../app.reducers';
 import {RemoveTokenAction} from "../auth/auth.actions";
 
 
@@ -19,8 +19,8 @@ import {RemoveTokenAction} from "../auth/auth.actions";
 export class MenubarContainer {
   items$: Observable<MenuItem[]>;
 
-  constructor(private store: Store<fromRoot.AppState>) {
-    this.items$ = Observable.combineLatest(store.select(fromRoot.getPathNames), store.select(fromRoot.getToken),
+  constructor(private store: Store<AppState>) {
+    this.items$ = Observable.combineLatest(store.select(getPathNames), store.select(getAuthToken),
       (pathNames, token) => pathNames.map(pathName => {
 
       let icon: string;

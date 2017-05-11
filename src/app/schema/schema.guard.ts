@@ -1,40 +1,39 @@
-import { Injectable } from '@angular/core';
-import {CanActivate, ActivatedRouteSnapshot} from '@angular/router';
+import {Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, CanActivate} from '@angular/router';
 
-import { Observable } from 'rxjs';
+import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 
 import {Store} from '@ngrx/store';
 
 import {RestClient} from '../rest/rest.service';
 
-import * as fromRoot from '../app.reducers';
-import * as schema from './schema.actions';
-import * as rest from '../rest/rest.actions';
-import {go} from "@ngrx/router-store";
+import {AppState, getIsValid} from '../app.reducers';
+import {UpdateSchemaAction} from './schema.actions';
+import {ReceivedResponseAction} from '../rest/rest.actions';
 
 @Injectable()
 export class SchemaGuard implements CanActivate {
   constructor(
-    private store: Store<fromRoot.AppState>,
+    private store: Store<AppState>,
     private http: RestClient,
   ) { }
 
   getSchema(): Observable<boolean> {
     return this.http.get('/')
-      .map(response => new schema.UpdateSchemaAction(response.json()))
-      .do((action: schema.UpdateSchemaAction) => this.store.dispatch(action))
+      .map(response => new UpdateSchemaAction(response.json()))
+      .do((action: UpdateSchemaAction) => this.store.dispatch(action))
       .map(schema => {
         return !!schema
       })
       .catch(error => {
-        this.store.dispatch(new rest.ReceivedResponseAction(error));
+        this.store.dispatch(new ReceivedResponseAction(error));
         return Observable.of(true);
       });
   }
 
   hasSchemaInStore(): Observable<boolean> {
-    return this.store.select(fromRoot.getIsValid)
+    return this.store.select(getIsValid)
       .map(status => {
         return status
       })

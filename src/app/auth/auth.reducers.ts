@@ -1,19 +1,19 @@
-import * as auth from '../auth/auth.actions';
+import {AuthActions, AuthActionTypes} from './auth.actions';
 
-export interface State {
+export interface AuthState {
   token: string;
 }
 
-const initialState: State = {
+const initialState: AuthState = {
   token: null,
 };
 
-export function reducer(state = initialState, action: auth.Actions): State {
+export function authReducer (state = initialState, action: AuthActions): AuthState {
   switch (action.type) {
-    case auth.ActionTypes.ADD_TOKEN: {
+    case AuthActionTypes.ADD_TOKEN: {
       return Object.assign({}, state, { token: action.payload });
     }
-    case auth.ActionTypes.REMOVE_TOKEN: {
+    case AuthActionTypes.REMOVE_TOKEN: {
       return Object.assign({}, state, { token: null});
     }
     default: {
@@ -22,4 +22,3 @@ export function reducer(state = initialState, action: auth.Actions): State {
   }
 }
 
-export const getToken = (state: State) => state.token;

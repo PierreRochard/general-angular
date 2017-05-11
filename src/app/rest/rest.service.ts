@@ -3,18 +3,16 @@ import {Http, Headers, Response, URLSearchParams} from '@angular/http';
 
 import { Observable } from "rxjs/Observable";
 
-import 'rxjs';
-
 import {Store} from "@ngrx/store";
 
-import * as fromRoot from '../app.reducers';
+import {AppState} from '../app.reducers';
 
 @Injectable()
 export class RestClient {
   public apiEndpoint: string = "https://api.rochard.org";
 
   constructor(private http: Http,
-              private store: Store<fromRoot.AppState>,
+              private store: Store<AppState>,
   ) {}
 
   static createAuthorizationHeader(headers: Headers, token: string) {

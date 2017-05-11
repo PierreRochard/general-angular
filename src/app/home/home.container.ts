@@ -4,7 +4,7 @@ import {Observable} from "rxjs";
 
 import {Store} from "@ngrx/store";
 
-import * as fromRoot from '../app.reducers';
+import {AppState, getSchemaState} from '../app.reducers';
 
 @Component({
   selector: 'home-container',
@@ -14,7 +14,7 @@ import * as fromRoot from '../app.reducers';
 export class HomeContainer {
   schemaDefinitions$: Observable<any>;
 
-  constructor(private store: Store<fromRoot.AppState>) {
-    this.schemaDefinitions$ = store.select(fromRoot.getSchemaState);
+  constructor(private store: Store<AppState>) {
+    this.schemaDefinitions$ = store.select(getSchemaState);
   }
 }

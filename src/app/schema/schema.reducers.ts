@@ -1,6 +1,7 @@
-import * as schema from './schema.actions';
+import {} from './actions';
 
 import {Definition, Path, Property} from "./schema.models";
+import {SchemaActions, SchemaActionTypes} from "./schema.actions";
 
 
 export interface SchemaState {
@@ -23,14 +24,14 @@ const initialState: SchemaState = {
   lastUpdated: new Date(),
 };
 
-export function reducer(state = initialState, action: schema.Actions): SchemaState {
+export function schemaReducer(state = initialState, action: SchemaActions): SchemaState {
   switch (action.type) {
-    case schema.ActionTypes.INVALIDATE_SCHEMA: {
+    case SchemaActionTypes.INVALIDATE_SCHEMA: {
       return Object.assign({}, state, {
         isValid: false,
       });
     }
-    case schema.ActionTypes.UPDATE_SCHEMA: {
+    case SchemaActionTypes.UPDATE_SCHEMA: {
       return Object.assign({}, state, {
         paths: action.payload.paths,
         definitions: action.payload.definitions,
@@ -38,16 +39,16 @@ export function reducer(state = initialState, action: schema.Actions): SchemaSta
         isValid: true,
       });
     }
-    case schema.ActionTypes.SELECT_PATH: {
+    case SchemaActionTypes.SELECT_PATH: {
       let selectedPathName = action.payload;
       let selectedPath = state.paths[selectedPathName];
       let selectedPathPostBodyDefinition = null;
-
-      if (selectedPath.hasOwnProperty('post')){
-        let definition_name = selectedPath.post.parameters
-          .filter(parameter => ['args', 'body'].includes(parameter.name))[0].schema.$ref.split('/').pop();
-        selectedPathPostBodyDefinition = state.definitions[definition_name];
-      }
+      // Todo: fix $ref
+      // if (selectedPath.hasOwnProperty('post')){
+      //   let definition_name = selectedPath.post.parameters
+      //     .filter(parameter => ['args', 'body'].includes(parameter.name))[0].$ref.split('/').pop();
+      //   selectedPathPostBodyDefinition = state.definitions[definition_name];
+      // }
       let selectedPathPostBodyProperties = null;
       if (!!selectedPathPostBodyDefinition) {
         selectedPathPostBodyProperties = selectedPathPostBodyDefinition.properties
@@ -70,10 +71,3 @@ export function reducer(state = initialState, action: schema.Actions): SchemaSta
   }
 }
 
-export const getPaths = (state: SchemaState) => state.paths;
-export const getDefinitions = (state: SchemaState) => state.definitions;
-export const getIsValid = (state: SchemaState) => state.isValid;
-export const getLastUpdated = (state: SchemaState) => state.lastUpdated;
-
-export const getPathNames = (state: SchemaState) => Object.keys(state.paths);
-export const getDefinitionNames = (state: SchemaState) => Object.keys(state.definitions);
