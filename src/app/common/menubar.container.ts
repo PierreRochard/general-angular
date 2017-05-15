@@ -1,14 +1,14 @@
 import {Component} from '@angular/core';
 
-import {Observable} from "rxjs";
+import {Observable} from 'rxjs/Observable';
 
-import {Store} from "@ngrx/store";
-import {go} from "@ngrx/router-store";
+import {Store} from '@ngrx/store';
+import {go} from '@ngrx/router-store';
 
 import {MenuItem} from 'primeng/primeng';
 
 import {AppState, getAuthToken, getPathNames} from '../app.reducers';
-import {RemoveTokenAction} from "../auth/auth.actions";
+import {RemoveTokenAction} from '../auth/auth.actions';
 
 
 @Component({
