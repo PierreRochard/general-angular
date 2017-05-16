@@ -1,5 +1,7 @@
+import * as Raven from 'raven-js';
+
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {NgModule, ErrorHandler} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 
@@ -7,6 +9,7 @@ import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from "@ngrx/effects";
 import {RouterStoreModule} from "@ngrx/router-store";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
+import { StoreLogMonitorModule, useLogMonitor } from '@ngrx/store-log-monitor';
 
 import {ButtonModule, DataTableModule, FieldsetModule, GrowlModule, InputTextModule, MenubarModule, PasswordModule} from 'primeng/primeng';
 
@@ -46,9 +49,27 @@ import {WebsocketService} from "./websocket/websocket.service";
 
 const optionalImports = [];
 
+Raven
+  .config('https://5d41708e0aae4566ba49adf4d9be7bce@sentry.io/167393')
+  .install();
+
+export class RavenErrorHandler implements ErrorHandler {
+  handleError(err:any) : void {
+    Raven.captureException(err.originalError);
+  }
+}
+
+export function instrumentOptions() {
+  return {
+    monitor: useLogMonitor({ visible: true, position: 'right' })
+  };
+}
+
 if (!environment.production) {
   // Note that you must instrument after importing StoreModule
-  optionalImports.push(StoreDevtoolsModule.instrumentOnlyWithExtension());
+  console.log('Dev Environment');
+  optionalImports.push(StoreDevtoolsModule.instrumentStore(instrumentOptions));
+  optionalImports.push(StoreLogMonitorModule);
 }
 
 @NgModule({
@@ -93,6 +114,7 @@ if (!environment.production) {
     FormCreationService,
     SchemaGuard,
     WebsocketService,
+    { provide: ErrorHandler, useClass: RavenErrorHandler }
   ]
 })
 export class AppModule { }

@@ -35,6 +35,7 @@ export class FormComponent implements OnChanges {
   constructor(private form_creation: FormCreationService) { }
 
   ngOnChanges() {
+    console.log(this.schemaState);
     console.log(this.selectedPathPostBodyProperties);
     console.log(this.selectedPathPostBodyRequiredPropertyNames);
     this.form = this.form_creation.toFormGroup(this.selectedPathPostBodyProperties,
