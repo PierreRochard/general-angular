@@ -25,10 +25,10 @@ export class FormContainer {
   }
   public onSubmit(formValue: any) {
     Object.keys(formValue).filter(key => formValue[key] === '')
-                          .map(key=> delete formValue[key]);
+                          .map(key => delete formValue[key]);
     this.store.select(getSchemaState).take(1)
       .subscribe(schemaState => this.store.dispatch(
         new SendPostRequestAction({path: schemaState.selectedPathName, data: formValue}))
-      )
+      );
   }
 }

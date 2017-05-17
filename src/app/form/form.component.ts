@@ -3,8 +3,7 @@ import {FormGroup} from '@angular/forms';
 
 import '@ngrx/core/add/operator/select';
 
-import {FormCreationService} from "./form-creation.service";
-import {Property} from "../schema/schema.models";
+import {FormCreationService} from './form-creation.service';
 
 
 @Component({
@@ -32,29 +31,14 @@ export class FormComponent implements OnChanges {
   @Input() schemaState;
   @Output() onSubmit = new EventEmitter<any>();
 
-  constructor(private form_creation: FormCreationService) { }
+  constructor(private formCreation: FormCreationService) { }
 
   ngOnChanges() {
-    console.log(this.schemaState);
-    console.log(this.selectedPathPostBodyProperties);
-    console.log(this.selectedPathPostBodyRequiredPropertyNames);
-    this.form = this.form_creation.toFormGroup(this.selectedPathPostBodyProperties,
-                                               this.selectedPathPostBodyRequiredPropertyNames);
+    // this.form = this.formCreation.toFormGroup();
   }
 
   get selectedPathName(): string {
     return this.schemaState.selectedPathName;
-  }
-
-  get selectedPathPostBodyProperties(): {[name: string]: Property[]; } {
-    return this.schemaState.selectedPathPostBodyProperties;
-  }
-  get selectedPathPostBodyPropertyNames(): string[] {
-    return Object.keys(this.schemaState.selectedPathPostBodyProperties);
-  }
-
-  get selectedPathPostBodyRequiredPropertyNames(): string[] {
-    return this.schemaState.selectedPathPostBodyRequiredPropertyNames;
   }
 
 }
