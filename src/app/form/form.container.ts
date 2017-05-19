@@ -7,7 +7,7 @@ import {Observable} from 'rxjs/Observable';
 import {SendPostRequestAction} from '../rest/rest.actions';
 
 import {AppState, getSchemaState} from '../app.reducers';
-import {SchemaState} from "../schema/schema.reducers";
+import {SchemaState} from '../schema/schema.reducers';
 
 
 @Component({

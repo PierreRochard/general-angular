@@ -3,6 +3,10 @@ import {ActivatedRouteSnapshot, CanActivate} from '@angular/router';
 
 import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/take';
 
 import {Store} from '@ngrx/store';
 

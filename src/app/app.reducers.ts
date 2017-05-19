@@ -1,7 +1,7 @@
 import {compose} from '@ngrx/core/compose';
 import {ActionReducer, combineReducers} from '@ngrx/store';
 import {storeFreeze} from 'ngrx-store-freeze';
-import {localStorageSync} from 'ngrx-store-localstorage';
+import { LocalStorageConfig, localStorageSync } from 'ngrx-store-localstorage';
 import {createSelector} from 'reselect';
 
 import {environment} from '../environments/environment';
@@ -27,13 +27,20 @@ const reducers = {
   table:  tableReducer,
 };
 
+const localStorageConfig: LocalStorageConfig = {
+  keys: ['auth'],
+  rehydrate: true,
+  storage: localStorage,
+  removeOnUndefined: false
+};
+
 const developmentReducer: ActionReducer<AppState> = compose(
   storeFreeze,
-  localStorageSync(['auth'], true),
+  localStorageSync(localStorageConfig),
   combineReducers)(reducers);
 
 const productionReducer: ActionReducer<AppState> = compose(
-  localStorageSync(['auth'], true),
+  localStorageSync(localStorageConfig),
   combineReducers)(reducers);
 
 export function reducer(state: any, action: any) {

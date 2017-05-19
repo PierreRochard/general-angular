@@ -4,6 +4,8 @@ import {Observable} from 'rxjs/Observable';
 
 import {Store} from '@ngrx/store';
 import {go} from '@ngrx/router-store';
+import 'rxjs/add/observable/combineLatest';
+
 
 import {MenuItem} from 'primeng/primeng';
 
