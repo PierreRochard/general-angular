@@ -1,4 +1,4 @@
-import {Response} from "@angular/http";
+import {Response} from '@angular/http';
 
 import {RestActions, RestActionTypes} from './rest.actions';
 
@@ -19,28 +19,24 @@ const initialState: RestState = {
 
 export function restReducer (state = initialState, action: RestActions): RestState {
   switch (action.type) {
-    case RestActionTypes.SEND_GET_REQUEST: {
+    case RestActionTypes.SEND_GET_REQUEST:
       return Object.assign({}, state, {
         getting: true,
         received: false,
-      })
-    }
-    case RestActionTypes.SEND_POST_REQUEST: {
+      });
+    case RestActionTypes.SEND_POST_REQUEST:
       return Object.assign({}, state, {
         posting: true,
         received: false,
-      })
-    }
-    case RestActionTypes.RECEIVED_RESPONSE: {
+      });
+    case RestActionTypes.RECEIVED_RESPONSE:
       return Object.assign({}, state, {
         posting: false,
         received: true,
         response: action.payload,
-      })
-    }
-    default: {
+      });
+    default:
       return state;
-    }
   }
 }
 

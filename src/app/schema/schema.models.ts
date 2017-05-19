@@ -1,8 +1,8 @@
 export interface Property {
-  name?: string,
+  name?: string;
   required?: boolean;
-  format: string,
-  type: string,
+  format: string;
+  type: string;
 }
 
 export interface Definition {
@@ -23,7 +23,7 @@ export interface Endpoint {
   produces: string[];
   consumes?: string[];
   parameters: Parameter[];
-  responses: { [code: number]: Response}
+  responses: { [code: number]: Response};
 
 }
 

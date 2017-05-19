@@ -1,4 +1,4 @@
 export interface RequestActionPayload {
-  path: string,
-  data?: any,
+  path: string;
+  data?: any;
 }

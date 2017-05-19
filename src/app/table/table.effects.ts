@@ -1,6 +1,6 @@
-import {Injectable} from "@angular/core";
+import {Injectable} from '@angular/core';
 
-import {Actions, Effect} from "@ngrx/effects";
+import {Actions, Effect} from '@ngrx/effects';
 
 import {routerActions} from '@ngrx/router-store';
 import {SendGetRequestAction} from '../rest/rest.actions';
@@ -8,8 +8,6 @@ import {ConnectAction} from '../websocket/websocket.actions';
 
 @Injectable()
 export class TableEffects {
-  constructor(private actions$: Actions) {
-  }
 
   @Effect()
   getTable$ = this.actions$
@@ -17,4 +15,6 @@ export class TableEffects {
     .filter(action => !(action.payload.path.startsWith('/rpc/') || action.payload.path === '/'))
     .mergeMap(action => [new SendGetRequestAction({path: action.payload.path}),
                          new ConnectAction(action.payload.path)]);
+
+  constructor(private actions$: Actions) {}
 }

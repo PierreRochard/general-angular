@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 
-import {Observable} from "rxjs";
+import {Observable} from 'rxjs/observable';
 
-import {Store} from "@ngrx/store";
+import {Store} from '@ngrx/store';
 
-import  {AppState, getRecords} from '../app.reducers';
+import {AppState, getRecords} from '../app.reducers';
 
 @Component({
   selector: 'table-container',
@@ -23,7 +23,7 @@ export class TableContainer {
   public records$: Observable<any[]>;
 
   constructor(private store: Store<AppState>) {
-    this.records$ = this.store.select(getRecords)
+    this.records$ = this.store.select(getRecords);
   }
 }
 

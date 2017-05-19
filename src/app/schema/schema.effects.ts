@@ -1,6 +1,6 @@
-import {Injectable} from "@angular/core";
+import {Injectable} from '@angular/core';
 
-import {Actions, Effect} from "@ngrx/effects";
+import {Actions, Effect} from '@ngrx/effects';
 
 import {SendGetRequestAction} from '../rest/rest.actions';
 import {SchemaActionTypes, SelectPathAction} from './schema.actions';
@@ -8,8 +8,6 @@ import {routerActions} from '@ngrx/router-store';
 
 @Injectable()
 export class SchemaEffects {
-  constructor(private actions$: Actions) {
-  }
 
   @Effect()
   invalidateSchema$ = this.actions$
@@ -20,4 +18,7 @@ export class SchemaEffects {
   selectPath$ = this.actions$
     .ofType(routerActions.UPDATE_LOCATION)
     .switchMap(action => [new SelectPathAction(action.payload.path)]);
+
+  constructor(private actions$: Actions) {}
+
 }

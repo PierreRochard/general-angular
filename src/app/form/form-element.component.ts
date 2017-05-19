@@ -24,7 +24,7 @@ export class FormElementComponent {
   @Input() formElementName: string;
   @Input() form: FormGroup;
   get formElementLabel(): string {
-    let label = this.formElementName.replace('_', ' ');
+    const label = this.formElementName.replace('_', ' ');
     if (label === 'id') {
       return label.toUpperCase();
     } else {

@@ -1,7 +1,7 @@
 import {compose} from '@ngrx/core/compose';
 import {ActionReducer, combineReducers} from '@ngrx/store';
 import {storeFreeze} from 'ngrx-store-freeze';
-import {localStorageSync} from "ngrx-store-localstorage";
+import {localStorageSync} from 'ngrx-store-localstorage';
 import {createSelector} from 'reselect';
 
 import {environment} from '../environments/environment';
@@ -39,8 +39,7 @@ const productionReducer: ActionReducer<AppState> = compose(
 export function reducer(state: any, action: any) {
   if (environment.production) {
     return productionReducer(state, action);
-  }
-  else {
+  } else {
     console.log(action);
     return developmentReducer(state, action);
   }

@@ -23,16 +23,28 @@ import {Component, Input, OnChanges} from '@angular/core';
 })
 export class TableDatatableComponent implements OnChanges {
   public columnNames: string[];
-  public dataKey: string = 'id';
-  public paginator: boolean = true;
-  public reorderableColumns: boolean = true;
-  public resizableColumns: boolean = true;
-  public rows: number = 10;
+  public dataKey = 'id';
+  public paginator = true;
+  public reorderableColumns = true;
+  public resizableColumns = true;
+  public rows = 10;
   public selectedRecords: any[] = [];
-  public selectionMode: string = 'multiple';
-  public sortMode: string = 'multiple';
+  public selectionMode = 'multiple';
+  public sortMode = 'multiple';
 
-  @Input() records:any[];
+  @Input() records: any[];
+
+  static onColReorder(event) {
+    const old_index = event.dragIndex - 1;
+    const new_index = event.dropIndex - 1;
+    console.log(event);
+    console.log(old_index);
+    console.log(new_index);
+  }
+
+  static onColumnResize(event) {
+    console.log(event);
+  }
 
   ngOnChanges() {
     this.columnNames = (this.records === null || this.records.length === 0) ?
@@ -42,18 +54,6 @@ export class TableDatatableComponent implements OnChanges {
 
   selectionChange(event) {
     this.selectedRecords = event;
-  }
-
-  onColReorder(event) {
-    console.log(event);
-    let old_index = event.dragIndex - 1;
-    let new_index = event.dropIndex - 1;
-    console.log(old_index);
-    console.log(new_index);
-  }
-
-  onColumnResize(event) {
-    console.log(event);
   }
 
 }

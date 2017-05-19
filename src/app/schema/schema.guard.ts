@@ -24,7 +24,7 @@ export class SchemaGuard implements CanActivate {
       .map(response => new UpdateSchemaAction(response.json()))
       .do((action: UpdateSchemaAction) => this.store.dispatch(action))
       .map(schema => {
-        return !!schema
+        return !!schema;
       })
       .catch(error => {
         this.store.dispatch(new ReceivedResponseAction(error));
@@ -35,7 +35,7 @@ export class SchemaGuard implements CanActivate {
   hasSchemaInStore(): Observable<boolean> {
     return this.store.select(getIsValid)
       .map(status => {
-        return status
+        return status;
       })
       .take(1);
   }

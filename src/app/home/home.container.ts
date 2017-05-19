@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 
-import {Observable} from "rxjs";
+import {Observable} from 'rxjs/observable';
 
-import {Store} from "@ngrx/store";
+import {Store} from '@ngrx/store';
 
 import {AppState, getSchemaState} from '../app.reducers';
 

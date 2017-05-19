@@ -1,10 +1,10 @@
-import {Response} from "@angular/http";
+import {Response} from '@angular/http';
 
 import {Action} from '@ngrx/store';
 
 import {type} from '../util';
 
-import {RequestActionPayload} from "./rest.models";
+import {RequestActionPayload} from './rest.models';
 
 export const RestActionTypes = {
   SEND_GET_REQUEST:    type('SEND_GET_REQUEST'),

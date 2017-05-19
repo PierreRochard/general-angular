@@ -10,15 +10,12 @@ const initialState: AuthState = {
 
 export function authReducer (state = initialState, action: AuthActions): AuthState {
   switch (action.type) {
-    case AuthActionTypes.ADD_TOKEN: {
+    case AuthActionTypes.ADD_TOKEN:
       return Object.assign({}, state, { token: action.payload });
-    }
-    case AuthActionTypes.REMOVE_TOKEN: {
+    case AuthActionTypes.REMOVE_TOKEN:
       return Object.assign({}, state, { token: null});
-    }
-    default: {
+    default:
       return state;
-    }
   }
 }
 

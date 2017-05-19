@@ -1,9 +1,9 @@
-import {Injectable} from "@angular/core";
+import {Injectable} from '@angular/core';
 
-import {Actions, Effect} from "@ngrx/effects";
+import {Actions, Effect} from '@ngrx/effects';
 
-import 'rxjs';
 import 'rxjs/add/operator/withLatestFrom';
+import {Observable} from 'rxjs/observable';
 
 import * as websocket from './websocket.actions';
 import * as table from '../table/table.actions';
@@ -11,9 +11,8 @@ import * as table from '../table/table.actions';
 import * as fromRoot from '../app.reducers';
 
 import {$WebSocket} from 'angular2-websocket/angular2-websocket';
-import {Store} from "@ngrx/store";
-import {WebsocketService} from "./websocket.service";
-import {Observable} from "rxjs";
+import {Store} from '@ngrx/store';
+import {WebsocketService} from './websocket.service';
 
 @Injectable()
 export class WebsocketEffects {
