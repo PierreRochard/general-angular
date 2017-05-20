@@ -21,6 +21,7 @@ import {GrowlContainer} from './common/growl.container';
 
 import {MenubarContainer} from './menubar/menubar.container';
 import {MenubarGuard} from 'app/menubar/menubar.guard';
+import {MenubarService} from './menubar/menubar.service';
 
 import {PathContainer} from './paths/path.container';
 import {HomeContainer} from './home/home.container';
@@ -116,6 +117,7 @@ if (!environment.production) {
     FormCreationService,
     MenubarGuard,
     SchemaGuard,
+    MenubarService,
     WebsocketService,
     { provide: ErrorHandler, useClass: RavenErrorHandler }
   ]

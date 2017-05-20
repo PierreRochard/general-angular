@@ -10,21 +10,20 @@ import 'rxjs/add/operator/take';
 
 import {Store} from '@ngrx/store';
 
-import {RestClient} from '../rest/rest.service';
-
-import {AppState, getIsValid} from '../app.reducers';
+import { AppState, selectMenuItems } from '../app.reducers';
 import {ReceiveMenubarAction} from './menubar.actions';
 import {ReceivedResponseAction} from '../rest/rest.actions';
+import {MenubarService} from './menubar.service';
 
 @Injectable()
 export class MenubarGuard implements CanActivate {
   constructor(
     private store: Store<AppState>,
-    private http: RestClient,
+    private menubarService: MenubarService,
   ) { }
 
   getMenubar(): Observable<boolean> {
-    return this.http.get('/')
+    return this.menubarService.get()
       .map(response => new ReceiveMenubarAction(response.json()))
       .do((action: ReceiveMenubarAction) => this.store.dispatch(action))
       .map(menubar => {
@@ -37,9 +36,9 @@ export class MenubarGuard implements CanActivate {
   }
 
   hasMenubarInStore(): Observable<boolean> {
-    return this.store.select(getIsValid)
-      .map(status => {
-        return status;
+    return this.store.select(selectMenuItems)
+      .map(menuItems => {
+        return menuItems.length > 0;
       })
       .take(1);
   }
@@ -55,6 +54,8 @@ export class MenubarGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot) {
-    return this.hasMenubar();
+    const hasMenubar = this.hasMenubar();
+    console.log(hasMenubar);
+    return hasMenubar;
   }
 }

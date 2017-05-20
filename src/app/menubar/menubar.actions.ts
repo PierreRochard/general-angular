@@ -1,7 +1,7 @@
-import {Action} from '@ngrx/store';
+import {Response} from '@angular/http';
 
+import {Action} from '@ngrx/store';
 import {type} from '../util';
-import {RequestActionPayload} from '../rest/rest.models';
 
 export const MenubarActionTypes = {
   GET_MENUBAR:     type('GET_MENUBAR'),
@@ -15,7 +15,7 @@ export class GetMenubarAction implements Action {
 
 export class ReceiveMenubarAction implements Action {
   type = MenubarActionTypes.RECEIVE_MENUBAR;
-  constructor(public payload: RequestActionPayload) {}
+  constructor(public payload: Response) {}
 }
 
 export type MenubarActions = GetMenubarAction | ReceiveMenubarAction;
