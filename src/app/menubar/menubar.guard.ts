@@ -38,6 +38,7 @@ export class MenubarGuard implements CanActivate {
   hasMenubarInStore(): Observable<boolean> {
     return this.store.select(selectMenuItems)
       .map(menuItems => {
+        // return false;
         return menuItems.length > 0;
       })
       .take(1);
