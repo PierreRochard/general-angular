@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Http, Headers, Response, URLSearchParams} from '@angular/http';
 
-import { Observable } from 'rxjs/Observable';
+import {Observable} from 'rxjs/Observable';
 
 import {Store} from '@ngrx/store';
 
@@ -18,11 +18,13 @@ export class RestClient {
     return headers;
   }
 
-  get(endpoint): Observable<Response> {
+  get(endpoint: string, params?: URLSearchParams): Observable<Response> {
     return this.store.take(1).switchMap(state => {
       const headers = RestClient.createAuthorizationHeader(new Headers(), state.auth.token);
       headers.append('prefer', 'return=representation');
-      return this.http.get(this.apiEndpoint.concat(endpoint), {headers: headers});
+      return this.http.get(this.apiEndpoint.concat(endpoint),
+                {headers: headers,
+                  search: params});
       }
     );
   };

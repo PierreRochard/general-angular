@@ -6,29 +6,32 @@ import {createSelector} from 'reselect';
 
 import {environment} from '../environments/environment';
 import {AuthState, authReducer} from './auth/auth.reducers';
+import {MenubarState, menubarReducer} from './menubar/menubar.reducers';
 import {RestState, restReducer} from './rest/rest.reducers';
 import {RouterState, routerReducer} from '@ngrx/router-store';
 import {SchemaState, schemaReducer} from './schema/schema.reducers';
 import {TableState, tableReducer} from './table/table.reducers';
 
 export interface AppState {
-  auth:   AuthState;
-  rest:   RestState;
-  router: RouterState;
-  schema: SchemaState;
-  table:  TableState;
+  auth:    AuthState;
+  menubar: MenubarState;
+  rest:    RestState;
+  router:  RouterState;
+  schema:  SchemaState;
+  table:   TableState;
 }
 
 const reducers = {
-  auth:   authReducer,
-  rest:   restReducer,
-  router: routerReducer,
-  schema: schemaReducer,
-  table:  tableReducer,
+  auth:    authReducer,
+  menubar: menubarReducer,
+  rest:    restReducer,
+  router:  routerReducer,
+  schema:  schemaReducer,
+  table:   tableReducer,
 };
 
 const localStorageConfig: LocalStorageConfig = {
-  keys: ['auth'],
+  keys: ['auth', 'menubar'],
   rehydrate: true,
   storage: localStorage,
   removeOnUndefined: false

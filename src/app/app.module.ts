@@ -18,7 +18,9 @@ import { environment } from '../environments/environment';
 import {RestEffects} from './rest/rest.effects';
 
 import {GrowlContainer} from './common/growl.container';
-import {MenubarContainer} from './common/menubar.container';
+
+import {MenubarContainer} from './menubar/menubar.container';
+import {MenubarGuard} from 'app/menubar/menubar.guard';
 
 import {PathContainer} from './paths/path.container';
 import {HomeContainer} from './home/home.container';
@@ -112,6 +114,7 @@ if (!environment.production) {
   providers: [
     RestClient,
     FormCreationService,
+    MenubarGuard,
     SchemaGuard,
     WebsocketService,
     { provide: ErrorHandler, useClass: RavenErrorHandler }
