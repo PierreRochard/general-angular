@@ -9,7 +9,7 @@ import {RestClient} from 'app/rest/rest.service';
 export class MenubarService {
   get(): Observable<Response> {
     const params: URLSearchParams = new URLSearchParams();
-    params.set('select', 'label,items{label, icon}');
+    params.set('select', 'label,items{label, icon, routerLink}');
     return this.restClient.get('/submenus', params);
   };
   constructor(private restClient: RestClient) {}
