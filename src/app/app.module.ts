@@ -22,6 +22,7 @@ import {GrowlContainer} from './common/growl.container';
 import {MenubarContainer} from './menubar/menubar.container';
 import {MenubarGuard} from 'app/menubar/menubar.guard';
 import {MenubarService} from './menubar/menubar.service';
+import {MenubarEffects} from './menubar/menubar.effects';
 
 import {PathContainer} from './paths/path.container';
 import {HomeContainer} from './home/home.container';
@@ -95,6 +96,7 @@ if (!environment.production) {
     ButtonModule,
     DataTableModule,
     EffectsModule.run(AuthEffects),
+    EffectsModule.run(MenubarEffects),
     EffectsModule.run(RestEffects),
     EffectsModule.run(SchemaEffects),
     EffectsModule.run(TableEffects),
