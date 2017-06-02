@@ -11,9 +11,9 @@ import {FormCreationService} from './form-creation.service';
   template: `<form [formGroup]="form" (ngSubmit)="onSubmit.emit(form.value)">
               <div class="ui-g">
                 <div class="ui-g-4">
-                  <dynamic-form-element  
+                  <dynamic-form-element
                         *ngFor="let pathPropertyName of selectedPathPostBodyPropertyNames"
-                        [formElementName]="pathPropertyName" 
+                        [formElementName]="pathPropertyName"
                         [form]="form">
                    </dynamic-form-element>
                 </div>
