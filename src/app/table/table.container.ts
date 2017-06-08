@@ -14,6 +14,7 @@ import {AppState, getRecords} from '../app.reducers';
                 </div>
                 <div class="ui-g-12">
                   <table-datatable [records]="records$ | async"
+                                   [columnSettings]="columnSettings$ | async"
                                    >
                   </table-datatable>
                 </div>
@@ -21,9 +22,11 @@ import {AppState, getRecords} from '../app.reducers';
 })
 export class TableContainer {
   public records$: Observable<any[]>;
+  public columnSettings$: Observable<any[]>;
 
   constructor(private store: Store<AppState>) {
     this.records$ = this.store.select(getRecords);
+    this.columnSettings$ = this.store.select(getRecords);
   }
 }
 

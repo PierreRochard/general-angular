@@ -1,4 +1,5 @@
 import {Component, Input, OnChanges} from '@angular/core';
+import { ColumnSetting } from 'app/table/table.models';
 
 @Component({
   selector: 'table-datatable',
@@ -13,16 +14,15 @@ import {Component, Input, OnChanges} from '@angular/core';
              [value]="records"
               >
               <p-column [style]="{'width':'38px'}" [selectionMode]="selectionMode"></p-column>
-                <p-column *ngFor="let columnName of columnNames" 
-                          [field]="columnName" 
-                          [header]="columnName"
+                <p-column *ngFor="let columnSetting of columnSettings" 
+                          [field]="columnSetting.field" 
+                          [header]="columnSetting.header"
                           [style]="{'width':'100%'}"
                           [sortable]="true"
                 ></p-column>
               </p-dataTable>`
 })
-export class TableDatatableComponent implements OnChanges {
-  public columnNames: string[];
+export class TableDatatableComponent {
   public dataKey = 'id';
   public paginator = true;
   public reorderableColumns = true;
@@ -32,6 +32,7 @@ export class TableDatatableComponent implements OnChanges {
   public selectionMode = 'multiple';
   public sortMode = 'multiple';
 
+  @Input() columnSettings: ColumnSetting[];
   @Input() records: any[];
 
   static onColReorder(event) {
@@ -44,12 +45,6 @@ export class TableDatatableComponent implements OnChanges {
 
   static onColumnResize(event) {
     console.log(event);
-  }
-
-  ngOnChanges() {
-    this.columnNames = (this.records === null || this.records.length === 0) ?
-      [] :
-      Object.keys(this.records[0]);
   }
 
   selectionChange(event) {
