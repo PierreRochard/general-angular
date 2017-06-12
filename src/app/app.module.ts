@@ -11,7 +11,7 @@ import {RouterStoreModule} from '@ngrx/router-store';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import { StoreLogMonitorModule, useLogMonitor } from '@ngrx/store-log-monitor';
 
-import {ButtonModule, DataTableModule, FieldsetModule, GrowlModule, InputTextModule, MenubarModule, PasswordModule} from 'primeng/primeng';
+import {ButtonModule, DataTableModule, FieldsetModule, GrowlModule, InputTextModule, PasswordModule} from 'primeng/primeng';
 
 import { environment } from '../environments/environment';
 
@@ -19,10 +19,6 @@ import {RestEffects} from './rest/rest.effects';
 
 import {GrowlContainer} from './common/growl.container';
 
-import {MenubarContainer} from './menubar/menubar.container';
-import {MenubarGuard} from 'app/menubar/menubar.guard';
-import {MenubarService} from './menubar/menubar.service';
-import {MenubarEffects} from './menubar/menubar.effects';
 
 import {PathContainer} from './paths/path.container';
 import {HomeContainer} from './home/home.container';
@@ -50,6 +46,7 @@ import {TableEffects} from './table/table.effects';
 
 import {WebsocketEffects} from './websocket/websocket.effects';
 import {WebsocketService} from './websocket/websocket.service';
+import { AppMenubarModule } from './menubar/menubar.module';
 
 const optionalImports = [];
 
@@ -81,7 +78,6 @@ if (!environment.production) {
   declarations: [
     AppComponent,
     HomeContainer,
-    MenubarContainer,
     PathContainer,
     RpcContainer,
     FormComponent,
@@ -92,11 +88,11 @@ if (!environment.production) {
     TableDatatableComponent,
   ],
   imports: [
+    AppMenubarModule,
     BrowserModule,
     ButtonModule,
     DataTableModule,
     EffectsModule.run(AuthEffects),
-    EffectsModule.run(MenubarEffects),
     EffectsModule.run(RestEffects),
     EffectsModule.run(SchemaEffects),
     EffectsModule.run(TableEffects),
@@ -106,7 +102,6 @@ if (!environment.production) {
     GrowlModule,
     HttpModule,
     InputTextModule,
-    MenubarModule,
     PasswordModule,
     ReactiveFormsModule,
     RouterStoreModule.connectRouter(),
@@ -117,9 +112,7 @@ if (!environment.production) {
   providers: [
     RestClient,
     FormCreationService,
-    MenubarGuard,
     SchemaGuard,
-    MenubarService,
     WebsocketService,
     { provide: ErrorHandler, useClass: RavenErrorHandler }
   ]
