@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Http, Headers, Response, URLSearchParams} from '@angular/http';
 
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/timeout';
 
 import {Store} from '@ngrx/store';
 
@@ -10,6 +11,8 @@ import {AppState} from '../app.reducers';
 @Injectable()
 export class RestClient {
   public apiEndpoint = 'https://api.rochard.org';
+
+  private _timeout = 3000;
 
   static createAuthorizationHeader(headers: Headers, token: string) {
     if (!!token) {
@@ -24,7 +27,7 @@ export class RestClient {
       headers.append('prefer', 'return=representation');
       return this.http.get(this.apiEndpoint.concat(endpoint),
                 {headers: headers,
-                  search: params});
+                  search: params}).timeout(this._timeout);
       }
     );
   };
@@ -33,7 +36,7 @@ export class RestClient {
     return this.store.take(1).switchMap(state => {
       const headers = RestClient.createAuthorizationHeader(new Headers(), state.auth.token);
       headers.append('prefer', 'return=representation');
-      return this.http.post(this.apiEndpoint.concat(endpoint), data, {headers: headers});
+      return this.http.post(this.apiEndpoint.concat(endpoint), data, {headers: headers}).timeout(this._timeout);
       }
     );
   };
@@ -46,7 +49,7 @@ export class RestClient {
       return this.http.delete(this.apiEndpoint.concat(endpoint), {
         headers: headers,
         search: params
-      });
+      }).timeout(this._timeout);
     });
   }
   //
@@ -56,7 +59,7 @@ export class RestClient {
   //   return this.http.patch(this.apiEndpoint.concat(endpoint), records, {
   //     headers: headers,
   //     search: searchParam
-  //   });
+  //   }).timeout(3000);
   // }
   constructor(private http: Http,
               private store: Store<AppState>,

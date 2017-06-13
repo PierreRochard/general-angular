@@ -18,7 +18,7 @@ import {AppState, getRestResponse} from '../app.reducers';
 })
 export class GrowlContainer {
   sticky = false;
-  life = 2000;
+  life = 20000;
   messages$: Observable<Message[]>;
 
   constructor(private store: Store<AppState>) {

@@ -25,7 +25,9 @@ export class MenubarGuard implements CanActivate {
 
   getMenubar(): Observable<boolean> {
     return this.menubarService.get()
-      .map(response => new ReceiveMenubarAction(response.json()))
+      .map(response => {
+        return new ReceiveMenubarAction(response.json())
+      })
       .do((action: ReceiveMenubarAction) => this.store.dispatch(action))
       .map(menubar => {
         return !!menubar;

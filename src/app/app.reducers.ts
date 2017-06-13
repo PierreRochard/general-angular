@@ -31,7 +31,7 @@ const reducers = {
 };
 
 const localStorageConfig: LocalStorageConfig = {
-  keys: ['auth', 'menubar'],
+  keys: ['auth'],
   rehydrate: true,
   storage: localStorage,
   removeOnUndefined: false

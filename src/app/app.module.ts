@@ -2,7 +2,6 @@ import * as Raven from 'raven-js';
 
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule, ErrorHandler} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 
 import {StoreModule} from '@ngrx/store';
@@ -11,7 +10,7 @@ import {RouterStoreModule} from '@ngrx/router-store';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import { StoreLogMonitorModule, useLogMonitor } from '@ngrx/store-log-monitor';
 
-import {ButtonModule, DataTableModule, FieldsetModule, GrowlModule, InputTextModule, PasswordModule} from 'primeng/primeng';
+import {DataTableModule, FieldsetModule, GrowlModule} from 'primeng/primeng';
 
 import { environment } from '../environments/environment';
 
@@ -24,12 +23,6 @@ import {PathContainer} from './paths/path.container';
 import {HomeContainer} from './home/home.container';
 import {RpcContainer} from './rpc/rpc.container';
 import {TableContainer} from './table/table.container';
-
-
-import {FormComponent} from './form/form.component';
-import {FormContainer} from './form/form.container';
-import {FormElementComponent} from './form/form-element.component';
-import {FormCreationService} from './form/form-creation.service';
 
 import {TableDatatableComponent} from './table/table-datatable.component';
 
@@ -47,6 +40,7 @@ import {TableEffects} from './table/table.effects';
 import {WebsocketEffects} from './websocket/websocket.effects';
 import {WebsocketService} from './websocket/websocket.service';
 import { AppMenubarModule } from './menubar/menubar.module';
+import { AppFormModule } from './form/form.module';
 
 const optionalImports = [];
 
@@ -84,17 +78,14 @@ if (!environment.production) {
     HomeContainer,
     PathContainer,
     RpcContainer,
-    FormComponent,
-    FormContainer,
-    FormElementComponent,
     GrowlContainer,
     TableContainer,
     TableDatatableComponent,
   ],
   imports: [
+    AppFormModule,
     AppMenubarModule,
     BrowserModule,
-    ButtonModule,
     DataTableModule,
     EffectsModule.run(AuthEffects),
     EffectsModule.run(RestEffects),
@@ -102,12 +93,8 @@ if (!environment.production) {
     EffectsModule.run(TableEffects),
     EffectsModule.run(WebsocketEffects),
     FieldsetModule,
-    FormsModule,
     GrowlModule,
     HttpModule,
-    InputTextModule,
-    PasswordModule,
-    ReactiveFormsModule,
     RouterStoreModule.connectRouter(),
     routing,
     StoreModule.provideStore(reducer),
@@ -115,7 +102,6 @@ if (!environment.production) {
   ],
   providers: [
     RestClient,
-    FormCreationService,
     SchemaGuard,
     WebsocketService,
     { provide: ErrorHandler, useClass: RavenErrorHandler }
