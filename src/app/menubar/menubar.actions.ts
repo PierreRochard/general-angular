@@ -1,6 +1,7 @@
 import {Response} from '@angular/http';
 
 import {Action} from '@ngrx/store';
+
 import {type} from '../util';
 
 export const MenubarActionTypes = {

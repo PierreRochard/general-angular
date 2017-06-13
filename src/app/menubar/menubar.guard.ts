@@ -10,10 +10,11 @@ import 'rxjs/add/operator/take';
 
 import {Store} from '@ngrx/store';
 
+import {AppState} from '../app.reducers';
+
 import {ReceiveMenubarAction} from './menubar.actions';
 import {ReceivedResponseAction} from '../rest/rest.actions';
 import {MenubarService} from './menubar.service';
-import { AppState } from '../app.reducers';
 
 @Injectable()
 export class MenubarGuard implements CanActivate {

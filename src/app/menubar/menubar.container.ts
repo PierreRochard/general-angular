@@ -5,12 +5,13 @@ import {Observable} from 'rxjs/Observable';
 import {Store} from '@ngrx/store';
 
 import {MenuItem} from 'primeng/primeng';
-import { AppState } from '../app.reducers';
+
+import {AppState} from '../app.reducers';
 
 
 
 @Component({
-  selector: 'menubar',
+  selector: 'app-menubar',
   template: `<p-menubar [model]="items$ | async"></p-menubar>`,
 })
 export class MenubarContainer implements OnInit {
