@@ -51,12 +51,16 @@ import { AppMenubarModule } from './menubar/menubar.module';
 const optionalImports = [];
 
 Raven
-  .config('https://5d41708e0aae4566ba49adf4d9be7bce@sentry.io/167393')
+  .config('https://5d41708e0aae4566ba49adf4d9be7bce@sentry.io/167393',
+    {
+      stacktrace: true,
+      level: 'debug'
+    })
   .install();
 
 export class RavenErrorHandler implements ErrorHandler {
-  handleError(err: any): void {
-    Raven.captureException(err.originalError);
+  handleError(error: any): void {
+    Raven.captureException(error.originalError);
   }
 }
 

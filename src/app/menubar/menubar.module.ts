@@ -20,8 +20,8 @@ import { MenubarEffects } from './menubar.effects';
     MenubarContainer,
   ],
   providers: [
-    MenubarService,
     MenubarGuard,
+    MenubarService,
   ],
   exports: [
     MenubarContainer,

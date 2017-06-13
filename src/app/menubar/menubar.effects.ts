@@ -4,13 +4,11 @@ import {Actions, Effect} from '@ngrx/effects';
 
 import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/switchMap';
+import {of} from 'rxjs/observable/of';
 
 import {ReceiveMenubarAction, MenubarActionTypes} from './menubar.actions';
-import {AppState} from '../app.reducers';
 import {MenubarService} from './menubar.service';
 
-import {of} from 'rxjs/observable/of';
-import {Store} from '@ngrx/store';
 
 @Injectable()
 export class MenubarEffects {
@@ -32,6 +30,5 @@ export class MenubarEffects {
   constructor (
     private actions$: Actions,
     private menubarService: MenubarService,
-    private store: Store<AppState>,
   ) { }
 }

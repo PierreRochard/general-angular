@@ -64,10 +64,6 @@ export const getAuthState = (state: AppState) => state.auth;
 export const getToken = (state: AuthState) => state.token;
 export const getAuthToken = createSelector(getAuthState, getToken);
 
-// Menubar
-export const getMenubarState = (state: AppState) => state.menubar;
-export const getMenuItems = (state: MenubarState) => state.menuItems;
-export const selectMenuItems = createSelector(getMenubarState, getMenuItems);
 
 // REST
 export const getRestState = (state: AppState) => state.rest;

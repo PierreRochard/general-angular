@@ -10,10 +10,10 @@ import 'rxjs/add/operator/take';
 
 import {Store} from '@ngrx/store';
 
-import { AppState, selectMenuItems } from '../app.reducers';
 import {ReceiveMenubarAction} from './menubar.actions';
 import {ReceivedResponseAction} from '../rest/rest.actions';
 import {MenubarService} from './menubar.service';
+import { AppState } from '../app.reducers';
 
 @Injectable()
 export class MenubarGuard implements CanActivate {
@@ -36,7 +36,7 @@ export class MenubarGuard implements CanActivate {
   }
 
   hasMenubarInStore(): Observable<boolean> {
-    return this.store.select(selectMenuItems)
+    return this.store.select(state => state.menubar.menuItems)
       .map(menuItems => {
         // return false;
         return menuItems.length > 0;
