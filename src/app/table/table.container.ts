@@ -8,17 +8,18 @@ import {AppState, getRecords} from '../app.reducers';
 
 @Component({
   selector: 'table-container',
-  template: `<div class="ui-g">
-                <div class="ui-g-12">
-                  <form-container></form-container>
-                </div>
-                <div class="ui-g-12">
-                  <table-datatable [records]="records$ | async"
-                                   [columnSettings]="columnSettings$ | async"
-                                   >
-                  </table-datatable>
-                </div>
-              </div>`
+  template: `
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <app-form-container></app-form-container>
+      </div>
+      <div class="ui-g-12">
+        <table-datatable [records]="records$ | async"
+                         [columnSettings]="columnSettings$ | async"
+        >
+        </table-datatable>
+      </div>
+    </div>`
 })
 export class TableContainer {
   public records$: Observable<any[]>;

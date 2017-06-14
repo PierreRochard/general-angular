@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 import {Store} from '@ngrx/store';
 import '@ngrx/core/add/operator/select';
@@ -10,20 +10,23 @@ import {Observable} from 'rxjs/observable';
 
 
 @Component({
-  selector: 'path-container',
+  selector: 'app-path-container',
   template: `
     <div [ngSwitch]="pathNameLength$ | async">
-      <home-container *ngSwitchCase="0" ></home-container>
-      <table-container *ngSwitchCase="1" ></table-container>
-      <rpc-container *ngSwitchCase="2" ></rpc-container>
+      <app-home-container *ngSwitchCase="0"></app-home-container>
+      <table-container *ngSwitchCase="1"></table-container>
+      <app-form-container *ngSwitchCase="2"></app-form-container>
     </div>
   `
 })
-export class PathContainer {
+export class PathContainer implements OnInit {
   pathNameLength$: Observable<number>;
 
-  constructor(store: Store<AppState>) {
-    this.pathNameLength$ = store.select(getRouterState)
-                                .map(state => state.path.split('/').filter(part => part.length > 0).length);
+  constructor(private store: Store<AppState>) {}
+
+  ngOnInit() {
+    this.pathNameLength$ = this.store.select(getRouterState)
+      .map(state => state.path.split('/')
+        .filter(part => part.length > 0).length);
   }
 }

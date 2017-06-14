@@ -7,7 +7,7 @@ import {Store} from '@ngrx/store';
 import {AppState, getSchemaState} from '../app.reducers';
 
 @Component({
-  selector: 'home-container',
+  selector: 'app-home-container',
   template: `<h1>Home</h1>
               {{schemaDefinitions$ | async | json}}`
 })

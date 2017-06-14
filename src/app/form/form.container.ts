@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ChangeDetectionStrategy, OnInit} from '@angular/core';
 
 import {Store} from '@ngrx/store';
 
@@ -6,23 +6,27 @@ import {Observable} from 'rxjs/Observable';
 
 import {SendPostRequestAction} from '../rest/rest.actions';
 
-import {AppState, getSchemaState} from '../app.reducers';
-import {SchemaState} from '../schema/schema.reducers';
+import { AppState, getRouterState, getSchemaState } from '../app.reducers';
 
 
 @Component({
-  selector: 'form-container',
-  template: `<form-component
-                [schemaState]="schemaState$ | async"
-                (onSubmit)="onSubmit($event)">
-              </form-component>`
+  selector: 'app-form-container',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <app-form-component
+      [selectedPathName]="selectedPathName$ | async"
+      (onSubmit)="onSubmit($event)">
+    </app-form-component>`
 })
-export class FormContainer {
-  schemaState$: Observable<SchemaState>;
+export class FormContainer implements OnInit {
+  selectedPathName$: Observable<string>;
 
-  constructor(private store: Store<AppState>) {
-    this.schemaState$ = store.select(getSchemaState);
+  constructor(private store: Store<AppState>) {}
+
+  ngOnInit() {
+    this.selectedPathName$ = this.store.select(getRouterState).map(state => state.path);
   }
+
   public onSubmit(formValue: any) {
     Object.keys(formValue).filter(key => formValue[key] === '')
                           .map(key => delete formValue[key]);

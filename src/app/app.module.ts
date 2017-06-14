@@ -21,7 +21,6 @@ import {GrowlContainer} from './common/growl.container';
 
 import {PathContainer} from './paths/path.container';
 import {HomeContainer} from './home/home.container';
-import {RpcContainer} from './rpc/rpc.container';
 import {TableContainer} from './table/table.container';
 
 import {TableDatatableComponent} from './table/table-datatable.component';
@@ -77,7 +76,6 @@ if (!environment.production) {
     AppComponent,
     HomeContainer,
     PathContainer,
-    RpcContainer,
     GrowlContainer,
     TableContainer,
     TableDatatableComponent,
