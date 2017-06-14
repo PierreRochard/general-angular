@@ -1,21 +1,17 @@
-import {Component, Input, OnChanges, Output, EventEmitter} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-
-import '@ngrx/core/add/operator/select';
-
-import {FormCreationService} from './form-creation.service';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {FormArray} from '@angular/forms';
 
 
 @Component({
   selector: 'app-form-component',
   template: `
-    <form [formGroup]="form" (ngSubmit)="onSubmit.emit(form.value)">
+    <form (ngSubmit)="onSubmit.emit(form.value)">
       <div class="ui-g">
         <div class="ui-g-4">
           <app-dynamic-form-element
             *ngFor="let pathPropertyName of selectedPathPostBodyPropertyNames"
             [formElementName]="pathPropertyName"
-            [form]="form">
+            [formArray]="formArray">
           </app-dynamic-form-element>
         </div>
       </div>
@@ -26,15 +22,8 @@ import {FormCreationService} from './form-creation.service';
       </div>
     </form>`
 })
-export class FormComponent implements OnChanges {
-  public form: FormGroup;
-
+export class FormComponent {
   @Input() selectedPathName: string;
+  @Input() formArray: FormArray;
   @Output() onSubmit = new EventEmitter<any>();
-
-  constructor(private formCreation: FormCreationService) { }
-
-  ngOnChanges() {
-    // this.form = this.formCreation.toFormGroup();
-  }
 }

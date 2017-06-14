@@ -1,17 +1,15 @@
 import {Component, Input} from '@angular/core';
-import {FormGroup} from '@angular/forms';
+import {FormArray} from '@angular/forms';
 
 @Component({
   selector: 'app-dynamic-form-element',
-  template: `<div [formGroup]="form">
+  template: `<div>
               <label [attr.for]="formElementName">{{formElementLabel}}</label>
                 <input *ngIf="!(formElementName === 'password')"
-                        [formControlName]="formElementName"
                         [id]="formElementName"
                         pInputText />
                 <input *ngIf="formElementName === 'password'"
                         type="password"
-                        [formControlName]="formElementName"
                         pPassword />
             </div>`,
   styles: [`
@@ -22,7 +20,7 @@ import {FormGroup} from '@angular/forms';
 })
 export class FormElementComponent {
   @Input() formElementName: string;
-  @Input() form: FormGroup;
+  @Input() formArray: FormArray;
   get formElementLabel(): string {
     const label = this.formElementName.replace('_', ' ');
     if (label === 'id') {

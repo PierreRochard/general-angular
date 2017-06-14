@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { InputTextModule } from 'primeng/components/inputtext/inputtext';
 import { PasswordModule } from 'primeng/components/password/password';
@@ -18,7 +18,6 @@ import { FormCreationService } from './form-creation.service';
     FormsModule,
     InputTextModule,
     PasswordModule,
-    ReactiveFormsModule,
   ],
   declarations: [
     FormComponent,
