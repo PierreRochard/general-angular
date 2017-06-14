@@ -24,6 +24,7 @@ import {FormArray} from '@angular/forms';
 })
 export class FormComponent {
   @Input() selectedPathName: string;
+  @Input() formFieldSettings: any[];
   @Input() formArray: FormArray;
   @Output() onSubmit = new EventEmitter<any>();
 }

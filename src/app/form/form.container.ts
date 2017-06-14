@@ -6,7 +6,7 @@ import {Observable} from 'rxjs/Observable';
 
 import {SendPostRequestAction} from '../rest/rest.actions';
 
-import { AppState, getRouterState, getSchemaState } from '../app.reducers';
+import { AppState, getSchemaState } from '../app.reducers';
 
 
 @Component({
@@ -15,16 +15,19 @@ import { AppState, getRouterState, getSchemaState } from '../app.reducers';
   template: `
     <app-form-component
       [selectedPathName]="selectedPathName$ | async"
+      [formFieldSettings]="formFieldSettings$ | async"
       (onSubmit)="onSubmit($event)">
     </app-form-component>`
 })
 export class FormContainer implements OnInit {
   selectedPathName$: Observable<string>;
+  formFieldSettings$: Observable<any>;
 
   constructor(private store: Store<AppState>) {}
 
   ngOnInit() {
-    this.selectedPathName$ = this.store.select(getRouterState).map(state => state.path);
+    this.selectedPathName$ = this.store.select(state => state.router.path);
+    this.formFieldSettings$ = this.store.select(state => state.form.formFieldSettings);
   }
 
   public onSubmit(formValue: any) {

@@ -10,6 +10,8 @@ import { FormContainer } from './form.container';
 import { FormComponent } from './form.component';
 import { FormElementComponent } from './form-element.component';
 import { FormCreationService } from './form-creation.service';
+import { FormService } from './form.service';
+import { FormGuard } from './form.guard';
 
 @NgModule({
   imports: [
@@ -25,6 +27,8 @@ import { FormCreationService } from './form-creation.service';
     FormElementComponent,
   ],
   providers: [
+    FormGuard,
+    FormService,
     FormCreationService,
   ],
   exports: [

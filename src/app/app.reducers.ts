@@ -6,6 +6,7 @@ import {createSelector} from 'reselect';
 
 import {environment} from '../environments/environment';
 import {AuthState, authReducer} from './auth/auth.reducers';
+import {FormState, formReducer} from './form/form.reducers';
 import {MenubarState, menubarReducer} from './menubar/menubar.reducers';
 import {RestState, restReducer} from './rest/rest.reducers';
 import {RouterState, routerReducer} from '@ngrx/router-store';
@@ -14,6 +15,7 @@ import {TableState, tableReducer} from './table/table.reducers';
 
 export interface AppState {
   auth:    AuthState;
+  form:    FormState,
   menubar: MenubarState;
   rest:    RestState;
   router:  RouterState;
@@ -23,6 +25,7 @@ export interface AppState {
 
 const reducers = {
   auth:    authReducer,
+  form:    formReducer,
   menubar: menubarReducer,
   rest:    restReducer,
   router:  routerReducer,
