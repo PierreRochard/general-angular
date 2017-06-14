@@ -59,7 +59,6 @@ export class MenubarGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot) {
     const hasMenubar = this.hasMenubar();
-    console.log(hasMenubar);
     return hasMenubar;
   }
 }

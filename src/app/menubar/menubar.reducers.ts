@@ -13,7 +13,14 @@ const initialState: MenubarState = {
 export function menubarReducer (state = initialState, action: MenubarActions): MenubarState {
   switch (action.type) {
     case MenubarActionTypes.RECEIVE_MENUBAR:
-      return Object.assign({}, state, { menuItems: action.payload });
+      return Object.assign({}, state, {
+        menuItems: action.payload.map(item => Object.keys(item).reduce((result, key) => {
+          if (item[key] !== null && item[key] !== undefined && item[key].length > 0) {
+            result[key] = item[key];
+          }
+          return result;
+        }, {}))
+      });
     default:
       return state;
   }
