@@ -10,7 +10,7 @@ import {FormArray} from '@angular/forms';
         <div class="ui-g-4">
           <app-dynamic-form-element
             *ngFor="let pathPropertyName of selectedPathPostBodyPropertyNames"
-            [formElementName]="pathPropertyName"
+            [formFieldName]="pathPropertyName"
             [formArray]="formArray">
           </app-dynamic-form-element>
         </div>

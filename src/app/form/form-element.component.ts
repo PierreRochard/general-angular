@@ -3,30 +3,28 @@ import {FormArray} from '@angular/forms';
 
 @Component({
   selector: 'app-dynamic-form-element',
-  template: `<div>
-              <label [attr.for]="formElementName">{{formElementLabel}}</label>
-                <input *ngIf="!(formElementName === 'password')"
-                        [id]="formElementName"
-                        pInputText />
-                <input *ngIf="formElementName === 'password'"
-                        type="password"
-                        pPassword />
-            </div>`,
-  styles: [`
-            .ui-inputtext {
-                display:block;
-            }
-          `]
+  template: `
+    <div>
+      <label for="formFieldName">
+        {{formFieldLabel}}
+      </label>
+
+        <input *ngIf="formFieldName !== 'password'"
+                [id]="formFieldName"
+                pInputText
+        />
+
+        <input *ngIf="formFieldName === 'password'"
+               [id]="formFieldName"
+               type="password"
+               pPassword
+        />
+
+    </div>
+  `
 })
 export class FormElementComponent {
-  @Input() formElementName: string;
+  @Input() formFieldName: string;
+  @Input() formFieldLabel: string;
   @Input() formArray: FormArray;
-  get formElementLabel(): string {
-    const label = this.formElementName.replace('_', ' ');
-    if (label === 'id') {
-      return label.toUpperCase();
-    } else {
-      return label.charAt(0).toUpperCase() + label.slice(1);
-    }
-  }
 }
