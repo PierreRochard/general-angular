@@ -1,7 +1,9 @@
 import {FormActions, FormActionTypes} from './form.actions';
 
+import {FormFieldSetting} from 'app/form/form.models';
+
 export interface FormState {
-  formFieldSettings: any[];
+  formFieldSettings: FormFieldSetting[];
 }
 
 const initialState: FormState = {

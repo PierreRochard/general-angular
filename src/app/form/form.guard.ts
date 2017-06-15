@@ -23,7 +23,7 @@ export class FormGuard implements CanActivate {
     private formService: FormService,
   ) { }
 
-  getForm(): Observable<boolean> {
+  getFormFieldSettings(): Observable<boolean> {
     return this.formService.get_form_field_settings()
       .map(response => {
         return new ReceiveFormFieldSettingsAction(response.json())
@@ -52,7 +52,7 @@ export class FormGuard implements CanActivate {
         if (inStore) {
           return of(inStore);
         }
-        return this.getForm();
+        return this.getFormFieldSettings();
       });
   }
 

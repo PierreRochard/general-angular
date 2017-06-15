@@ -6,7 +6,8 @@ import {Observable} from 'rxjs/Observable';
 
 import {SendPostRequestAction} from '../rest/rest.actions';
 
-import { AppState, getSchemaState } from '../app.reducers';
+import {AppState, getSchemaState} from '../app.reducers';
+import {FormFieldSetting} from './form.models';
 
 
 @Component({
@@ -21,7 +22,7 @@ import { AppState, getSchemaState } from '../app.reducers';
 })
 export class FormContainer implements OnInit {
   selectedPathName$: Observable<string>;
-  formFieldSettings$: Observable<any>;
+  formFieldSettings$: Observable<FormFieldSetting[]>;
 
   constructor(private store: Store<AppState>) {}
 
