@@ -1,5 +1,5 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
-import {FormArray} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl} from '@angular/forms';
 
 import {FormFieldSetting} from './form.models';
 
@@ -7,14 +7,13 @@ import {FormFieldSetting} from './form.models';
 @Component({
   selector: 'app-form-component',
   template: `
-    <form (ngSubmit)="onSubmit.emit(form.value)" #form="ngForm">
+    <form [formGroup]="formArray" (ngSubmit)="onSubmit.emit(form.value)">
       <div class="ui-g">
         <div class="ui-g-4">
           <app-dynamic-form-element
             *ngFor="let formFieldSetting of formFieldSettings"
             [formFieldName]="formFieldSetting.form_field_name"
             [formArray]="formArray"
-
           >
           </app-dynamic-form-element>
         </div>
@@ -29,6 +28,16 @@ import {FormFieldSetting} from './form.models';
 export class FormComponent {
   @Input() selectedPathName: string;
   @Input() formFieldSettings: FormFieldSetting[];
-  @Input() formArray: FormArray;
   @Output() onSubmit = new EventEmitter<any>();
+
+  public formArray: FormArray;
+
+  constructor(private fb: FormBuilder) {
+    const controls = this.formFieldSettings.map(settings => {
+        return new FormControl(settings.form_field_name)
+      }
+    );
+    console.log(controls);
+    this.formArray = fb.array(controls)
+  }
 }

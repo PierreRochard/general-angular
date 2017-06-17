@@ -1,7 +1,7 @@
 import {compose} from '@ngrx/core/compose';
 import {ActionReducer, combineReducers} from '@ngrx/store';
 import {storeFreeze} from 'ngrx-store-freeze';
-import { LocalStorageConfig, localStorageSync } from 'ngrx-store-localstorage';
+import {LocalStorageConfig, localStorageSync} from 'ngrx-store-localstorage';
 import {createSelector} from 'reselect';
 
 import {environment} from '../environments/environment';

@@ -1,23 +1,23 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {FormArray} from '@angular/forms';
 
 @Component({
   selector: 'app-dynamic-form-element',
   template: `
-    <div>
-      <label for="formFieldName">
+    <div [formGroup]="formArray">
+      <label [attr.for]="formFieldName">
         {{formFieldLabel}}
       </label>
 
         <input *ngIf="formFieldName !== 'password'"
+                [formControlName]="formFieldName"
                 [id]="formFieldName"
-                (keyup)="submitData($event)"
                 pInputText
         />
 
         <input *ngIf="formFieldName === 'password'"
+               [formControlName]="formFieldName"
                [id]="formFieldName"
-               (keyup)="submitData($event)"
                type="password"
                pPassword
         />
@@ -29,5 +29,4 @@ export class FormElementComponent {
   @Input() formFieldName: string;
   @Input() formFieldLabel: string;
   @Input() formArray: FormArray;
-  @Output() submitData = new EventEmitter<any>();
 }

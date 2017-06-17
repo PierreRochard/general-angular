@@ -16,10 +16,9 @@ import { environment } from '../environments/environment';
 
 import {RestEffects} from './rest/rest.effects';
 
-import {GrowlContainer} from './common/growl.container';
+import {GrowlContainer} from './growl/growl.container';
 
 
-import {PathContainer} from './paths/path.container';
 import {HomeContainer} from './home/home.container';
 import {TableContainer} from './table/table.container';
 
@@ -75,7 +74,6 @@ if (!environment.production) {
   declarations: [
     AppComponent,
     HomeContainer,
-    PathContainer,
     GrowlContainer,
     TableContainer,
     TableDatatableComponent,

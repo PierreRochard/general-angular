@@ -2,7 +2,7 @@
 
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { GrowlContainer } from './common/growl.container';
+import { GrowlContainer } from './growl/growl.container';
 import { MenubarContainer } from 'app/menubar/menubar.container';
 import {RouterLinkStubDirective, RouterOutletStubComponent} from '../../testing/router-stubs'
 import { GrowlModule, MenubarModule } from 'primeng/primeng';
