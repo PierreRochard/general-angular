@@ -7,13 +7,15 @@ import {FormFieldSetting} from './form.models';
 @Component({
   selector: 'app-form-component',
   template: `
-    <form (ngSubmit)="onSubmit.emit(form.value)">
+    <form (ngSubmit)="onSubmit.emit(form.value)" #form="ngForm">
       <div class="ui-g">
         <div class="ui-g-4">
           <app-dynamic-form-element
             *ngFor="let formFieldSetting of formFieldSettings"
             [formFieldName]="formFieldSetting.form_field_name"
-            [formArray]="formArray">
+            [formArray]="formArray"
+
+          >
           </app-dynamic-form-element>
         </div>
       </div>

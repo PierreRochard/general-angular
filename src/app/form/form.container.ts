@@ -32,6 +32,7 @@ export class FormContainer implements OnInit {
   }
 
   public onSubmit(formValue: any) {
+    console.log(formValue);
     Object.keys(formValue).filter(key => formValue[key] === '')
                           .map(key => delete formValue[key]);
     this.store.select(getSchemaState).take(1)

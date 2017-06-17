@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {FormArray} from '@angular/forms';
 
 @Component({
@@ -11,11 +11,13 @@ import {FormArray} from '@angular/forms';
 
         <input *ngIf="formFieldName !== 'password'"
                 [id]="formFieldName"
+                (keyup)="submitData($event)"
                 pInputText
         />
 
         <input *ngIf="formFieldName === 'password'"
                [id]="formFieldName"
+               (keyup)="submitData($event)"
                type="password"
                pPassword
         />
@@ -27,4 +29,5 @@ export class FormElementComponent {
   @Input() formFieldName: string;
   @Input() formFieldLabel: string;
   @Input() formArray: FormArray;
+  @Output() submitData = new EventEmitter<any>();
 }
