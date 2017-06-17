@@ -904,6 +904,271 @@
             "description": "Partial Content"
           }
         }
+      },
+      "post": {
+        "tags": [
+          "table_settings"
+        ],
+        "consumes": [
+          "application/json",
+          "application/vnd.pgrst.object+json",
+          "text/csv"
+        ],
+        "produces": [
+          "application/json",
+          "application/vnd.pgrst.object+json",
+          "text/csv"
+        ],
+        "parameters": [
+          {
+            "required": false,
+            "in": "header",
+            "name": "Prefer",
+            "type": "string",
+            "enum": [
+              "return=representation",
+              "return=minimal",
+              "return=none"
+            ],
+            "description": "Preference"
+          },
+          {
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/table_settings"
+            },
+            "in": "body",
+            "name": "body",
+            "description": "table_settings"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "table_settings"
+        ],
+        "produces": [
+          "application/json",
+          "application/vnd.pgrst.object+json",
+          "text/csv"
+        ],
+        "parameters": [
+          {
+            "required": false,
+            "in": "header",
+            "name": "Prefer",
+            "type": "string",
+            "enum": [
+              "return=representation",
+              "return=minimal",
+              "return=none"
+            ],
+            "description": "Preference"
+          },
+          {
+            "pattern": "^not[.]eq[.]|^not[.]gte[.]|^not[.]gt[.]|^not[.]lte[.]|^not[.]lt[.]|^not[.]neq[.]|^not[.]like[.]|^not[.]ilike[.]|^not[.]is[.]|^not[.]isnot[.]|^not[.]@@[.]|^not[.]@>[.]|^not[.]<@[.]|^not[.]in[.]|^not[.]notin[.]|^eq[.]|^gte[.]|^gt[.]|^lte[.]|^lt[.]|^neq[.]|^like[.]|^ilike[.]|^is[.]|^isnot[.]|^@@[.]|^@>[.]|^<@[.]|^in[.]|^notin[.]",
+            "format": "character varying",
+            "required": false,
+            "in": "query",
+            "name": "table_name",
+            "type": "string"
+          },
+          {
+            "pattern": "^not[.]eq[.]|^not[.]gte[.]|^not[.]gt[.]|^not[.]lte[.]|^not[.]lt[.]|^not[.]neq[.]|^not[.]like[.]|^not[.]ilike[.]|^not[.]is[.]|^not[.]isnot[.]|^not[.]@@[.]|^not[.]@>[.]|^not[.]<@[.]|^not[.]in[.]|^not[.]notin[.]|^eq[.]|^gte[.]|^gt[.]|^lte[.]|^lt[.]|^neq[.]|^like[.]|^ilike[.]|^is[.]|^isnot[.]|^@@[.]|^@>[.]|^<@[.]|^in[.]|^notin[.]",
+            "format": "uuid",
+            "required": false,
+            "in": "query",
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "pattern": "^not[.]eq[.]|^not[.]gte[.]|^not[.]gt[.]|^not[.]lte[.]|^not[.]lt[.]|^not[.]neq[.]|^not[.]like[.]|^not[.]ilike[.]|^not[.]is[.]|^not[.]isnot[.]|^not[.]@@[.]|^not[.]@>[.]|^not[.]<@[.]|^not[.]in[.]|^not[.]notin[.]|^eq[.]|^gte[.]|^gt[.]|^lte[.]|^lt[.]|^neq[.]|^like[.]|^ilike[.]|^is[.]|^isnot[.]|^@@[.]|^@>[.]|^<@[.]|^in[.]|^notin[.]",
+            "format": "character varying",
+            "required": false,
+            "in": "query",
+            "name": "user",
+            "type": "string"
+          },
+          {
+            "pattern": "^not[.]eq[.]|^not[.]gte[.]|^not[.]gt[.]|^not[.]lte[.]|^not[.]lt[.]|^not[.]neq[.]|^not[.]like[.]|^not[.]ilike[.]|^not[.]is[.]|^not[.]isnot[.]|^not[.]@@[.]|^not[.]@>[.]|^not[.]<@[.]|^not[.]in[.]|^not[.]notin[.]|^eq[.]|^gte[.]|^gt[.]|^lte[.]|^lt[.]|^neq[.]|^like[.]|^ilike[.]|^is[.]|^isnot[.]|^@@[.]|^@>[.]|^<@[.]|^in[.]|^notin[.]",
+            "format": "character varying",
+            "required": false,
+            "in": "query",
+            "name": "custom_name",
+            "type": "string"
+          },
+          {
+            "pattern": "^not[.]eq[.]|^not[.]gte[.]|^not[.]gt[.]|^not[.]lte[.]|^not[.]lt[.]|^not[.]neq[.]|^not[.]like[.]|^not[.]ilike[.]|^not[.]is[.]|^not[.]isnot[.]|^not[.]@@[.]|^not[.]@>[.]|^not[.]<@[.]|^not[.]in[.]|^not[.]notin[.]|^eq[.]|^gte[.]|^gt[.]|^lte[.]|^lt[.]|^neq[.]|^like[.]|^ilike[.]|^is[.]|^isnot[.]|^@@[.]|^@>[.]|^<@[.]|^in[.]|^notin[.]",
+            "format": "character varying",
+            "required": false,
+            "in": "query",
+            "name": "category",
+            "type": "string"
+          },
+          {
+            "pattern": "^not[.]eq[.]|^not[.]gte[.]|^not[.]gt[.]|^not[.]lte[.]|^not[.]lt[.]|^not[.]neq[.]|^not[.]like[.]|^not[.]ilike[.]|^not[.]is[.]|^not[.]isnot[.]|^not[.]@@[.]|^not[.]@>[.]|^not[.]<@[.]|^not[.]in[.]|^not[.]notin[.]|^eq[.]|^gte[.]|^gt[.]|^lte[.]|^lt[.]|^neq[.]|^like[.]|^ilike[.]|^is[.]|^isnot[.]|^@@[.]|^@>[.]|^<@[.]|^in[.]|^notin[.]",
+            "format": "boolean",
+            "required": false,
+            "in": "query",
+            "name": "visible",
+            "type": "string"
+          },
+          {
+            "pattern": "^not[.]eq[.]|^not[.]gte[.]|^not[.]gt[.]|^not[.]lte[.]|^not[.]lt[.]|^not[.]neq[.]|^not[.]like[.]|^not[.]ilike[.]|^not[.]is[.]|^not[.]isnot[.]|^not[.]@@[.]|^not[.]@>[.]|^not[.]<@[.]|^not[.]in[.]|^not[.]notin[.]|^eq[.]|^gte[.]|^gt[.]|^lte[.]|^lt[.]|^neq[.]|^like[.]|^ilike[.]|^is[.]|^isnot[.]|^@@[.]|^@>[.]|^<@[.]|^in[.]|^notin[.]",
+            "format": "boolean",
+            "required": false,
+            "in": "query",
+            "name": "can_insert",
+            "type": "string"
+          },
+          {
+            "pattern": "^not[.]eq[.]|^not[.]gte[.]|^not[.]gt[.]|^not[.]lte[.]|^not[.]lt[.]|^not[.]neq[.]|^not[.]like[.]|^not[.]ilike[.]|^not[.]is[.]|^not[.]isnot[.]|^not[.]@@[.]|^not[.]@>[.]|^not[.]<@[.]|^not[.]in[.]|^not[.]notin[.]|^eq[.]|^gte[.]|^gt[.]|^lte[.]|^lt[.]|^neq[.]|^like[.]|^ilike[.]|^is[.]|^isnot[.]|^@@[.]|^@>[.]|^<@[.]|^in[.]|^notin[.]",
+            "format": "boolean",
+            "required": false,
+            "in": "query",
+            "name": "can_update",
+            "type": "string"
+          },
+          {
+            "pattern": "^not[.]eq[.]|^not[.]gte[.]|^not[.]gt[.]|^not[.]lte[.]|^not[.]lt[.]|^not[.]neq[.]|^not[.]like[.]|^not[.]ilike[.]|^not[.]is[.]|^not[.]isnot[.]|^not[.]@@[.]|^not[.]@>[.]|^not[.]<@[.]|^not[.]in[.]|^not[.]notin[.]|^eq[.]|^gte[.]|^gt[.]|^lte[.]|^lt[.]|^neq[.]|^like[.]|^ilike[.]|^is[.]|^isnot[.]|^@@[.]|^@>[.]|^<@[.]|^in[.]|^notin[.]",
+            "format": "boolean",
+            "required": false,
+            "in": "query",
+            "name": "can_delete",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "table_settings"
+        ],
+        "consumes": [
+          "application/json",
+          "application/vnd.pgrst.object+json",
+          "text/csv"
+        ],
+        "produces": [
+          "application/json",
+          "application/vnd.pgrst.object+json",
+          "text/csv"
+        ],
+        "parameters": [
+          {
+            "required": false,
+            "in": "header",
+            "name": "Prefer",
+            "type": "string",
+            "enum": [
+              "return=representation",
+              "return=minimal",
+              "return=none"
+            ],
+            "description": "Preference"
+          },
+          {
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/table_settings"
+            },
+            "in": "body",
+            "name": "body",
+            "description": "table_settings"
+          },
+          {
+            "pattern": "^not[.]eq[.]|^not[.]gte[.]|^not[.]gt[.]|^not[.]lte[.]|^not[.]lt[.]|^not[.]neq[.]|^not[.]like[.]|^not[.]ilike[.]|^not[.]is[.]|^not[.]isnot[.]|^not[.]@@[.]|^not[.]@>[.]|^not[.]<@[.]|^not[.]in[.]|^not[.]notin[.]|^eq[.]|^gte[.]|^gt[.]|^lte[.]|^lt[.]|^neq[.]|^like[.]|^ilike[.]|^is[.]|^isnot[.]|^@@[.]|^@>[.]|^<@[.]|^in[.]|^notin[.]",
+            "format": "character varying",
+            "required": false,
+            "in": "query",
+            "name": "table_name",
+            "type": "string"
+          },
+          {
+            "pattern": "^not[.]eq[.]|^not[.]gte[.]|^not[.]gt[.]|^not[.]lte[.]|^not[.]lt[.]|^not[.]neq[.]|^not[.]like[.]|^not[.]ilike[.]|^not[.]is[.]|^not[.]isnot[.]|^not[.]@@[.]|^not[.]@>[.]|^not[.]<@[.]|^not[.]in[.]|^not[.]notin[.]|^eq[.]|^gte[.]|^gt[.]|^lte[.]|^lt[.]|^neq[.]|^like[.]|^ilike[.]|^is[.]|^isnot[.]|^@@[.]|^@>[.]|^<@[.]|^in[.]|^notin[.]",
+            "format": "uuid",
+            "required": false,
+            "in": "query",
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "pattern": "^not[.]eq[.]|^not[.]gte[.]|^not[.]gt[.]|^not[.]lte[.]|^not[.]lt[.]|^not[.]neq[.]|^not[.]like[.]|^not[.]ilike[.]|^not[.]is[.]|^not[.]isnot[.]|^not[.]@@[.]|^not[.]@>[.]|^not[.]<@[.]|^not[.]in[.]|^not[.]notin[.]|^eq[.]|^gte[.]|^gt[.]|^lte[.]|^lt[.]|^neq[.]|^like[.]|^ilike[.]|^is[.]|^isnot[.]|^@@[.]|^@>[.]|^<@[.]|^in[.]|^notin[.]",
+            "format": "character varying",
+            "required": false,
+            "in": "query",
+            "name": "user",
+            "type": "string"
+          },
+          {
+            "pattern": "^not[.]eq[.]|^not[.]gte[.]|^not[.]gt[.]|^not[.]lte[.]|^not[.]lt[.]|^not[.]neq[.]|^not[.]like[.]|^not[.]ilike[.]|^not[.]is[.]|^not[.]isnot[.]|^not[.]@@[.]|^not[.]@>[.]|^not[.]<@[.]|^not[.]in[.]|^not[.]notin[.]|^eq[.]|^gte[.]|^gt[.]|^lte[.]|^lt[.]|^neq[.]|^like[.]|^ilike[.]|^is[.]|^isnot[.]|^@@[.]|^@>[.]|^<@[.]|^in[.]|^notin[.]",
+            "format": "character varying",
+            "required": false,
+            "in": "query",
+            "name": "custom_name",
+            "type": "string"
+          },
+          {
+            "pattern": "^not[.]eq[.]|^not[.]gte[.]|^not[.]gt[.]|^not[.]lte[.]|^not[.]lt[.]|^not[.]neq[.]|^not[.]like[.]|^not[.]ilike[.]|^not[.]is[.]|^not[.]isnot[.]|^not[.]@@[.]|^not[.]@>[.]|^not[.]<@[.]|^not[.]in[.]|^not[.]notin[.]|^eq[.]|^gte[.]|^gt[.]|^lte[.]|^lt[.]|^neq[.]|^like[.]|^ilike[.]|^is[.]|^isnot[.]|^@@[.]|^@>[.]|^<@[.]|^in[.]|^notin[.]",
+            "format": "character varying",
+            "required": false,
+            "in": "query",
+            "name": "category",
+            "type": "string"
+          },
+          {
+            "pattern": "^not[.]eq[.]|^not[.]gte[.]|^not[.]gt[.]|^not[.]lte[.]|^not[.]lt[.]|^not[.]neq[.]|^not[.]like[.]|^not[.]ilike[.]|^not[.]is[.]|^not[.]isnot[.]|^not[.]@@[.]|^not[.]@>[.]|^not[.]<@[.]|^not[.]in[.]|^not[.]notin[.]|^eq[.]|^gte[.]|^gt[.]|^lte[.]|^lt[.]|^neq[.]|^like[.]|^ilike[.]|^is[.]|^isnot[.]|^@@[.]|^@>[.]|^<@[.]|^in[.]|^notin[.]",
+            "format": "boolean",
+            "required": false,
+            "in": "query",
+            "name": "visible",
+            "type": "string"
+          },
+          {
+            "pattern": "^not[.]eq[.]|^not[.]gte[.]|^not[.]gt[.]|^not[.]lte[.]|^not[.]lt[.]|^not[.]neq[.]|^not[.]like[.]|^not[.]ilike[.]|^not[.]is[.]|^not[.]isnot[.]|^not[.]@@[.]|^not[.]@>[.]|^not[.]<@[.]|^not[.]in[.]|^not[.]notin[.]|^eq[.]|^gte[.]|^gt[.]|^lte[.]|^lt[.]|^neq[.]|^like[.]|^ilike[.]|^is[.]|^isnot[.]|^@@[.]|^@>[.]|^<@[.]|^in[.]|^notin[.]",
+            "format": "boolean",
+            "required": false,
+            "in": "query",
+            "name": "can_insert",
+            "type": "string"
+          },
+          {
+            "pattern": "^not[.]eq[.]|^not[.]gte[.]|^not[.]gt[.]|^not[.]lte[.]|^not[.]lt[.]|^not[.]neq[.]|^not[.]like[.]|^not[.]ilike[.]|^not[.]is[.]|^not[.]isnot[.]|^not[.]@@[.]|^not[.]@>[.]|^not[.]<@[.]|^not[.]in[.]|^not[.]notin[.]|^eq[.]|^gte[.]|^gt[.]|^lte[.]|^lt[.]|^neq[.]|^like[.]|^ilike[.]|^is[.]|^isnot[.]|^@@[.]|^@>[.]|^<@[.]|^in[.]|^notin[.]",
+            "format": "boolean",
+            "required": false,
+            "in": "query",
+            "name": "can_update",
+            "type": "string"
+          },
+          {
+            "pattern": "^not[.]eq[.]|^not[.]gte[.]|^not[.]gt[.]|^not[.]lte[.]|^not[.]lt[.]|^not[.]neq[.]|^not[.]like[.]|^not[.]ilike[.]|^not[.]is[.]|^not[.]isnot[.]|^not[.]@@[.]|^not[.]@>[.]|^not[.]<@[.]|^not[.]in[.]|^not[.]notin[.]|^eq[.]|^gte[.]|^gt[.]|^lte[.]|^lt[.]|^neq[.]|^like[.]|^ilike[.]|^is[.]|^isnot[.]|^@@[.]|^@>[.]|^<@[.]|^in[.]|^notin[.]",
+            "format": "boolean",
+            "required": false,
+            "in": "query",
+            "name": "can_delete",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          }
+        }
       }
     },
     "/rpc/login": {
@@ -1082,7 +1347,7 @@
     }
   },
   "isValid": true,
-  "lastUpdated": 1494073366417,
+  "lastUpdated": 1494077783680,
   "selectedPathName": "/",
   "selectedPath": {
     "get": {
