@@ -23,16 +23,15 @@ import {GetFormFieldSettingsAction} from "./form.actions";
 })
 export class FormContainer implements OnInit {
   selectedPathName$: Observable<string>;
-  _formFieldSettings$: Observable<FormFieldSetting[]>;
   formFieldSettings$: Observable<FormFieldSetting[]>;
 
   constructor(private store: Store<AppState>) {}
 
   ngOnInit() {
     this.selectedPathName$ = this.store.select(state => state.router.path);
-    this._formFieldSettings$ = this.store.select(state => state.form.formFieldSettings);
     this.formFieldSettings$ = Observable
-      .combineLatest(this.selectedPathName$, this._formFieldSettings$,
+      .combineLatest(this.selectedPathName$,
+                     this.store.select(state => state.form.formFieldSettings),
                                   (pathName, fieldSettings) => {
         const formName = pathName.split('/').pop();
         const formFieldSettings = fieldSettings.filter(fieldSetting => {
