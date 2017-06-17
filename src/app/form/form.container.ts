@@ -48,9 +48,14 @@ export class FormContainer implements OnInit {
     console.log(formValue);
     Object.keys(formValue).filter(key => formValue[key] === '')
                           .map(key => delete formValue[key]);
-    this.store.select(getSchemaState).take(1)
-      .subscribe(schemaState => this.store.dispatch(
-        new SendPostRequestAction({path: schemaState.selectedPathName, data: formValue}))
-      );
+    this.selectedPathName$.take(1).subscribe(selectedPathName => {
+      const post = {
+        path: selectedPathName,
+        data: formValue
+      };
+      const postAction = new SendPostRequestAction(post);
+      this.store.dispatch(postAction)
+    }
+    );
   }
 }

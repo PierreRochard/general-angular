@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
-import {FormArray} from '@angular/forms';
+import {FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-dynamic-form-element',
   template: `
-    <div [formGroup]="formArray">
-      <label [attr.for]="formFieldName">
-        {{formFieldLabel}}
+    <div [formGroup]="formGroup">
+      <label>
+        {{formFieldName}}
       </label>
 
         <input *ngIf="formFieldName !== 'password'"
@@ -28,5 +28,5 @@ import {FormArray} from '@angular/forms';
 export class FormElementComponent {
   @Input() formFieldName: string;
   @Input() formFieldLabel: string;
-  @Input() formArray: FormArray;
+  @Input() formGroup: FormGroup;
 }
