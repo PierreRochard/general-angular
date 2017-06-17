@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 
 import {Actions, Effect} from '@ngrx/effects';
 
-import 'rxjs/add/operator/withLatestFrom';
 import {Observable} from 'rxjs/observable';
 
 import * as websocket from './websocket.actions';

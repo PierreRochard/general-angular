@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 
 import {Actions, Effect} from '@ngrx/effects';
 import {go} from '@ngrx/router-store';
-import 'rxjs/add/operator/switch';
 
 import {AuthActionTypes} from './auth.actions';
 import {InvalidateAction} from '../schema/schema.actions';

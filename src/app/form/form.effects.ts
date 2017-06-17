@@ -2,8 +2,6 @@ import {Injectable} from '@angular/core';
 
 import {Actions, Effect} from '@ngrx/effects';
 
-import 'rxjs/add/operator/withLatestFrom';
-import 'rxjs/add/operator/switchMap';
 import {of} from 'rxjs/observable/of';
 
 import {ReceiveFormFieldSettingsAction, FormActionTypes} from './form.actions';

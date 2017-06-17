@@ -2,9 +2,6 @@ import {Injectable} from '@angular/core';
 
 import {Actions, Effect} from '@ngrx/effects';
 
-import 'rxjs/add/operator/withLatestFrom';
-import 'rxjs/add/operator/switchMap';
-
 import {AddTokenAction, RemoveTokenAction} from '../auth/auth.actions';
 import {ReceivedResponseAction, RestActionTypes} from './rest.actions';
 import {UpdateSchemaAction} from '../schema/schema.actions';
