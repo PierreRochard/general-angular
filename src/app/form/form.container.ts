@@ -9,6 +9,7 @@ import {SendPostRequestAction} from '../rest/rest.actions';
 import {AppState} from '../app.reducers';
 import {FormFieldSetting} from './form.models';
 import {GetFormFieldSettingsAction} from "./form.actions";
+import {SendLoginPostRequestAction} from "../auth/auth.actions";
 
 
 @Component({
@@ -45,7 +46,6 @@ export class FormContainer implements OnInit {
   }
 
   public onSubmit(formValue: any) {
-    console.log(formValue);
     Object.keys(formValue).filter(key => formValue[key] === '')
                           .map(key => delete formValue[key]);
     this.selectedPathName$.take(1).subscribe(selectedPathName => {
@@ -53,8 +53,14 @@ export class FormContainer implements OnInit {
         path: selectedPathName,
         data: formValue
       };
-      const postAction = new SendPostRequestAction(post);
-      this.store.dispatch(postAction)
+      if (selectedPathName === '/rpc/login') {
+        const postAction = new SendLoginPostRequestAction(post);
+        this.store.dispatch(postAction)
+      }
+      else {
+        const postAction = new SendPostRequestAction(post);
+        this.store.dispatch(postAction)
+      }
     }
     );
   }

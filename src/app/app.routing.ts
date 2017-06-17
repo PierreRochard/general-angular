@@ -15,7 +15,7 @@ export const routes: Routes = [
   },
   {
     component: TableContainer,
-    path: '**',
+    path: ':selectedPathName',
   },
 ];
 

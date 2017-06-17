@@ -12,7 +12,7 @@ import {FormService} from './form.service';
 export class FormEffects {
 
   @Effect()
-  sendGetRequest$ = this.actions$
+  getFormFieldSettings$ = this.actions$
     .ofType(FormActionTypes.GET_FORM_FIELD_SETTINGS)
     .switchMap(action => this.formService.get_form_field_settings(action.payload)
       .mergeMap(response => {
