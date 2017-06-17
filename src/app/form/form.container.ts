@@ -6,7 +6,7 @@ import {Observable} from 'rxjs/Observable';
 
 import {SendPostRequestAction} from '../rest/rest.actions';
 
-import {AppState, getSchemaState} from '../app.reducers';
+import {AppState} from '../app.reducers';
 import {FormFieldSetting} from './form.models';
 import {GetFormFieldSettingsAction} from "./form.actions";
 

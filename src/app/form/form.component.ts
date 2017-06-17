@@ -1,5 +1,5 @@
-import {Component, Input, Output, EventEmitter, OnInit, OnChanges} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {Component, Input, Output, EventEmitter, OnChanges} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 
 import {FormFieldSetting} from './form.models';
 
