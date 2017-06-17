@@ -19,6 +19,9 @@ import {RestEffects} from './rest/rest.effects';
 import {GrowlContainer} from './growl/growl.container';
 
 
+import { AppFormModule } from './form/form.module';
+import {FormEffects} from "./form/form.effects";
+
 import {HomeContainer} from './home/home.container';
 import {TableContainer} from './table/table.container';
 
@@ -38,8 +41,6 @@ import {TableEffects} from './table/table.effects';
 import {WebsocketEffects} from './websocket/websocket.effects';
 import {WebsocketService} from './websocket/websocket.service';
 import { AppMenubarModule } from './menubar/menubar.module';
-import { AppFormModule } from './form/form.module';
-
 const optionalImports = [];
 
 Raven
@@ -56,16 +57,11 @@ export class RavenErrorHandler implements ErrorHandler {
   }
 }
 
-export function instrumentOptions() {
-  return {
-    monitor: useLogMonitor({ visible: true, position: 'right' })
-  };
-}
-
 if (!environment.production) {
-  // Note that you must instrument after importing StoreModule
   console.log('Dev Environment');
-  optionalImports.push(StoreDevtoolsModule.instrumentStore(instrumentOptions));
+  optionalImports.push(StoreDevtoolsModule.instrumentOnlyWithExtension({
+    maxAge: 5
+  }));
   optionalImports.push(StoreLogMonitorModule);
 }
 
@@ -84,6 +80,7 @@ if (!environment.production) {
     BrowserModule,
     DataTableModule,
     EffectsModule.run(AuthEffects),
+    EffectsModule.run(FormEffects),
     EffectsModule.run(RestEffects),
     EffectsModule.run(SchemaEffects),
     EffectsModule.run(TableEffects),

@@ -8,8 +8,7 @@ import {AppState, getSchemaState} from '../app.reducers';
 
 @Component({
   selector: 'app-home-container',
-  template: `<h1>Home</h1>
-              {{schemaDefinitions$ | async | json}}`
+  template: `<h1>Home</h1>`
 })
 export class HomeContainer {
   schemaDefinitions$: Observable<any>;

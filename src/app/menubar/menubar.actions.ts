@@ -9,7 +9,7 @@ export const MenubarActionTypes = {
 
 export class GetMenubarAction implements Action {
   type = MenubarActionTypes.GET_MENUBAR;
-  constructor(public payload: string) { }
+  constructor(public payload: any) { }
 }
 
 export class ReceiveMenubarAction implements Action {

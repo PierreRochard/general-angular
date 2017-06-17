@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl} from '@angular/forms';
 
 import {FormFieldSetting} from './form.models';
@@ -25,19 +25,20 @@ import {FormFieldSetting} from './form.models';
       </div>
     </form>`
 })
-export class FormComponent {
+export class FormComponent implements OnInit {
   @Input() selectedPathName: string;
   @Input() formFieldSettings: FormFieldSetting[];
   @Output() onSubmit = new EventEmitter<any>();
 
   public formArray: FormArray;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder) {}
+
+  ngOnInit(){
     const controls = this.formFieldSettings.map(settings => {
         return new FormControl(settings.form_field_name)
       }
     );
-    console.log(controls);
-    this.formArray = fb.array(controls)
+    this.formArray = this.fb.array(controls)
   }
 }

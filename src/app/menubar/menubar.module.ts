@@ -7,7 +7,6 @@ import { MenubarModule } from 'primeng/primeng';
 
 import { MenubarContainer } from './menubar.container';
 import { MenubarService } from './menubar.service';
-import { MenubarGuard } from './menubar.guard';
 import { MenubarEffects } from './menubar.effects';
 
 @NgModule({
@@ -20,7 +19,6 @@ import { MenubarEffects } from './menubar.effects';
     MenubarContainer,
   ],
   providers: [
-    MenubarGuard,
     MenubarService,
   ],
   exports: [

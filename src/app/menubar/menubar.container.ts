@@ -7,7 +7,7 @@ import {Store} from '@ngrx/store';
 import {MenuItem} from 'primeng/primeng';
 
 import {AppState} from '../app.reducers';
-
+import {GetMenubarAction} from "./menubar.actions";
 
 
 @Component({
@@ -20,6 +20,13 @@ export class MenubarContainer implements OnInit {
   constructor(private store: Store<AppState>) {}
 
   ngOnInit() {
-    this.items$ = this.store.select(state => state.menubar.menuItems);
+    this.items$ = this.store.select(state => state.menubar.menuItems)
+      .map(menuItems => {
+        if ( menuItems === null ) {
+          this.store.dispatch(new GetMenubarAction(null));
+          return [];
+        }
+        return menuItems;
+      });
   }
 }

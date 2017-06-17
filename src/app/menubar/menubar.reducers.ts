@@ -7,7 +7,7 @@ export interface MenubarState {
 }
 
 const initialState: MenubarState = {
-  menuItems: [],
+  menuItems: null,
 };
 
 export function menubarReducer (state = initialState, action: MenubarActions): MenubarState {

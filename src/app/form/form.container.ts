@@ -8,6 +8,7 @@ import {SendPostRequestAction} from '../rest/rest.actions';
 
 import {AppState, getSchemaState} from '../app.reducers';
 import {FormFieldSetting} from './form.models';
+import {GetFormFieldSettingsAction} from "./form.actions";
 
 
 @Component({
@@ -22,13 +23,26 @@ import {FormFieldSetting} from './form.models';
 })
 export class FormContainer implements OnInit {
   selectedPathName$: Observable<string>;
+  _formFieldSettings$: Observable<FormFieldSetting[]>;
   formFieldSettings$: Observable<FormFieldSetting[]>;
 
   constructor(private store: Store<AppState>) {}
 
   ngOnInit() {
     this.selectedPathName$ = this.store.select(state => state.router.path);
-    this.formFieldSettings$ = this.store.select(state => state.form.formFieldSettings);
+    this._formFieldSettings$ = this.store.select(state => state.form.formFieldSettings);
+    this.formFieldSettings$ = Observable
+      .combineLatest(this.selectedPathName$, this._formFieldSettings$,
+                                  (pathName, fieldSettings) => {
+        const formName = pathName.split('/').pop();
+        const formFieldSettings = fieldSettings.filter(fieldSetting => {
+          return fieldSetting.form_name === formName;
+        });
+        if (formFieldSettings.length === 0 ) {
+          this.store.dispatch(new GetFormFieldSettingsAction(formName))
+        }
+        return formFieldSettings
+      })
   }
 
   public onSubmit(formValue: any) {
