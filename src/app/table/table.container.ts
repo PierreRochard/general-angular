@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 import {Observable} from 'rxjs/observable';
 
@@ -11,9 +11,6 @@ import {AppState, getRecords} from '../app.reducers';
   template: `
     <div class="ui-g">
       <div class="ui-g-12">
-        <app-form-container></app-form-container>
-      </div>
-      <div class="ui-g-12">
         <table-datatable [records]="records$ | async"
                          [columnSettings]="columnSettings$ | async"
         >
@@ -21,13 +18,14 @@ import {AppState, getRecords} from '../app.reducers';
       </div>
     </div>`
 })
-export class TableContainer {
+export class TableContainer implements OnInit {
   public records$: Observable<any[]>;
   public columnSettings$: Observable<any[]>;
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>) {}
+
+  ngOnInit(){
     this.records$ = this.store.select(getRecords);
     this.columnSettings$ = this.store.select(getRecords);
   }
 }
-

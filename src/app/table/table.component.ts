@@ -22,7 +22,7 @@ import { ColumnSetting } from 'app/table/table.models';
                 ></p-column>
               </p-dataTable>`
 })
-export class TableDatatableComponent {
+export class TableComponent {
   public dataKey = 'id';
   public paginator = true;
   public reorderableColumns = true;

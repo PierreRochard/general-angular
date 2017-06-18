@@ -10,7 +10,7 @@ import {RouterStoreModule} from '@ngrx/router-store';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {StoreLogMonitorModule} from '@ngrx/store-log-monitor';
 
-import {DataTableModule, FieldsetModule, GrowlModule} from 'primeng/primeng';
+import {FieldsetModule, GrowlModule} from 'primeng/primeng';
 
 import {environment} from '../environments/environment';
 
@@ -22,17 +22,15 @@ import {AppAuthModule} from './auth/auth.module';
 import {AuthEffects} from './auth/auth.effects';
 
 import {AppFormModule} from './form/form.module';
-import {FormEffects} from "./form/form.effects";
+import {FormEffects} from './form/form.effects';
+
+import {AppTableModule} from './table/table.module';
 
 import {HomeContainer} from './home/home.container';
-import {TableContainer} from './table/table.container';
 import {TableEffects} from './table/table.effects';
-
-import {TableDatatableComponent} from './table/table-datatable.component';
 
 import {RestClient} from './rest/rest.service';
 
-import {SchemaGuard} from './schema/schema.guard';
 import {SchemaEffects} from './schema/schema.effects';
 
 import {reducer} from './app.reducers';
@@ -72,15 +70,13 @@ if (!environment.production) {
     AppComponent,
     HomeContainer,
     GrowlContainer,
-    TableContainer,
-    TableDatatableComponent,
   ],
   imports: [
     AppAuthModule,
     AppFormModule,
     AppMenubarModule,
+    AppTableModule,
     BrowserModule,
-    DataTableModule,
     EffectsModule.run(AuthEffects),
     EffectsModule.run(FormEffects),
     EffectsModule.run(RestEffects),
@@ -97,7 +93,6 @@ if (!environment.production) {
   ],
   providers: [
     RestClient,
-    SchemaGuard,
     WebsocketService,
     { provide: ErrorHandler, useClass: RavenErrorHandler }
   ]
