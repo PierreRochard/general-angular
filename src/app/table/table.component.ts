@@ -2,7 +2,7 @@ import {Component, Input, OnChanges} from '@angular/core';
 import { ColumnSetting } from 'app/table/table.models';
 
 @Component({
-  selector: 'table-datatable',
+  selector: 'app-table-datatable',
   template: `<p-dataTable
              [dataKey]="dataKey"
              [paginator]="paginator"

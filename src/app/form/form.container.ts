@@ -23,8 +23,8 @@ import {SendLoginPostRequestAction} from "../auth/auth.actions";
     </app-form-component>`
 })
 export class FormContainer implements OnInit {
-  selectedPathName$: Observable<string>;
-  formFieldSettings$: Observable<FormFieldSetting[]>;
+  public selectedPathName$: Observable<string>;
+  public formFieldSettings$: Observable<FormFieldSetting[]>;
 
   constructor(private store: Store<AppState>) {}
 
@@ -33,9 +33,9 @@ export class FormContainer implements OnInit {
     this.formFieldSettings$ = Observable
       .combineLatest(this.selectedPathName$,
                      this.store.select(state => state.form.formFieldSettings),
-                                  (pathName, fieldSettings) => {
+                                  (pathName, formFieldSettings) => {
         const formName = pathName.split('/').pop();
-        const formFieldSettings = fieldSettings.filter(fieldSetting => {
+        formFieldSettings = formFieldSettings.filter(fieldSetting => {
           return fieldSetting.form_name === formName;
         });
         if (formFieldSettings.length === 0 ) {

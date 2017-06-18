@@ -4,13 +4,13 @@ import {TableActions, TableActionTypes} from './table.actions';
 export interface TableState {
   records: any[];
   selectedRecords: any[];
-  settings: any[];
+  tableColumnSettings: any[];
 }
 
 const initialState: TableState = {
   records: null,
   selectedRecords: null,
-  settings: null,
+  tableColumnSettings: null,
 };
 
 export function tableReducer(state = initialState, action: TableActions): TableState {

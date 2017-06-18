@@ -1,15 +1,18 @@
 import { Action } from '@ngrx/store';
 
 import { type } from '../util';
+import {TableColumnSetting} from "./table.models";
 
 export const TableActionTypes = {
-  INITIALIZE_RECORDS:   type('INITIALIZE_RECORDS'),
-  ADD_RECORD:           type('ADD_RECORD'),
-  REMOVE_RECORD:        type('REMOVE_RECORD'),
-  INITIALIZE_SETTINGS:  type('INITIALIZE_SETTINGS'),
-  SELECT_RECORDS:       type('SELECT_RECORDS'),
-  DESELECT_RECORD:      type('DESELECT_RECORD'),
-  DESELECT_RECORDS:     type('DESELECT_RECORDS'),
+  INITIALIZE_RECORDS: type('INITIALIZE_RECORDS'),
+  ADD_RECORD: type('ADD_RECORD'),
+  REMOVE_RECORD: type('REMOVE_RECORD'),
+  INITIALIZE_SETTINGS: type('INITIALIZE_SETTINGS'),
+  SELECT_RECORDS: type('SELECT_RECORDS'),
+  DESELECT_RECORD: type('DESELECT_RECORD'),
+  DESELECT_RECORDS: type('DESELECT_RECORDS'),
+  GET_FORM_COLUMN_SETTINGS: type('GET_FORM_COLUMN_SETTINGS'),
+  RECEIVE_FORM_COLUMN_SETTINGS: type('RECEIVE_FORM_COLUMN_SETTINGS'),
 };
 
 export class InitializeRecordsAction implements Action {
@@ -47,6 +50,16 @@ export class DeselectRecordsAction implements Action {
   constructor(public payload: any) {}
 }
 
+export class GetTableColumnSettingsAction implements Action {
+  type = TableActionTypes.GET_FORM_COLUMN_SETTINGS;
+  constructor(public payload: string) { }
+}
+
+export class ReceiveTableColumnSettingsAction implements Action {
+  type = TableActionTypes.RECEIVE_FORM_COLUMN_SETTINGS;
+  constructor(public payload: TableColumnSetting[]) {}
+}
+
 
 
 export type TableActions
@@ -56,4 +69,6 @@ export type TableActions
   | InitializeSettingsAction
   | SelectRecordsAction
   | DeselectRecordAction
-  | DeselectRecordsAction;
+  | DeselectRecordsAction
+  | GetTableColumnSettingsAction
+  | ReceiveTableColumnSettingsAction;
