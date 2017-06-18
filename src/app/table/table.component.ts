@@ -1,8 +1,8 @@
-import {Component, Input, OnChanges} from '@angular/core';
-import { ColumnSetting } from 'app/table/table.models';
+import {Component, Input} from '@angular/core';
+import { TableColumnSetting } from 'app/table/table.models';
 
 @Component({
-  selector: 'app-table-datatable',
+  selector: 'app-table-component',
   template: `<p-dataTable
              [dataKey]="dataKey"
              [paginator]="paginator"
@@ -11,12 +11,12 @@ import { ColumnSetting } from 'app/table/table.models';
              [rows]="rows"
              (selectionChange)="selectionChange($event)"
              [sortMode]="sortMode"
-             [value]="records"
+             [value]="tableRecords"
               >
               <p-column [style]="{'width':'38px'}" [selectionMode]="selectionMode"></p-column>
-                <p-column *ngFor="let columnSetting of columnSettings" 
-                          [field]="columnSetting.field" 
-                          [header]="columnSetting.header"
+                <p-column *ngFor="let tableColumnSetting of tableColumnSettings"
+                          [field]="tableColumnSetting.field"
+                          [header]="tableColumnSetting.header"
                           [style]="{'width':'100%'}"
                           [sortable]="true"
                 ></p-column>
@@ -32,10 +32,10 @@ export class TableComponent {
   public selectionMode = 'multiple';
   public sortMode = 'multiple';
 
-  @Input() columnSettings: ColumnSetting[];
-  @Input() records: any[];
+  @Input() tableColumnSettings: TableColumnSetting[];
+  @Input() tableRecords: any[];
 
-  static onColReorder(event) {
+  onColReorder(event) {
     const old_index = event.dragIndex - 1;
     const new_index = event.dropIndex - 1;
     console.log(event);
@@ -43,7 +43,7 @@ export class TableComponent {
     console.log(new_index);
   }
 
-  static onColumnResize(event) {
+  onColumnResize(event) {
     console.log(event);
   }
 

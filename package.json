@@ -15,7 +15,6 @@
     "@angular/animations": "^4.2.3",
     "@angular/common": "^4.2.3",
     "@angular/compiler": "^4.2.3",
-    "@angular/compiler-cli": "^4.0.1",
     "@angular/core": "^4.2.3",
     "@angular/forms": "^4.2.3",
     "@angular/http": "^4.2.3",
@@ -29,7 +28,6 @@
     "@ngrx/store": "^2.2.2",
     "@ngrx/store-devtools": "^3.2.4",
     "@ngrx/store-log-monitor": "^3.0.2",
-    "@types/node": "^6.0.65",
     "angular2-websocket": "^0.9.3",
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
@@ -39,14 +37,13 @@
     "reselect": "^3.0.1",
     "rxjs": "^5.4.1",
     "ts-helpers": "^1.1.2",
-    "typescript": "^2.3.4",
     "zone.js": "^0.8.12"
   },
   "devDependencies": {
     "@angular/cli": "^1.1.2",
     "@angular/compiler-cli": "^4.2.3",
     "@types/jasmine": "2.5.52",
-    "@types/node": "^7.0.31",
+    "@types/node": "^6.0.78",
     "codelyzer": "~3.0.1",
     "jasmine-core": "2.6.4",
     "jasmine-spec-reporter": "4.1.0",
@@ -59,6 +56,6 @@
     "protractor": "~5.1.2",
     "ts-node": "3.0.6",
     "tslint": "^5.4.3",
-    "typescript": "^2.3.4"
+    "typescript": "^2.4.0"
   }
 }

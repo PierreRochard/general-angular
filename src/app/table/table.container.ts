@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 
-import {Observable} from 'rxjs/observable';
+import {Observable} from 'rxjs/Observable';
 
 import {Store} from '@ngrx/store';
 
@@ -12,10 +12,10 @@ import {AppState, getRecords} from '../app.reducers';
   template: `
     <div class="ui-g">
       <div class="ui-g-12">
-        <app-table-datatable [records]="tableRecords$ | async"
+        <app-table-component [tableRecords]="tableRecords$ | async"
                              [tableColumnSettings]="tableColumnSettings$ | async"
         >
-        </app-table-datatable>
+        </app-table-component>
       </div>
     </div>`
 })
@@ -26,7 +26,7 @@ export class TableContainer implements OnInit {
 
   constructor(private store: Store<AppState>) {}
 
-  ngOnInit(){
+  ngOnInit() {
     this.selectedPathName$ = this.store.select(state => state.router.path);
     this.tableRecords$ = this.store.select(getRecords);
 
@@ -35,9 +35,11 @@ export class TableContainer implements OnInit {
         this.store.select(state => state.table.tableColumnSettings),
         (pathName, tableColumnSettings) => {
           const tableName = pathName.split('/').pop();
+          console.log(tableName);
           tableColumnSettings = tableColumnSettings.filter(columnSetting => {
             return columnSetting.table_name === tableName;
           });
+          console.log(tableColumnSettings);
           if (tableColumnSettings.length === 0 ) {
             this.store.dispatch(new GetTableColumnSettingsAction(tableName))
           }
