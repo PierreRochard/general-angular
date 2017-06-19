@@ -43,6 +43,10 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       return Object.assign({}, state, {
         selectedRecords: []
       });
+    case TableActionTypes.RECEIVE_TABLE_COLUMN_SETTINGS:
+      return Object.assign({}, state, {
+        tableColumnSettings: action.payload
+      });
     default:
       return state;
   }

@@ -11,8 +11,8 @@ export const TableActionTypes = {
   SELECT_RECORDS: type('SELECT_RECORDS'),
   DESELECT_RECORD: type('DESELECT_RECORD'),
   DESELECT_RECORDS: type('DESELECT_RECORDS'),
-  GET_FORM_COLUMN_SETTINGS: type('GET_FORM_COLUMN_SETTINGS'),
-  RECEIVE_FORM_COLUMN_SETTINGS: type('RECEIVE_FORM_COLUMN_SETTINGS'),
+  GET_TABLE_COLUMN_SETTINGS: type('GET_TABLE_COLUMN_SETTINGS'),
+  RECEIVE_TABLE_COLUMN_SETTINGS: type('RECEIVE_TABLE_COLUMN_SETTINGS'),
 };
 
 export class InitializeRecordsAction implements Action {
@@ -51,12 +51,12 @@ export class DeselectRecordsAction implements Action {
 }
 
 export class GetTableColumnSettingsAction implements Action {
-  type = TableActionTypes.GET_FORM_COLUMN_SETTINGS;
+  type = TableActionTypes.GET_TABLE_COLUMN_SETTINGS;
   constructor(public payload: string) { }
 }
 
 export class ReceiveTableColumnSettingsAction implements Action {
-  type = TableActionTypes.RECEIVE_FORM_COLUMN_SETTINGS;
+  type = TableActionTypes.RECEIVE_TABLE_COLUMN_SETTINGS;
   constructor(public payload: TableColumnSetting[]) {}
 }
 
