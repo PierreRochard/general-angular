@@ -35,12 +35,11 @@ export class TableContainer implements OnInit {
         this.store.select(state => state.table.tableColumnSettings),
         (pathName, tableColumnSettings) => {
           const tableName = pathName.split('/').pop();
-          console.log(tableName);
           tableColumnSettings = tableColumnSettings.filter(columnSetting => {
             return columnSetting.table_name === tableName;
           });
           console.log(tableColumnSettings);
-          if (tableColumnSettings.length === 0 ) {
+          if (tableColumnSettings.length === 0) {
             this.store.dispatch(new GetTableColumnSettingsAction(tableName))
           }
           return tableColumnSettings

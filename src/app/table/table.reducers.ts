@@ -1,16 +1,17 @@
 import {TableActions, TableActionTypes} from './table.actions';
+import {TableColumnSetting} from './table.models';
 
 
 export interface TableState {
   records: any[];
   selectedRecords: any[];
-  tableColumnSettings: any[];
+  tableColumnSettings: TableColumnSetting[];
 }
 
 const initialState: TableState = {
   records: null,
   selectedRecords: null,
-  tableColumnSettings: null,
+  tableColumnSettings: [],
 };
 
 export function tableReducer(state = initialState, action: TableActions): TableState {
