@@ -11,14 +11,12 @@ import {AppState, getRestResponse} from '../app.reducers';
 
 
 @Component({
-  selector: 'growl',
-  template: `<p-growl [value]="messages$ | async"
-                      [sticky]="sticky"
-                      [life]="life"></p-growl>`,
+  selector: 'app-growl-container',
+  template: `<app-growl-component
+                [messages]="messages$ | async">
+              </app-growl-component>`,
 })
 export class GrowlContainer {
-  sticky = false;
-  life = 20000;
   messages$: Observable<Message[]>;
 
   constructor(private store: Store<AppState>) {

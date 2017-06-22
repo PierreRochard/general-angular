@@ -7,12 +7,12 @@ import {Store} from '@ngrx/store';
 import {MenuItem} from 'primeng/primeng';
 
 import {AppState} from '../app.reducers';
-import {GetMenubarAction} from "./menubar.actions";
+import {GetMenubarAction} from './menubar.actions';
 
 
 @Component({
-  selector: 'app-menubar',
-  template: `<p-menubar [model]="items$ | async"></p-menubar>`,
+  selector: 'app-menubar-container',
+  template: `<app-menubar-component [items]="items$ | async"></app-menubar-component>`,
 })
 export class MenubarContainer implements OnInit {
   items$: Observable<MenuItem[]>;

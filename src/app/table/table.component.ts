@@ -4,7 +4,7 @@ import { TableColumnSetting } from 'app/table/table.models';
 @Component({
   selector: 'app-table-component',
   template: `<p-dataTable
-    *ngIf="tableColumnSettings.length"
+    *ngIf="tableColumnSettings.length > 0"
              [dataKey]="dataKey"
              [paginator]="paginator"
              (onColReorder)="onColReorder($event)"

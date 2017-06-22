@@ -17,6 +17,7 @@ import {environment} from '../environments/environment';
 import {RestEffects} from './rest/rest.effects';
 
 import {GrowlContainer} from './growl/growl.container';
+import {GrowlComponent} from './growl/growl.component';
 
 import {AppAuthModule} from './auth/auth.module';
 import {AuthEffects} from './auth/auth.effects';
@@ -70,6 +71,7 @@ if (!environment.production) {
     AppComponent,
     HomeContainer,
     GrowlContainer,
+    GrowlComponent,
   ],
   imports: [
     AppAuthModule,

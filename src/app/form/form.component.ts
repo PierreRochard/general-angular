@@ -7,7 +7,10 @@ import {FormFieldSetting} from './form.models';
 @Component({
   selector: 'app-form-component',
   template: `
-    <form [formGroup]="form" (ngSubmit)="onSubmit.emit(form.value)">
+    <form
+      *ngIf="formFieldSettings.length > 0"
+      [formGroup]="form"
+      (ngSubmit)="onSubmit.emit(form.value)">
       <div class="ui-g">
         <div class="ui-g-4">
           <app-dynamic-form-element
@@ -39,7 +42,7 @@ export class FormComponent implements OnChanges {
   constructor(private fb: FormBuilder) {}
 
   ngOnChanges(){
-    let group = {};
+    const group = {};
     this.formFieldSettings.map(settings => {
       group[settings.form_field_name] = new FormControl('')
     });
