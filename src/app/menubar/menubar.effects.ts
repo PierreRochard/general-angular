@@ -6,6 +6,7 @@ import {of} from 'rxjs/observable/of';
 
 import {ReceiveMenubarAction, MenubarActionTypes} from './menubar.actions';
 import {MenubarService} from './menubar.service';
+import {RemoveTokenAction} from '../auth/auth.actions';
 
 
 @Injectable()
@@ -21,6 +22,10 @@ export class MenubarEffects {
         ];
       })
       .catch(error => {
+        console.log('error');
+        if (error.status === 401) {
+          return of(new RemoveTokenAction(null))
+        }
         return of(new ReceiveMenubarAction(error));
       })
     );
