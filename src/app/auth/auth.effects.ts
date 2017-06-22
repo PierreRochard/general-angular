@@ -5,10 +5,11 @@ import {of} from 'rxjs/observable/of';
 import {Actions, Effect} from '@ngrx/effects';
 import {go} from '@ngrx/router-store';
 
-import {ReceivedResponseAction} from "../rest/rest.actions";
+import {ReceivedResponseAction} from '../rest/rest.actions';
 
 import {AddTokenAction, AuthActionTypes} from './auth.actions';
-import {AuthService} from "./auth.service";
+import {AuthService} from './auth.service';
+import { GetMenubarAction } from '../menubar/menubar.actions';
 
 
 @Injectable()
@@ -20,7 +21,7 @@ export class AuthEffects {
     .switchMap(action => {
       return this.authService.post_login(action.payload.path, action.payload.data)
         .map(response => {
-          let token = response.json()[0].token;
+          const token = response.json()[0].token;
           return new AddTokenAction(token);
         })
         .catch(error => {
@@ -31,12 +32,12 @@ export class AuthEffects {
   @Effect()
   addToken$ = this.actions$
     .ofType(AuthActionTypes.ADD_TOKEN)
-    .switchMap(action => [go(['/'])]);
+    .switchMap(action => [go(['/']), new GetMenubarAction(null)]);
 
   @Effect()
   removeToken$ = this.actions$
     .ofType(AuthActionTypes.REMOVE_TOKEN)
-    .switchMap(action => [go(['/'])]);
+    .switchMap(action => [go(['/']), new GetMenubarAction(null)]);
 
   constructor(
     private actions$: Actions,

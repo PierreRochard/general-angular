@@ -9,7 +9,7 @@ import {SendPostRequestAction} from '../rest/rest.actions';
 import {AppState} from '../app.reducers';
 import {FormFieldSetting} from './form.models';
 import {GetFormFieldSettingsAction} from "./form.actions";
-import {SendLoginPostRequestAction} from "../auth/auth.actions";
+import { RemoveTokenAction, SendLoginPostRequestAction } from '../auth/auth.actions';
 
 
 @Component({
@@ -38,8 +38,10 @@ export class FormContainer implements OnInit {
         formFieldSettings = formFieldSettings.filter(fieldSetting => {
           return fieldSetting.form_name === formName;
         });
-        if (formFieldSettings.length === 0 ) {
+        if (formFieldSettings.length === 0 && formName !== 'logout') {
           this.store.dispatch(new GetFormFieldSettingsAction(formName))
+        } else if (formName === 'logout') {
+          this.store.dispatch(new RemoveTokenAction(null))
         }
         return formFieldSettings
       })
