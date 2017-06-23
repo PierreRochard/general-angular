@@ -18,11 +18,10 @@ import {TableService} from './table.service';
 export class TableEffects {
 
   @Effect()
-  getTable$: Observable<Action> = this.actions$
-    .ofType(routerActions.UPDATE_LOCATION)
-    .filter(action => !(action.payload.path.startsWith('/rpc/') || action.payload.path === '/'))
-    .mergeMap(action => [new SendGetRequestAction({path: action.payload.path}),
-                         new ConnectAction(action.payload.path)]);
+  getTableRecords$: Observable<Action> = this.actions$
+    .ofType(TableActionTypes.GET_TABLE_RECORDS)
+    .switchMap(action => this.tableService.get_table_records(action.payload)
+      .me);
 
   @Effect()
   getTableColumnSettings$ = this.actions$

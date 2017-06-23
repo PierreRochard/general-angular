@@ -3,12 +3,14 @@ import {TableColumnSetting} from './table.models';
 
 
 export interface TableState {
+  isLoading: boolean,
   records: any[];
   selectedRecords: any[];
   tableColumnSettings: TableColumnSetting[];
 }
 
 const initialState: TableState = {
+  isLoading: false,
   records: null,
   selectedRecords: null,
   tableColumnSettings: [],

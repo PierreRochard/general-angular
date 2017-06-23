@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import {Observable} from 'rxjs/Observable';
 
 import {Store} from '@ngrx/store';
 
-import {GetTableColumnSettingsAction} from './table.actions';
+import { GetTableColumnSettingsAction, GetTableRecordsAction, RemoveTableRecordsAction } from './table.actions';
 import {AppState, getRecords} from '../app.reducers';
 
 @Component({
@@ -19,7 +19,7 @@ import {AppState, getRecords} from '../app.reducers';
       </div>
     </div>`
 })
-export class TableContainer implements OnInit {
+export class TableContainer implements OnInit, OnDestroy {
   public selectedPathName$: Observable<string>;
   public tableRecords$: Observable<any[]>;
   public tableColumnSettings$: Observable<any[]>;
@@ -38,11 +38,25 @@ export class TableContainer implements OnInit {
           tableColumnSettings = tableColumnSettings.filter(columnSetting => {
             return columnSetting.table_name === tableName;
           });
-          console.log(tableColumnSettings);
           if (tableColumnSettings.length === 0) {
             this.store.dispatch(new GetTableColumnSettingsAction(tableName))
           }
           return tableColumnSettings
+        });
+
+    this.tableRecords$ = Observable
+      .combineLatest(this.selectedPathName$,
+        this.store.select(state => state.table.records),
+        (pathName, records) => {
+          const tableName = pathName.split('/').pop();
+          if (records === null) {
+            this.store.dispatch(new GetTableRecordsAction(tableName));
+          }
+          return records
         })
+  }
+
+  ngOnDestroy() {
+    this.store.dispatch(new RemoveTableRecordsAction(null));
   }
 }
