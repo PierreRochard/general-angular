@@ -14,6 +14,9 @@ export const TableActionTypes = {
   GET_TABLE_COLUMN_SETTINGS: type('GET_TABLE_COLUMN_SETTINGS'),
   GET_TABLE_RECORDS: type('GET_TABLE_RECORDS'),
   REMOVE_TABLE_RECORDS: type('REMOVE_TABLE_RECORDS'),
+  RECEIVE_TABLE_COLUMN_SETTINGS: type('RECEIVE_TABLE_COLUMN_SETTINGS'),
+  RECEIVE_TABLE_RECORDS: type('RECEIVE_TABLE_RECORDS'),
+  UPDATE_TABLE_NAME_ACTION: type('UPDATE_TABLE_NAME_ACTION'),
 };
 
 export class InitializeRecordsAction implements Action {
@@ -61,6 +64,11 @@ export class RemoveTableRecordsAction implements Action {
   constructor(public payload: string) { }
 }
 
+export class ReceiveTableRecordsAction implements Action {
+  type = TableActionTypes.RECEIVE_TABLE_RECORDS;
+  constructor(public payload: any[]) {}
+}
+
 export class GetTableColumnSettingsAction implements Action {
   type = TableActionTypes.GET_TABLE_COLUMN_SETTINGS;
   constructor(public payload: string) { }
@@ -69,6 +77,11 @@ export class GetTableColumnSettingsAction implements Action {
 export class ReceiveTableColumnSettingsAction implements Action {
   type = TableActionTypes.RECEIVE_TABLE_COLUMN_SETTINGS;
   constructor(public payload: TableColumnSetting[]) {}
+}
+
+export class UpdateTableNameAction implements Action {
+  type = TableActionTypes.UPDATE_TABLE_NAME_ACTION;
+  constructor(public payload: string) {}
 }
 
 
@@ -83,5 +96,7 @@ export type TableActions
   | DeselectRecordsAction
   | GetTableColumnSettingsAction
   | GetTableRecordsAction
+  | ReceiveTableRecordsAction
   | RemoveTableRecordsAction
-  | ReceiveTableColumnSettingsAction;
+  | ReceiveTableColumnSettingsAction
+  | UpdateTableNameAction;
