@@ -46,7 +46,7 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       });
     case TableActionTypes.RECEIVE_DATATABLE_COLUMNS:
       return Object.assign({}, state, {
-        tableColumnSettings: action.payload
+        tableColumns: action.payload
       });
     case TableActionTypes.RECEIVE_RECORDS:
       return Object.assign({}, state, {

@@ -24,7 +24,7 @@ export class TableEffects {
     .switchMap(action => this.tableService.get_datatable(action.payload)
       .mergeMap(response => {
         return [
-          new ReceiveDatatableAction(response.json()),
+          new ReceiveDatatableAction(response.json()[0]),
         ];
       })
       .catch(error => {

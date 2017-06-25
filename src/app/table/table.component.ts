@@ -4,43 +4,44 @@ import { LazyLoadEvent } from 'primeng/primeng';
 
 @Component({
   selector: 'app-table-component',
-  template: `<p-dataTable
-    *ngIf="tableColumnSettings.length > 0"
-             [dataKey]="dataKey"
-             [paginator]="paginator"
-             [lazy]="true"
-             (onColReorder)="onColReorder($event)"
-             (onLazyLoad)="loadData($event)"
-             [reorderableColumns]="reorderableColumns"
-             [rows]="rows"
-             (selectionChange)="selectionChange($event)"
-             [sortMode]="sortMode"
-             [totalRecords]="totalRecords"
-             [value]="tableRecords"
-             [loading]="tableRecordsAreLoading"
-              >
-              <p-column [style]="{'width':'38px'}" [selectionMode]="selectionMode"></p-column>
-                <p-column *ngFor="let tableColumnSetting of tableColumnSettings"
-                          [field]="tableColumnSetting.field"
-                          [header]="tableColumnSetting.header"
-                          [style]="{'width':'100%'}"
-                          [sortable]="true"
-                ></p-column>
-              </p-dataTable>`
+  template: `
+    <p-dataTable
+      *ngIf="columns.length > 0"
+      [dataKey]="dataKey"
+      [paginator]="paginator"
+      [lazy]="true"
+      [loading]="areRecordsLoading"
+      (onColReorder)="onColReorder($event)"
+      (onLazyLoad)="loadData($event)"
+      [reorderableColumns]="reorderableColumns"
+      [rows]="rowLimit"
+      (selectionChange)="selectionChange($event)"
+      [sortMode]="sortMode"
+      [totalRecords]="totalRecords"
+      [value]="records"
+    >
+      <p-column [style]="{'width':'38px'}" [selectionMode]="selectionMode"></p-column>
+      <p-column *ngFor="let column of columns"
+                [field]="column.field"
+                [header]="column.header"
+                [style]="{'width':'100%'}"
+                [sortable]="true"
+      ></p-column>
+    </p-dataTable>`
 })
 export class TableComponent {
   public dataKey = 'id';
   public paginator = true;
   public reorderableColumns = true;
   public resizableColumns = true;
-  public rows = 10;
   public selectedRecords: any[] = [];
   public selectionMode = 'multiple';
   public sortMode = 'multiple';
 
-  @Input() tableRecordsAreLoading: boolean;
-  @Input() tableColumnSettings: DatatableColumns[];
-  @Input() tableRecords: any[];
+  @Input() areRecordsLoading: boolean;
+  @Input() columns: DatatableColumns[];
+  @Input() records: any[];
+  @Input() rowLimit: number;
   @Input() totalRecords: number;
 
   onColReorder(event) {
