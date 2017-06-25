@@ -2,7 +2,7 @@ import {$WebSocket} from 'angular2-websocket/angular2-websocket';
 import {Injectable} from '@angular/core';
 import {Store} from '@ngrx/store';
 
-import {AppState, getRecords} from '../app.reducers';
+import {AppState} from '../app.reducers';
 import {AddRecordAction, DeselectRecordAction, RemoveRecordAction} from '../table/table.actions';
 
 
@@ -11,7 +11,7 @@ export class WebsocketService {
   private ws: $WebSocket;
 
   constructor(private store: Store<AppState>) {
-    this.store.select(getRecords);
+    // this.store.select(getRecords);
   };
 
   connect(url) {

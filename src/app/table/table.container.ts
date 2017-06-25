@@ -4,8 +4,8 @@ import {Observable} from 'rxjs/Observable';
 
 import {Store} from '@ngrx/store';
 
-import { GetTableColumnSettingsAction, GetTableRecordsAction, UpdateTableNameAction } from './table.actions';
-import {AppState, getRecords} from '../app.reducers';
+import { GetDatatableColumnsAction, GetRecordsAction, UpdateTableNameAction } from './table.actions';
+import {AppState} from '../app.reducers';
 
 @Component({
   selector: 'app-table-container',
@@ -13,7 +13,7 @@ import {AppState, getRecords} from '../app.reducers';
     <div class="ui-g">
       <div class="ui-g-12">
         <app-table-component [tableRecords]="records$ | async"
-                             [tableColumnSettings]="columns | async"
+                             [tableColumnSettings]="columns$ | async"
                              [tableRecordsAreLoading]="recordsAreLoading$ | async"
                              [totalRecords]="totalRecords$ | async"
         >
@@ -22,33 +22,22 @@ import {AppState, getRecords} from '../app.reducers';
     </div>`
 })
 export class TableContainer implements OnInit {
-  public selectedPathName$: Observable<string>;
+  public columns$: Observable<any[]>;
   public records$: Observable<any[]>;
-  public columns: Observable<any[]>;
   public recordsAreLoading$: Observable<boolean>;
+  public rowLimit$: Observable<number>;
+  public selectedPathName$: Observable<string>;
   public totalRecords$: Observable<number>;
 
   constructor(private store: Store<AppState>) {}
 
   ngOnInit() {
-    this.selectedPathName$ = this.store.select(state => state.router.path);
-    this.recordsAreLoading$ = this.store.select(state => state.table.tableRecordsAreLoading);
+    this.columns$ = this.store.select(state => state.table.tableColumns);
     this.records$ = this.store.select(state => state.table.records);
+    this.recordsAreLoading$ = this.store.select(state => state.table.tableRecordsAreLoading);
+    this.rowLimit$ = this.store.select(state => state.table.rowLimit);
+    this.selectedPathName$ = this.store.select(state => state.router.path);
     this.totalRecords$ = this.store.select(state => state.table.rowCount);
-
-    this.columns = Observable
-      .combineLatest(this.selectedPathName$,
-        this.store.select(state => state.table.tableColumnSettings),
-        (pathName, tableColumnSettings) => {
-          const tableName = pathName.split('/').pop();
-          tableColumnSettings = tableColumnSettings.filter(columnSetting => {
-            return columnSetting.table_name === tableName;
-          });
-          if (tableColumnSettings.length === 0) {
-            this.store.dispatch(new GetTableColumnSettingsAction(tableName))
-          }
-          return tableColumnSettings
-        });
 
     this.records$ = Observable
       .combineLatest(this.selectedPathName$,
@@ -57,7 +46,8 @@ export class TableContainer implements OnInit {
         (pathName, oldTableName, records) => {
           const newTableName = pathName.split('/').pop();
           if ( newTableName !== oldTableName ) {
-            this.store.dispatch(new GetTableRecordsAction(newTableName));
+            this.store.dispatch(new GetDatatableColumnsAction(newTableName));
+            this.store.dispatch(new GetRecordsAction(newTableName));
             this.store.dispatch(new UpdateTableNameAction(newTableName));
           }
           return records

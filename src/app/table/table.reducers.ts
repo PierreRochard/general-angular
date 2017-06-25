@@ -8,7 +8,7 @@ export interface TableState {
   records: any[];
   tableRecordsAreLoading: boolean;
   selectedRecords: any[];
-  tableColumnSettings: TableColumnSetting[];
+  tableColumns: TableColumnSetting[];
   rowCount: number;
   rowLimit: number;
 }
@@ -19,7 +19,7 @@ const initialState: TableState = {
   records: null,
   tableRecordsAreLoading: null,
   selectedRecords: null,
-  tableColumnSettings: [],
+  tableColumns: [],
   rowCount: null,
   rowLimit: null
 };
@@ -50,11 +50,11 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       return Object.assign({}, state, {
         tableColumnSettings: action.payload
       });
-    case TableActionTypes.RECEIVE_TABLE_RECORDS:
+    case TableActionTypes.RECEIVE_RECORDS:
       return Object.assign({}, state, {
         records: action.payload
       });
-    case TableActionTypes.REMOVE_TABLE_RECORDS:
+    case TableActionTypes.REMOVE_RECORDS:
       return Object.assign({}, state, {
         records: null
       });
@@ -62,11 +62,11 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       return Object.assign({}, state, {
         tableName: action.payload
       });
-    case TableActionTypes.TABLE_RECORDS_ARE_LOADING:
+    case TableActionTypes.ARE_RECORDS_LOADING:
       return Object.assign({}, state, {
         tableRecordsAreLoading: action.payload
       });
-    case TableActionTypes.RECEIVE_TABLE_SETTINGS:
+    case TableActionTypes.RECEIVE_DATATABLE:
       return Object.assign({}, state, {
         rowLimit: action.payload.row_limit
       });
