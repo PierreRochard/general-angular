@@ -5,7 +5,6 @@ import {Actions, Effect} from '@ngrx/effects';
 import {AddTokenAction, RemoveTokenAction} from '../auth/auth.actions';
 import {ReceivedResponseAction, RestActionTypes} from './rest.actions';
 import {UpdateSchemaAction} from '../schema/schema.actions';
-import {InitializeRecordsAction} from '../table/table.actions';
 import {AppState} from '../app.reducers';
 import {RestClient} from './rest.service';
 
@@ -74,8 +73,6 @@ export class RestEffects {
             return [new UpdateSchemaAction(response_data)];
           } else if (response_url === 'https://api.rochard.org/rpc/login') {
             return [new AddTokenAction(response_data[0].token)];
-          } else {
-            return [new InitializeRecordsAction(response_data)];
           }
         case 204:
           return [];

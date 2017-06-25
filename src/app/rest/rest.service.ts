@@ -24,6 +24,7 @@ export class RestClient {
     return this.store.take(1).switchMap(state => {
       const headers = RestClient.createAuthorizationHeader(new Headers(), state.auth.token);
       headers.append('prefer', 'return=representation');
+      headers.append('prefer', 'count=exact');
       return this.http.get(this.apiEndpoint.concat(endpoint),
                 {headers: headers,
                   search: params}).timeout(this._timeout);

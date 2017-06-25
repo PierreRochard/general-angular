@@ -12,8 +12,10 @@ import {AppState, getRecords} from '../app.reducers';
   template: `
     <div class="ui-g">
       <div class="ui-g-12">
-        <app-table-component [tableRecords]="tableRecords$ | async"
-                             [tableColumnSettings]="tableColumnSettings$ | async"
+        <app-table-component [tableRecords]="records$ | async"
+                             [tableColumnSettings]="columns | async"
+                             [tableRecordsAreLoading]="recordsAreLoading$ | async"
+                             [totalRecords]="totalRecords$ | async"
         >
         </app-table-component>
       </div>
@@ -21,16 +23,20 @@ import {AppState, getRecords} from '../app.reducers';
 })
 export class TableContainer implements OnInit {
   public selectedPathName$: Observable<string>;
-  public tableRecords$: Observable<any[]>;
-  public tableColumnSettings$: Observable<any[]>;
+  public records$: Observable<any[]>;
+  public columns: Observable<any[]>;
+  public recordsAreLoading$: Observable<boolean>;
+  public totalRecords$: Observable<number>;
 
   constructor(private store: Store<AppState>) {}
 
   ngOnInit() {
     this.selectedPathName$ = this.store.select(state => state.router.path);
-    this.tableRecords$ = this.store.select(getRecords);
+    this.recordsAreLoading$ = this.store.select(state => state.table.tableRecordsAreLoading);
+    this.records$ = this.store.select(state => state.table.records);
+    this.totalRecords$ = this.store.select(state => state.table.rowCount);
 
-    this.tableColumnSettings$ = Observable
+    this.columns = Observable
       .combineLatest(this.selectedPathName$,
         this.store.select(state => state.table.tableColumnSettings),
         (pathName, tableColumnSettings) => {
@@ -44,7 +50,7 @@ export class TableContainer implements OnInit {
           return tableColumnSettings
         });
 
-    this.tableRecords$ = Observable
+    this.records$ = Observable
       .combineLatest(this.selectedPathName$,
         this.store.select(state => state.table.tableName),
         this.store.select(state => state.table.records),

@@ -3,17 +3,24 @@ import {Response, URLSearchParams} from '@angular/http';
 
 import {Observable} from 'rxjs/Observable';
 
+import {Store} from '@ngrx/store';
+
+import {AppState} from '../app.reducers';
 import {RestClient} from 'app/rest/rest.service';
+
+import {TableRecordsAreLoadingAction} from './table.actions';
 
 @Injectable()
 export class TableService {
   get_table_records(table_name: string): Observable<Response> {
+    this.store.dispatch(new TableRecordsAreLoadingAction(true));
     return this.restClient.get('/' + table_name);
   };
-  get_table_column_settings(table_name: string): Observable<Response> {
+  get_datatable_columns(table_name: string): Observable<Response> {
     const params: URLSearchParams = new URLSearchParams();
     params.set('table_name', 'eq.' + table_name);
     return this.restClient.get('/datatable', params);
   };
-  constructor(private restClient: RestClient) {}
+  constructor(private restClient: RestClient,
+              private store: Store<AppState>) {}
 }

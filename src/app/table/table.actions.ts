@@ -4,25 +4,22 @@ import { type } from '../util';
 import {TableColumnSetting} from './table.models';
 
 export const TableActionTypes = {
-  INITIALIZE_RECORDS: type('INITIALIZE_RECORDS'),
   ADD_RECORD: type('ADD_RECORD'),
   REMOVE_RECORD: type('REMOVE_RECORD'),
   INITIALIZE_SETTINGS: type('INITIALIZE_SETTINGS'),
   SELECT_RECORDS: type('SELECT_RECORDS'),
   DESELECT_RECORD: type('DESELECT_RECORD'),
   DESELECT_RECORDS: type('DESELECT_RECORDS'),
-  GET_TABLE_COLUMN_SETTINGS: type('GET_TABLE_COLUMN_SETTINGS'),
+  GET_DATATABLE_COLUMNS: type('GET_DATATABLE_COLUMNS'),
   GET_TABLE_RECORDS: type('GET_TABLE_RECORDS'),
   REMOVE_TABLE_RECORDS: type('REMOVE_TABLE_RECORDS'),
-  RECEIVE_TABLE_COLUMN_SETTINGS: type('RECEIVE_TABLE_COLUMN_SETTINGS'),
+  RECEIVE_DATATABLE_COLUMNS: type('RECEIVE_DATATABLE_COLUMNS'),
   RECEIVE_TABLE_RECORDS: type('RECEIVE_TABLE_RECORDS'),
   UPDATE_TABLE_NAME_ACTION: type('UPDATE_TABLE_NAME_ACTION'),
+  TABLE_RECORDS_ARE_LOADING: type('TABLE_RECORDS_ARE_LOADING'),
+  RECEIVE_TABLE_SETTINGS: type('RECEIVE_TABLE_SETTINGS'),
+  UPDATE_ROW_COUNT: type('UPDATE_ROW_COUNT'),
 };
-
-export class InitializeRecordsAction implements Action {
-  type = TableActionTypes.INITIALIZE_RECORDS;
-  constructor(public payload: any) {}
-}
 
 export class AddRecordAction implements Action {
   type = TableActionTypes.ADD_RECORD;
@@ -70,12 +67,12 @@ export class ReceiveTableRecordsAction implements Action {
 }
 
 export class GetTableColumnSettingsAction implements Action {
-  type = TableActionTypes.GET_TABLE_COLUMN_SETTINGS;
+  type = TableActionTypes.GET_DATATABLE_COLUMNS;
   constructor(public payload: string) { }
 }
 
-export class ReceiveTableColumnSettingsAction implements Action {
-  type = TableActionTypes.RECEIVE_TABLE_COLUMN_SETTINGS;
+export class ReceiveDatatableColumnsAction implements Action {
+  type = TableActionTypes.RECEIVE_DATATABLE_COLUMNS;
   constructor(public payload: TableColumnSetting[]) {}
 }
 
@@ -84,11 +81,19 @@ export class UpdateTableNameAction implements Action {
   constructor(public payload: string) {}
 }
 
+export class TableRecordsAreLoadingAction implements Action {
+  type = TableActionTypes.TABLE_RECORDS_ARE_LOADING;
+  constructor(public payload: any) {}
+}
+
+export class UpdateRowCountAction implements Action {
+  type = TableActionTypes.UPDATE_ROW_COUNT;
+  constructor(public payload: number) {}
+}
 
 
 export type TableActions
-  = InitializeRecordsAction
-  | AddRecordAction
+  = AddRecordAction
   | RemoveRecordAction
   | InitializeSettingsAction
   | SelectRecordsAction
@@ -98,5 +103,7 @@ export type TableActions
   | GetTableRecordsAction
   | ReceiveTableRecordsAction
   | RemoveTableRecordsAction
-  | ReceiveTableColumnSettingsAction
-  | UpdateTableNameAction;
+  | ReceiveDatatableColumnsAction
+  | UpdateTableNameAction
+  | TableRecordsAreLoadingAction
+  | UpdateRowCountAction;
