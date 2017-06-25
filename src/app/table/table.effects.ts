@@ -36,6 +36,22 @@ export class TableEffects {
     );
 
   @Effect()
+  updateDatatablePagination$ = this.actions$
+    .ofType(TableActionTypes.UPDATE_DATATABLE_PAGINATION)
+    .switchMap(action => this.tableService.update_datatable_pagination(action.payload)
+      .mergeMap(response => {
+        const datatable: Datatable = response.json()[0];
+        return [
+          new ReceiveDatatableAction(datatable),
+          new GetRecordsAction(datatable)
+        ];
+      })
+      .catch(error => {
+        return of(new ReceiveDatatableAction(error));
+      })
+    );
+
+  @Effect()
   getDatatableColumns$ = this.actions$
     .ofType(TableActionTypes.GET_DATATABLE_COLUMNS)
     .switchMap(action => this.tableService.get_datatable_columns(action.payload)

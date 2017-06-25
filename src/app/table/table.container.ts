@@ -4,8 +4,12 @@ import { Observable } from 'rxjs/Observable';
 
 import { Store } from '@ngrx/store';
 
-import { GetDatatableAction, GetDatatableColumnsAction, GetRecordsAction, UpdateTableNameAction } from './table.actions';
+import {
+  GetDatatableAction, GetDatatableColumnsAction, UpdateDatatablePaginationAction,
+  UpdateTableNameAction
+} from './table.actions';
 import { AppState } from '../app.reducers';
+import { LazyLoadEvent } from 'primeng/primeng';
 
 @Component({
   selector: 'app-table-container',
@@ -17,6 +21,7 @@ import { AppState } from '../app.reducers';
                              [records]="records$ | async"
                              [rowLimit]="rowLimit$ | async"
                              [totalRecords]="totalRecords$ | async"
+                             (onLazyLoad)="loadData($event)"
         >
         </app-table-component>
       </div>
@@ -54,5 +59,18 @@ export class TableContainer implements OnInit {
           }
           return records
         })
+  }
+
+  loadData(event: LazyLoadEvent) {
+    this.store.dispatch(new UpdateDatatablePaginationAction(event));
+    console.log(event);
+    // event.first = First row offset
+    // event.rows = Number of rows per page
+    // event.sortField = Field name to sort in single sort mode
+    // event.sortOrder = Sort order as number, 1 for asc and -1 for dec in single sort mode
+    // multiSortMeta: An array of SortMeta objects used in multiple columns sorting. Each SortMeta has field and order properties.
+    // filters: Filters object having field as key and filter value, filter matchMode as value
+    // globalFilter: Value of the global filter if available
+    //  this.cars = // do a request to a remote datasource using a service and return the cars that match the lazy load criteria
   }
 }

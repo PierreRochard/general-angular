@@ -3,6 +3,7 @@ import { Action } from '@ngrx/store';
 import { type } from '../util';
 
 import { Datatable, DatatableColumns } from './table.models';
+import { LazyLoadEvent } from 'primeng/primeng';
 
 export const TableActionTypes = {
   ADD_RECORD: type('ADD_RECORD'),
@@ -19,6 +20,7 @@ export const TableActionTypes = {
   REMOVE_RECORD: type('REMOVE_RECORD'),
   REMOVE_RECORDS: type('REMOVE_RECORDS'),
   SELECT_RECORDS: type('SELECT_RECORDS'),
+  UPDATE_DATATABLE_PAGINATION: type('UPDATE_DATATABLE_PAGINATION'),
   UPDATE_ROW_COUNT: type('UPDATE_ROW_COUNT'),
   UPDATE_TABLE_NAME_ACTION: type('UPDATE_TABLE_NAME_ACTION'),
 };
@@ -93,6 +95,11 @@ export class SelectRecordsAction implements Action {
   constructor(public payload: any) {}
 }
 
+export class UpdateDatatablePaginationAction implements Action {
+  type = TableActionTypes.UPDATE_DATATABLE_PAGINATION;
+  constructor(public payload: LazyLoadEvent) {}
+}
+
 export class UpdateRowCountAction implements Action {
   type = TableActionTypes.UPDATE_ROW_COUNT;
   constructor(public payload: number) {}
@@ -117,5 +124,6 @@ export type TableActions
   | RemoveRecordAction
   | RemoveTableRecordsAction
   | SelectRecordsAction
+  | UpdateDatatablePaginationAction
   | UpdateRowCountAction
   | UpdateTableNameAction;

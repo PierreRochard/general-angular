@@ -7,6 +7,7 @@ export interface TableState {
   records: any[];
   rowCount: number;
   rowLimit: number;
+  rowOffset: number;
   selectedRecords: any[];
   tableColumns: DatatableColumns[];
   tableName: string,
@@ -17,6 +18,7 @@ const initialState: TableState = {
   records: null,
   rowCount: null,
   rowLimit: null,
+  rowOffset: 0,
   selectedRecords: null,
   tableColumns: [],
   tableName: null
@@ -42,7 +44,8 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       });
     case TableActionTypes.RECEIVE_DATATABLE:
       return Object.assign({}, state, {
-        rowLimit: action.payload.limit
+        rowLimit: action.payload.limit,
+        rowOffset: action.payload.offset
       });
     case TableActionTypes.RECEIVE_DATATABLE_COLUMNS:
       return Object.assign({}, state, {

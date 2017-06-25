@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
-import {Http, Headers, Response, URLSearchParams} from '@angular/http';
+import { Injectable } from '@angular/core';
+import { Http, Headers, Response, URLSearchParams } from '@angular/http';
 
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 
-import {Store} from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
-import {AppState} from '../app.reducers';
+import { AppState } from '../app.reducers';
 
 @Injectable()
 export class RestClient {
@@ -15,31 +15,34 @@ export class RestClient {
 
   static createAuthorizationHeader(headers: Headers, token: string) {
     if (!!token) {
-      headers.append('Authorization', 'Bearer ' + token );
+      headers.append('Authorization', 'Bearer ' + token);
     }
     return headers;
   }
 
   get(endpoint: string, params?: URLSearchParams): Observable<Response> {
     return this.store.take(1).switchMap(state => {
-      const headers = RestClient.createAuthorizationHeader(new Headers(), state.auth.token);
-      headers.append('prefer', 'return=representation');
-      headers.append('prefer', 'count=exact');
-      return this.http.get(this.apiEndpoint.concat(endpoint),
-                {headers: headers,
-                  search: params}).timeout(this._timeout);
+        const headers = RestClient.createAuthorizationHeader(new Headers(), state.auth.token);
+        headers.append('prefer', 'return=representation');
+        headers.append('prefer', 'count=exact');
+        return this.http.get(this.apiEndpoint.concat(endpoint),
+          {
+            headers: headers,
+            search: params
+          }).timeout(this._timeout);
       }
     );
   };
 
   post(endpoint, data): Observable<Response> {
     return this.store.take(1).switchMap(state => {
-      const headers = RestClient.createAuthorizationHeader(new Headers(), state.auth.token);
-      headers.append('prefer', 'return=representation');
-      return this.http.post(this.apiEndpoint.concat(endpoint), data, {headers: headers}).timeout(this._timeout);
+        const headers = RestClient.createAuthorizationHeader(new Headers(), state.auth.token);
+        headers.append('prefer', 'return=representation');
+        return this.http.post(this.apiEndpoint.concat(endpoint), data, {headers: headers}).timeout(this._timeout);
       }
     );
   };
+
   delete(endpoint, id): Observable<Response> {
     return this.store.take(1).switchMap(state => {
       const params: URLSearchParams = new URLSearchParams();
@@ -52,17 +55,21 @@ export class RestClient {
       }).timeout(this._timeout);
     });
   }
-  //
-  // patch(endpoint, records, searchParam): Observable<Response> {
-  //   let headers = new Headers();
-  //   RestClient.createAuthorizationHeader(headers);
-  //   return this.http.patch(this.apiEndpoint.concat(endpoint), records, {
-  //     headers: headers,
-  //     search: searchParam
-  //   }).timeout(3000);
-  // }
+
+  patch(endpoint: string, data: any, params: URLSearchParams): Observable<Response> {
+    return this.store.take(1).switchMap(state => {
+      const headers = RestClient.createAuthorizationHeader(new Headers(), state.auth.token);
+      headers.append('prefer', 'return=representation');
+      return this.http.patch(this.apiEndpoint.concat(endpoint), data,
+        {
+          headers: headers,
+          search: params
+        }).timeout(this._timeout);
+    });
+  }
+
   constructor(private http: Http,
-              private store: Store<AppState>,
-  ) {}
+              private store: Store<AppState>,) {
+  }
 
 }
