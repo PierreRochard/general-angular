@@ -55,7 +55,7 @@ export class GetDatatableColumnsAction implements Action {
 
 export class GetRecordsAction implements Action {
   type = TableActionTypes.GET_RECORDS;
-  constructor(public payload: string) { }
+  constructor(public payload: Datatable) { }
 }
 
 export class InitializeSettingsAction implements Action {

@@ -11,9 +11,10 @@ import { Action } from '@ngrx/store';
 import {
   ReceiveDatatableAction,
   ReceiveDatatableColumnsAction, ReceiveRecordsAction, TableActionTypes,
-  AreRecordsLoadingAction, UpdateRowCountAction
+  AreRecordsLoadingAction, UpdateRowCountAction, GetRecordsAction
 } from './table.actions';
 import { TableService } from './table.service';
+import { Datatable } from './table.models';
 
 @Injectable()
 export class TableEffects {
@@ -23,8 +24,10 @@ export class TableEffects {
     .ofType(TableActionTypes.GET_DATATABLE)
     .switchMap(action => this.tableService.get_datatable(action.payload)
       .mergeMap(response => {
+        const datatable: Datatable = response.json()[0];
         return [
-          new ReceiveDatatableAction(response.json()[0]),
+          new ReceiveDatatableAction(datatable),
+          new GetRecordsAction(datatable)
         ];
       })
       .catch(error => {

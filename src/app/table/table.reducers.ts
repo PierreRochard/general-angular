@@ -42,7 +42,7 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       });
     case TableActionTypes.RECEIVE_DATATABLE:
       return Object.assign({}, state, {
-        rowLimit: action.payload.row_limit
+        rowLimit: action.payload.limit
       });
     case TableActionTypes.RECEIVE_DATATABLE_COLUMNS:
       return Object.assign({}, state, {

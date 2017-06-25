@@ -1,7 +1,8 @@
 export interface Datatable {
-  table_name: string;
+  name: string;
   header: string;
-  row_limit: number;
+  limit: number;
+  offset: number;
 }
 
 export interface DatatableColumns {

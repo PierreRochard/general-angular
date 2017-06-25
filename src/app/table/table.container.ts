@@ -50,7 +50,6 @@ export class TableContainer implements OnInit {
           if (newTableName !== oldTableName) {
             this.store.dispatch(new GetDatatableAction(newTableName));
             this.store.dispatch(new GetDatatableColumnsAction(newTableName));
-            this.store.dispatch(new GetRecordsAction(newTableName));
             this.store.dispatch(new UpdateTableNameAction(newTableName));
           }
           return records
