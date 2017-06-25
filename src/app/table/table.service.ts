@@ -12,7 +12,7 @@ import {AreRecordsLoadingAction} from './table.actions';
 
 @Injectable()
 export class TableService {
-  get_table_records(table_name: string): Observable<Response> {
+  get_records(table_name: string): Observable<Response> {
     this.store.dispatch(new AreRecordsLoadingAction(true));
     return this.restClient.get('/' + table_name);
   };

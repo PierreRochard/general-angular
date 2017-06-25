@@ -1,27 +1,25 @@
 import {TableActions, TableActionTypes} from './table.actions';
-import {TableColumnSetting} from './table.models';
+import {DatatableColumns} from './table.models';
 
 
 export interface TableState {
-  tableName: string,
-  isLoading: boolean,
+  areRecordsLoading: boolean;
   records: any[];
-  tableRecordsAreLoading: boolean;
-  selectedRecords: any[];
-  tableColumns: TableColumnSetting[];
   rowCount: number;
   rowLimit: number;
+  selectedRecords: any[];
+  tableColumns: DatatableColumns[];
+  tableName: string,
 }
 
 const initialState: TableState = {
-  tableName: null,
-  isLoading: false,
+  areRecordsLoading: null,
   records: null,
-  tableRecordsAreLoading: null,
+  rowCount: null,
+  rowLimit: null,
   selectedRecords: null,
   tableColumns: [],
-  rowCount: null,
-  rowLimit: null
+  tableName: null
 };
 
 export function tableReducer(state = initialState, action: TableActions): TableState {
@@ -30,13 +28,9 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       return Object.assign({}, state, {
         records: [action.payload, ...state.records]
       });
-    case TableActionTypes.REMOVE_RECORD:
+    case TableActionTypes.ARE_RECORDS_LOADING:
       return Object.assign({}, state, {
-        records: state.records.filter(record => record.id !== action.payload.id)
-      });
-    case TableActionTypes.SELECT_RECORDS:
-      return Object.assign({}, state, {
-        selectedRecords: action.payload
+        tableRecordsAreLoading: action.payload
       });
     case TableActionTypes.DESELECT_RECORD:
       return Object.assign({}, state, {
@@ -46,6 +40,10 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       return Object.assign({}, state, {
         selectedRecords: []
       });
+    case TableActionTypes.RECEIVE_DATATABLE:
+      return Object.assign({}, state, {
+        rowLimit: action.payload.row_limit
+      });
     case TableActionTypes.RECEIVE_DATATABLE_COLUMNS:
       return Object.assign({}, state, {
         tableColumnSettings: action.payload
@@ -54,25 +52,25 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       return Object.assign({}, state, {
         records: action.payload
       });
+    case TableActionTypes.REMOVE_RECORD:
+      return Object.assign({}, state, {
+        records: state.records.filter(record => record.id !== action.payload.id)
+      });
     case TableActionTypes.REMOVE_RECORDS:
       return Object.assign({}, state, {
         records: null
       });
-    case TableActionTypes.UPDATE_TABLE_NAME_ACTION:
+    case TableActionTypes.SELECT_RECORDS:
       return Object.assign({}, state, {
-        tableName: action.payload
-      });
-    case TableActionTypes.ARE_RECORDS_LOADING:
-      return Object.assign({}, state, {
-        tableRecordsAreLoading: action.payload
-      });
-    case TableActionTypes.RECEIVE_DATATABLE:
-      return Object.assign({}, state, {
-        rowLimit: action.payload.row_limit
+        selectedRecords: action.payload
       });
     case TableActionTypes.UPDATE_ROW_COUNT:
       return Object.assign({}, state, {
         rowCount: action.payload
+      });
+    case TableActionTypes.UPDATE_TABLE_NAME_ACTION:
+      return Object.assign({}, state, {
+        tableName: action.payload
       });
     default:
       return state;

@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { type } from '../util';
 
-import {TableColumnSetting} from './table.models';
+import { Datatable, DatatableColumns } from './table.models';
 
 export const TableActionTypes = {
   ADD_RECORD: type('ADD_RECORD'),
@@ -63,9 +63,14 @@ export class InitializeSettingsAction implements Action {
   constructor(public payload: any) {}
 }
 
+export class ReceiveDatatableAction implements Action {
+  type = TableActionTypes.RECEIVE_DATATABLE;
+  constructor(public payload: Datatable) {}
+}
+
 export class ReceiveDatatableColumnsAction implements Action {
   type = TableActionTypes.RECEIVE_DATATABLE_COLUMNS;
-  constructor(public payload: TableColumnSetting[]) {}
+  constructor(public payload: DatatableColumns[]) {}
 }
 
 export class ReceiveRecordsAction implements Action {

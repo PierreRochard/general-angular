@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/Observable';
 
 import {Store} from '@ngrx/store';
 
-import { GetDatatableColumnsAction, GetRecordsAction, UpdateTableNameAction } from './table.actions';
+import { GetDatatableAction, GetDatatableColumnsAction, GetRecordsAction, UpdateTableNameAction } from './table.actions';
 import {AppState} from '../app.reducers';
 
 @Component({
@@ -14,7 +14,7 @@ import {AppState} from '../app.reducers';
       <div class="ui-g-12">
         <app-table-component [tableRecords]="records$ | async"
                              [tableColumnSettings]="columns$ | async"
-                             [tableRecordsAreLoading]="recordsAreLoading$ | async"
+                             [tableRecordsAreLoading]="areRecordsLoading$ | async"
                              [totalRecords]="totalRecords$ | async"
         >
         </app-table-component>
@@ -24,7 +24,7 @@ import {AppState} from '../app.reducers';
 export class TableContainer implements OnInit {
   public columns$: Observable<any[]>;
   public records$: Observable<any[]>;
-  public recordsAreLoading$: Observable<boolean>;
+  public areRecordsLoading$: Observable<boolean>;
   public rowLimit$: Observable<number>;
   public selectedPathName$: Observable<string>;
   public totalRecords$: Observable<number>;
@@ -34,7 +34,7 @@ export class TableContainer implements OnInit {
   ngOnInit() {
     this.columns$ = this.store.select(state => state.table.tableColumns);
     this.records$ = this.store.select(state => state.table.records);
-    this.recordsAreLoading$ = this.store.select(state => state.table.tableRecordsAreLoading);
+    this.areRecordsLoading$ = this.store.select(state => state.table.areRecordsLoading);
     this.rowLimit$ = this.store.select(state => state.table.rowLimit);
     this.selectedPathName$ = this.store.select(state => state.router.path);
     this.totalRecords$ = this.store.select(state => state.table.rowCount);
@@ -46,6 +46,7 @@ export class TableContainer implements OnInit {
         (pathName, oldTableName, records) => {
           const newTableName = pathName.split('/').pop();
           if ( newTableName !== oldTableName ) {
+            this.store.dispatch(new GetDatatableAction(newTableName));
             this.store.dispatch(new GetDatatableColumnsAction(newTableName));
             this.store.dispatch(new GetRecordsAction(newTableName));
             this.store.dispatch(new UpdateTableNameAction(newTableName));

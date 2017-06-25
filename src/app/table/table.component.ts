@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import { TableColumnSetting } from 'app/table/table.models';
+import { DatatableColumns } from 'app/table/table.models';
 import { LazyLoadEvent } from 'primeng/primeng';
 
 @Component({
@@ -39,7 +39,7 @@ export class TableComponent {
   public sortMode = 'multiple';
 
   @Input() tableRecordsAreLoading: boolean;
-  @Input() tableColumnSettings: TableColumnSetting[];
+  @Input() tableColumnSettings: DatatableColumns[];
   @Input() tableRecords: any[];
   @Input() totalRecords: number;
 
