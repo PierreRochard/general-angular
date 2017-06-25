@@ -15,7 +15,7 @@ import { LazyLoadEvent } from 'primeng/primeng';
              [rows]="rows"
              (selectionChange)="selectionChange($event)"
              [sortMode]="sortMode"
-             [totalRecords]="10"
+             [totalRecords]="totalRecords"
              [value]="tableRecords"
              [loading]="tableRecordsAreLoading"
               >

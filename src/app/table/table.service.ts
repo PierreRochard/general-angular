@@ -16,10 +16,15 @@ export class TableService {
     this.store.dispatch(new TableRecordsAreLoadingAction(true));
     return this.restClient.get('/' + table_name);
   };
+  get_datatable(table_name: string): Observable<Response> {
+    const params: URLSearchParams = new URLSearchParams();
+    params.set('table_name', 'eq.' + table_name);
+    return this.restClient.get('/datatable', params)
+  }
   get_datatable_columns(table_name: string): Observable<Response> {
     const params: URLSearchParams = new URLSearchParams();
     params.set('table_name', 'eq.' + table_name);
-    return this.restClient.get('/datatable', params);
+    return this.restClient.get('/datatable_columns', params);
   };
   constructor(private restClient: RestClient,
               private store: Store<AppState>) {}

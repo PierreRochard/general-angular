@@ -10,6 +10,7 @@ export interface TableState {
   selectedRecords: any[];
   tableColumnSettings: TableColumnSetting[];
   rowCount: number;
+  rowLimit: number;
 }
 
 const initialState: TableState = {
@@ -19,7 +20,8 @@ const initialState: TableState = {
   tableRecordsAreLoading: null,
   selectedRecords: null,
   tableColumnSettings: [],
-  rowCount: null
+  rowCount: null,
+  rowLimit: null
 };
 
 export function tableReducer(state = initialState, action: TableActions): TableState {
@@ -66,7 +68,7 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       });
     case TableActionTypes.RECEIVE_TABLE_SETTINGS:
       return Object.assign({}, state, {
-        totalRecords: action.payload.total_records
+        rowLimit: action.payload.row_limit
       });
     case TableActionTypes.UPDATE_ROW_COUNT:
       return Object.assign({}, state, {
