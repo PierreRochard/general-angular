@@ -21,8 +21,8 @@ import { DatatableColumns } from 'app/table/table.models';
     >
       <p-column [style]="{'width':'38px'}" [selectionMode]="selectionMode"></p-column>
       <p-column *ngFor="let column of columns"
-                [field]="column.field"
-                [header]="column.header"
+                [field]="column.value"
+                [header]="column.label"
                 [style]="{'width':'100%'}"
                 [sortable]="true"
       ></p-column>

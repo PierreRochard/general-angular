@@ -9,7 +9,7 @@ export interface TableState {
   rowLimit: number;
   rowOffset: number;
   selectedRecords: any[];
-  tableColumns: DatatableColumns[];
+  columns: DatatableColumns[];
   tableName: string,
 }
 
@@ -20,7 +20,7 @@ const initialState: TableState = {
   rowLimit: null,
   rowOffset: 0,
   selectedRecords: null,
-  tableColumns: [],
+  columns: [],
   tableName: null
 };
 
@@ -49,7 +49,7 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       });
     case TableActionTypes.RECEIVE_DATATABLE_COLUMNS:
       return Object.assign({}, state, {
-        tableColumns: action.payload
+        columns: action.payload
       });
     case TableActionTypes.RECEIVE_RECORDS:
       return Object.assign({}, state, {

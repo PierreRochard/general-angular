@@ -7,6 +7,6 @@ export interface Datatable {
 
 export interface DatatableColumns {
   table_name: string;
-  field: string;
-  header: string;
+  value: string;
+  label: string;
 }
