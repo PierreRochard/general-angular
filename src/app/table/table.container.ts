@@ -22,6 +22,7 @@ import { LazyLoadEvent } from 'primeng/primeng';
                              [rowLimit]="rowLimit$ | async"
                              [totalRecords]="totalRecords$ | async"
                              (onLazyLoad)="loadData($event)"
+                             (onMultiselect)="updateMultiselect($event)"
         >
         </app-table-component>
       </div>
@@ -63,5 +64,9 @@ export class TableContainer implements OnInit {
 
   loadData(event: LazyLoadEvent) {
     this.store.dispatch(new UpdateDatatablePaginationAction(event));
+  }
+
+  updateMultiselect(event) {
+    console.log(event);
   }
 }

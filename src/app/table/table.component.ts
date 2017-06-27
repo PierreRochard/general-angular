@@ -10,11 +10,9 @@ import { DatatableColumns } from 'app/table/table.models';
       [paginator]="paginator"
       [lazy]="true"
       [loading]="areRecordsLoading"
-      (onColReorder)="onColReorder($event)"
       (onLazyLoad)="_onLazyLoad($event)"
       [reorderableColumns]="reorderableColumns"
       [rows]="rowLimit"
-      (selectionChange)="selectionChange($event)"
       [sortMode]="sortMode"
       [totalRecords]="totalRecords"
       [value]="records"
@@ -23,10 +21,10 @@ import { DatatableColumns } from 'app/table/table.models';
         <app-columns-multiselect-component
           [columns]="columns"
           [selectedColumns]="columns"
+          (onChange)="_onMultiselect($event)"
         >
         </app-columns-multiselect-component>
       </p-header>
-      <p-column [style]="{'width':'38px'}" [selectionMode]="selectionMode"></p-column>
       <p-column *ngFor="let column of columns"
                 [field]="column.value"
                 [header]="column.label"
@@ -38,7 +36,7 @@ import { DatatableColumns } from 'app/table/table.models';
 export class TableComponent {
   public dataKey = 'id';
   public paginator = true;
-  public reorderableColumns = true;
+  public reorderableColumns = false;
   public resizableColumns = true;
   public selectedRecords: any[] = [];
   public selectionMode = 'multiple';
@@ -51,25 +49,13 @@ export class TableComponent {
   @Input() totalRecords: number;
 
   @Output() onLazyLoad = new EventEmitter<any>();
+  @Output() onMultiselect = new EventEmitter<any>();
 
   _onLazyLoad(event) {
     this.onLazyLoad.emit(event);
   }
 
-  onColReorder(event) {
-    const old_index = event.dragIndex - 1;
-    const new_index = event.dropIndex - 1;
-    console.log(event);
-    console.log(old_index);
-    console.log(new_index);
+  _onMultiselect(event) {
+    this.onMultiselect.emit(event)
   }
-
-  onColumnResize(event) {
-    console.log(event);
-  }
-
-  selectionChange(event) {
-    this.selectedRecords = event;
-  }
-
 }
