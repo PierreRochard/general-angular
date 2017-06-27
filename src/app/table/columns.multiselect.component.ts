@@ -6,11 +6,16 @@ import { DatatableColumns } from 'app/table/table.models';
   template: `
     <p-multiSelect
       [options]="columns"
-      [(ngModel)]="selectedColumns">
+      [displaySelectedLabel]="false"
+      [defaultLabel]="defaultLabel"
+      [(ngModel)]="selectedColumns"
+    >
     </p-multiSelect>
   `
 })
 export class ColumnsMultiselectComponent {
+  public defaultLabel = 'Columns';
+
   _selectedColumns;
   @Input() set selectedColumns(value: any) {
     let filteredColumns: string[];

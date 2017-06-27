@@ -18,12 +18,17 @@ import { DatatableColumns } from 'app/table/table.models';
       [value]="records"
     >
       <p-header>
-        <app-columns-multiselect-component
-          [columns]="columns"
-          [selectedColumns]="columns"
-          (onChange)="_onMultiselect($event)"
-        >
-        </app-columns-multiselect-component>
+        <div class="ui-helper-clearfix" style="width:100%;">
+          <div
+            style="float:right;">
+          <app-columns-multiselect-component
+            [columns]="columns"
+            [selectedColumns]="columns"
+            (onChange)="_onMultiselect($event)"
+          >
+          </app-columns-multiselect-component>
+          </div>
+        </div>
       </p-header>
       <p-column *ngFor="let column of columns"
                 [field]="column.value"
