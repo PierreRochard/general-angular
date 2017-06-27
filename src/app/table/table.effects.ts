@@ -10,8 +10,13 @@ import { Action } from '@ngrx/store';
 
 import {
   ReceiveDatatableAction,
-  ReceiveDatatableColumnsAction, ReceiveRecordsAction, TableActionTypes,
-  AreRecordsLoadingAction, UpdateRowCountAction, GetRecordsAction
+  ReceiveDatatableColumnsAction,
+  ReceiveRecordsAction,
+  TableActionTypes,
+  AreRecordsLoadingAction,
+  UpdateRowCountAction,
+  GetRecordsAction,
+  GetDatatableColumnsAction
 } from './table.actions';
 import { TableService } from './table.service';
 import { Datatable } from './table.models';
@@ -62,6 +67,21 @@ export class TableEffects {
       })
       .catch(error => {
         return of(new ReceiveDatatableColumnsAction(error));
+      })
+    );
+
+
+  @Effect()
+  updateColumnsVisibility$ = this.actions$
+    .ofType(TableActionTypes.UPDATE_COLUMNS_VISIBILITY)
+    .switchMap(action => this.tableService.update_columns_visibility(action.payload)
+      .mergeMap(response => {
+        return [
+          new GetDatatableColumnsAction(response.json()[0].table_name),
+        ];
+      })
+      .catch(error => {
+        return of(new GetDatatableColumnsAction(action.payload.dataTable));
       })
     );
 

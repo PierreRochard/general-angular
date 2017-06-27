@@ -11,3 +11,15 @@ export interface DatatableColumns {
   label: string;
   is_visible: boolean;
 }
+
+export interface MultiselectOutput {
+  added: string[];
+  removed: string[];
+  tableName?: string;
+}
+
+export interface ColumnsVisibilityUpdate {
+  columns: string[];
+  tableName: string;
+  isVisible: boolean;
+}

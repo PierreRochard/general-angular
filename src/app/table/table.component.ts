@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DatatableColumns } from 'app/table/table.models';
+import { DatatableColumns, MultiselectOutput } from 'app/table/table.models';
+import { LazyLoadEvent } from 'primeng/primeng';
 
 @Component({
   selector: 'app-table-component',
@@ -30,12 +31,15 @@ import { DatatableColumns } from 'app/table/table.models';
           </div>
         </div>
       </p-header>
-      <p-column *ngFor="let column of columns"
-                [field]="column.value"
-                [header]="column.label"
-                [style]="{'width':'100%'}"
-                [sortable]="true"
-      ></p-column>
+      <div *ngFor="let column of columns">
+        <p-column
+                  *ngIf="column.is_visible"
+                  [field]="column.value"
+                  [header]="column.label"
+                  [style]="{'width':'100%'}"
+                  [sortable]="true"
+        ></p-column>
+      </div>
     </p-dataTable>`
 })
 export class TableComponent {
@@ -51,16 +55,18 @@ export class TableComponent {
   @Input() columns: DatatableColumns[];
   @Input() records: any[];
   @Input() rowLimit: number;
+  @Input() tableName: string;
   @Input() totalRecords: number;
 
   @Output() onLazyLoad = new EventEmitter<any>();
-  @Output() onMultiselect = new EventEmitter<any>();
+  @Output() onMultiselect = new EventEmitter<MultiselectOutput>();
 
-  _onLazyLoad(event) {
+  _onLazyLoad(event: LazyLoadEvent) {
     this.onLazyLoad.emit(event);
   }
 
-  _onMultiselect(event) {
+  _onMultiselect(event: MultiselectOutput) {
+    event.tableName = this.tableName;
     this.onMultiselect.emit(event)
   }
 }
