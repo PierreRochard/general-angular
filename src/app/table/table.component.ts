@@ -14,7 +14,8 @@ import { LazyLoadEvent } from 'primeng/primeng';
       (onLazyLoad)="_onLazyLoad($event)"
       [reorderableColumns]="reorderableColumns"
       [rows]="rowLimit"
-      [sortMode]="sortMode"
+      [sortField]="sortColumn"
+      [sortOrder]="sortOrder"
       [totalRecords]="totalRecords"
       [value]="records"
     >
@@ -49,20 +50,28 @@ export class TableComponent {
   public resizableColumns = true;
   public selectedRecords: any[] = [];
   public selectionMode = 'multiple';
-  public sortMode = 'multiple';
 
   @Input() areRecordsLoading: boolean;
   @Input() columns: DatatableColumns[];
   @Input() records: any[];
   @Input() rowLimit: number;
+  @Input() rowOffset: number;
+  @Input() sortColumn: string;
+  @Input() sortOrder: number;
   @Input() tableName: string;
   @Input() totalRecords: number;
 
-  @Output() onLazyLoad = new EventEmitter<any>();
+  @Output() onPagination = new EventEmitter<any>();
+  @Output() onSort = new EventEmitter<any>();
   @Output() onMultiselect = new EventEmitter<MultiselectOutput>();
 
   _onLazyLoad(event: LazyLoadEvent) {
-    this.onLazyLoad.emit(event);
+    if (event.first !== this.rowOffset) {
+      this.onPagination.emit(event);
+    }
+    if (event.sortOrder !== this.sortOrder || event.sortField !== this.sortColumn) {
+      this.onSort.emit(event);
+    }
   }
 
   _onMultiselect(event: MultiselectOutput) {

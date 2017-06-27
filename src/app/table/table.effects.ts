@@ -42,7 +42,7 @@ export class TableEffects {
 
   @Effect()
   updateDatatablePagination$ = this.actions$
-    .ofType(TableActionTypes.UPDATE_DATATABLE_PAGINATION)
+    .ofType(TableActionTypes.UPDATE_PAGINATION)
     .switchMap(action => this.tableService.update_datatable_pagination(action.payload)
       .mergeMap(response => {
         const datatable: Datatable = response.json()[0];

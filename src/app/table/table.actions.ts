@@ -21,8 +21,9 @@ export const TableActionTypes = {
   REMOVE_RECORDS: type('REMOVE_RECORDS'),
   SELECT_RECORDS: type('SELECT_RECORDS'),
   UPDATE_COLUMNS_VISIBILITY: type('UPDATE_COLUMNS_VISIBILITY'),
-  UPDATE_DATATABLE_PAGINATION: type('UPDATE_DATATABLE_PAGINATION'),
+  UPDATE_PAGINATION: type('UPDATE_PAGINATION'),
   UPDATE_ROW_COUNT: type('UPDATE_ROW_COUNT'),
+  UPDATE_SORT: type('UPDATE_SORT'),
   UPDATE_TABLE_NAME_ACTION: type('UPDATE_TABLE_NAME_ACTION'),
 };
 
@@ -96,19 +97,24 @@ export class SelectRecordsAction implements Action {
   constructor(public payload: any) {}
 }
 
-export class UpdateDatatablePaginationAction implements Action {
-  type = TableActionTypes.UPDATE_DATATABLE_PAGINATION;
-  constructor(public payload: LazyLoadEvent) {}
-}
-
 export class UpdateColumnsVisibilityAction implements Action {
   type = TableActionTypes.UPDATE_COLUMNS_VISIBILITY;
   constructor(public payload: ColumnsVisibilityUpdate) {}
 }
 
+export class UpdatePaginationAction implements Action {
+  type = TableActionTypes.UPDATE_PAGINATION;
+  constructor(public payload: LazyLoadEvent) {}
+}
+
 export class UpdateRowCountAction implements Action {
   type = TableActionTypes.UPDATE_ROW_COUNT;
   constructor(public payload: number) {}
+}
+
+export class UpdateSortAction implements Action {
+  type = TableActionTypes.UPDATE_SORT;
+  constructor(public payload: LazyLoadEvent) {}
 }
 
 export class UpdateTableNameAction implements Action {
@@ -131,6 +137,7 @@ export type TableActions
   | RemoveTableRecordsAction
   | SelectRecordsAction
   | UpdateColumnsVisibilityAction
-  | UpdateDatatablePaginationAction
+  | UpdatePaginationAction
   | UpdateRowCountAction
+  | UpdateSortAction
   | UpdateTableNameAction;

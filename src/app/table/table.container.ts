@@ -8,7 +8,7 @@ import {
   GetDatatableAction,
   GetDatatableColumnsAction,
   UpdateColumnsVisibilityAction,
-  UpdateDatatablePaginationAction,
+  UpdatePaginationAction, UpdateSortAction,
   UpdateTableNameAction
 } from './table.actions';
 import { AppState } from '../app.reducers';
@@ -24,9 +24,11 @@ import { MultiselectOutput } from './table.models';
                              [columns]="columns$ | async"
                              [records]="records$ | async"
                              [rowLimit]="rowLimit$ | async"
+                             [rowOffset]="rowOffset$ | async"
                              [tableName]="tableName$ | async"
                              [totalRecords]="totalRecords$ | async"
-                             (onLazyLoad)="loadData($event)"
+                             (onPagination)="onPagination($event)"
+                             (onSort)="onSort($event)"
                              (onMultiselect)="updateColumns($event)"
         >
         </app-table-component>
@@ -38,6 +40,7 @@ export class TableContainer implements OnInit {
   public columns$: Observable<any[]>;
   public records$: Observable<any[]>;
   public rowLimit$: Observable<number>;
+  public rowOffset$: Observable<number>;
   public selectedPathName$: Observable<string>;
   public tableName$: Observable<string>;
   public totalRecords$: Observable<number>;
@@ -50,6 +53,7 @@ export class TableContainer implements OnInit {
     this.records$ = this.store.select(state => state.table.records);
     this.areRecordsLoading$ = this.store.select(state => state.table.areRecordsLoading);
     this.rowLimit$ = this.store.select(state => state.table.rowLimit);
+    this.rowOffset$ = this.store.select(state => state.table.rowOffset);
     this.selectedPathName$ = this.store.select(state => state.router.path);
     this.tableName$ = this.store.select(state => state.table.tableName);
     this.totalRecords$ = this.store.select(state => state.table.rowCount);
@@ -69,8 +73,12 @@ export class TableContainer implements OnInit {
         })
   }
 
-  loadData(event: LazyLoadEvent) {
-    this.store.dispatch(new UpdateDatatablePaginationAction(event));
+  onPagination(event: LazyLoadEvent) {
+    this.store.dispatch(new UpdatePaginationAction(event));
+  }
+
+  onSort(event: LazyLoadEvent) {
+    this.store.dispatch(new UpdateSortAction(event));
   }
 
   updateColumns(event: MultiselectOutput) {
