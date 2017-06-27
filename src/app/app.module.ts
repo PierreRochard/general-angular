@@ -1,5 +1,3 @@
-import * as Raven from 'raven-js';
-
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule, ErrorHandler} from '@angular/core';
 import {HttpModule} from '@angular/http';
@@ -43,20 +41,6 @@ import {WebsocketService} from './websocket/websocket.service';
 import { AppMenubarModule } from './menubar/menubar.module';
 const optionalImports = [];
 
-Raven
-  .config('https://5d41708e0aae4566ba49adf4d9be7bce@sentry.io/167393',
-    {
-      stacktrace: true,
-      level: 'debug'
-    })
-  .install();
-
-export class RavenErrorHandler implements ErrorHandler {
-  handleError(error: any): void {
-    Raven.captureException(error.originalError);
-  }
-}
-
 if (!environment.production) {
   console.log('Dev Environment');
   optionalImports.push(StoreDevtoolsModule.instrumentOnlyWithExtension({
@@ -96,7 +80,6 @@ if (!environment.production) {
   providers: [
     RestClient,
     WebsocketService,
-    { provide: ErrorHandler, useClass: RavenErrorHandler }
   ]
 })
 export class AppModule { }

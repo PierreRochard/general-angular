@@ -19,6 +19,13 @@ import { DatatableColumns } from 'app/table/table.models';
       [totalRecords]="totalRecords"
       [value]="records"
     >
+      <p-header>
+        <app-columns-multiselect-component
+          [columns]="columns"
+          [selectedColumns]="columns"
+        >
+        </app-columns-multiselect-component>
+      </p-header>
       <p-column [style]="{'width':'38px'}" [selectionMode]="selectionMode"></p-column>
       <p-column *ngFor="let column of columns"
                 [field]="column.value"

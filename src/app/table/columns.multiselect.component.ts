@@ -6,14 +6,23 @@ import { DatatableColumns } from 'app/table/table.models';
   template: `
     <p-multiSelect
       [options]="columns"
-      [(ngModel)]="selectedCities">
+      [(ngModel)]="selectedColumns"
+      (onChange)="onChange.emit($event)">
     </p-multiSelect>
   `
 })
 export class ColumnsMultiselectComponent {
+  _selectedColumns;
+  @Input() set selectedColumns(value: DatatableColumns[]) {
+    let selected_columns: string[];
+    selected_columns = value.filter(c => c.is_visible).map(c => c.value);
+    this._selectedColumns = [...selected_columns];
+  }
+  get selectedColumns() {
+    return this._selectedColumns
+  }
+
   @Input() columns: DatatableColumns[];
 
-  @Output() onLazyLoad = new EventEmitter<any>();
-
-
+  @Output() onChange = new EventEmitter<any>();
 }
