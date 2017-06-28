@@ -11,6 +11,7 @@ import { LazyLoadEvent } from 'primeng/primeng';
     <p-dataTable
       *ngIf="columns.length > 0"
       [dataKey]="dataKey"
+      [globalFilter]="gb"
       [paginator]="paginator"
       [lazy]="true"
       [loading]="areRecordsLoading"
@@ -24,13 +25,13 @@ import { LazyLoadEvent } from 'primeng/primeng';
     >
       <p-header>
         <div class="ui-helper-clearfix" style="width:100%;">
-          <div
-            style="float:right;">
-          <app-columns-multiselect-component
-            [columns]="columns"
-            [selectedColumns]="columns"
-            (onChange)="_onMultiselect($event)"
-          >
+            <input #gb type="text" placeholder="Global search"  style="float:left;">
+          <div style="float:right;">
+            <app-columns-multiselect-component
+              [columns]="columns"
+              [selectedColumns]="columns"
+              (onChange)="_onMultiselect($event)"
+            >
           </app-columns-multiselect-component>
           </div>
         </div>
@@ -41,13 +42,16 @@ import { LazyLoadEvent } from 'primeng/primeng';
                   [field]="column.value"
                   [header]="column.label"
                   [style]="{'width':'100%'}"
-                  [sortable]="true"
+                  [sortable]="column.is_sortable"
+                  [filter]="column.is_filterable"
+                  [filterMatchMode]="column.filter_match_mode"
         ></p-column>
       </div>
     </p-dataTable>`
 })
 export class TableComponent {
   public dataKey = 'id';
+  public filterMatchMode = 'contains';
   public paginator = true;
   public reorderableColumns = false;
   public resizableColumns = true;
@@ -69,6 +73,7 @@ export class TableComponent {
   @Output() onMultiselect = new EventEmitter<MultiselectOutput>();
 
   _onLazyLoad(event: DatatableUpdate) {
+    console.log(event);
     event.tableName = this.tableName;
     if (event.first !== this.rowOffset) {
       this.onPagination.emit(event);

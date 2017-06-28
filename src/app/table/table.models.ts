@@ -9,10 +9,14 @@ export interface Datatable {
 }
 
 export interface DatatableColumns {
+  filter_match_mode: string;
+  filter_value: string;
+  is_filterable: boolean;
+  is_sortable: boolean;
+  is_visible: boolean;
+  label: string;
   table_name: string;
   value: string;
-  label: string;
-  is_visible: boolean;
 }
 
 export interface MultiselectOutput {
