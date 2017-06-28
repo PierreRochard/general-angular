@@ -68,8 +68,10 @@ export class TableComponent {
   @Input() tableName: string;
   @Input() totalRecords: number;
 
-  @Output() onPagination = new EventEmitter<any>();
-  @Output() onSort = new EventEmitter<any>();
+  @Output() onFilterAdded = new EventEmitter<string>();
+  @Output() onFilterRemoved = new EventEmitter<string>();
+  @Output() onPagination = new EventEmitter<DatatableUpdate>();
+  @Output() onSort = new EventEmitter<DatatableUpdate>();
   @Output() onMultiselect = new EventEmitter<MultiselectOutput>();
 
   _onLazyLoad(event: DatatableUpdate) {
@@ -81,6 +83,17 @@ export class TableComponent {
     if (event.sortOrder !== this.sortOrder || event.sortField !== this.sortColumn) {
       this.onSort.emit(event);
     }
+    const newFilteredColumns = Object.keys(event.filters);
+    const oldFilteredColumns = this.columns.filter(c => c.filter_value !== null && c.filter_value.length > 0).map(c => {
+      return c.value
+    });
+    const addedFilters = newFilteredColumns.filter(c => oldFilteredColumns.indexOf(c) === -1)
+      .map(c => this.onFilterAdded.emit({column_name: c, table_name: this.tableName, filter_value: event.filters[c].value}));
+    const removedFilters = oldFilteredColumns.filter(c => newFilteredColumns.indexOf(c) === -1)
+      .map(c => this.onFilterRemoved.emit({column_name: c, table_name: this.tableName}));
+    const newFilterValues = oldFilteredColumns.filter(c => newFilteredColumns.indexOf(c) > -1)
+      .filter(c => event.filters[c].value !== this.columns.find(col => col.value === c).filter_value)
+      .map(c => this.onFilterAdded.emit({column_name: c, table_name: this.tableName, filter_value: event.filters[c].value}));
   }
 
   _onMultiselect(event: MultiselectOutput) {
