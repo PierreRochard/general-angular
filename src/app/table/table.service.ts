@@ -10,7 +10,6 @@ import { RestClient } from 'app/rest/rest.service';
 
 import { AreRecordsLoadingAction } from './table.actions';
 import { ColumnsVisibilityUpdate, Datatable, DatatableUpdate } from './table.models';
-import { LazyLoadEvent } from 'primeng/primeng';
 
 @Injectable()
 export class TableService {
@@ -20,16 +19,14 @@ export class TableService {
     return this.restClient.get('/datatable', params)
   };
 
-  update_pagination(updateData: LazyLoadEvent): Observable<Response> {
+  update_pagination(updateData: DatatableUpdate): Observable<Response> {
     const newOffset = updateData.first;
     const data = {
       offset: newOffset
     };
-    return this.store.take(1).switchMap(state => {
-      const params: URLSearchParams = new URLSearchParams();
-      params.set('name', 'eq.' + state.table.tableName);
-      return this.restClient.patch('/datatable', data, params)
-    })
+    const params: URLSearchParams = new URLSearchParams();
+    params.set('name', 'eq.' + updateData.tableName);
+    return this.restClient.patch('/datatable', data, params)
   };
 
   update_sort(updateData: DatatableUpdate): Observable<Response> {
