@@ -9,7 +9,7 @@ import { AppState } from '../app.reducers';
 import { RestClient } from 'app/rest/rest.service';
 
 import { AreRecordsLoadingAction } from './table.actions';
-import { ColumnsVisibilityUpdate, Datatable, MultiselectOutput } from './table.models';
+import { ColumnsVisibilityUpdate, Datatable, DatatableUpdate } from './table.models';
 import { LazyLoadEvent } from 'primeng/primeng';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class TableService {
     return this.restClient.get('/datatable', params)
   };
 
-  update_datatable_pagination(updateData: LazyLoadEvent): Observable<Response> {
+  update_pagination(updateData: LazyLoadEvent): Observable<Response> {
     const newOffset = updateData.first;
     const data = {
       offset: newOffset
@@ -31,6 +31,16 @@ export class TableService {
       return this.restClient.patch('/datatable', data, params)
     })
   };
+
+  update_sort(updateData: DatatableUpdate): Observable<Response> {
+    const data = {
+      sort_column: updateData.sortField,
+      sort_order: updateData.sortOrder
+    };
+    const params: URLSearchParams = new URLSearchParams();
+    params.set('name', 'eq.' + updateData.tableName);
+    return this.restClient.patch('/datatable', data, params)
+  }
 
   get_datatable_columns(table_name: string): Observable<Response> {
     const params: URLSearchParams = new URLSearchParams();
@@ -50,8 +60,13 @@ export class TableService {
 
   get_records(datatable: Datatable): Observable<Response> {
     const params: URLSearchParams = new URLSearchParams();
+    let sortDirection: string;
     params.set('limit', datatable.limit.toString());
     params.set('offset', datatable.offset.toString());
+    if (datatable.sort_column !== null) {
+      sortDirection = datatable.sort_order === 1 ? 'asc' : 'desc';
+      params.set('order', datatable.sort_column + '.' + sortDirection);
+    }
 
     this.store.dispatch(new AreRecordsLoadingAction(true));
 

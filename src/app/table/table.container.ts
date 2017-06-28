@@ -25,6 +25,8 @@ import { MultiselectOutput } from './table.models';
                              [records]="records$ | async"
                              [rowLimit]="rowLimit$ | async"
                              [rowOffset]="rowOffset$ | async"
+                             [sortColumn]="sortColumn$ | async"
+                             [sortOrder]="sortOrder$ | async"
                              [tableName]="tableName$ | async"
                              [totalRecords]="totalRecords$ | async"
                              (onPagination)="onPagination($event)"
@@ -42,6 +44,8 @@ export class TableContainer implements OnInit {
   public rowLimit$: Observable<number>;
   public rowOffset$: Observable<number>;
   public selectedPathName$: Observable<string>;
+  public sortColumn$: Observable<string>;
+  public sortOrder$: Observable<number>;
   public tableName$: Observable<string>;
   public totalRecords$: Observable<number>;
 
@@ -55,6 +59,8 @@ export class TableContainer implements OnInit {
     this.rowLimit$ = this.store.select(state => state.table.rowLimit);
     this.rowOffset$ = this.store.select(state => state.table.rowOffset);
     this.selectedPathName$ = this.store.select(state => state.router.path);
+    this.sortColumn$ = this.store.select(state => state.table.sortColumn);
+    this.sortOrder$ = this.store.select(state => state.table.sortOrder);
     this.tableName$ = this.store.select(state => state.table.tableName);
     this.totalRecords$ = this.store.select(state => state.table.rowCount);
 

@@ -4,23 +4,27 @@ import {DatatableColumns} from './table.models';
 
 export interface TableState {
   areRecordsLoading: boolean;
+  columns: DatatableColumns[];
   records: any[];
   rowCount: number;
   rowLimit: number;
   rowOffset: number;
   selectedRecords: any[];
-  columns: DatatableColumns[];
-  tableName: string,
+  sortColumn: string;
+  sortOrder: number;
+  tableName: string;
 }
 
 const initialState: TableState = {
   areRecordsLoading: null,
+  columns: [],
   records: null,
   rowCount: null,
   rowLimit: null,
   rowOffset: 0,
   selectedRecords: null,
-  columns: [],
+  sortColumn: null,
+  sortOrder: 1,
   tableName: null
 };
 
@@ -45,7 +49,9 @@ export function tableReducer(state = initialState, action: TableActions): TableS
     case TableActionTypes.RECEIVE_DATATABLE:
       return Object.assign({}, state, {
         rowLimit: action.payload.limit,
-        rowOffset: action.payload.offset
+        rowOffset: action.payload.offset,
+        sortColumn: action.payload.sort_column,
+        sortOrder: action.payload.sort_order
       });
     case TableActionTypes.RECEIVE_DATATABLE_COLUMNS:
       return Object.assign({}, state, {

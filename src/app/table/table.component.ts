@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DatatableColumns, MultiselectOutput } from 'app/table/table.models';
+import {
+  DatatableColumns, DatatableUpdate,
+  MultiselectOutput
+} from 'app/table/table.models';
 import { LazyLoadEvent } from 'primeng/primeng';
 
 @Component({
@@ -65,7 +68,8 @@ export class TableComponent {
   @Output() onSort = new EventEmitter<any>();
   @Output() onMultiselect = new EventEmitter<MultiselectOutput>();
 
-  _onLazyLoad(event: LazyLoadEvent) {
+  _onLazyLoad(event: DatatableUpdate) {
+    event.tableName = this.tableName;
     if (event.first !== this.rowOffset) {
       this.onPagination.emit(event);
     }

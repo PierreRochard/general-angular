@@ -41,9 +41,25 @@ export class TableEffects {
     );
 
   @Effect()
-  updateDatatablePagination$ = this.actions$
+  updatePagination$ = this.actions$
     .ofType(TableActionTypes.UPDATE_PAGINATION)
-    .switchMap(action => this.tableService.update_datatable_pagination(action.payload)
+    .switchMap(action => this.tableService.update_pagination(action.payload)
+      .mergeMap(response => {
+        const datatable: Datatable = response.json()[0];
+        return [
+          new ReceiveDatatableAction(datatable),
+          new GetRecordsAction(datatable)
+        ];
+      })
+      .catch(error => {
+        return of(new ReceiveDatatableAction(error));
+      })
+    );
+
+  @Effect()
+  updateSort$ = this.actions$
+    .ofType(TableActionTypes.UPDATE_SORT)
+    .switchMap(action => this.tableService.update_sort(action.payload)
       .mergeMap(response => {
         const datatable: Datatable = response.json()[0];
         return [

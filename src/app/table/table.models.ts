@@ -1,8 +1,11 @@
+import {FilterMetadata, LazyLoadEvent, SortMeta} from "primeng/primeng";
 export interface Datatable {
   name: string;
   header: string;
   limit: number;
   offset: number;
+  sort_column: string;
+  sort_order: number;
 }
 
 export interface DatatableColumns {
@@ -22,4 +25,8 @@ export interface ColumnsVisibilityUpdate {
   columns: string[];
   tableName: string;
   isVisible: boolean;
+}
+
+export interface DatatableUpdate extends LazyLoadEvent {
+  tableName: string;
 }
