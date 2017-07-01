@@ -68,8 +68,8 @@ export class TableComponent {
   @Input() tableName: string;
   @Input() totalRecords: number;
 
-  @Output() onFilterAdded = new EventEmitter<string>();
-  @Output() onFilterRemoved = new EventEmitter<string>();
+  @Output() onFilterAdded = new EventEmitter<any>();
+  @Output() onFilterRemoved = new EventEmitter<any>();
   @Output() onPagination = new EventEmitter<DatatableUpdate>();
   @Output() onSort = new EventEmitter<DatatableUpdate>();
   @Output() onMultiselect = new EventEmitter<MultiselectOutput>();
