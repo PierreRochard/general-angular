@@ -18,6 +18,8 @@ import { LazyLoadEvent } from 'primeng/primeng';
       (onLazyLoad)="_onLazyLoad($event)"
       [reorderableColumns]="reorderableColumns"
       [rows]="rowLimit"
+      [rowHover]="true"
+      [rowsPerPageOptions]="rowsPerPage"
       [sortField]="sortColumn"
       [sortOrder]="sortOrder"
       [totalRecords]="totalRecords"
@@ -36,17 +38,16 @@ import { LazyLoadEvent } from 'primeng/primeng';
           </div>
         </div>
       </p-header>
-      <div *ngFor="let column of columns">
-        <p-column
-                  *ngIf="column.is_visible"
-                  [field]="column.value"
-                  [header]="column.label"
-                  [style]="{'width':'100%'}"
-                  [sortable]="column.is_sortable"
-                  [filter]="column.is_filterable"
-                  [filterMatchMode]="column.filter_match_mode"
-        ></p-column>
-      </div>
+      <p-column
+        *ngFor="let column of columns"
+        [field]="column.value"
+        [header]="column.label"
+        [hidden]="!column.is_visible"
+        [style]="{'width':'100%'}"
+        [sortable]="column.is_sortable"
+        [filter]="column.is_filterable"
+        [filterMatchMode]="column.filter_match_mode"
+      ></p-column>
     </p-dataTable>`
 })
 export class TableComponent {
@@ -55,6 +56,7 @@ export class TableComponent {
   public paginator = true;
   public reorderableColumns = false;
   public resizableColumns = true;
+  public rowsPerPage = [10, 20];
   public selectedRecords: any[] = [];
   public selectionMode = 'multiple';
 
@@ -77,23 +79,24 @@ export class TableComponent {
   _onLazyLoad(event: DatatableUpdate) {
     console.log(event);
     event.tableName = this.tableName;
-    if (event.first !== this.rowOffset) {
+    if (event.first !== this.rowOffset || event.rows !== this.rowLimit) {
       this.onPagination.emit(event);
     }
     if (event.sortOrder !== this.sortOrder || event.sortField !== this.sortColumn) {
       this.onSort.emit(event);
     }
-    const newFilteredColumns = Object.keys(event.filters);
-    const oldFilteredColumns = this.columns.filter(c => c.filter_value !== null && c.filter_value.length > 0).map(c => {
-      return c.value
-    });
-    const addedFilters = newFilteredColumns.filter(c => oldFilteredColumns.indexOf(c) === -1)
-      .map(c => this.onFilterAdded.emit({column_name: c, table_name: this.tableName, filter_value: event.filters[c].value}));
-    const removedFilters = oldFilteredColumns.filter(c => newFilteredColumns.indexOf(c) === -1)
-      .map(c => this.onFilterRemoved.emit({column_name: c, table_name: this.tableName}));
-    const newFilterValues = oldFilteredColumns.filter(c => newFilteredColumns.indexOf(c) > -1)
-      .filter(c => event.filters[c].value !== this.columns.find(col => col.value === c).filter_value)
-      .map(c => this.onFilterAdded.emit({column_name: c, table_name: this.tableName, filter_value: event.filters[c].value}));
+    // TODO: WIP column filtering
+    // const newFilteredColumns = Object.keys(event.filters);
+    // const oldFilteredColumns = this.columns.filter(c => c.filter_value !== null && c.filter_value.length > 0).map(c => {
+    //   return c.value
+    // });
+    // const addedFilters = newFilteredColumns.filter(c => oldFilteredColumns.indexOf(c) === -1)
+    //   .map(c => this.onFilterAdded.emit({column_name: c, table_name: this.tableName, filter_value: event.filters[c].value}));
+    // const removedFilters = oldFilteredColumns.filter(c => newFilteredColumns.indexOf(c) === -1)
+    //   .map(c => this.onFilterRemoved.emit({column_name: c, table_name: this.tableName}));
+    // const newFilterValues = oldFilteredColumns.filter(c => newFilteredColumns.indexOf(c) > -1)
+    //   .filter(c => event.filters[c].value !== this.columns.find(col => col.value === c).filter_value)
+    //   .map(c => this.onFilterAdded.emit({column_name: c, table_name: this.tableName, filter_value: event.filters[c].value}));
   }
 
   _onMultiselect(event: MultiselectOutput) {

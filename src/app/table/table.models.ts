@@ -1,4 +1,5 @@
-import {FilterMetadata, LazyLoadEvent, SortMeta} from "primeng/primeng";
+import { LazyLoadEvent } from 'primeng/primeng';
+
 export interface Datatable {
   name: string;
   header: string;
@@ -9,6 +10,7 @@ export interface Datatable {
 }
 
 export interface DatatableColumns {
+  data_type: string;
   filter_match_mode: string;
   filter_value: string;
   is_filterable: boolean;

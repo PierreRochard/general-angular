@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -16,6 +16,7 @@ import { LazyLoadEvent } from 'primeng/primeng';
 import { MultiselectOutput } from './table.models';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-table-container',
   template: `
     <div class="ui-g">

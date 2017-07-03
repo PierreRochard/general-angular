@@ -21,8 +21,10 @@ export class TableService {
 
   update_pagination(updateData: DatatableUpdate): Observable<Response> {
     const newOffset = updateData.first;
+    const newLimit = updateData.rows;
     const data = {
-      offset: newOffset
+      offset: newOffset,
+      limit: newLimit
     };
     const params: URLSearchParams = new URLSearchParams();
     params.set('name', 'eq.' + updateData.tableName);
