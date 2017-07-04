@@ -3,13 +3,12 @@ import {
   DatatableColumns, DatatableUpdate,
   MultiselectOutput
 } from 'app/table/table.models';
-import { LazyLoadEvent } from 'primeng/primeng';
 
 @Component({
   selector: 'app-table-component',
   template: `
     <p-dataTable
-      *ngIf="columns.length > 0"
+      *ngIf="columns.length > 0 && (records.length > 0 || areRecordsLoading)"
       [dataKey]="dataKey"
       [globalFilter]="gb"
       [paginator]="paginator"
@@ -27,14 +26,14 @@ import { LazyLoadEvent } from 'primeng/primeng';
     >
       <p-header>
         <div class="ui-helper-clearfix" style="width:100%;">
-            <input #gb type="text" placeholder="Global search"  style="float:left;">
+          <input #gb type="text" placeholder="Global search" style="float:left;">
           <div style="float:right;">
             <app-columns-multiselect-component
               [columns]="columns"
               [selectedColumns]="columns"
               (onChange)="_onMultiselect($event)"
             >
-          </app-columns-multiselect-component>
+            </app-columns-multiselect-component>
           </div>
         </div>
       </p-header>
@@ -47,12 +46,26 @@ import { LazyLoadEvent } from 'primeng/primeng';
         [sortable]="column.is_sortable"
         [filter]="column.is_filterable"
         [filterMatchMode]="column.filter_match_mode"
-      ></p-column>
+      >
+        <template let-row="rowData" pTemplate="body">
+          <div [ngSwitch]="column.data_type">
+          <span *ngSwitchCase="'timestamp without time zone'">
+            {{row[column.value] | date:column.format_pattern}}
+          </span>
+            <span *ngSwitchCase="'numeric'">
+            {{row[column.value] | number:column.format_pattern}}
+          </span>
+          <span *ngSwitchDefault>
+            {{row[column.value]}}
+          </span>
+          </div>
+        </template>
+
+      </p-column>
     </p-dataTable>`
 })
 export class TableComponent {
   public dataKey = 'id';
-  public filterMatchMode = 'contains';
   public paginator = true;
   public reorderableColumns = false;
   public resizableColumns = true;

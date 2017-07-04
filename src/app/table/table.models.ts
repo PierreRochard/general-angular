@@ -13,6 +13,7 @@ export interface DatatableColumns {
   data_type: string;
   filter_match_mode: string;
   filter_value: string;
+  format_pattern: string;
   is_filterable: boolean;
   is_sortable: boolean;
   is_visible: boolean;

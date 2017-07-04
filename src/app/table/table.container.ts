@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
 import {
+  AreRecordsLoadingAction,
   GetDatatableAction,
   GetDatatableColumnsAction,
   UpdateColumnsVisibilityAction,

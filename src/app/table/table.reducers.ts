@@ -18,7 +18,7 @@ export interface TableState {
 const initialState: TableState = {
   areRecordsLoading: null,
   columns: [],
-  records: null,
+  records: [],
   rowCount: null,
   rowLimit: null,
   rowOffset: 0,
@@ -46,12 +46,16 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       return Object.assign({}, state, {
         selectedRecords: []
       });
+    case TableActionTypes.GET_RECORDS:
+      return Object.assign({}, state, {
+        records: []
+      });
     case TableActionTypes.RECEIVE_DATATABLE:
       return Object.assign({}, state, {
         rowLimit: action.payload.limit,
         rowOffset: action.payload.offset,
         sortColumn: action.payload.sort_column,
-        sortOrder: action.payload.sort_order
+        sortOrder: action.payload.sort_order,
       });
     case TableActionTypes.RECEIVE_DATATABLE_COLUMNS:
       return Object.assign({}, state, {
@@ -67,7 +71,7 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       });
     case TableActionTypes.REMOVE_RECORDS:
       return Object.assign({}, state, {
-        records: null
+        records: []
       });
     case TableActionTypes.SELECT_RECORDS:
       return Object.assign({}, state, {
