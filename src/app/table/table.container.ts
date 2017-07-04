@@ -5,11 +5,13 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
 import {
-  AreRecordsLoadingAction,
+  EditCancelAction,
+  UpdateRecordAction,
   GetDatatableAction,
-  GetDatatableColumnsAction,
+  GetDatatableColumnsAction, GetRecordsAction,
   UpdateColumnsVisibilityAction,
-  UpdatePaginationAction, UpdateSortAction,
+  UpdatePaginationAction,
+  UpdateSortAction,
   UpdateTableNameAction
 } from './table.actions';
 import { AppState } from '../app.reducers';
@@ -31,6 +33,8 @@ import { MultiselectOutput } from './table.models';
                              [sortOrder]="sortOrder$ | async"
                              [tableName]="tableName$ | async"
                              [totalRecords]="totalRecords$ | async"
+                             (onEditCancel)="onEditCancel($event)"
+                             (onEditComplete)="onEditComplete($event)"
                              (onPagination)="onPagination($event)"
                              (onSort)="onSort($event)"
                              (onMultiselect)="updateColumns($event)"
@@ -79,6 +83,22 @@ export class TableContainer implements OnInit {
           }
           return records
         })
+  }
+
+  onEditCancel(event) {
+    console.log(event);
+    this.store.dispatch(new GetDatatableAction(event.tableName));
+  }
+
+  onEditComplete(event) {
+    const update_payload = {
+      column_name: event.column.field,
+      data: event.data[event.column.field],
+      record_id: event.data.id,
+      table_name: event.tableName
+    };
+    console.log(update_payload);
+    this.store.dispatch(new UpdateRecordAction(update_payload));
   }
 
   onPagination(event: LazyLoadEvent) {

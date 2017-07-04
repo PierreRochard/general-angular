@@ -11,6 +11,7 @@ export interface Datatable {
 
 export interface DatatableColumns {
   data_type: string;
+  editable: boolean;
   filter_match_mode: string;
   filter_value: string;
   format_pattern: string;
@@ -32,6 +33,13 @@ export interface ColumnsVisibilityUpdate {
   columns: string[];
   tableName: string;
   isVisible: boolean;
+}
+
+export interface RecordsUpdate {
+  column_name: string;
+  data: any;
+  record_id: any;
+  table_name: string;
 }
 
 export interface DatatableUpdate extends LazyLoadEvent {

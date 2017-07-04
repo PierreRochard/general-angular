@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { type } from '../util';
 
-import { ColumnsVisibilityUpdate, Datatable, DatatableColumns } from './table.models';
+import { ColumnsVisibilityUpdate, Datatable, DatatableColumns, RecordsUpdate } from './table.models';
 import { LazyLoadEvent } from 'primeng/primeng';
 
 export const TableActionTypes = {
@@ -10,6 +10,8 @@ export const TableActionTypes = {
   ARE_RECORDS_LOADING: type('ARE_RECORDS_LOADING'),
   DESELECT_RECORD: type('DESELECT_RECORD'),
   DESELECT_RECORDS: type('DESELECT_RECORDS'),
+  EDIT_CANCEL: type('EDIT_CANCEL'),
+  UPDATE_RECORD: type('UPDATE_RECORD'),
   GET_DATATABLE: type('GET_DATATABLE'),
   GET_DATATABLE_COLUMNS: type('GET_DATATABLE_COLUMNS'),
   GET_RECORDS: type('GET_RECORDS'),
@@ -44,6 +46,11 @@ export class DeselectRecordAction implements Action {
 
 export class DeselectRecordsAction implements Action {
   type = TableActionTypes.DESELECT_RECORDS;
+  constructor(public payload: any) {}
+}
+
+export class EditCancelAction implements Action {
+  type = TableActionTypes.EDIT_CANCEL;
   constructor(public payload: any) {}
 }
 
@@ -107,6 +114,11 @@ export class UpdatePaginationAction implements Action {
   constructor(public payload: LazyLoadEvent) {}
 }
 
+export class UpdateRecordAction implements Action {
+  type = TableActionTypes.UPDATE_RECORD;
+  constructor(public payload: RecordsUpdate) {}
+}
+
 export class UpdateRowCountAction implements Action {
   type = TableActionTypes.UPDATE_ROW_COUNT;
   constructor(public payload: number) {}
@@ -138,6 +150,7 @@ export type TableActions
   | SelectRecordsAction
   | UpdateColumnsVisibilityAction
   | UpdatePaginationAction
+  | UpdateRecordAction
   | UpdateRowCountAction
   | UpdateSortAction
   | UpdateTableNameAction;

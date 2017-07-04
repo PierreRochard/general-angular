@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { of } from 'rxjs/observable/of';
 
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 
 
 import {
@@ -16,10 +16,12 @@ import {
   AreRecordsLoadingAction,
   UpdateRowCountAction,
   GetRecordsAction,
-  GetDatatableColumnsAction
+  GetDatatableColumnsAction, GetDatatableAction
 } from './table.actions';
 import { TableService } from './table.service';
 import { Datatable } from './table.models';
+import { AppState } from '../app.reducers';
+import { DataTable } from 'primeng/primeng';
 
 @Injectable()
 export class TableEffects {
@@ -117,6 +119,20 @@ export class TableEffects {
       .catch(error => {
         return of(new ReceiveRecordsAction(error));
       }));
+
+  @Effect()
+  updateRecord$ = this.actions$
+    .ofType(TableActionTypes.UPDATE_RECORD)
+    .switchMap(action => this.tableService.update_record(action.payload)
+      .mergeMap(response => {
+        return [
+          new GetDatatableAction(response.json()[0].table_name)
+        ];
+      })
+      .catch(error => {
+        return of(new ReceiveDatatableAction(error));
+      })
+    );
 
   constructor(private actions$: Actions,
               private tableService: TableService) {

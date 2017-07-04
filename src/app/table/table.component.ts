@@ -10,10 +10,13 @@ import {
     <p-dataTable
       *ngIf="columns.length > 0 && (records.length > 0 || areRecordsLoading)"
       [dataKey]="dataKey"
+      [editable]="true"
       [globalFilter]="gb"
       [paginator]="paginator"
       [lazy]="true"
       [loading]="areRecordsLoading"
+      (onEditCancel)="_onEditCancel($event)"
+      (onEditComplete)="_onEditComplete($event)"
       (onLazyLoad)="_onLazyLoad($event)"
       [reorderableColumns]="reorderableColumns"
       [rows]="rowLimit"
@@ -39,6 +42,7 @@ import {
       </p-header>
       <p-column
         *ngFor="let column of columns"
+        [editable]="column.editable"
         [field]="column.value"
         [header]="column.label"
         [hidden]="!column.is_visible"
@@ -47,7 +51,7 @@ import {
         [filter]="column.is_filterable"
         [filterMatchMode]="column.filter_match_mode"
       >
-        <template let-row="rowData" pTemplate="body">
+        <ng-template let-row="rowData" pTemplate="body">
           <div [ngSwitch]="column.data_type">
           <span *ngSwitchCase="'timestamp without time zone'">
             {{row[column.value] | date:column.format_pattern}}
@@ -55,11 +59,11 @@ import {
             <span *ngSwitchCase="'numeric'">
             {{row[column.value] | number:column.format_pattern}}
           </span>
-          <span *ngSwitchDefault>
+            <span *ngSwitchDefault>
             {{row[column.value]}}
           </span>
           </div>
-        </template>
+        </ng-template>
 
       </p-column>
     </p-dataTable>`
@@ -75,7 +79,15 @@ export class TableComponent {
 
   @Input() areRecordsLoading: boolean;
   @Input() columns: DatatableColumns[];
-  @Input() records: any[];
+  _records;
+  @Input() set records(value: any[]) {
+    this._records = JSON.parse(JSON.stringify(value));
+  };
+
+  get records() {
+    return this._records;
+  }
+
   @Input() rowLimit: number;
   @Input() rowOffset: number;
   @Input() sortColumn: string;
@@ -83,14 +95,25 @@ export class TableComponent {
   @Input() tableName: string;
   @Input() totalRecords: number;
 
+  @Output() onEditCancel = new EventEmitter<any>();
+  @Output() onEditComplete = new EventEmitter<any>();
   @Output() onFilterAdded = new EventEmitter<any>();
   @Output() onFilterRemoved = new EventEmitter<any>();
   @Output() onPagination = new EventEmitter<DatatableUpdate>();
   @Output() onSort = new EventEmitter<DatatableUpdate>();
   @Output() onMultiselect = new EventEmitter<MultiselectOutput>();
 
+  _onEditCancel(event) {
+    event.tableName = this.tableName;
+    this.onEditCancel.emit(event);
+  }
+
+  _onEditComplete(event) {
+    event.tableName = this.tableName;
+    this.onEditComplete.emit(event);
+  }
+
   _onLazyLoad(event: DatatableUpdate) {
-    console.log(event);
     event.tableName = this.tableName;
     if (event.first !== this.rowOffset || event.rows !== this.rowLimit) {
       this.onPagination.emit(event);

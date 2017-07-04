@@ -9,7 +9,7 @@ import { AppState } from '../app.reducers';
 import { RestClient } from 'app/rest/rest.service';
 
 import { AreRecordsLoadingAction } from './table.actions';
-import { ColumnsVisibilityUpdate, Datatable, DatatableUpdate } from './table.models';
+import { ColumnsVisibilityUpdate, Datatable, DatatableUpdate, RecordsUpdate } from './table.models';
 
 @Injectable()
 export class TableService {
@@ -71,6 +71,15 @@ export class TableService {
 
     return this.restClient.get('/' + datatable.name, params);
   };
+
+  update_record(updateData: RecordsUpdate): Observable<Response> {
+    const params: URLSearchParams = new URLSearchParams();
+    const data = {};
+    data[updateData['column_name']] = updateData.data;
+    params.set('id', 'eq.' + updateData.record_id);
+    return this.restClient.patch('/' + updateData.table_name, data, params)
+  };
+
 
   constructor(private restClient: RestClient,
               private store: Store<AppState>) {
