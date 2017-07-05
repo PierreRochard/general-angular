@@ -8,7 +8,6 @@ import {
   selector: 'app-table-component',
   template: `
     <p-dataTable
-      *ngIf="columns.length > 0 && (records.length > 0 || areRecordsLoading)"
       [dataKey]="dataKey"
       [editable]="true"
       [globalFilter]="gb"
@@ -106,11 +105,13 @@ export class TableComponent {
   _onEditCancel(event) {
     event.tableName = this.tableName;
     this.onEditCancel.emit(event);
+    console.log(event);
   }
 
   _onEditComplete(event) {
     event.tableName = this.tableName;
     this.onEditComplete.emit(event);
+    console.log(event);
   }
 
   _onLazyLoad(event: DatatableUpdate) {

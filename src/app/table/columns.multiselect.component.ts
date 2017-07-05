@@ -16,7 +16,7 @@ import { DatatableColumns, MultiselectOutput } from 'app/table/table.models';
 export class ColumnsMultiselectComponent {
   public defaultLabel = 'Columns';
 
-  _selectedColumns;
+  _selectedColumns = [];
   @Input() set selectedColumns(value: any) {
     let filteredColumns: string[];
     let removedColumns: string[];

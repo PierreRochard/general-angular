@@ -16,7 +16,7 @@ export interface TableState {
 }
 
 const initialState: TableState = {
-  areRecordsLoading: null,
+  areRecordsLoading: true,
   columns: [],
   records: [],
   rowCount: null,
@@ -46,7 +46,7 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       return Object.assign({}, state, {
         selectedRecords: []
       });
-    case TableActionTypes.GET_RECORDS:
+    case TableActionTypes.GET_DATATABLE_COLUMNS:
       return Object.assign({}, state, {
         records: []
       });
@@ -63,7 +63,8 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       });
     case TableActionTypes.RECEIVE_RECORDS:
       return Object.assign({}, state, {
-        records: action.payload
+        records: action.payload,
+        areRecordsLoading: false
       });
     case TableActionTypes.REMOVE_RECORD:
       return Object.assign({}, state, {
