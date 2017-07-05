@@ -125,8 +125,9 @@ export class TableEffects {
     .ofType(TableActionTypes.UPDATE_RECORD)
     .switchMap(action => this.tableService.update_record(action.payload)
       .mergeMap(response => {
+        const tableName = response.url.split('/').slice(-1)[0].split('?')[0];
         return [
-          new GetDatatableAction(response.json()[0].table_name)
+          new GetDatatableAction(tableName)
         ];
       })
       .catch(error => {
