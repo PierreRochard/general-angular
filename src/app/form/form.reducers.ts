@@ -3,11 +3,11 @@ import {FormActions, FormActionTypes} from './form.actions';
 import {FormFieldSetting} from 'app/form/form.models';
 
 export interface FormState {
-  formFieldSettings: FormFieldSetting[];
+  fields: FormFieldSetting[];
 }
 
 const initialState: FormState = {
-  formFieldSettings: [],
+  fields: [],
 };
 
 export function formReducer (state = initialState, action: FormActions): FormState {

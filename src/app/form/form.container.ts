@@ -32,7 +32,7 @@ export class FormContainer implements OnInit {
     this.selectedPathName$ = this.store.select(state => state.router.path);
     this.formFieldSettings$ = Observable
       .combineLatest(this.selectedPathName$,
-                     this.store.select(state => state.form.formFieldSettings),
+                     this.store.select(state => state.form.fields),
                                   (pathName, formFieldSettings) => {
         const formName = pathName.split('/').pop();
         formFieldSettings = formFieldSettings.filter(fieldSetting => {

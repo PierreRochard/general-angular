@@ -5,10 +5,9 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
 import {
-  EditCancelAction,
   UpdateRecordAction,
   GetDatatableAction,
-  GetDatatableColumnsAction, GetRecordsAction,
+  GetDatatableColumnsAction,
   UpdateColumnsVisibilityAction,
   UpdatePaginationAction,
   UpdateSortAction,
