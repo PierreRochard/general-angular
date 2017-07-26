@@ -41,7 +41,7 @@ export class FormComponent implements OnChanges {
 
   constructor(private fb: FormBuilder) {}
 
-  ngOnChanges(){
+  ngOnChanges() {
     const group = {};
     this.formFieldSettings.map(settings => {
       group[settings.form_field_name] = new FormControl('')
