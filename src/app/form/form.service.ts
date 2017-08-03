@@ -10,7 +10,7 @@ export class FormService {
   get_form_field_settings(form_name: string): Observable<Response> {
     const params: URLSearchParams = new URLSearchParams();
     params.set('form_name', 'eq.' + form_name);
-    return this.restClient.get('/form_field_settings', params);
+    return this.restClient.get('/default_form_field_settings', params);
   };
   constructor(private restClient: RestClient) {}
 }
