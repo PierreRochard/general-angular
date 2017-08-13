@@ -17,7 +17,7 @@ export interface AppState {
   form: FormState,
   menubar: MenubarState;
   rest: RestState;
-  routerReducer: RouterReducerState;
+  router: RouterReducerState;
   schema: SchemaState;
   table: TableState;
 }
@@ -27,7 +27,7 @@ export const reducers: ActionReducerMap<AppState> = {
   form: formReducer,
   menubar: menubarReducer,
   rest: restReducer,
-  routerReducer: routerReducer,
+  router: routerReducer,
   schema: schemaReducer,
   table: tableReducer,
 };
@@ -60,3 +60,7 @@ export const getSchemaState = (state: AppState) => state.schema;
 export const getPathNames = createSelector(getSchemaState, (state: SchemaState) => Object.keys(state.paths));
 export const getDefinitions = createSelector(getSchemaState, (state: SchemaState) => state.definitions);
 export const getIsValid = createSelector(getSchemaState, (state: SchemaState) => state.isValid);
+
+export const getRouterState = (state: AppState) => state.router;
+export const getCurrentUrl = createSelector(getRouterState,
+  (state: RouterReducerState) => state.state && state.state.url);

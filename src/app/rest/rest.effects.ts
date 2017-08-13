@@ -55,8 +55,8 @@ export class RestEffects {
     .map((action: SendDeleteRequestAction) => action)
     .withLatestFrom(this.store)
     .switchMap(([action, store]) => {
-      console.log(store.routerReducer.state.root);
-      return this.http.delete(store.routerReducer.state.root, action.payload)
+      console.log(store.router.state.root);
+      return this.http.delete(store.router.state.root, action.payload)
         .map(response => {
           return new ReceivedResponseAction(response);
         })

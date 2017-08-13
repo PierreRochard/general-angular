@@ -13,7 +13,7 @@ import {
   UpdateSortAction,
   UpdateTableNameAction
 } from './table.actions';
-import { AppState } from '../app.reducers';
+import {AppState, getCurrentUrl} from '../app.reducers';
 import { LazyLoadEvent } from 'primeng/primeng';
 import { MultiselectOutput } from './table.models';
 
@@ -63,7 +63,7 @@ export class TableContainer implements OnInit {
     this.areRecordsLoading$ = this.store.select(state => state.table.areRecordsLoading);
     this.rowLimit$ = this.store.select(state => state.table.rowLimit);
     this.rowOffset$ = this.store.select(state => state.table.rowOffset);
-    this.selectedPathName$ = this.store.select(state => state.routerReducer.state.root.toString());
+    this.selectedPathName$ = this.store.select(getCurrentUrl);
     this.sortColumn$ = this.store.select(state => state.table.sortColumn);
     this.sortOrder$ = this.store.select(state => state.table.sortOrder);
     this.tableName$ = this.store.select(state => state.table.tableName);

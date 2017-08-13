@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { SendPostRequestAction } from '../rest/rest.actions';
 
-import { AppState } from '../app.reducers';
+import {AppState, getCurrentUrl} from '../app.reducers';
 import { FormFieldSetting } from './form.models';
 import { GetFormFieldSettingsAction } from './form.actions'
 import { RemoveTokenAction, SendLoginPostRequestAction } from '../auth/auth.actions';
@@ -30,7 +30,7 @@ export class FormContainer implements OnInit {
   }
 
   ngOnInit() {
-    this.selectedPathName$ = this.store.select(state => state.routerReducer.state.root.toString());
+    this.selectedPathName$ = this.store.select(getCurrentUrl);
     this.formFieldSettings$ = Observable
       .combineLatest(this.selectedPathName$,
         this.store.select(state => state.form.fields),
