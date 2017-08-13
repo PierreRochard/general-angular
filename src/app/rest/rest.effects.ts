@@ -49,21 +49,22 @@ export class RestEffects {
         });
     });
 
-  @Effect()
-  sendDeleteRequest$ = this.actions$
-    .ofType(RestActionTypes.SEND_DELETE_REQUEST)
-    .map((action: SendDeleteRequestAction) => action)
-    .withLatestFrom(this.store)
-    .switchMap(([action, store]) => {
-      console.log(store.router.state.root);
-      return this.http.delete(store.router.state.root, action.payload)
-        .map(response => {
-          return new ReceivedResponseAction(response);
-        })
-        .catch(error => {
-          return of(new ReceivedResponseAction(error));
-        });
-    });
+  // Fix route store selector getCurrentUrl
+  // @Effect()
+  // sendDeleteRequest$ = this.actions$
+  //   .ofType(RestActionTypes.SEND_DELETE_REQUEST)
+  //   .map((action: SendDeleteRequestAction) => action)
+  //   .withLatestFrom(this.store)
+  //   .switchMap(([action, store]) => {
+  //     console.log(store.router.state.root);
+  //     return this.http.delete(store.router.state.root, action.payload)
+  //       .map(response => {
+  //         return new ReceivedResponseAction(response);
+  //       })
+  //       .catch(error => {
+  //         return of(new ReceivedResponseAction(error));
+  //       });
+  //   });
 
   @Effect()
   processResponse$ = this.actions$
