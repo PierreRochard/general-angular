@@ -39,8 +39,6 @@ export class FormContainer implements OnInit {
           const formFieldSettings = allFormFieldSettings.filter(fieldSetting => {
             return fieldSetting.form_name === formName;
           });
-          console.log(formName);
-          console.log(formFieldSettings);
           if (formFieldSettings.length === 0 && formName.toLowerCase() !== 'logout') {
             this.store.dispatch(new GetFormFieldSettingsAction(formName))
           } else if (formName.toLowerCase() === 'logout') {

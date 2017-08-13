@@ -13,7 +13,6 @@ const initialState: FormState = {
 export function formReducer (state = initialState, action: FormActions): FormState {
   switch (action.type) {
     case FormActionTypes.RECEIVE_FORM_FIELD_SETTINGS:
-      console.log(action.payload);
       return Object.assign({}, state, {
         fields: action.payload
       });
