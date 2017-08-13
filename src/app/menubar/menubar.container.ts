@@ -12,7 +12,9 @@ import {GetMenubarAction} from './menubar.actions';
 
 @Component({
   selector: 'app-menubar-container',
-  template: `<app-menubar-component [items]="items$ | async"></app-menubar-component>`,
+  template: `
+      <app-menubar-component [items]="items$ | async"></app-menubar-component>
+  `,
 })
 export class MenubarContainer implements OnInit {
   items$: Observable<MenuItem[]>;

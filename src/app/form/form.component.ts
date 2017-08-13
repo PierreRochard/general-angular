@@ -12,25 +12,34 @@ import {FormFieldSetting} from './form.models';
       [formGroup]="form"
       (ngSubmit)="onSubmit.emit(form.value)">
       <div class="ui-g">
+        <div class="ui-g-4"></div>
         <div class="ui-g-4">
-          <app-dynamic-form-element
-            *ngFor="let formFieldSetting of formFieldSettings"
-            [formFieldName]="formFieldSetting.form_field_name"
-            [formFieldLabel]="formFieldSetting.form_field_label"
-            [formGroup]="form"
-          >
-          </app-dynamic-form-element>
+          <p-fieldset [legend]="selectedPathName">
+          <div class="ui-g">
+            <div class="ui-g-12">
+              <app-dynamic-form-element
+                *ngFor="let formFieldSetting of formFieldSettings"
+                [formFieldName]="formFieldSetting.form_field_name"
+                [formFieldLabel]="formFieldSetting.form_field_label"
+                [formGroup]="form"
+              >
+              </app-dynamic-form-element>
+            </div>
+          </div>
+          <div class="ui-g">
+            <div class="ui-g-4"></div>
+            <div class="ui-g-4">
+              <button type="submit"
+                      [label]="selectedPathName"
+                      pButton>
+              </button>
+            </div>
+            <div class="ui-g-4"></div>
+          </div>
+          </p-fieldset>
         </div>
       </div>
-      <div class="ui-g">
-        <div class="ui-g-12">
-          <button type="submit"
-                  [label]="selectedPathName"
-                  pButton>
-          </button>
-        </div>
-      </div>
-    </form>`
+    </form>`,
 })
 export class FormComponent implements OnChanges {
   @Input() selectedPathName: string;
@@ -39,7 +48,8 @@ export class FormComponent implements OnChanges {
 
   public form: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) {
+  }
 
   ngOnChanges() {
     const group = {};

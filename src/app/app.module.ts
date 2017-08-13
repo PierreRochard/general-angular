@@ -1,4 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgModule} from '@angular/core';
 import {HttpModule} from '@angular/http';
 
@@ -58,6 +59,7 @@ const optionalImports = [];
     AppMenubarModule,
     AppTableModule,
     BrowserModule,
+    BrowserAnimationsModule,
     EffectsModule.forRoot([AuthEffects, FormEffects, MenubarEffects, RestEffects,
       RouterEffects, SchemaEffects, TableEffects, WebsocketEffects]),
     FieldsetModule,

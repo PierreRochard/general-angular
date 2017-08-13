@@ -4,11 +4,13 @@ import {FormGroup} from '@angular/forms';
 @Component({
   selector: 'app-dynamic-form-element',
   template: `
-    <div [formGroup]="formGroup">
-      <label>
-        {{formFieldName}}
-      </label>
-
+    <div class="ui-g" [formGroup]="formGroup">
+      <div class="ui-g-6">
+        <label>
+          {{formFieldName}}
+        </label>
+      </div>
+      <div class="ui-g-6">
         <input *ngIf="formFieldName !== 'password'"
                 [formControlName]="formFieldName"
                 [id]="formFieldName"
@@ -21,7 +23,7 @@ import {FormGroup} from '@angular/forms';
                type="password"
                pPassword
         />
-
+      </div>
     </div>
   `
 })
