@@ -1,6 +1,6 @@
 import {ActionReducer, ActionReducerMap} from '@ngrx/store';
 // import {storeFreeze} from 'ngrx-store-freeze';
-// import {LocalStorageConfig, localStorageSync} from 'ngrx-store-localstorage';
+import {LocalStorageConfig, localStorageSync} from 'ngrx-store-localstorage';
 import {createSelector} from 'reselect';
 
 import {environment} from '../environments/environment';
@@ -32,21 +32,25 @@ export const reducers: ActionReducerMap<AppState> = {
   table: tableReducer,
 };
 
-// const localStorageConfig: LocalStorageConfig = {
-//   keys: ['auth'],
-//   rehydrate: true,
-//   storage: localStorage,
-//   removeOnUndefined: false,
-// };
+const localStorageConfig: LocalStorageConfig = {
+  keys: ['auth'],
+  rehydrate: true,
+  storage: localStorage,
+  removeOnUndefined: false,
+};
+
+export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
+   return localStorageSync(localStorageConfig)(reducer);
+}
 
 export const metaReducers: ActionReducer<any, any>[] = !environment.production
   ? [
     // storeFreeze,
-    // localStorageSync(localStorageConfig)
+    localStorageSyncReducer
   ]
   : [
     // storeFreeze,
-    // localStorageSync(localStorageConfig)
+    localStorageSyncReducer
   ];
 
 
