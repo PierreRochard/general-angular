@@ -32,7 +32,7 @@ import {RestClient} from './rest/rest.service';
 
 import {SchemaEffects} from './schema/schema.effects';
 
-import {reducer} from './app.reducers';
+import {reducers, metaReducers} from './app.reducers';
 import {routing} from './app.routing';
 import {AppComponent} from './app.component';
 
@@ -64,7 +64,7 @@ const optionalImports = [];
     GrowlModule,
     HttpModule,
     routing,
-    StoreModule.forRoot(reducer),
+    StoreModule.forRoot(reducers, { metaReducers }),
     RouterModule.forRoot([
       // some routes
     ]),

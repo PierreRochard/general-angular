@@ -1,7 +1,6 @@
-import {compose} from '@ngrx/store';
-import {ActionReducer, combineReducers} from '@ngrx/store';
-import {storeFreeze} from 'ngrx-store-freeze';
-import {LocalStorageConfig, localStorageSync} from 'ngrx-store-localstorage';
+import {ActionReducer, ActionReducerMap} from '@ngrx/store';
+// import {storeFreeze} from 'ngrx-store-freeze';
+// import {LocalStorageConfig, localStorageSync} from 'ngrx-store-localstorage';
 import {createSelector} from 'reselect';
 
 import {environment} from '../environments/environment';
@@ -9,54 +8,46 @@ import {AuthState, authReducer} from './auth/auth.reducers';
 import {FormState, formReducer} from './form/form.reducers';
 import {MenubarState, menubarReducer} from './menubar/menubar.reducers';
 import {RestState, restReducer} from './rest/rest.reducers';
-import * as fromRouter from '@ngrx/router-store';
 import {SchemaState, schemaReducer} from './schema/schema.reducers';
 import {TableState, tableReducer} from './table/table.reducers';
+import {routerReducer, RouterReducerState} from '@ngrx/router-store';
 
 export interface AppState {
   auth: AuthState;
   form: FormState,
   menubar: MenubarState;
   rest: RestState;
-  routerReducer: fromRouter.RouterReducerState;
+  routerReducer: RouterReducerState;
   schema: SchemaState;
   table: TableState;
 }
 
-const reducers = {
+export const reducers: ActionReducerMap<AppState> = {
   auth: authReducer,
   form: formReducer,
   menubar: menubarReducer,
   rest: restReducer,
-  routerReducer: fromRouter.routerReducer,
+  routerReducer: routerReducer,
   schema: schemaReducer,
   table: tableReducer,
 };
 
-const localStorageConfig: LocalStorageConfig = {
-  keys: ['auth'],
-  rehydrate: true,
-  storage: localStorage,
-  removeOnUndefined: false,
-};
+// const localStorageConfig: LocalStorageConfig = {
+//   keys: ['auth'],
+//   rehydrate: true,
+//   storage: localStorage,
+//   removeOnUndefined: false,
+// };
 
-const developmentReducer: ActionReducer<AppState> = compose(
-  storeFreeze,
-  localStorageSync(localStorageConfig),
-  combineReducers)(reducers);
-
-const productionReducer: ActionReducer<AppState> = compose(
-  localStorageSync(localStorageConfig),
-  combineReducers)(reducers);
-
-export function reducer(state: any, action: any) {
-  if (environment.production) {
-    return productionReducer(state, action);
-  } else {
-    console.log(action);
-    return developmentReducer(state, action);
-  }
-}
+export const metaReducers: ActionReducer<any, any>[] = !environment.production
+  ? [
+    // storeFreeze,
+    // localStorageSync(localStorageConfig)
+  ]
+  : [
+    // storeFreeze,
+    // localStorageSync(localStorageConfig)
+  ];
 
 
 // REST
