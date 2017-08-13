@@ -1,4 +1,4 @@
-import {compose} from '@ngrx/core/compose';
+import {compose} from '@ngrx/store';
 import {ActionReducer, combineReducers} from '@ngrx/store';
 import {storeFreeze} from 'ngrx-store-freeze';
 import {LocalStorageConfig, localStorageSync} from 'ngrx-store-localstorage';
@@ -9,35 +9,35 @@ import {AuthState, authReducer} from './auth/auth.reducers';
 import {FormState, formReducer} from './form/form.reducers';
 import {MenubarState, menubarReducer} from './menubar/menubar.reducers';
 import {RestState, restReducer} from './rest/rest.reducers';
-import {RouterState, routerReducer} from '@ngrx/router-store';
+import * as fromRouter from '@ngrx/router-store';
 import {SchemaState, schemaReducer} from './schema/schema.reducers';
 import {TableState, tableReducer} from './table/table.reducers';
 
 export interface AppState {
-  auth:    AuthState;
-  form:    FormState,
+  auth: AuthState;
+  form: FormState,
   menubar: MenubarState;
-  rest:    RestState;
-  router:  RouterState;
-  schema:  SchemaState;
-  table:   TableState;
+  rest: RestState;
+  routerReducer: fromRouter.RouterReducerState;
+  schema: SchemaState;
+  table: TableState;
 }
 
 const reducers = {
-  auth:    authReducer,
-  form:    formReducer,
+  auth: authReducer,
+  form: formReducer,
   menubar: menubarReducer,
-  rest:    restReducer,
-  router:  routerReducer,
-  schema:  schemaReducer,
-  table:   tableReducer,
+  rest: restReducer,
+  routerReducer: fromRouter.routerReducer,
+  schema: schemaReducer,
+  table: tableReducer,
 };
 
 const localStorageConfig: LocalStorageConfig = {
   keys: ['auth'],
   rehydrate: true,
   storage: localStorage,
-  removeOnUndefined: false
+  removeOnUndefined: false,
 };
 
 const developmentReducer: ActionReducer<AppState> = compose(

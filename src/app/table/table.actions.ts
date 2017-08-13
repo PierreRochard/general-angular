@@ -106,12 +106,12 @@ export class SelectRecordsAction implements Action {
 
 export class UpdateColumnsVisibilityAction implements Action {
   type = TableActionTypes.UPDATE_COLUMNS_VISIBILITY;
-  constructor(public payload: ColumnsVisibilityUpdate) {}
+  constructor(public payload: any) {}
 }
 
 export class UpdatePaginationAction implements Action {
   type = TableActionTypes.UPDATE_PAGINATION;
-  constructor(public payload: LazyLoadEvent) {}
+  constructor(public payload: any) {}
 }
 
 export class UpdateRecordAction implements Action {
@@ -126,7 +126,7 @@ export class UpdateRowCountAction implements Action {
 
 export class UpdateSortAction implements Action {
   type = TableActionTypes.UPDATE_SORT;
-  constructor(public payload: LazyLoadEvent) {}
+  constructor(public payload: any) {}
 }
 
 export class UpdateTableNameAction implements Action {

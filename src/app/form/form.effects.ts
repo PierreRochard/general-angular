@@ -4,7 +4,10 @@ import {Actions, Effect} from '@ngrx/effects';
 
 import {of} from 'rxjs/observable/of';
 
-import {ReceiveFormFieldSettingsAction, FormActionTypes} from './form.actions';
+import {
+  ReceiveFormFieldSettingsAction, FormActionTypes,
+  GetFormFieldSettingsAction,
+} from './form.actions';
 import {FormService} from './form.service';
 
 
@@ -14,7 +17,7 @@ export class FormEffects {
   @Effect()
   getFormFieldSettings$ = this.actions$
     .ofType(FormActionTypes.GET_FORM_FIELD_SETTINGS)
-    .switchMap(action => this.formService.get_form_field_settings(action.payload)
+    .switchMap((action: GetFormFieldSettingsAction) => this.formService.get_form_field_settings(action.payload)
       .mergeMap(response => {
         return [
           new ReceiveFormFieldSettingsAction(response.json()),

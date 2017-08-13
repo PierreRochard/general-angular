@@ -1,10 +1,10 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule, ErrorHandler} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {HttpModule} from '@angular/http';
 
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
-import {RouterStoreModule} from '@ngrx/router-store';
+import {StoreRouterConnectingModule} from '@ngrx/router-store';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {StoreLogMonitorModule} from '@ngrx/store-log-monitor';
 
@@ -39,15 +39,10 @@ import {AppComponent} from './app.component';
 import {WebsocketEffects} from './websocket/websocket.effects';
 import {WebsocketService} from './websocket/websocket.service';
 import { AppMenubarModule } from './menubar/menubar.module';
+import {MenubarEffects} from './menubar/menubar.effects';
+import {RouterModule} from '@angular/router';
+import {RouterEffects} from './router/router.effects';
 const optionalImports = [];
-
-if (!environment.production) {
-  console.log('Dev Environment');
-  optionalImports.push(StoreDevtoolsModule.instrumentOnlyWithExtension({
-    maxAge: 5
-  }));
-  optionalImports.push(StoreLogMonitorModule);
-}
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -63,18 +58,17 @@ if (!environment.production) {
     AppMenubarModule,
     AppTableModule,
     BrowserModule,
-    EffectsModule.run(AuthEffects),
-    EffectsModule.run(FormEffects),
-    EffectsModule.run(RestEffects),
-    EffectsModule.run(SchemaEffects),
-    EffectsModule.run(TableEffects),
-    EffectsModule.run(WebsocketEffects),
+    EffectsModule.forRoot([AuthEffects, FormEffects, MenubarEffects, RestEffects,
+      RouterEffects, SchemaEffects, TableEffects, WebsocketEffects]),
     FieldsetModule,
     GrowlModule,
     HttpModule,
-    RouterStoreModule.connectRouter(),
     routing,
-    StoreModule.provideStore(reducer),
+    StoreModule.forRoot(reducer),
+    RouterModule.forRoot([
+      // some routes
+    ]),
+    StoreRouterConnectingModule,
     ...optionalImports,
   ],
   providers: [

@@ -63,7 +63,7 @@ export class TableContainer implements OnInit {
     this.areRecordsLoading$ = this.store.select(state => state.table.areRecordsLoading);
     this.rowLimit$ = this.store.select(state => state.table.rowLimit);
     this.rowOffset$ = this.store.select(state => state.table.rowOffset);
-    this.selectedPathName$ = this.store.select(state => state.router.path);
+    this.selectedPathName$ = this.store.select(state => state.routerReducer.state.root.toString());
     this.sortColumn$ = this.store.select(state => state.table.sortColumn);
     this.sortOrder$ = this.store.select(state => state.table.sortOrder);
     this.tableName$ = this.store.select(state => state.table.tableName);

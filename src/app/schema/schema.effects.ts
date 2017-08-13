@@ -4,7 +4,6 @@ import {Actions, Effect} from '@ngrx/effects';
 
 import {SendGetRequestAction} from '../rest/rest.actions';
 import {SchemaActionTypes, SelectPathAction} from './schema.actions';
-import {routerActions} from '@ngrx/router-store';
 
 @Injectable()
 export class SchemaEffects {
@@ -14,10 +13,10 @@ export class SchemaEffects {
     .ofType(SchemaActionTypes.INVALIDATE_SCHEMA)
     .switchMap(action => [new SendGetRequestAction({path: '/'})]);
 
-  @Effect()
-  selectPath$ = this.actions$
-    .ofType(routerActions.UPDATE_LOCATION)
-    .switchMap(action => [new SelectPathAction(action.payload.path)]);
+  // @Effect()
+  // selectPath$ = this.actions$
+  //   .ofType(routerActions.UPDATE_LOCATION)
+  //   .switchMap(action => [new SelectPathAction(action.payload.path)]);
 
   constructor(private actions$: Actions) {}
 

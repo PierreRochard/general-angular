@@ -30,7 +30,7 @@ export class FormContainer implements OnInit {
   }
 
   ngOnInit() {
-    this.selectedPathName$ = this.store.select(state => state.router.path);
+    this.selectedPathName$ = this.store.select(state => state.routerReducer.state.root.toString());
     this.formFieldSettings$ = Observable
       .combineLatest(this.selectedPathName$,
         this.store.select(state => state.form.fields),

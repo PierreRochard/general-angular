@@ -13,7 +13,6 @@ import { MenubarComponent } from './menubar.component';
 @NgModule({
   imports: [
     CommonModule,
-    EffectsModule.run(MenubarEffects),
     MenubarModule,
   ],
   declarations: [

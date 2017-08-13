@@ -2,8 +2,14 @@ import {Injectable} from '@angular/core';
 
 import {Actions, Effect} from '@ngrx/effects';
 
-import {AddTokenAction, RemoveTokenAction} from '../auth/auth.actions';
-import {ReceivedResponseAction, RestActionTypes} from './rest.actions';
+import {
+  AddTokenAction, RemoveTokenAction,
+  SendLoginPostRequestAction,
+} from '../auth/auth.actions';
+import {
+  ReceivedResponseAction, RestActionTypes,
+  SendGetRequestAction, SendDeleteRequestAction
+} from './rest.actions';
 import {UpdateSchemaAction} from '../schema/schema.actions';
 import {AppState} from '../app.reducers';
 import {RestClient} from './rest.service';
@@ -11,7 +17,7 @@ import {RestClient} from './rest.service';
 import {of} from 'rxjs/observable/of';
 import {Store, Action} from '@ngrx/store';
 import {Response} from '@angular/http';
-import {go} from '@ngrx/router-store';
+import {Go} from '../router/router.actions';
 
 @Injectable()
 export class RestEffects {
@@ -19,36 +25,38 @@ export class RestEffects {
   @Effect()
   sendGetRequest$ = this.actions$
     .ofType(RestActionTypes.SEND_GET_REQUEST)
-    .switchMap(action => this.http.get(action.payload.path)
+    .switchMap((action: SendGetRequestAction) => this.http.get(action.payload.path)
       .mergeMap(response => {
         return [
           new ReceivedResponseAction(response),
-      ];
+        ];
       })
       .catch(error => {
         return of(new ReceivedResponseAction(error));
-      })
+      }),
     );
 
   @Effect()
   sendPostRequest$ = this.actions$
     .ofType(RestActionTypes.SEND_POST_REQUEST)
-    .switchMap(action => {
+    .switchMap((action: SendLoginPostRequestAction) => {
       return this.http.post(action.payload.path, action.payload.data)
-          .map(response => {
-            return new ReceivedResponseAction(response);
-          })
-          .catch(error => {
-            return of(new ReceivedResponseAction(error));
-          });
+        .map(response => {
+          return new ReceivedResponseAction(response);
+        })
+        .catch(error => {
+          return of(new ReceivedResponseAction(error));
+        });
     });
 
   @Effect()
   sendDeleteRequest$ = this.actions$
     .ofType(RestActionTypes.SEND_DELETE_REQUEST)
+    .map((action: SendDeleteRequestAction) => action)
     .withLatestFrom(this.store)
     .switchMap(([action, store]) => {
-      return this.http.delete(store.router.path, action.payload)
+      console.log(store.routerReducer.state.root);
+      return this.http.delete(store.routerReducer.state.root, action.payload)
         .map(response => {
           return new ReceivedResponseAction(response);
         })
@@ -60,6 +68,7 @@ export class RestEffects {
   @Effect()
   processResponse$ = this.actions$
     .ofType(RestActionTypes.RECEIVED_RESPONSE)
+    .map((action: ReceivedResponseAction) => action)
     .withLatestFrom(this.store)
     .switchMap(([action, store]): Action[] => {
       let response_url: any;
@@ -78,7 +87,10 @@ export class RestEffects {
           return [];
         case 401:
           if (response.json().message === 'JWT expired') {
-            return [new RemoveTokenAction(''), go(['/rpc/login'])];
+            return [
+              new RemoveTokenAction(''),
+              new Go({path: ['/rpc/login']})
+            ];
           } else {
             return [];
           }
@@ -87,9 +99,8 @@ export class RestEffects {
       }
     });
 
-  constructor (
-    private actions$: Actions,
-    private http: RestClient,
-    private store: Store<AppState>,
-  ) { }
+  constructor(private actions$: Actions,
+              private http: RestClient,
+              private store: Store<AppState>,) {
+  }
 }
