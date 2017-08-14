@@ -1,4 +1,4 @@
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 
 import {FormContainer} from "./form/form.container";
 import {HomeContainer} from "./home/home.container";

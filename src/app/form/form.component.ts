@@ -14,7 +14,7 @@ import {FormFieldSetting} from './form.models';
       <div class="ui-g">
         <div class="ui-g-4"></div>
         <div class="ui-g-4">
-          <p-fieldset [legend]="selectedPathName">
+          <p-fieldset [legend]="formSettings.custom_name">
           <div class="ui-g">
             <div class="ui-g-12">
               <app-dynamic-form-element
@@ -30,7 +30,7 @@ import {FormFieldSetting} from './form.models';
             <div class="ui-g-4"></div>
             <div class="ui-g-4">
               <button type="submit"
-                      [label]="selectedPathName"
+                      [label]="'Submit'"
                       pButton>
               </button>
             </div>
@@ -43,6 +43,7 @@ import {FormFieldSetting} from './form.models';
 })
 export class FormComponent implements OnChanges {
   @Input() selectedPathName: string;
+  @Input() formSettings: any;
   @Input() formFieldSettings: FormFieldSetting[];
   @Output() onSubmit = new EventEmitter<any>();
 

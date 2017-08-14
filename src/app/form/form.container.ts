@@ -8,7 +8,7 @@ import { SendPostRequestAction } from '../rest/rest.actions';
 
 import {AppState, getCurrentUrl} from '../app.reducers';
 import { FormFieldSetting } from './form.models';
-import { GetFormFieldSettingsAction } from './form.actions'
+import {GetFormFieldSettingsAction, GetFormSettingsAction} from './form.actions'
 import { RemoveTokenAction, SendLoginPostRequestAction } from '../auth/auth.actions';
 
 
@@ -18,6 +18,7 @@ import { RemoveTokenAction, SendLoginPostRequestAction } from '../auth/auth.acti
   template: `
     <app-form-component
       [selectedPathName]="selectedPathName$ | async"
+      [formSettings]="formSettings$ | async"
       [formFieldSettings]="formFieldSettings$ | async"
       (onSubmit)="onSubmit($event)">
     </app-form-component>`
@@ -25,6 +26,7 @@ import { RemoveTokenAction, SendLoginPostRequestAction } from '../auth/auth.acti
 export class FormContainer implements OnInit {
   public selectedPathName$: Observable<string>;
   public formFieldSettings$: Observable<FormFieldSetting[]>;
+  public formSettings$: Observable<any>;
 
   constructor(private store: Store<AppState>) {
   }
@@ -33,7 +35,7 @@ export class FormContainer implements OnInit {
     this.selectedPathName$ = this.store.select(getCurrentUrl);
     this.formFieldSettings$ = Observable
       .combineLatest(this.selectedPathName$,
-        this.store.select(state => state.form.fields),
+        this.store.select(state => state.form.fieldSettings),
         (pathName, allFormFieldSettings) => {
           const formName = pathName.split('/').pop();
           const formFieldSettings = allFormFieldSettings.filter(fieldSetting => {
@@ -45,6 +47,22 @@ export class FormContainer implements OnInit {
             this.store.dispatch(new RemoveTokenAction(null))
           }
           return formFieldSettings
+        });
+
+    this.formSettings$ = Observable
+      .combineLatest(this.selectedPathName$,
+        this.store.select(state => state.form.formSettings),
+        (pathName, allFormSettings) => {
+          const formName = pathName.split('/').pop();
+          const formSettings = allFormSettings.filter(formSetting => {
+            return formSetting.form_name === formName;
+          });
+          if (formSettings.length === 0 && formName.toLowerCase() !== 'logout') {
+            this.store.dispatch(new GetFormSettingsAction(formName))
+          } else if (formName.toLowerCase() === 'logout') {
+            this.store.dispatch(new RemoveTokenAction(null))
+          }
+          return formSettings[0]
         })
   }
 
