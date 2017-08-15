@@ -18,6 +18,8 @@ import {
       (onEditComplete)="_onEditComplete($event)"
       (onLazyLoad)="_onLazyLoad($event)"
       [reorderableColumns]="reorderableColumns"
+      [resizableColumns]="true"
+      [responsive]="true"
       [rows]="rowLimit"
       [rowHover]="true"
       [rowsPerPageOptions]="rowsPerPage"
