@@ -18,6 +18,7 @@ import {
       [paginator]="paginator"
       [lazy]="true"
       [loading]="areRecordsLoading"
+      (onColResize)="_onColumnResize($event)"
       (onEditComplete)="_onEditComplete($event.column.field, $event.data[$event.column.field], $event.data.id)"
       (onEditCancel)="_onEditCancel($event)"
       (onLazyLoad)="_onLazyLoad($event)"
@@ -124,6 +125,10 @@ export class TableComponent {
   @Output() onPagination = new EventEmitter<DatatableUpdate>();
   @Output() onSort = new EventEmitter<DatatableUpdate>();
   @Output() onMultiselect = new EventEmitter<MultiselectOutput>();
+
+  _onColumnResize(event) {
+    console.log(event);
+  }
 
   _onEditCancel(event) {
     event.tableName = this.tableName;
