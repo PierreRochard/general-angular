@@ -1,10 +1,10 @@
 import {TableActions, TableActionTypes} from './table.actions';
-import {DatatableColumns} from './table.models';
+import {DatatableColumn} from './table.models';
 
 
 export interface TableState {
   areRecordsLoading: boolean;
-  columns: DatatableColumns[];
+  columns: DatatableColumn[];
   records: any[];
   rowCount: number;
   rowLimit: number;

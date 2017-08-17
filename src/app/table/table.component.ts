@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {SelectItem} from 'primeng/components/common/selectitem';
 
 import {
-  DatatableColumns,
+  DatatableColumn,
   DatatableUpdate,
   MultiselectOutput
 } from 'app/table/table.models';
@@ -18,6 +18,7 @@ import {
       [paginator]="paginator"
       [lazy]="true"
       [loading]="areRecordsLoading"
+      (onEditComplete)="_onEditComplete($event.column.field, $event.data[$event.column.field], $event.data.id)"
       (onEditCancel)="_onEditCancel($event)"
       (onLazyLoad)="_onLazyLoad($event)"
       [reorderableColumns]="reorderableColumns"
@@ -69,8 +70,9 @@ import {
           </div>
         </ng-template>
         
-        <ng-template let-col let-row="rowData" pTemplate="editor">
-          <p-dropdown 
+        <ng-template let-col let-row="rowData" pTemplate="editor"
+                     *ngIf="column.input_type !== 'text'">
+          <p-dropdown *ngIf="column.input_type === 'dropdown'"
                       [autoWidth]="false"
                       [editable]="true"
                       [filter]="true"
@@ -81,6 +83,7 @@ import {
                       (onChange)="_onEditComplete(column.value, $event.value)"
           >
           </p-dropdown>
+          
         </ng-template>
         
       </p-column>
@@ -97,7 +100,7 @@ export class TableComponent {
   public selectionMode = 'multiple';
 
   @Input() areRecordsLoading: boolean;
-  @Input() columns: DatatableColumns[];
+  @Input() columns: DatatableColumn[];
   _records;
   @Input() set records(value: any[]) {
     this._records = JSON.parse(JSON.stringify(value));
@@ -127,9 +130,10 @@ export class TableComponent {
     this.onEditCancel.emit(event);
   }
 
-  _onEditComplete(field, value) {
+  _onEditComplete(field, value, row_id) {
     console.log(field);
     console.log(value);
+    console.log(row_id);
     // this.onEditComplete.emit(event);
   }
 

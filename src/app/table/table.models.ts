@@ -9,12 +9,13 @@ export interface Datatable {
   sort_order: number;
 }
 
-export interface DatatableColumns {
+export interface DatatableColumn {
   data_type: string;
   editable: boolean;
   filter_match_mode: string;
   filter_value: string;
   format_pattern: string;
+  input_type: string;
   is_filterable: boolean;
   is_sortable: boolean;
   is_visible: boolean;

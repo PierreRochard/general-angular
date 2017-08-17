@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DatatableColumns, MultiselectOutput } from 'app/table/table.models';
+import { DatatableColumn, MultiselectOutput } from 'app/table/table.models';
 
 @Component({
   selector: 'app-columns-multiselect-component',
@@ -41,7 +41,7 @@ export class ColumnsMultiselectComponent {
     return this._selectedColumns
   }
 
-  @Input() columns: DatatableColumns[];
+  @Input() columns: DatatableColumn[];
 
   @Output() onChange = new EventEmitter<MultiselectOutput>();
 }

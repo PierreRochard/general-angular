@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { type } from '../util';
 
-import { ColumnsVisibilityUpdate, Datatable, DatatableColumns, RecordsUpdate } from './table.models';
+import { ColumnsVisibilityUpdate, Datatable, DatatableColumn, RecordsUpdate } from './table.models';
 import { LazyLoadEvent } from 'primeng/primeng';
 
 export const TableActionTypes = {
@@ -81,7 +81,7 @@ export class ReceiveDatatableAction implements Action {
 
 export class ReceiveDatatableColumnsAction implements Action {
   type = TableActionTypes.RECEIVE_DATATABLE_COLUMNS;
-  constructor(public payload: DatatableColumns[]) {}
+  constructor(public payload: DatatableColumn[]) {}
 }
 
 export class ReceiveRecordsAction implements Action {
