@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ButtonModule } from 'primeng/components/button/button';
 import { DataTableModule } from 'primeng/components/datatable/datatable';
+import { DropdownModule } from 'primeng/components/dropdown/dropdown';
 import { InputTextModule } from 'primeng/components/inputtext/inputtext';
 import { MultiSelectModule } from 'primeng/components/multiselect/multiselect';
 import { PasswordModule } from 'primeng/components/password/password';
@@ -18,6 +19,7 @@ import { ColumnsMultiselectComponent } from './columns.multiselect.component';
     ButtonModule,
     CommonModule,
     DataTableModule,
+    DropdownModule,
     FormsModule,
     InputTextModule,
     MultiSelectModule,

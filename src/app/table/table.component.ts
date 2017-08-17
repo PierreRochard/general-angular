@@ -1,6 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+
+import {SelectItem} from 'primeng/components/common/selectitem';
+
 import {
-  DatatableColumns, DatatableUpdate,
+  DatatableColumns,
+  DatatableUpdate,
   MultiselectOutput
 } from 'app/table/table.models';
 
@@ -15,7 +19,6 @@ import {
       [lazy]="true"
       [loading]="areRecordsLoading"
       (onEditCancel)="_onEditCancel($event)"
-      (onEditComplete)="_onEditComplete($event)"
       (onLazyLoad)="_onLazyLoad($event)"
       [reorderableColumns]="reorderableColumns"
       [resizableColumns]="true"
@@ -47,7 +50,7 @@ import {
         [field]="column.value"
         [header]="column.label"
         [hidden]="!column.is_visible"
-        [style]="{'width':'100%'}"
+        [style]="{'width':'100%', 'overflow':'visible'}"
         [sortable]="column.is_sortable"
         [filter]="column.is_filterable"
         [filterMatchMode]="column.filter_match_mode"
@@ -65,11 +68,26 @@ import {
           </span>
           </div>
         </ng-template>
-
+        
+        <ng-template let-col let-row="rowData" pTemplate="editor">
+          <p-dropdown 
+                      [autoWidth]="false"
+                      [editable]="true"
+                      [filter]="true"
+                      [options]="options"
+                      [placeholder]="row[column.value]"
+                      [required]="true"
+                      [style]="{'width':'100%'}"
+                      (onChange)="_onEditComplete(column.value, $event.value)"
+          >
+          </p-dropdown>
+        </ng-template>
+        
       </p-column>
     </p-dataTable>`
 })
 export class TableComponent {
+  public options: SelectItem[] = [{label: '1', value: '1'}, {label: '2', value: '1'}];
   public dataKey = 'id';
   public paginator = true;
   public reorderableColumns = false;
@@ -107,13 +125,12 @@ export class TableComponent {
   _onEditCancel(event) {
     event.tableName = this.tableName;
     this.onEditCancel.emit(event);
-    console.log(event);
   }
 
-  _onEditComplete(event) {
-    event.tableName = this.tableName;
-    this.onEditComplete.emit(event);
-    console.log(event);
+  _onEditComplete(field, value) {
+    console.log(field);
+    console.log(value);
+    // this.onEditComplete.emit(event);
   }
 
   _onLazyLoad(event: DatatableUpdate) {
