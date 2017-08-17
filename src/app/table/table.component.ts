@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import {SelectItem} from 'primeng/components/common/selectitem';
+import { SelectItem } from 'primeng/components/common/selectitem';
 
 import {
   DatatableColumn,
@@ -70,7 +70,7 @@ import {
           </span>
           </div>
         </ng-template>
-        
+
         <ng-template let-col let-row="rowData" pTemplate="editor"
                      *ngIf="column.input_type !== 'text'">
           <p-dropdown *ngIf="column.input_type === 'dropdown'"
@@ -81,12 +81,12 @@ import {
                       [placeholder]="row[column.value]"
                       [required]="true"
                       [style]="{'width':'100%'}"
-                      (onChange)="_onEditComplete(column.value, $event.value)"
+                      (onChange)="_onEditComplete(column.value, $event.value, row.id)"
           >
           </p-dropdown>
-          
+
         </ng-template>
-        
+
       </p-column>
     </p-dataTable>`
 })
