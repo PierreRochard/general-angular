@@ -12,8 +12,8 @@ import {FormFieldSetting} from './form.models';
       [formGroup]="form"
       (ngSubmit)="onSubmit.emit(form.value)">
       <div class="ui-g">
-        <div class="ui-g-4"></div>
-        <div class="ui-g-4">
+        <div class="ui-sm-0 ui-md-1 ui-lg-3 ui-xl-4"></div>
+        <div class="ui-sm-12 ui-md-10 ui-lg-6 ui-xl-4">
           <p-fieldset [legend]="formSettings.custom_name">
           <div class="ui-g">
             <div class="ui-g-12">
@@ -27,8 +27,8 @@ import {FormFieldSetting} from './form.models';
             </div>
           </div>
           <div class="ui-g">
-            <div class="ui-g-4"></div>
-            <div class="ui-g-4">
+            <div class="ui-sm-0 ui-md-1 ui-lg-3 ui-xl-4"></div>
+            <div class="ui-sm-12 ui-md-10 ui-lg-6 ui-xl-4">
               <button type="submit"
                       [label]="'Submit'"
                       pButton>
