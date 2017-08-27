@@ -8,10 +8,10 @@ import {SchemaActionTypes, SelectPathAction} from './schema.actions';
 @Injectable()
 export class SchemaEffects {
 
-  @Effect()
-  invalidateSchema$ = this.actions$
-    .ofType(SchemaActionTypes.INVALIDATE_SCHEMA)
-    .switchMap(action => [new SendGetRequestAction({path: '/'})]);
+  // @Effect()
+  // invalidateSchema$ = this.actions$
+  //   .ofType(SchemaActionTypes.INVALIDATE_SCHEMA)
+  //   .switchMap(action => [new SendGetRequestAction({path: '/'})]);
 
   // @Effect()
   // selectPath$ = this.actions$

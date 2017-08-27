@@ -8,7 +8,7 @@ import {FormFieldSetting} from './form.models';
   selector: 'app-form-component',
   template: `
     <form
-      *ngIf="formFieldSettings.length > 0"
+      *ngIf="formFieldSettings !== null && formSettings !== null"
       [formGroup]="form"
       (ngSubmit)="onSubmit.emit(form.value)">
       <div class="ui-g">
@@ -43,8 +43,8 @@ import {FormFieldSetting} from './form.models';
 })
 export class FormComponent implements OnChanges {
   @Input() selectedPathName: string;
-  @Input() formSettings: any;
-  @Input() formFieldSettings: FormFieldSetting[];
+  @Input() formSettings: any = null;
+  @Input() formFieldSettings: FormFieldSetting[] = null;
   @Output() onSubmit = new EventEmitter<any>();
 
   public form: FormGroup;

@@ -10,7 +10,7 @@ export class MenubarService {
   get(): Observable<Response> {
     const params: URLSearchParams = new URLSearchParams();
     params.set('select', 'label, icon, routerLink, items{label, icon, routerLink}');
-    return this.restClient.get('/menubar', params);
+    return this.restClient.get('admin', '/menubar', params);
   };
   constructor(private restClient: RestClient) {}
 }

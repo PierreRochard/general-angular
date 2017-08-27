@@ -10,7 +10,7 @@ import {LoginData} from "./auth.models";
 @Injectable()
 export class AuthService {
   post_login(loginPath: string, loginData: LoginData): Observable<Response> {
-    return this.restClient.post(loginPath, loginData);
+    return this.restClient.post('auth', loginPath, loginData);
   };
   constructor(private restClient: RestClient) {}
 }

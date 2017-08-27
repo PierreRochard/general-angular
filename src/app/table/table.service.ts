@@ -16,7 +16,7 @@ export class TableService {
   get_datatable(table_name: string): Observable<Response> {
     const params: URLSearchParams = new URLSearchParams();
     params.set('name', 'eq.' + table_name);
-    return this.restClient.get('/datatable', params)
+    return this.restClient.get('admin', '/datatable', params)
   };
 
   update_pagination(updateData: DatatableUpdate): Observable<Response> {
@@ -28,7 +28,7 @@ export class TableService {
     };
     const params: URLSearchParams = new URLSearchParams();
     params.set('name', 'eq.' + updateData.tableName);
-    return this.restClient.patch('/datatable', data, params)
+    return this.restClient.patch('admin', '/datatable', data, params)
   };
 
   update_sort(updateData: DatatableUpdate): Observable<Response> {
@@ -38,13 +38,13 @@ export class TableService {
     };
     const params: URLSearchParams = new URLSearchParams();
     params.set('name', 'eq.' + updateData.tableName);
-    return this.restClient.patch('/datatable', data, params)
+    return this.restClient.patch('admin', '/datatable', data, params)
   }
 
   get_datatable_columns(table_name: string): Observable<Response> {
     const params: URLSearchParams = new URLSearchParams();
     params.set('table_name', 'eq.' + table_name);
-    return this.restClient.get('/datatable_columns', params);
+    return this.restClient.get('admin', '/datatable_columns', params);
   };
 
   update_columns_visibility(updateData: ColumnsVisibilityUpdate): Observable<Response> {
@@ -54,7 +54,7 @@ export class TableService {
     const params: URLSearchParams = new URLSearchParams();
     params.set('table_name', 'eq.' + updateData.tableName);
     params.set('value', 'in.' + updateData.columns.join(','));
-    return this.restClient.patch('/datatable_columns', data, params)
+    return this.restClient.patch('admin', '/datatable_columns', data, params)
   };
 
   get_records(datatable: Datatable): Observable<Response> {
@@ -69,7 +69,7 @@ export class TableService {
 
     this.store.dispatch(new AreRecordsLoadingAction(true));
 
-    return this.restClient.get('/' + datatable.name, params);
+    return this.restClient.get('admin', '/' + datatable.name, params);
   };
 
   update_record(updateData: RecordsUpdate): Observable<Response> {
@@ -77,7 +77,7 @@ export class TableService {
     const data = {};
     data[updateData['column_name']] = updateData.data;
     params.set('id', 'eq.' + updateData.record_id);
-    return this.restClient.patch('/' + updateData.table_name, data, params)
+    return this.restClient.patch('admin', '/' + updateData.table_name, data, params)
   };
 
 

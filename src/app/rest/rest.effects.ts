@@ -8,7 +8,7 @@ import {
 } from '../auth/auth.actions';
 import {
   ReceivedResponseAction, RestActionTypes,
-  SendGetRequestAction, SendDeleteRequestAction
+  SendGetRequestAction, SendDeleteRequestAction, SendPostRequestAction,
 } from './rest.actions';
 import {UpdateSchemaAction} from '../schema/schema.actions';
 import {AppState} from '../app.reducers';
@@ -25,7 +25,9 @@ export class RestEffects {
   @Effect()
   sendGetRequest$ = this.actions$
     .ofType(RestActionTypes.SEND_GET_REQUEST)
-    .switchMap((action: SendGetRequestAction) => this.http.get(action.payload.path)
+    .switchMap((action: SendGetRequestAction) => this.http
+      .get(action.payload.schema,
+           action.payload.path)
       .mergeMap(response => {
         return [
           new ReceivedResponseAction(response),
@@ -39,8 +41,10 @@ export class RestEffects {
   @Effect()
   sendPostRequest$ = this.actions$
     .ofType(RestActionTypes.SEND_POST_REQUEST)
-    .switchMap((action: SendLoginPostRequestAction) => {
-      return this.http.post(action.payload.path, action.payload.data)
+    .switchMap((action: SendPostRequestAction) => {
+      return this.http.post(action.payload.schema,
+                            action.payload.path,
+                            action.payload.data)
         .map(response => {
           return new ReceivedResponseAction(response);
         })

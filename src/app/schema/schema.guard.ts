@@ -19,38 +19,39 @@ export class SchemaGuard implements CanActivate {
     private http: RestClient,
   ) { }
 
-  getSchema(): Observable<boolean> {
-    return this.http.get('/')
-      .map(response => new UpdateSchemaAction(response.json()))
-      .do((action: UpdateSchemaAction) => this.store.dispatch(action))
-      .map(schema => {
-        return !!schema;
-      })
-      .catch(error => {
-        this.store.dispatch(new ReceivedResponseAction(error));
-        return Observable.of(true);
-      });
-  }
-
-  hasSchemaInStore(): Observable<boolean> {
-    return this.store.select(getIsValid)
-      .map(status => {
-        return status;
-      })
-      .take(1);
-  }
-
-  hasSchema(): Observable<boolean> {
-    return this.hasSchemaInStore()
-      .switchMap(inStore => {
-        if (inStore) {
-          return of(inStore);
-        }
-        return this.getSchema();
-      });
-  }
+  // getSchema(): Observable<boolean> {
+  //   return this.http.get('/')
+  //     .map(response => new UpdateSchemaAction(response.json()))
+  //     .do((action: UpdateSchemaAction) => this.store.dispatch(action))
+  //     .map(schema => {
+  //       return !!schema;
+  //     })
+  //     .catch(error => {
+  //       this.store.dispatch(new ReceivedResponseAction(error));
+  //       return Observable.of(true);
+  //     });
+  // }
+  //
+  // hasSchemaInStore(): Observable<boolean> {
+  //   return this.store.select(getIsValid)
+  //     .map(status => {
+  //       return status;
+  //     })
+  //     .take(1);
+  // }
+  //
+  // hasSchema(): Observable<boolean> {
+  //   return this.hasSchemaInStore()
+  //     .switchMap(inStore => {
+  //       if (inStore) {
+  //         return of(inStore);
+  //       }
+  //       return this.getSchema();
+  //     });
+  // }
 
   canActivate(route: ActivatedRouteSnapshot) {
-    return this.hasSchema();
+    // return this.hasSchema();
+    return true;
   }
 }
