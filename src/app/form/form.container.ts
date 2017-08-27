@@ -62,8 +62,7 @@ export class FormContainer implements OnInit {
           } else if (formName.toLowerCase() === 'logout') {
             this.store.dispatch(new RemoveTokenAction(null))
           }
-          console.log(formSettings[0]);
-          return formSettings[0]
+          return formSettings[0] || null;
         })
   }
 

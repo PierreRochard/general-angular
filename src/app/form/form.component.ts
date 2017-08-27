@@ -19,8 +19,8 @@ import {FormFieldSetting} from './form.models';
             <div class="ui-g-12">
               <app-dynamic-form-element
                 *ngFor="let formFieldSetting of formFieldSettings"
-                [formFieldName]="formFieldSetting.form_field_name"
-                [formFieldLabel]="formFieldSetting.form_field_label"
+                [formFieldName]="formFieldSetting.field_name"
+                [formFieldLabel]="formFieldSetting.custom_name"
                 [formGroup]="form"
               >
               </app-dynamic-form-element>
@@ -43,8 +43,8 @@ import {FormFieldSetting} from './form.models';
 })
 export class FormComponent implements OnChanges {
   @Input() selectedPathName: string;
-  @Input() formSettings: any = null;
-  @Input() formFieldSettings: FormFieldSetting[] = null;
+  @Input() formSettings: any;
+  @Input() formFieldSettings: FormFieldSetting[];
   @Output() onSubmit = new EventEmitter<any>();
 
   public form: FormGroup;
@@ -55,7 +55,7 @@ export class FormComponent implements OnChanges {
   ngOnChanges() {
     const group = {};
     this.formFieldSettings.map(settings => {
-      group[settings.form_field_name] = new FormControl('')
+      group[settings.field_name] = new FormControl('')
     });
     this.form = this.fb.group(group);
   }

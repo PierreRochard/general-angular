@@ -7,7 +7,7 @@ import {FormGroup} from '@angular/forms';
     <div class="ui-g" [formGroup]="formGroup">
       <div class="ui-g-6">
         <label>
-          {{formFieldName}}
+          {{formFieldLabel}}
         </label>
       </div>
       <div class="ui-g-6">

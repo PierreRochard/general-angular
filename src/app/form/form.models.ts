@@ -1,5 +1,6 @@
 export interface FormFieldSetting {
   form_name: string;
-  form_field_name: string;
-  form_field_label: string;
+  field_name: string;
+  field_type: string;
+  custom_name: string;
 }
