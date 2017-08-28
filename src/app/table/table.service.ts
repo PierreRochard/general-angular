@@ -16,7 +16,7 @@ export class TableService {
   get_datatable(table_name: string): Observable<Response> {
     const params: URLSearchParams = new URLSearchParams();
     params.set('name', 'eq.' + table_name);
-    return this.restClient.get('admin', '/datatable', params)
+    return this.restClient.get('admin', '/datatables', params)
   };
 
   update_pagination(updateData: DatatableUpdate): Observable<Response> {
@@ -28,7 +28,7 @@ export class TableService {
     };
     const params: URLSearchParams = new URLSearchParams();
     params.set('name', 'eq.' + updateData.tableName);
-    return this.restClient.patch('admin', '/datatable', data, params)
+    return this.restClient.patch('admin', '/datatables', data, params)
   };
 
   update_sort(updateData: DatatableUpdate): Observable<Response> {
@@ -38,7 +38,7 @@ export class TableService {
     };
     const params: URLSearchParams = new URLSearchParams();
     params.set('name', 'eq.' + updateData.tableName);
-    return this.restClient.patch('admin', '/datatable', data, params)
+    return this.restClient.patch('admin', '/datatables', data, params)
   }
 
   get_datatable_columns(table_name: string): Observable<Response> {
