@@ -10,6 +10,7 @@ import {AppState, getCurrentUrl} from '../app.reducers';
 import { FormFieldSetting } from './form.models';
 import {GetFormFieldSettingsAction, GetFormSettingsAction} from './form.actions'
 import { RemoveTokenAction, SendLoginPostRequestAction } from '../auth/auth.actions';
+import {Go} from '../router/router.actions';
 
 
 @Component({
@@ -44,7 +45,8 @@ export class FormContainer implements OnInit {
           if (formFieldSettings.length === 0 && formName.toLowerCase() !== 'logout') {
             this.store.dispatch(new GetFormFieldSettingsAction(formName))
           } else if (formName.toLowerCase() === 'logout') {
-            this.store.dispatch(new RemoveTokenAction(null))
+            this.store.dispatch(new RemoveTokenAction(null));
+            this.store.dispatch(new Go({path: ['/']}));
           }
           return formFieldSettings
         });
