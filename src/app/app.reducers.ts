@@ -1,4 +1,4 @@
-import {ActionReducer, ActionReducerMap} from '@ngrx/store';
+import {ActionReducer, ActionReducerMap, MetaReducer} from '@ngrx/store';
 // import {storeFreeze} from 'ngrx-store-freeze';
 import {LocalStorageConfig, localStorageSync} from 'ngrx-store-localstorage';
 import {createSelector} from 'reselect';
@@ -43,7 +43,7 @@ export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionRedu
    return localStorageSync(localStorageConfig)(reducer);
 }
 
-export const metaReducers: ActionReducer<any, any>[] = !environment.production
+export const metaReducers: MetaReducer<any, any>[] = !environment.production
   ? [
     // storeFreeze,
     localStorageSyncReducer

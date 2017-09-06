@@ -61,7 +61,7 @@ import {RouterEffects} from './router/router.effects';
     GrowlModule,
     HttpModule,
     routing,
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot(reducers, {metaReducers: metaReducers }),
     routing,
     StoreRouterConnectingModule
   ],
