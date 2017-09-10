@@ -11,13 +11,14 @@ import {RestState, restReducer} from './rest/rest.reducers';
 import {SchemaState, schemaReducer} from './schema/schema.reducers';
 import {TableState, tableReducer} from './table/table.reducers';
 import {routerReducer, RouterReducerState} from '@ngrx/router-store';
+import { RouterStateUrl } from './router/router.serializer';
 
 export interface AppState {
   auth: AuthState;
   form: FormState,
   menubar: MenubarState;
   rest: RestState;
-  router: RouterReducerState;
+  routerReducer: RouterReducerState<RouterStateUrl>;
   schema: SchemaState;
   table: TableState;
 }
@@ -27,7 +28,7 @@ export const reducers: ActionReducerMap<AppState> = {
   form: formReducer,
   menubar: menubarReducer,
   rest: restReducer,
-  router: routerReducer,
+  routerReducer: routerReducer,
   schema: schemaReducer,
   table: tableReducer,
 };
@@ -65,6 +66,6 @@ export const getPathNames = createSelector(getSchemaState, (state: SchemaState) 
 export const getDefinitions = createSelector(getSchemaState, (state: SchemaState) => state.definitions);
 export const getIsValid = createSelector(getSchemaState, (state: SchemaState) => state.isValid);
 
-export const getRouterState = (state: AppState) => state.router;
-export const getCurrentUrl = createSelector(getRouterState,
-  (state: RouterReducerState) => state.state && state.state.url);
+export const getRouterState = (state: AppState) => state.routerReducer;
+export const getCurrentUrl = createSelector(getRouterState, (state: RouterReducerState<RouterStateUrl>) => state.state && state.state.url);
+export const getCurrentParams = createSelector(getRouterState, (state: RouterReducerState<RouterStateUrl>) => state.state && state.state.params);

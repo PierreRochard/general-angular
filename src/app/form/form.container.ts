@@ -6,11 +6,18 @@ import { Observable } from 'rxjs/Observable';
 
 import { SendPostRequestAction } from '../rest/rest.actions';
 
-import {AppState, getCurrentUrl} from '../app.reducers';
-import { FormFieldSetting } from './form.models';
-import {GetFormFieldSettingsAction, GetFormSettingsAction} from './form.actions'
-import { RemoveTokenAction, SendLoginPostRequestAction } from '../auth/auth.actions';
-import {Go} from '../router/router.actions';
+import { AppState, getCurrentParams, getCurrentUrl } from '../app.reducers';
+import { FormField } from './form.models';
+import {
+  GetFormFieldSettingsAction,
+  GetFormSettingsAction,
+} from './form.actions'
+import {
+  RemoveTokenAction,
+  SendLoginPostRequestAction,
+} from '../auth/auth.actions';
+import { Go } from '../router/router.actions';
+import { RouteParams } from '../router/router.models';
 
 
 @Component({
@@ -22,11 +29,12 @@ import {Go} from '../router/router.actions';
       [formSettings]="formSettings$ | async"
       [formFieldSettings]="formFieldSettings$ | async"
       (onSubmit)="onSubmit($event)">
-    </app-form-component>`
+    </app-form-component>`,
 })
 export class FormContainer implements OnInit {
   public selectedPathName$: Observable<string>;
-  public formFieldSettings$: Observable<FormFieldSetting[]>;
+  public selectedRouteParams$: Observable<RouteParams>;
+  public formFieldSettings$: Observable<FormField[]>;
   public formSettings$: Observable<any>;
 
   constructor(private store: Store<AppState>) {
@@ -34,13 +42,15 @@ export class FormContainer implements OnInit {
 
   ngOnInit() {
     this.selectedPathName$ = this.store.select(getCurrentUrl);
+    this.selectedRouteParams$ = this.store.select(getCurrentParams);
     this.formFieldSettings$ = Observable
-      .combineLatest(this.selectedPathName$,
+      .combineLatest(this.selectedRouteParams$,
         this.store.select(state => state.form.fieldSettings),
-        (pathName, allFormFieldSettings) => {
-          const formName = pathName.split('/').pop();
+        (selectedRouteParams, allFormFieldSettings) => {
+          const formName = selectedRouteParams.selectedObjectName;
+          const formSchema = selectedRouteParams.selectedSchemaName;
           const formFieldSettings = allFormFieldSettings.filter(fieldSetting => {
-            return fieldSetting.form_name === formName;
+            return fieldSetting.formName === formName && fieldSetting.schemaName === formSchema;
           });
           if (formFieldSettings.length === 0 && formName.toLowerCase() !== 'logout') {
             this.store.dispatch(new GetFormFieldSettingsAction(formName))
@@ -54,17 +64,14 @@ export class FormContainer implements OnInit {
     this.formSettings$ = Observable
       .combineLatest(this.selectedPathName$,
         this.store.select(state => state.form.formSettings),
-        (pathName, allFormSettings) => {
+        (pathName, formSettings) => {
           const formName = pathName.split('/').pop();
-          const formSettings = allFormSettings.filter(formSetting => {
-            return formSetting.form_name === formName;
-          });
-          if (formSettings.length === 0 && formName.toLowerCase() !== 'logout') {
+          if (formSettings === null && formName.toLowerCase() !== 'logout') {
             this.store.dispatch(new GetFormSettingsAction(formName))
           } else if (formName.toLowerCase() === 'logout') {
             this.store.dispatch(new RemoveTokenAction(null))
           }
-          return formSettings[0] || null;
+          return formSettings || null;
         })
   }
 
@@ -75,7 +82,7 @@ export class FormContainer implements OnInit {
         const post = {
           schema: 'admin',
           path: selectedPathName,
-          data: formValue
+          data: formValue,
         };
         if (selectedPathName === '/rpc/login') {
           const postAction = new SendLoginPostRequestAction(post);
@@ -84,7 +91,7 @@ export class FormContainer implements OnInit {
           const postAction = new SendPostRequestAction(post);
           this.store.dispatch(postAction)
         }
-      }
+      },
     );
   }
 }

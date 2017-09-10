@@ -1,19 +1,22 @@
 import {FormActions, FormActionTypes} from './form.actions';
 
-import {FormFieldSetting} from 'app/form/form.models';
+import { Form, FormField } from 'app/form/form.models';
 
 export interface FormState {
-  formSettings: any[];
-  fieldSettings: FormFieldSetting[];
+  schemaName: string;
+  formName: string;
+  formSettings: Form;
+  fieldSettings: FormField[];
 }
 
 const initialState: FormState = {
-  formSettings: [],
+  schemaName: null,
+  formName: null,
+  formSettings: null,
   fieldSettings: [],
 };
 
 export function formReducer (state = initialState, action: FormActions): FormState {
-  console.log(action);
   switch (action.type) {
     case FormActionTypes.RECEIVE_FORM_FIELD_SETTINGS:
       return Object.assign({}, state, {

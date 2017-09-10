@@ -9,6 +9,7 @@ export interface TableState {
   rowCount: number;
   rowLimit: number;
   rowOffset: number;
+  schemaName: string;
   selectedRecords: any[];
   sortColumn: string;
   sortOrder: number;
@@ -22,6 +23,7 @@ const initialState: TableState = {
   rowCount: null,
   rowLimit: null,
   rowOffset: 0,
+  schemaName: null,
   selectedRecords: null,
   sortColumn: null,
   sortOrder: 1,
@@ -54,8 +56,8 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       return Object.assign({}, state, {
         rowLimit: action.payload.limit,
         rowOffset: action.payload.offset,
-        sortColumn: action.payload.sort_column,
-        sortOrder: action.payload.sort_order,
+        sortColumn: action.payload.sortColumn,
+        sortOrder: action.payload.sortOrder,
       });
     case TableActionTypes.RECEIVE_DATATABLE_COLUMNS:
       return Object.assign({}, state, {

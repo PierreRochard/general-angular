@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { of } from 'rxjs/observable/of';
 
-import { Action, Store } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 
 
 import {
@@ -21,8 +21,6 @@ import {
 } from './table.actions';
 import { TableService } from './table.service';
 import { Datatable } from './table.models';
-import { AppState } from '../app.reducers';
-import { DataTable } from 'primeng/primeng';
 
 @Injectable()
 export class TableEffects {

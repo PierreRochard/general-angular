@@ -1,12 +1,15 @@
 import { LazyLoadEvent } from 'primeng/primeng';
 
 export interface Datatable {
-  name: string;
-  header: string;
-  limit: number;
-  offset: number;
-  sort_column: string;
-  sort_order: number;
+  customName: string;
+  orderIndex: number;
+  rowLimit: number;
+  rowOffset: number;
+  schemaName: string;
+  sortColumn: string;
+  sortOrder: number;
+  tableName: string;
+  userId: string;
 }
 
 export interface DatatableColumn {

@@ -2,7 +2,7 @@ import {Action} from '@ngrx/store';
 
 import {type} from '../util';
 
-import {FormFieldSetting} from './form.models';
+import {FormField} from './form.models';
 
 export const FormActionTypes = {
   GET_FORM_FIELD_SETTINGS: type('GET_FORM_FIELD_SETTINGS'),
@@ -28,14 +28,14 @@ export class GetFormSettingsAction implements Action {
 export class ReceiveFormFieldSettingsAction implements Action {
   type = FormActionTypes.RECEIVE_FORM_FIELD_SETTINGS;
 
-  constructor(public payload: FormFieldSetting[]) {
+  constructor(public payload: FormField[]) {
   }
 }
 
 export class ReceiveFormSettingsAction implements Action {
   type = FormActionTypes.RECEIVE_FORM_SETTINGS;
 
-  constructor(public payload: FormFieldSetting[]) {
+  constructor(public payload: FormField[]) {
   }
 }
 
