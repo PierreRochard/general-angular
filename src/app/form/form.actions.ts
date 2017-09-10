@@ -1,46 +1,54 @@
-import {Action} from '@ngrx/store';
+import { Action } from '@ngrx/store';
 
-import {type} from '../util';
+import { RouteParams } from 'app/router/router.models';
 
-import {FormField} from './form.models';
+import { Form, FormField } from './form.models';
 
-export const FormActionTypes = {
-  GET_FORM_FIELD_SETTINGS: type('GET_FORM_FIELD_SETTINGS'),
-  GET_FORM_SETTINGS: type('GET_FORM_SETTINGS'),
-  RECEIVE_FORM_FIELD_SETTINGS: type('RECEIVE_FORM_FIELD_SETTINGS'),
-  RECEIVE_FORM_SETTINGS: type('RECEIVE_FORM_SETTINGS'),
-};
+
+export const GET_FORM_FIELD_SETTINGS = '[Form] Get Form Field Settings';
+export const GET_FORM_SETTINGS = '[Form] Get Form Settings';
+export const RECEIVE_FORM_FIELD_SETTINGS = '[Form] Receive Form Field Settings';
+export const RECEIVE_FORM_SETTINGS = '[Form] Receive Form Settings';
+export const SELECT_FORM = '[Form] Select Form';
 
 export class GetFormFieldSettingsAction implements Action {
-  type = FormActionTypes.GET_FORM_FIELD_SETTINGS;
+  readonly type = GET_FORM_FIELD_SETTINGS;
 
-  constructor(public payload: string) {
+  constructor(public payload: RouteParams) {
   }
 }
 
 export class GetFormSettingsAction implements Action {
-  type = FormActionTypes.GET_FORM_SETTINGS;
+  readonly type = GET_FORM_SETTINGS;
 
-  constructor(public payload: string) {
+  constructor(public payload: RouteParams) {
   }
 }
 
 export class ReceiveFormFieldSettingsAction implements Action {
-  type = FormActionTypes.RECEIVE_FORM_FIELD_SETTINGS;
+  readonly type = RECEIVE_FORM_FIELD_SETTINGS;
 
   constructor(public payload: FormField[]) {
   }
 }
 
 export class ReceiveFormSettingsAction implements Action {
-  type = FormActionTypes.RECEIVE_FORM_SETTINGS;
+  readonly type = RECEIVE_FORM_SETTINGS;
 
-  constructor(public payload: FormField[]) {
+  constructor(public payload: Form[]) {
+  }
+}
+
+export class SelectFormAction implements Action {
+  readonly type = SELECT_FORM;
+
+  constructor(public payload: RouteParams) {
   }
 }
 
 export type FormActions =
-    GetFormFieldSettingsAction
+  GetFormFieldSettingsAction
   | GetFormSettingsAction
   | ReceiveFormFieldSettingsAction
-  | ReceiveFormSettingsAction;
+  | ReceiveFormSettingsAction
+  | SelectFormAction;

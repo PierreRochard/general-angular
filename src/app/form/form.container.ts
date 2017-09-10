@@ -10,7 +10,7 @@ import { AppState, getCurrentParams, getCurrentUrl } from '../app.reducers';
 import { FormField } from './form.models';
 import {
   GetFormFieldSettingsAction,
-  GetFormSettingsAction,
+  GetFormSettingsAction, SelectFormAction,
 } from './form.actions'
 import {
   RemoveTokenAction,
@@ -25,54 +25,37 @@ import { RouteParams } from '../router/router.models';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <app-form-component
-      [selectedPathName]="selectedPathName$ | async"
       [formSettings]="formSettings$ | async"
       [formFieldSettings]="formFieldSettings$ | async"
       (onSubmit)="onSubmit($event)">
     </app-form-component>`,
 })
 export class FormContainer implements OnInit {
+  public formFieldSettings$: Observable<FormField[]>;
+  public formName$: Observable<string>;
+  public formSettings$: Observable<any>;
   public selectedPathName$: Observable<string>;
   public selectedRouteParams$: Observable<RouteParams>;
-  public formFieldSettings$: Observable<FormField[]>;
-  public formSettings$: Observable<any>;
 
   constructor(private store: Store<AppState>) {
   }
 
   ngOnInit() {
+
+    this.formFieldSettings$ = this.store.select(state => state.form.fieldSettings);
+    this.formSettings$ = this.store.select(state => state.form.formSettings);
     this.selectedPathName$ = this.store.select(getCurrentUrl);
     this.selectedRouteParams$ = this.store.select(getCurrentParams);
-    this.formFieldSettings$ = Observable
-      .combineLatest(this.selectedRouteParams$,
-        this.store.select(state => state.form.fieldSettings),
-        (selectedRouteParams, allFormFieldSettings) => {
-          const formName = selectedRouteParams.selectedObjectName;
-          const formSchema = selectedRouteParams.selectedSchemaName;
-          const formFieldSettings = allFormFieldSettings.filter(fieldSetting => {
-            return fieldSetting.formName === formName && fieldSetting.schemaName === formSchema;
-          });
-          if (formFieldSettings.length === 0 && formName.toLowerCase() !== 'logout') {
-            this.store.dispatch(new GetFormFieldSettingsAction(formName))
-          } else if (formName.toLowerCase() === 'logout') {
-            this.store.dispatch(new RemoveTokenAction(null));
-            this.store.dispatch(new Go({path: ['/']}));
-          }
-          return formFieldSettings
-        });
 
-    this.formSettings$ = Observable
-      .combineLatest(this.selectedPathName$,
-        this.store.select(state => state.form.formSettings),
-        (pathName, formSettings) => {
-          const formName = pathName.split('/').pop();
-          if (formSettings === null && formName.toLowerCase() !== 'logout') {
-            this.store.dispatch(new GetFormSettingsAction(formName))
-          } else if (formName.toLowerCase() === 'logout') {
-            this.store.dispatch(new RemoveTokenAction(null))
-          }
-          return formSettings || null;
-        })
+    this.selectedRouteParams$.take(1).subscribe(selectedRouteParams => {
+      console.log(selectedRouteParams);
+      if (selectedRouteParams.selectedObjectName !== 'logout') {
+        this.store.dispatch(new SelectFormAction(selectedRouteParams));
+      } else {
+        this.store.dispatch(new RemoveTokenAction(null));
+        this.store.dispatch(new Go({path: ['/']}));
+      }
+    })
   }
 
   public onSubmit(formValue: any) {

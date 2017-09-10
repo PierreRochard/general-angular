@@ -7,14 +7,14 @@ import {RestClient} from 'app/rest/rest.service';
 
 @Injectable()
 export class FormService {
-  get_form_field_settings(form_name: string): Observable<Response> {
+  get_form_field_settings(schemaName: string, formName: string): Observable<Response> {
     const params: URLSearchParams = new URLSearchParams();
-    params.set('formName', 'eq.' + form_name);
+    params.set('formName', 'eq.' + formName);
     return this.restClient.get('admin', '/form_fields', params);
   };
-  get_form_settings(form_name: string): Observable<Response> {
+  get_form_settings(schemaName: string, formName: string): Observable<Response> {
     const params: URLSearchParams = new URLSearchParams();
-    params.set('formName', 'eq.' + form_name);
+    params.set('formName', 'eq.' + formName);
     return this.restClient.get('admin', '/forms', params);
   };
   constructor(private restClient: RestClient) {}

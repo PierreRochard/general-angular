@@ -1,7 +1,7 @@
 import {Component, Input, Output, EventEmitter, OnChanges} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 
-import {FormField} from './form.models';
+import {FormField, Form} from './form.models';
 
 
 @Component({
@@ -42,9 +42,8 @@ import {FormField} from './form.models';
     </form>`,
 })
 export class FormComponent implements OnChanges {
-  @Input() selectedPathName: string;
-  @Input() formSettings: any;
-  @Input() formFieldSettings: FormField[];
+  @Input() formSettings: Form;
+  @Input() formFieldSettings: FormField[] = [];
   @Output() onSubmit = new EventEmitter<any>();
 
   public form: FormGroup;

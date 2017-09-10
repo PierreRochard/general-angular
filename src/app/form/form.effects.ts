@@ -1,49 +1,66 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {Actions, Effect} from '@ngrx/effects';
+import { Actions, Effect } from '@ngrx/effects';
 
-import {of} from 'rxjs/observable/of';
+import { of } from 'rxjs/observable/of';
 
 import {
-  ReceiveFormFieldSettingsAction, FormActionTypes,
+  ReceiveFormFieldSettingsAction,
   GetFormFieldSettingsAction, GetFormSettingsAction, ReceiveFormSettingsAction,
+  GET_FORM_FIELD_SETTINGS, GET_FORM_SETTINGS, SELECT_FORM, SelectFormAction,
 } from './form.actions';
-import {FormService} from './form.service';
+import { FormService } from './form.service';
+import { RouteParams } from '../router/router.models';
 
 
 @Injectable()
 export class FormEffects {
 
   @Effect()
-  getFormFieldSettings$ = this.actions$
-    .ofType(FormActionTypes.GET_FORM_FIELD_SETTINGS)
-    .switchMap((action: GetFormFieldSettingsAction) => this.formService.get_form_field_settings(action.payload)
-      .mergeMap(response => {
-        return [
-          new ReceiveFormFieldSettingsAction(response.json()),
-        ];
-      })
-      .catch(error => {
-        return of(new ReceiveFormFieldSettingsAction(error));
-      })
-    );
+  selectForm$ = this.actions$
+    .ofType(SELECT_FORM)
+    .map((action: SelectFormAction) => action.payload)
+    .mergeMap((routeParams: RouteParams) => {
+      return [
+        new GetFormSettingsAction(routeParams),
+        new GetFormFieldSettingsAction(routeParams),
+      ];
+    });
 
   @Effect()
   getFormSettings$ = this.actions$
-    .ofType(FormActionTypes.GET_FORM_SETTINGS)
-    .switchMap((action: GetFormSettingsAction) => this.formService.get_form_settings(action.payload)
-      .mergeMap(response => {
-        return [
-          new ReceiveFormSettingsAction(response.json()),
-        ];
-      })
-      .catch(error => {
-        return of(new ReceiveFormSettingsAction(error));
-      })
-    );
+    .ofType(GET_FORM_SETTINGS)
+    .switchMap((action: GetFormSettingsAction) => {
+      return this.formService.get_form_settings(action.payload.selectedSchemaName,
+        action.payload.selectedObjectName)
+        .mergeMap(response => {
+          return [
+            new ReceiveFormSettingsAction(response.json()),
+          ];
+        })
+        .catch(error => {
+          return of(new ReceiveFormSettingsAction(error));
+        })
+    });
 
-  constructor (
-    private actions$: Actions,
-    private formService: FormService,
-  ) { }
+  @Effect()
+  getFormFieldSettings$ = this.actions$
+    .ofType(GET_FORM_FIELD_SETTINGS)
+    .switchMap((action: GetFormFieldSettingsAction) => {
+      return this.formService.get_form_field_settings(action.payload.selectedSchemaName,
+        action.payload.selectedObjectName)
+        .mergeMap(response => {
+          return [
+            new ReceiveFormFieldSettingsAction(response.json()),
+          ];
+        })
+        .catch(error => {
+          return of(new ReceiveFormFieldSettingsAction(error));
+        })
+    });
+
+
+  constructor(private actions$: Actions,
+              private formService: FormService) {
+  }
 }
