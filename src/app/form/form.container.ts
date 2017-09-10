@@ -48,7 +48,6 @@ export class FormContainer implements OnInit {
     this.selectedRouteParams$ = this.store.select(getCurrentParams);
 
     this.selectedRouteParams$.take(1).subscribe(selectedRouteParams => {
-      console.log(selectedRouteParams);
       if (selectedRouteParams.selectedObjectName !== 'logout') {
         this.store.dispatch(new SelectFormAction(selectedRouteParams));
       } else {
@@ -61,13 +60,13 @@ export class FormContainer implements OnInit {
   public onSubmit(formValue: any) {
     Object.keys(formValue).filter(key => formValue[key] === '')
       .map(key => delete formValue[key]);
-    this.selectedPathName$.take(1).subscribe(selectedPathName => {
+    this.selectedRouteParams$.take(1).subscribe(selectedRouteParams => {
         const post = {
-          schema: 'admin',
-          path: selectedPathName,
+          schemaName: selectedRouteParams.selectedSchemaName,
+          formName: selectedRouteParams.selectedObjectName,
           data: formValue,
         };
-        if (selectedPathName === '/rpc/login') {
+        if (post.formName === 'login') {
           const postAction = new SendLoginPostRequestAction(post);
           this.store.dispatch(postAction)
         } else {

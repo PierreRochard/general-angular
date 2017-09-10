@@ -1,5 +1,6 @@
-export interface SendLoginPostRequestPayload {
-  path: string;
+export interface PostLoginRequestPayload {
+  formName: string;
+  schemaName: string;
   data: LoginData;
 }
 

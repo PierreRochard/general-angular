@@ -1,18 +1,19 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {of} from 'rxjs/observable/of';
+import { of } from 'rxjs/observable/of';
 
-import {Actions, Effect} from '@ngrx/effects';
+import { Actions, Effect } from '@ngrx/effects';
 
-import {ReceivedResponseAction} from '../rest/rest.actions';
+import { ReceivedResponseAction } from '../rest/rest.actions';
 
 import {
   AddTokenAction, AuthActionTypes, RemoveTokenAction,
   SendLoginPostRequestAction,
 } from './auth.actions';
-import {AuthService} from './auth.service';
+import { AuthService } from './auth.service';
 import { GetMenubarAction } from '../menubar/menubar.actions';
-import {Go} from '../router/router.actions';
+import { Go } from '../router/router.actions';
+import { PostLoginRequestPayload } from './auth.models';
 
 
 @Injectable()
@@ -21,8 +22,9 @@ export class AuthEffects {
   @Effect()
   sendPostRequest$ = this.actions$
     .ofType(AuthActionTypes.SEND_LOGIN_POST_REQUEST)
-    .switchMap((action:SendLoginPostRequestAction) => {
-      return this.authService.post_login(action.payload.path, action.payload.data)
+    .map((action: SendLoginPostRequestAction) => action.payload)
+    .switchMap((payload: PostLoginRequestPayload) => {
+      return this.authService.post_login(payload.schemaName, payload.formName, payload.data)
         .map(response => {
           const token = response.json()[0].token;
           return new AddTokenAction(token);
@@ -46,8 +48,7 @@ export class AuthEffects {
       new Go({path: ['/']}),
       new GetMenubarAction(null)]);
 
-  constructor(
-    private actions$: Actions,
-    private authService: AuthService,
-  ) {}
+  constructor(private actions$: Actions,
+              private authService: AuthService,) {
+  }
 }

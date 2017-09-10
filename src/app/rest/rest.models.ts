@@ -1,5 +1,5 @@
-export interface RequestActionPayload {
-  schema: string;
-  path: string;
+export interface PostFormRequestActionPayload {
+  schemaName: string;
+  formName: string;
   data?: any;
 }

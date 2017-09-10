@@ -4,7 +4,7 @@ import {Action} from '@ngrx/store';
 
 import {type} from '../util';
 
-import {RequestActionPayload} from './rest.models';
+import {PostFormRequestActionPayload} from './rest.models';
 
 export const RestActionTypes = {
   SEND_GET_REQUEST:    type('SEND_GET_REQUEST'),
@@ -16,15 +16,15 @@ export const RestActionTypes = {
 
 export class SendGetRequestAction implements Action {
   type = RestActionTypes.SEND_GET_REQUEST;
-  constructor(public payload: RequestActionPayload) {}
+  constructor(public payload: any) {}
 }
 export class SendPostRequestAction implements Action {
   type = RestActionTypes.SEND_POST_REQUEST;
-  constructor(public payload: RequestActionPayload) {}
+  constructor(public payload: any) {}
 }
 export class SendDeleteRequestAction implements Action {
   type = RestActionTypes.SEND_DELETE_REQUEST;
-  constructor(public payload: RequestActionPayload) {}
+  constructor(public payload: any) {}
 }
 export class ReceivedResponseAction implements Action {
   type = RestActionTypes.RECEIVED_RESPONSE;
