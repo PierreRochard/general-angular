@@ -48,9 +48,9 @@ import {
       </p-header>
       <p-column
         *ngFor="let column of columns"
-        [editable]="column.editable"
-        [field]="column.value"
-        [header]="column.label"
+        [editable]="column.can_update"
+        [field]="column.column_name"
+        [header]="column.custom_name"
         [hidden]="!column.is_visible"
         [style]="{'width':'100%', 'overflow':'visible'}"
         [sortable]="column.is_sortable"
@@ -60,13 +60,13 @@ import {
         <ng-template let-row="rowData" pTemplate="body">
           <div [ngSwitch]="column.data_type">
           <span *ngSwitchCase="'timestamp without time zone'">
-            {{row[column.value] | date:column.format_pattern}}
+            {{row[column.column_name] | date:column.format_pattern}}
           </span>
             <span *ngSwitchCase="'numeric'">
-            {{row[column.value] | number:column.format_pattern}}
+            {{row[column.column_name] | number:column.format_pattern}}
           </span>
             <span *ngSwitchDefault>
-            {{row[column.value]}}
+            {{row[column.column_name]}}
           </span>
           </div>
         </ng-template>
@@ -78,10 +78,10 @@ import {
                       [editable]="true"
                       [filter]="true"
                       [options]="options"
-                      [placeholder]="row[column.value]"
+                      [placeholder]="row[column.column_name]"
                       [required]="true"
                       [style]="{'width':'100%'}"
-                      (onChange)="_onEditComplete(column.value, $event.value, row.id)"
+                      (onChange)="_onEditComplete(column.column_name, $event.value, row.id)"
           >
           </p-dropdown>
 
@@ -104,10 +104,12 @@ export class TableComponent {
   @Input() columns: DatatableColumn[];
   _records;
   @Input() set records(value: any[]) {
+    console.log(value);
     this._records = JSON.parse(JSON.stringify(value));
   };
 
   get records() {
+    console.log(this._records);
     return this._records;
   }
 
@@ -131,7 +133,7 @@ export class TableComponent {
   }
 
   _onEditCancel(event) {
-    event.tableName = this.tableName;
+    event.table_name = this.tableName;
     this.onEditCancel.emit(event);
   }
 
@@ -156,12 +158,12 @@ export class TableComponent {
     //   return c.value
     // });
     // const addedFilters = newFilteredColumns.filter(c => oldFilteredColumns.indexOf(c) === -1)
-    //   .map(c => this.onFilterAdded.emit({column_name: c, table_name: this.tableName, filter_value: event.filters[c].value}));
+    //   .map(c => this.onFilterAdded.emit({column_name: c, table_name: this.table_name, filter_value: event.filters[c].value}));
     // const removedFilters = oldFilteredColumns.filter(c => newFilteredColumns.indexOf(c) === -1)
-    //   .map(c => this.onFilterRemoved.emit({column_name: c, table_name: this.tableName}));
+    //   .map(c => this.onFilterRemoved.emit({column_name: c, table_name: this.table_name}));
     // const newFilterValues = oldFilteredColumns.filter(c => newFilteredColumns.indexOf(c) > -1)
     //   .filter(c => event.filters[c].value !== this.columns.find(col => col.value === c).filter_value)
-    //   .map(c => this.onFilterAdded.emit({column_name: c, table_name: this.tableName, filter_value: event.filters[c].value}));
+    //   .map(c => this.onFilterAdded.emit({column_name: c, table_name: this.table_name, filter_value: event.filters[c].value}));
   }
 
   _onMultiselect(event: MultiselectOutput) {

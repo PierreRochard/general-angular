@@ -1,20 +1,22 @@
 import { LazyLoadEvent } from 'primeng/primeng';
 
 export interface Datatable {
-  customName: string;
-  orderIndex: number;
-  rowLimit: number;
-  rowOffset: number;
-  schemaName: string;
-  sortColumn: string;
-  sortOrder: number;
-  tableName: string;
-  userId: string;
+  custom_name: string;
+  order_index: number;
+  row_limit: number;
+  row_offset: number;
+  schema_name: string;
+  sort_column: string;
+  sort_order: number;
+  table_name: string;
+  user_id: string;
 }
 
 export interface DatatableColumn {
+  can_update: boolean;
+  column_name: string;
+  custom_name: string;
   data_type: string;
-  editable: boolean;
   filter_match_mode: string;
   filter_value: string;
   format_pattern: string;
@@ -22,9 +24,9 @@ export interface DatatableColumn {
   is_filterable: boolean;
   is_sortable: boolean;
   is_visible: boolean;
-  label: string;
+  schema_name: string;
   table_name: string;
-  value: string;
+  user_id: string;
 }
 
 export interface MultiselectOutput {

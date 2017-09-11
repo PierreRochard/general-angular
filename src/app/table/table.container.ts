@@ -74,6 +74,7 @@ export class TableContainer implements OnInit {
         this.store.select(state => state.table.tableName),
         this.store.select(state => state.table.records),
         (pathName, oldTableName, records) => {
+        console.log(records);
           const newTableName = pathName.split('/').pop();
           if (newTableName !== oldTableName) {
             this.store.dispatch(new GetDatatableAction(newTableName));
@@ -86,7 +87,7 @@ export class TableContainer implements OnInit {
 
   onEditCancel(event) {
     console.log(event);
-    this.store.dispatch(new GetDatatableAction(event.tableName));
+    this.store.dispatch(new GetDatatableAction(event.table_name));
   }
 
   onEditComplete(event) {
@@ -94,7 +95,7 @@ export class TableContainer implements OnInit {
       column_name: event.column.field,
       data: event.data[event.column.field],
       record_id: event.data.id,
-      table_name: event.tableName
+      table_name: event.table_name
     };
     console.log(update_payload);
     this.store.dispatch(new UpdateRecordAction(update_payload));

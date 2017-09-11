@@ -1,15 +1,15 @@
 export interface Form {
-  customName: string;
-  formName: string;
-  schemaName: string;
-  userId: string;
+  custom_name: string;
+  form_name: string;
+  schema_name: string;
+  user_id: string;
 }
 
 export interface FormField {
-  customName: string;
-  fieldName: string;
-  fieldType: string;
-  formName: string;
-  schemaName: string;
-  userId: string;
+  custom_name: string;
+  field_name: string;
+  field_type: string;
+  form_name: string;
+  schema_name: string;
+  user_id: string;
 }

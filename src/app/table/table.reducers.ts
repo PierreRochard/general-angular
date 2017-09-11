@@ -31,6 +31,7 @@ const initialState: TableState = {
 };
 
 export function tableReducer(state = initialState, action: TableActions): TableState {
+  console.log(action);
   switch (action.type) {
     case TableActionTypes.ADD_RECORD:
       return Object.assign({}, state, {
@@ -55,9 +56,10 @@ export function tableReducer(state = initialState, action: TableActions): TableS
     case TableActionTypes.RECEIVE_DATATABLE:
       return Object.assign({}, state, {
         rowLimit: action.payload.limit,
-        rowOffset: action.payload.offset,
-        sortColumn: action.payload.sortColumn,
-        sortOrder: action.payload.sortOrder,
+        row_limit: action.payload.row_limit,
+        rowOffset: action.payload.row_offset,
+        sortColumn: action.payload.sort_column,
+        sortOrder: action.payload.sort_order,
       });
     case TableActionTypes.RECEIVE_DATATABLE_COLUMNS:
       return Object.assign({}, state, {

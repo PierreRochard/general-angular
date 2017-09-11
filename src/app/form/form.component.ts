@@ -14,13 +14,13 @@ import {FormField, Form} from './form.models';
       <div class="ui-g">
         <div class="ui-sm-0 ui-md-1 ui-lg-3 ui-xl-4"></div>
         <div class="ui-sm-12 ui-md-10 ui-lg-6 ui-xl-4">
-          <p-fieldset [legend]="formSettings.customName">
+          <p-fieldset [legend]="formSettings.custom_name">
             <div class="ui-g">
               <div class="ui-g-12">
                 <app-dynamic-form-element
                   *ngFor="let formFieldSetting of formFieldSettings"
-                  [formFieldName]="formFieldSetting.fieldName"
-                  [formFieldLabel]="formFieldSetting.customName"
+                  [formFieldName]="formFieldSetting.field_name"
+                  [formFieldLabel]="formFieldSetting.custom_name"
                   [formGroup]="form"
                 >
                 </app-dynamic-form-element>
@@ -54,7 +54,7 @@ export class FormComponent implements OnChanges {
   ngOnChanges() {
     const group = {};
     this.formFieldSettings.map(settings => {
-      group[settings.fieldName] = new FormControl('')
+      group[settings.field_name] = new FormControl('')
     });
     this.form = this.fb.group(group);
   }

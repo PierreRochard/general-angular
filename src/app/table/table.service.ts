@@ -15,7 +15,7 @@ import { ColumnsVisibilityUpdate, Datatable, DatatableUpdate, RecordsUpdate } fr
 export class TableService {
   get_datatable(tableName: string): Observable<Response> {
     const params: URLSearchParams = new URLSearchParams();
-    params.set('tableName', 'eq.' + tableName);
+    params.set('table_name', 'eq.' + tableName);
     return this.restClient.get('admin', '/datatables', params)
   };
 
@@ -27,7 +27,7 @@ export class TableService {
       limit: newLimit
     };
     const params: URLSearchParams = new URLSearchParams();
-    params.set('tableName', 'eq.' + updateData.tableName);
+    params.set('table_name', 'eq.' + updateData.tableName);
     return this.restClient.patch('admin', '/datatables', data, params)
   };
 
@@ -37,7 +37,7 @@ export class TableService {
       sort_order: updateData.sortOrder
     };
     const params: URLSearchParams = new URLSearchParams();
-    params.set('tableName', 'eq.' + updateData.tableName);
+    params.set('table_name', 'eq.' + updateData.tableName);
     return this.restClient.patch('admin', '/datatables', data, params)
   }
 
@@ -60,16 +60,16 @@ export class TableService {
   get_records(datatable: Datatable): Observable<Response> {
     const params: URLSearchParams = new URLSearchParams();
     let sortDirection: string;
-    params.set('limit', datatable.rowLimit.toString());
-    params.set('offset', datatable.rowOffset.toString());
-    if (datatable.sortColumn !== null) {
-      sortDirection = datatable.sortOrder === 1 ? 'asc' : 'desc';
-      params.set('order', datatable.sortColumn + '.' + sortDirection);
+    params.set('limit', datatable.row_limit.toString());
+    params.set('offset', datatable.row_offset.toString());
+    if (datatable.sort_column !== null) {
+      sortDirection = datatable.sort_order === 1 ? 'asc' : 'desc';
+      params.set('order', datatable.sort_column + '.' + sortDirection);
     }
 
     this.store.dispatch(new AreRecordsLoadingAction(true));
 
-    return this.restClient.get(datatable.schemaName, '/' + datatable.tableName, params);
+    return this.restClient.get(datatable.schema_name, '/' + datatable.table_name, params);
   };
 
   update_record(updateData: RecordsUpdate): Observable<Response> {

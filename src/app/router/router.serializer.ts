@@ -13,7 +13,6 @@ export class CustomRouterStateSerializer implements RouterStateSerializer<Router
     const { url } = routerState;
     const queryParams = routerState.root.queryParams;
     let params = null;
-    console.log(routerState);
     if (routerState.root.children.length > 0) {
       params = routerState.root.children['0'].params;
     }
