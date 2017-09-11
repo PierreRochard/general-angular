@@ -5,7 +5,7 @@ import { SelectItem } from 'primeng/components/common/selectitem';
 import {
   DatatableColumn,
   DatatableUpdate,
-  MultiselectOutput
+  MultiselectOutput,
 } from 'app/table/table.models';
 
 @Component({
@@ -35,7 +35,8 @@ import {
     >
       <p-header>
         <div class="ui-helper-clearfix" style="width:100%;">
-          <input #gb type="text" placeholder="Global search" style="float:left;">
+          <input #gb type="text" placeholder="Global search"
+                 style="float:left;">
           <div style="float:right;">
             <app-columns-multiselect-component
               [columns]="columns"
@@ -88,10 +89,13 @@ import {
         </ng-template>
 
       </p-column>
-    </p-dataTable>`
+    </p-dataTable>`,
 })
 export class TableComponent {
-  public options: SelectItem[] = [{label: '1', value: '1'}, {label: '2', value: '1'}];
+  public options: SelectItem[] = [{label: '1', value: '1'}, {
+    label: '2',
+    value: '1',
+  }];
   public dataKey = 'id';
   public paginator = true;
   public reorderableColumns = false;
@@ -103,7 +107,8 @@ export class TableComponent {
   @Input() areRecordsLoading: boolean;
   @Input() columns: DatatableColumn[];
   _records;
-  @Input() set records(value: any[]) {
+  @Input()
+  set records(value: any[]) {
     console.log(value);
     this._records = JSON.parse(JSON.stringify(value));
   };

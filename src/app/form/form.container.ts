@@ -32,7 +32,6 @@ import { RouteParams } from '../router/router.models';
 })
 export class FormContainer implements OnInit {
   public formFieldSettings$: Observable<FormField[]>;
-  public formName$: Observable<string>;
   public formSettings$: Observable<any>;
   public selectedPathName$: Observable<string>;
   public selectedRouteParams$: Observable<RouteParams>;

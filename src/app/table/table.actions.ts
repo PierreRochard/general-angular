@@ -2,8 +2,9 @@ import { Action } from '@ngrx/store';
 
 import { type } from '../util';
 
-import { ColumnsVisibilityUpdate, Datatable, DatatableColumn, RecordsUpdate } from './table.models';
-import { LazyLoadEvent } from 'primeng/primeng';
+import { RouteParams } from '../router/router.models';
+
+import { Datatable, DatatableColumn, RecordsUpdate } from './table.models';
 
 export const TableActionTypes = {
   ADD_RECORD: type('ADD_RECORD'),
@@ -22,6 +23,7 @@ export const TableActionTypes = {
   REMOVE_RECORD: type('REMOVE_RECORD'),
   REMOVE_RECORDS: type('REMOVE_RECORDS'),
   SELECT_RECORDS: type('SELECT_RECORDS'),
+  SELECT_TABLE: type('SELECT_TABLE'),
   UPDATE_COLUMNS_VISIBILITY: type('UPDATE_COLUMNS_VISIBILITY'),
   UPDATE_PAGINATION: type('UPDATE_PAGINATION'),
   UPDATE_ROW_COUNT: type('UPDATE_ROW_COUNT'),
@@ -56,12 +58,12 @@ export class EditCancelAction implements Action {
 
 export class GetDatatableAction implements Action {
   type = TableActionTypes.GET_DATATABLE;
-  constructor(public payload: string) { }
+  constructor(public payload: RouteParams) { }
 }
 
 export class GetDatatableColumnsAction implements Action {
   type = TableActionTypes.GET_DATATABLE_COLUMNS;
-  constructor(public payload: string) { }
+  constructor(public payload: RouteParams) { }
 }
 
 export class GetRecordsAction implements Action {
@@ -104,6 +106,11 @@ export class SelectRecordsAction implements Action {
   constructor(public payload: any) {}
 }
 
+export class SelectTableAction implements Action {
+  type = TableActionTypes.SELECT_TABLE;
+  constructor(public payload: RouteParams) {}
+}
+
 export class UpdateColumnsVisibilityAction implements Action {
   type = TableActionTypes.UPDATE_COLUMNS_VISIBILITY;
   constructor(public payload: any) {}
@@ -131,7 +138,7 @@ export class UpdateSortAction implements Action {
 
 export class UpdateTableNameAction implements Action {
   type = TableActionTypes.UPDATE_TABLE_NAME_ACTION;
-  constructor(public payload: string) {}
+  constructor(public payload: RouteParams) {}
 }
 
 

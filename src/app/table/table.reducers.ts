@@ -55,8 +55,7 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       });
     case TableActionTypes.RECEIVE_DATATABLE:
       return Object.assign({}, state, {
-        rowLimit: action.payload.limit,
-        row_limit: action.payload.row_limit,
+        rowLimit: action.payload.row_limit,
         rowOffset: action.payload.row_offset,
         sortColumn: action.payload.sort_column,
         sortOrder: action.payload.sort_order,

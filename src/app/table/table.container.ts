@@ -4,6 +4,11 @@ import { Observable } from 'rxjs/Observable';
 
 import { Store } from '@ngrx/store';
 
+import { LazyLoadEvent } from 'primeng/primeng';
+
+import { AppState, getCurrentParams, getCurrentUrl } from '../app.reducers';
+import { RouteParams } from '../router/router.models';
+
 import {
   UpdateRecordAction,
   GetDatatableAction,
@@ -11,10 +16,9 @@ import {
   UpdateColumnsVisibilityAction,
   UpdatePaginationAction,
   UpdateSortAction,
-  UpdateTableNameAction
+  UpdateTableNameAction,
+  SelectTableAction,
 } from './table.actions';
-import {AppState, getCurrentUrl} from '../app.reducers';
-import { LazyLoadEvent } from 'primeng/primeng';
 import { MultiselectOutput } from './table.models';
 
 @Component({
@@ -40,7 +44,7 @@ import { MultiselectOutput } from './table.models';
         >
         </app-table-component>
       </div>
-    </div>`
+    </div>`,
 })
 export class TableContainer implements OnInit {
   public areRecordsLoading$: Observable<boolean>;
@@ -49,6 +53,7 @@ export class TableContainer implements OnInit {
   public rowLimit$: Observable<number>;
   public rowOffset$: Observable<number>;
   public selectedPathName$: Observable<string>;
+  public selectedRouteParams$: Observable<RouteParams>;
   public sortColumn$: Observable<string>;
   public sortOrder$: Observable<number>;
   public tableName$: Observable<string>;
@@ -64,25 +69,15 @@ export class TableContainer implements OnInit {
     this.rowLimit$ = this.store.select(state => state.table.rowLimit);
     this.rowOffset$ = this.store.select(state => state.table.rowOffset);
     this.selectedPathName$ = this.store.select(getCurrentUrl);
+    this.selectedRouteParams$ = this.store.select(getCurrentParams);
     this.sortColumn$ = this.store.select(state => state.table.sortColumn);
     this.sortOrder$ = this.store.select(state => state.table.sortOrder);
     this.tableName$ = this.store.select(state => state.table.tableName);
     this.totalRecords$ = this.store.select(state => state.table.rowCount);
 
-    this.records$ = Observable
-      .combineLatest(this.selectedPathName$,
-        this.store.select(state => state.table.tableName),
-        this.store.select(state => state.table.records),
-        (pathName, oldTableName, records) => {
-        console.log(records);
-          const newTableName = pathName.split('/').pop();
-          if (newTableName !== oldTableName) {
-            this.store.dispatch(new GetDatatableAction(newTableName));
-            this.store.dispatch(new GetDatatableColumnsAction(newTableName));
-            this.store.dispatch(new UpdateTableNameAction(newTableName));
-          }
-          return records
-        })
+    this.selectedRouteParams$.take(1).subscribe(selectedRouteParams => {
+      this.store.dispatch(new SelectTableAction(selectedRouteParams));
+    });
   }
 
   onEditCancel(event) {
@@ -95,7 +90,7 @@ export class TableContainer implements OnInit {
       column_name: event.column.field,
       data: event.data[event.column.field],
       record_id: event.data.id,
-      table_name: event.table_name
+      table_name: event.table_name,
     };
     console.log(update_payload);
     this.store.dispatch(new UpdateRecordAction(update_payload));
@@ -114,14 +109,14 @@ export class TableContainer implements OnInit {
       this.store.dispatch(new UpdateColumnsVisibilityAction({
         columns: event.added,
         tableName: event.tableName,
-        isVisible: true
+        isVisible: true,
       }));
     }
     if (event.removed.length > 0) {
       this.store.dispatch(new UpdateColumnsVisibilityAction({
         columns: event.removed,
         tableName: event.tableName,
-        isVisible: false
+        isVisible: false,
       }));
     }
   }

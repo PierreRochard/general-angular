@@ -18,28 +18,44 @@ import {
   GetRecordsAction,
   GetDatatableColumnsAction, GetDatatableAction, UpdatePaginationAction,
   UpdateSortAction, UpdateColumnsVisibilityAction, UpdateRecordAction,
+  SelectTableAction, UpdateTableNameAction,
 } from './table.actions';
 import { TableService } from './table.service';
 import { Datatable } from './table.models';
+import { RouteParams } from '../router/router.models';
 
 @Injectable()
 export class TableEffects {
 
   @Effect()
+  selectTable$ = this.actions$
+    .ofType(TableActionTypes.SELECT_TABLE)
+    .map((action: SelectTableAction) => action.payload)
+    .mergeMap((routeParams: RouteParams) => {
+      return [
+        new GetDatatableAction(routeParams),
+        new GetDatatableColumnsAction(routeParams),
+        new UpdateTableNameAction(routeParams),
+      ]
+    });
+
+  @Effect()
   getDatatable$ = this.actions$
     .ofType(TableActionTypes.GET_DATATABLE)
-    .switchMap((action: GetDatatableAction) => this.tableService.get_datatable(action.payload)
-      .mergeMap(response => {
-        const datatable: Datatable = response.json()[0];
-        return [
-          new ReceiveDatatableAction(datatable),
-          new GetRecordsAction(datatable)
-        ];
-      })
-      .catch(error => {
-        return of(new ReceiveDatatableAction(error));
-      })
-    );
+    .switchMap((action: GetDatatableAction) => {
+      return this.tableService.get_datatable(action.payload.selectedSchemaName,
+        action.payload.selectedObjectName)
+        .mergeMap(response => {
+          const datatable: Datatable = response.json()[0];
+          return [
+            new ReceiveDatatableAction(datatable),
+            new GetRecordsAction(datatable),
+          ];
+        })
+        .catch(error => {
+          return of(new ReceiveDatatableAction(error));
+        })
+    });
 
   @Effect()
   updatePagination$ = this.actions$
@@ -49,12 +65,12 @@ export class TableEffects {
         const datatable: Datatable = response.json()[0];
         return [
           new ReceiveDatatableAction(datatable),
-          new GetRecordsAction(datatable)
+          new GetRecordsAction(datatable),
         ];
       })
       .catch(error => {
         return of(new ReceiveDatatableAction(error));
-      })
+      }),
     );
 
   @Effect()
@@ -65,27 +81,29 @@ export class TableEffects {
         const datatable: Datatable = response.json()[0];
         return [
           new ReceiveDatatableAction(datatable),
-          new GetRecordsAction(datatable)
+          new GetRecordsAction(datatable),
         ];
       })
       .catch(error => {
         return of(new ReceiveDatatableAction(error));
-      })
+      }),
     );
 
   @Effect()
   getDatatableColumns$ = this.actions$
     .ofType(TableActionTypes.GET_DATATABLE_COLUMNS)
-    .switchMap((action: GetDatatableColumnsAction) => this.tableService.get_datatable_columns(action.payload)
-      .mergeMap(response => {
-        return [
-          new ReceiveDatatableColumnsAction(response.json()),
-        ];
-      })
-      .catch(error => {
-        return of(new ReceiveDatatableColumnsAction(error));
-      })
-    );
+    .switchMap((action: GetDatatableColumnsAction) => {
+      return this.tableService.get_datatable_columns(action.payload.selectedSchemaName,
+        action.payload.selectedObjectName)
+        .mergeMap(response => {
+          return [
+            new ReceiveDatatableColumnsAction(response.json()),
+          ];
+        })
+        .catch(error => {
+          return of(new ReceiveDatatableColumnsAction(error));
+        })
+    });
 
 
   @Effect()
@@ -99,7 +117,7 @@ export class TableEffects {
       })
       .catch(error => {
         return of(new GetDatatableColumnsAction(action.payload.dataTable));
-      })
+      }),
     );
 
   @Effect()
@@ -112,27 +130,27 @@ export class TableEffects {
         return [
           new ReceiveRecordsAction(response.json()),
           new UpdateRowCountAction(rowCount),
-          new AreRecordsLoadingAction(false)
+          new AreRecordsLoadingAction(false),
         ];
       })
       .catch(error => {
         return of(new ReceiveRecordsAction(error));
       }));
 
-  @Effect()
-  updateRecord$ = this.actions$
-    .ofType(TableActionTypes.UPDATE_RECORD)
-    .switchMap((action: UpdateRecordAction) => this.tableService.update_record(action.payload)
-      .mergeMap(response => {
-        const tableName = response.url.split('/').slice(-1)[0].split('?')[0];
-        return [
-          new GetDatatableAction(tableName)
-        ];
-      })
-      .catch(error => {
-        return of(new ReceiveDatatableAction(error));
-      })
-    );
+  // @Effect()
+  // updateRecord$ = this.actions$
+  //   .ofType(TableActionTypes.UPDATE_RECORD)
+  //   .switchMap((action: UpdateRecordAction) => this.tableService.update_record(action.payload)
+  //     .mergeMap(response => {
+  //       const tableName = response.url.split('/').slice(-1)[0].split('?')[0];
+  //       return [
+  //         new GetDatatableAction(tableName),
+  //       ];
+  //     })
+  //     .catch(error => {
+  //       return of(new ReceiveDatatableAction(error));
+  //     }),
+  //   );
 
   constructor(private actions$: Actions,
               private tableService: TableService) {

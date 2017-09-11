@@ -13,9 +13,10 @@ import { ColumnsVisibilityUpdate, Datatable, DatatableUpdate, RecordsUpdate } fr
 
 @Injectable()
 export class TableService {
-  get_datatable(tableName: string): Observable<Response> {
+  get_datatable(schemaName: string, tableName: string): Observable<Response> {
     const params: URLSearchParams = new URLSearchParams();
     params.set('table_name', 'eq.' + tableName);
+    params.set('schema_name', 'eq.' + schemaName);
     return this.restClient.get('admin', '/datatables', params)
   };
 
@@ -41,9 +42,10 @@ export class TableService {
     return this.restClient.patch('admin', '/datatables', data, params)
   }
 
-  get_datatable_columns(table_name: string): Observable<Response> {
+  get_datatable_columns(schemaName: string, tableName: string): Observable<Response> {
     const params: URLSearchParams = new URLSearchParams();
-    params.set('table_name', 'eq.' + table_name);
+    params.set('table_name', 'eq.' + tableName);
+    params.set('schema_name', 'eq.' + schemaName);
     return this.restClient.get('admin', '/datatable_columns', params);
   };
 
