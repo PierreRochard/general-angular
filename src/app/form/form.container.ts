@@ -3,6 +3,7 @@ import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 import { SendPostRequestAction } from '../rest/rest.actions';
 
@@ -34,6 +35,8 @@ export class FormContainer implements OnInit {
   public selectedPathName$: Observable<string>;
   public selectedRouteParams$: Observable<RouteParams>;
 
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
+
   constructor(private store: Store<AppState>) {
   }
 
@@ -44,7 +47,9 @@ export class FormContainer implements OnInit {
     this.selectedPathName$ = this.store.select(getCurrentUrl);
     this.selectedRouteParams$ = this.store.select(getCurrentParams);
 
-    this.selectedRouteParams$.take(1).subscribe(selectedRouteParams => {
+    this.selectedRouteParams$
+      .filter(selectedRouteParams => selectedRouteParams.selectedObjectType === 'form')
+      .takeUntil(this.ngUnsubscribe).subscribe(selectedRouteParams => {
       if (selectedRouteParams.selectedObjectName !== 'logout') {
         this.store.dispatch(new SelectFormAction(selectedRouteParams));
       } else {
@@ -72,5 +77,11 @@ export class FormContainer implements OnInit {
         }
       },
     );
+  }
+
+  ngOnDestroy() {
+    console.log('destroy');
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

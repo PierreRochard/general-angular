@@ -81,7 +81,9 @@ export class TableContainer implements OnDestroy, OnInit {
     this.tableName$ = this.store.select(state => state.table.tableName);
     this.totalRecords$ = this.store.select(state => state.table.rowCount);
 
-    this.selectedRouteParams$.takeUntil(this.ngUnsubscribe)
+    this.selectedRouteParams$
+      .filter(selectedRouteParams => selectedRouteParams.selectedObjectType === 'table')
+      .takeUntil(this.ngUnsubscribe)
       .subscribe(selectedRouteParams => {
       this.store.dispatch(new SelectTableAction(selectedRouteParams));
     });
