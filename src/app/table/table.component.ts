@@ -1,4 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component, EventEmitter, Input, Output,
+  ViewEncapsulation,
+} from '@angular/core';
 
 import { SelectItem } from 'primeng/components/common/selectitem';
 
@@ -10,86 +13,9 @@ import {
 
 @Component({
   selector: 'app-table-component',
-  template: `
-    <p-dataTable
-      [dataKey]="dataKey"
-      [editable]="true"
-      [globalFilter]="gb"
-      [paginator]="paginator"
-      [lazy]="true"
-      [loading]="areRecordsLoading"
-      (onColResize)="_onColumnResize($event)"
-      (onEditComplete)="_onEditComplete($event.column.field, $event.data[$event.column.field], $event.data.id)"
-      (onEditCancel)="_onEditCancel($event)"
-      (onLazyLoad)="_onLazyLoad($event)"
-      [reorderableColumns]="reorderableColumns"
-      [resizableColumns]="true"
-      [responsive]="true"
-      [rows]="rowLimit"
-      [rowHover]="true"
-      [rowsPerPageOptions]="rowsPerPage"
-      [sortField]="sortColumn"
-      [sortOrder]="sortOrder"
-      [totalRecords]="totalRecords"
-      [value]="records"
-    >
-      <p-header>
-        <div class="ui-helper-clearfix" style="width:100%;">
-          <input #gb type="text" placeholder="Global search"
-                 style="float:left;">
-          <div style="float:right;">
-            <app-columns-multiselect-component
-              [columns]="columns"
-              [selectedColumns]="columns"
-              (onChange)="_onMultiselect($event)"
-            >
-            </app-columns-multiselect-component>
-          </div>
-        </div>
-      </p-header>
-      <p-column
-        *ngFor="let column of columns"
-        [editable]="column.can_update"
-        [field]="column.column_name"
-        [header]="column.custom_name"
-        [hidden]="!column.is_visible"
-        [style]="{'width':'100%', 'overflow':'visible'}"
-        [sortable]="column.is_sortable"
-        [filter]="column.is_filterable"
-        [filterMatchMode]="column.filter_match_mode"
-      >
-        <ng-template let-row="rowData" pTemplate="body">
-          <div [ngSwitch]="column.data_type">
-          <span *ngSwitchCase="'timestamp without time zone'">
-            {{row[column.column_name] | date:column.format_pattern}}
-          </span>
-            <span *ngSwitchCase="'numeric'">
-            {{row[column.column_name] | number:column.format_pattern}}
-          </span>
-            <span *ngSwitchDefault>
-            {{row[column.column_name]}}
-          </span>
-          </div>
-        </ng-template>
-
-        <ng-template let-col let-row="rowData" pTemplate="editor"
-                     *ngIf="column.input_type !== 'text'">
-          <p-dropdown *ngIf="column.input_type === 'dropdown'"
-                      [autoWidth]="false"
-                      [editable]="true"
-                      [filter]="true"
-                      [options]="options"
-                      [placeholder]="row[column.column_name]"
-                      [required]="true"
-                      [style]="{'width':'100%'}"
-                      (onChange)="_onEditComplete(column.column_name, $event.value, row.id)"
-          >
-          </p-dropdown>
-
-        </ng-template>
-
-      </p-column>
-    </p-dataTable>`,
+  templateUrl: './table.component.html',
+  styleUrls: ['./table.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TableComponent {
   public options: SelectItem[] = [{label: '1', value: '1'}, {
@@ -109,12 +35,10 @@ export class TableComponent {
   _records;
   @Input()
   set records(value: any[]) {
-    console.log(value);
     this._records = JSON.parse(JSON.stringify(value));
   };
 
   get records() {
-    console.log(this._records);
     return this._records;
   }
 
