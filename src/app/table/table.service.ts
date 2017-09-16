@@ -24,8 +24,8 @@ export class TableService {
     const newOffset = updateData.first;
     const newLimit = updateData.rows;
     const data = {
-      offset: newOffset,
-      limit: newLimit
+      row_offset: newOffset,
+      row_limit: newLimit
     };
     const params: URLSearchParams = new URLSearchParams();
     params.set('table_name', 'eq.' + updateData.tableName);

@@ -15,11 +15,9 @@ import { RouteParams } from '../router/router.models';
 import {
   UpdateRecordAction,
   GetDatatableAction,
-  GetDatatableColumnsAction,
   UpdateColumnsVisibilityAction,
   UpdatePaginationAction,
   UpdateSortAction,
-  UpdateTableNameAction,
   SelectTableAction,
 } from './table.actions';
 import { MultiselectOutput } from './table.models';
@@ -56,6 +54,7 @@ export class TableContainer implements OnDestroy, OnInit {
   public records$: Observable<any[]>;
   public rowLimit$: Observable<number>;
   public rowOffset$: Observable<number>;
+  public schemaName$: Observable<string>;
   public selectedPathName$: Observable<string>;
   public selectedRouteParams$: Observable<RouteParams>;
   public sortColumn$: Observable<string>;
@@ -74,6 +73,7 @@ export class TableContainer implements OnDestroy, OnInit {
     this.areRecordsLoading$ = this.store.select(state => state.table.areRecordsLoading);
     this.rowLimit$ = this.store.select(state => state.table.rowLimit);
     this.rowOffset$ = this.store.select(state => state.table.rowOffset);
+    this.schemaName$ = this.store.select(state => state.table.schemaName);
     this.selectedPathName$ = this.store.select(getCurrentUrl);
     this.selectedRouteParams$ = this.store.select(getCurrentParams);
     this.sortColumn$ = this.store.select(state => state.table.sortColumn);

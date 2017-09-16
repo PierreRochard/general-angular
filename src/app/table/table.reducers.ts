@@ -87,7 +87,8 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       });
     case TableActionTypes.UPDATE_TABLE_NAME_ACTION:
       return Object.assign({}, state, {
-        tableName: action.payload
+        tableName: action.payload.selectedObjectName,
+        schemaName: action.payload.selectedSchemaName
       });
     default:
       return state;

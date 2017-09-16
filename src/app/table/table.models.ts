@@ -32,13 +32,15 @@ export interface DatatableColumn {
 export interface MultiselectOutput {
   added: string[];
   removed: string[];
+  schemaName?: string;
   tableName?: string;
 }
 
 export interface ColumnsVisibilityUpdate {
   columns: string[];
-  tableName: string;
   isVisible: boolean;
+  schemaName: string;
+  tableName: string;
 }
 
 export interface RecordsUpdate {
@@ -49,5 +51,6 @@ export interface RecordsUpdate {
 }
 
 export interface DatatableUpdate extends LazyLoadEvent {
+  schemaName: string;
   tableName: string;
 }

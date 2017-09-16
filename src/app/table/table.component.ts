@@ -44,6 +44,7 @@ export class TableComponent {
 
   @Input() rowLimit: number;
   @Input() rowOffset: number;
+  @Input() schemaName: string;
   @Input() sortColumn: string;
   @Input() sortOrder: number;
   @Input() tableName: string;
@@ -75,6 +76,7 @@ export class TableComponent {
 
   _onLazyLoad(event: DatatableUpdate) {
     event.tableName = this.tableName;
+    event.schemaName = this.schemaName;
     if (event.first !== this.rowOffset || event.rows !== this.rowLimit) {
       this.onPagination.emit(event);
     }
