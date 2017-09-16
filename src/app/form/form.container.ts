@@ -8,10 +8,7 @@ import { SendPostRequestAction } from '../rest/rest.actions';
 
 import { AppState, getCurrentParams, getCurrentUrl } from '../app.reducers';
 import { FormField } from './form.models';
-import {
-  GetFormFieldSettingsAction,
-  GetFormSettingsAction, SelectFormAction,
-} from './form.actions'
+import { SelectFormAction } from './form.actions'
 import {
   RemoveTokenAction,
   SendLoginPostRequestAction,
@@ -25,6 +22,7 @@ import { RouteParams } from '../router/router.models';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <app-form-component
+      *ngIf="(formFieldSettings$ | async) !== null && (formSettings$ | async) !== null"
       [formSettings]="formSettings$ | async"
       [formFieldSettings]="formFieldSettings$ | async"
       (onSubmit)="onSubmit($event)">

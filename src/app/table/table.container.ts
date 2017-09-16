@@ -129,6 +129,7 @@ export class TableContainer implements OnDestroy, OnInit {
   }
 
   ngOnDestroy() {
+    console.log('destroy');
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }

@@ -1,14 +1,19 @@
-import {Component, Input, Output, EventEmitter, OnChanges} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+} from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
-import {FormField, Form} from './form.models';
+import { FormField, Form } from './form.models';
 
 
 @Component({
   selector: 'app-form-component',
   template: `
     <form
-      *ngIf="formFieldSettings !== null && formSettings !== null"
       [formGroup]="form"
       (ngSubmit)="onSubmit.emit(form.value)">
       <div class="ui-g">
@@ -43,7 +48,7 @@ import {FormField, Form} from './form.models';
 })
 export class FormComponent implements OnChanges {
   @Input() formSettings: Form;
-  @Input() formFieldSettings: FormField[] = [];
+  @Input() formFieldSettings: FormField[];
   @Output() onSubmit = new EventEmitter<any>();
 
   public form: FormGroup;
