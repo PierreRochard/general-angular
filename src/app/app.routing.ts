@@ -1,13 +1,5 @@
 import {RouterModule, Routes} from '@angular/router';
 
-import { ActionReducerMap } from '@ngrx/store';
-import { Params, RouterStateSnapshot } from '@angular/router';
-import {
-  routerReducer,
-  RouterReducerState,
-  RouterStateSerializer
-} from '@ngrx/router-store';
-
 import {FormContainer} from './form/form.container';
 import {HomeContainer} from './home/home.container';
 import {TableContainer} from './table/table.container';

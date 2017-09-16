@@ -1,4 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, OnDestroy,
+  OnInit,
+} from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -20,6 +23,7 @@ import {
   SelectTableAction,
 } from './table.actions';
 import { MultiselectOutput } from './table.models';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,7 +50,7 @@ import { MultiselectOutput } from './table.models';
       </div>
     </div>`,
 })
-export class TableContainer implements OnInit {
+export class TableContainer implements OnDestroy, OnInit {
   public areRecordsLoading$: Observable<boolean>;
   public columns$: Observable<any[]>;
   public records$: Observable<any[]>;
@@ -58,6 +62,8 @@ export class TableContainer implements OnInit {
   public sortOrder$: Observable<number>;
   public tableName$: Observable<string>;
   public totalRecords$: Observable<number>;
+
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(private store: Store<AppState>) {
   }
@@ -75,7 +81,8 @@ export class TableContainer implements OnInit {
     this.tableName$ = this.store.select(state => state.table.tableName);
     this.totalRecords$ = this.store.select(state => state.table.rowCount);
 
-    this.selectedRouteParams$.take(1).subscribe(selectedRouteParams => {
+    this.selectedRouteParams$.takeUntil(this.ngUnsubscribe)
+      .subscribe(selectedRouteParams => {
       this.store.dispatch(new SelectTableAction(selectedRouteParams));
     });
   }
@@ -119,5 +126,10 @@ export class TableContainer implements OnInit {
         isVisible: false,
       }));
     }
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }
