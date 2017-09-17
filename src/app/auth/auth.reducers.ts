@@ -1,7 +1,7 @@
 import {AuthActions, AuthActionTypes} from './auth.actions';
 
 export interface AuthState {
-  token: string;
+  token: string | null;
 }
 
 const initialState: AuthState = {

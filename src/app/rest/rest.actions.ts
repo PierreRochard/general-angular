@@ -4,8 +4,6 @@ import {Action} from '@ngrx/store';
 
 import {type} from '../util';
 
-import {PostFormRequestActionPayload} from './rest.models';
-
 export const RestActionTypes = {
   SEND_GET_REQUEST:    type('SEND_GET_REQUEST'),
   SEND_POST_REQUEST:   type('SEND_POST_REQUEST'),

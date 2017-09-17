@@ -4,11 +4,10 @@ import {Actions, Effect} from '@ngrx/effects';
 
 import {
   AddTokenAction, RemoveTokenAction,
-  SendLoginPostRequestAction,
-} from '../auth/auth.actions';
+  } from '../auth/auth.actions';
 import {
   ReceivedResponseAction, RestActionTypes,
-  SendGetRequestAction, SendDeleteRequestAction, SendPostRequestAction,
+  SendGetRequestAction, SendPostRequestAction,
 } from './rest.actions';
 import {UpdateSchemaAction} from '../schema/schema.actions';
 import {AppState} from '../app.reducers';
@@ -106,6 +105,6 @@ export class RestEffects {
 
   constructor(private actions$: Actions,
               private http: RestClient,
-              private store: Store<AppState>,) {
+              private store: Store<AppState>, ) {
   }
 }

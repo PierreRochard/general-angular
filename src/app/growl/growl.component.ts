@@ -14,5 +14,4 @@ export class GrowlComponent {
   sticky = false;
   life = 500;
 
-
 }

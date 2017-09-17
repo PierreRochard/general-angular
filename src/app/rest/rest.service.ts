@@ -17,7 +17,7 @@ export class RestClient {
     return 'https://' + schemaName + _domain + endpoint
   }
 
-  static createAuthorizationHeader(headers: Headers, token: string) {
+  static createAuthorizationHeader(headers: Headers, token: string | null) {
     if (!!token) {
       headers.append('Authorization', 'Bearer ' + token);
     }
@@ -47,7 +47,7 @@ export class RestClient {
     );
   };
 
-  delete(schemaName: string, endpoint:string, id: string): Observable<Response> {
+  delete(schemaName: string, endpoint: string, id: string): Observable<Response> {
     return this.store.take(1).switchMap(state => {
       const params: URLSearchParams = new URLSearchParams();
       const headers = RestClient.createAuthorizationHeader(new Headers(), state.auth.token);
@@ -73,7 +73,7 @@ export class RestClient {
   }
 
   constructor(private http: Http,
-              private store: Store<AppState>,) {
+              private store: Store<AppState>, ) {
   }
 
 }

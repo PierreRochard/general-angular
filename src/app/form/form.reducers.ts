@@ -8,9 +8,9 @@ import {
 } from './form.actions';
 
 export interface FormState {
-  schemaName: string;
-  formName: string;
-  formSettings: Form;
+  schemaName: string | null;
+  formName: string | null;
+  formSettings: Form | null;
   fieldSettings: FormField[];
 }
 

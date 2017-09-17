@@ -15,11 +15,11 @@ export class CustomRouterStateSerializer implements RouterStateSerializer<Router
     const {url} = routerState;
     const queryParams = routerState.root.queryParams;
     const params: any = {};
-    if (Object.keys(routerState.root.children['0'].params).length > 0) {
-      params.selectedObjectName = routerState.root.children['0'].params.selectedObjectName;
-      params.selectedSchemaName = routerState.root.children['0'].params.selectedSchemaName;
-      if (routerState.root.children['0'].url.length > 0) {
-        params.selectedObjectType = routerState.root.children['0'].url['1'].path === 'rpc'
+    if (Object.keys(routerState.root.children[0].params).length > 0) {
+      params.selectedObjectName = routerState.root.children[0].params.selectedObjectName;
+      params.selectedSchemaName = routerState.root.children[0].params.selectedSchemaName;
+      if (routerState.root.children[0].url.length > 0) {
+        params.selectedObjectType = routerState.root.children[0].url[1].path === 'rpc'
           ? 'form'
           : 'table';
       }

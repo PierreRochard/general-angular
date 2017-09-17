@@ -7,7 +7,8 @@ import { Actions, Effect } from '@ngrx/effects';
 import { ReceivedResponseAction } from '../rest/rest.actions';
 
 import {
-  AddTokenAction, AuthActionTypes, RemoveTokenAction,
+  AddTokenAction,
+  AuthActionTypes,
   SendLoginPostRequestAction,
 } from './auth.actions';
 import { AuthService } from './auth.service';
@@ -37,18 +38,18 @@ export class AuthEffects {
   @Effect()
   addToken$ = this.actions$
     .ofType(AuthActionTypes.ADD_TOKEN)
-    .switchMap((action: AddTokenAction) => [
+    .switchMap(() => [
       new Go({path: ['/']}),
       new GetMenubarAction(null)]);
 
   @Effect()
   removeToken$ = this.actions$
     .ofType(AuthActionTypes.REMOVE_TOKEN)
-    .switchMap((action: RemoveTokenAction) => [
+    .switchMap(() => [
       new Go({path: ['/']}),
       new GetMenubarAction(null)]);
 
   constructor(private actions$: Actions,
-              private authService: AuthService,) {
+              private authService: AuthService, ) {
   }
 }

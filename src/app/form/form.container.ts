@@ -1,6 +1,6 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
 
-import { Store } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -29,7 +29,7 @@ import { RouteParams } from '../router/router.models';
       (onSubmit)="onSubmit($event)">
     </app-form-component>`,
 })
-export class FormContainer implements OnInit {
+export class FormContainer implements OnDestroy, OnInit {
   public formFieldSettings$: Observable<FormField[]>;
   public formSettings$: Observable<any>;
   public selectedPathName$: Observable<string>;
@@ -50,11 +50,11 @@ export class FormContainer implements OnInit {
     this.selectedRouteParams$
       .filter(selectedRouteParams => selectedRouteParams.selectedObjectType === 'form')
       .takeUntil(this.ngUnsubscribe).subscribe(selectedRouteParams => {
-      if (selectedRouteParams.selectedObjectName !== 'logout') {
-        this.store.dispatch(new SelectFormAction(selectedRouteParams));
-      } else {
-        this.store.dispatch(new RemoveTokenAction(null));
+      if (selectedRouteParams.selectedObjectName === 'logout') {
+        this.store.dispatch(new RemoveTokenAction(''));
         this.store.dispatch(new Go({path: ['/']}));
+      } else {
+        this.store.dispatch(new SelectFormAction(selectedRouteParams));
       }
     })
   }
@@ -63,16 +63,17 @@ export class FormContainer implements OnInit {
     Object.keys(formValue).filter(key => formValue[key] === '')
       .map(key => delete formValue[key]);
     this.selectedRouteParams$.take(1).subscribe(selectedRouteParams => {
+        let postAction: Action;
         const post = {
           schemaName: selectedRouteParams.selectedSchemaName,
           formName: selectedRouteParams.selectedObjectName,
           data: formValue,
         };
         if (post.formName === 'login') {
-          const postAction = new SendLoginPostRequestAction(post);
+          postAction = new SendLoginPostRequestAction(post);
           this.store.dispatch(postAction)
         } else {
-          const postAction = new SendPostRequestAction(post);
+          postAction = new SendPostRequestAction(post);
           this.store.dispatch(postAction)
         }
       },

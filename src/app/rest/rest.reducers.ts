@@ -7,14 +7,13 @@ export interface RestState {
   posting: boolean;
   receivedForm: boolean;
   getting: boolean;
-  response: Response;
+  response?: Response;
 }
 
 const initialState: RestState = {
   posting: false,
   receivedForm: false,
   getting: false,
-  response: null
 };
 
 export function restReducer (state = initialState, action: RestActions): RestState {
