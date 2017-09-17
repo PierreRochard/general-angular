@@ -4,7 +4,7 @@ import { Actions, Effect } from '@ngrx/effects';
 
 import { of } from 'rxjs/observable/of';
 
-import { ReceiveMenubarAction, MenubarActionTypes } from './menubar.actions';
+import { GET_MENUBAR, ReceiveMenubarAction } from './menubar.actions';
 import { MenubarService } from './menubar.service';
 import { RemoveTokenAction } from '../auth/auth.actions';
 
@@ -14,7 +14,7 @@ export class MenubarEffects {
 
   @Effect()
   sendGetRequest$ = this.actions$
-    .ofType(MenubarActionTypes.GET_MENUBAR)
+    .ofType(GET_MENUBAR)
     .switchMap(() => this.menubarService.get()
       .mergeMap(response => {
         return [

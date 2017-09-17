@@ -1,10 +1,8 @@
-import { MenuItem } from 'primeng/primeng';
-
-import { MenubarActions, MenubarActionTypes } from './menubar.actions';
+import { MenubarActions, RECEIVE_MENUBAR } from './menubar.actions';
 import { GeneralMenuItem } from './menubar.models';
 
 export interface MenubarState {
-  menuItems: MenuItem[] | null;
+  menuItems: GeneralMenuItem[] | null;
 }
 
 const initialState: MenubarState = {
@@ -13,9 +11,9 @@ const initialState: MenubarState = {
 
 export function menubarReducer(state = initialState, action: MenubarActions): MenubarState {
   switch (action.type) {
-    case MenubarActionTypes.RECEIVE_MENUBAR:
+    case RECEIVE_MENUBAR:
       return Object.assign({}, state, {
-        menuItems: action.payload.map(item => {
+        menuItems: action.payload.map((item: GeneralMenuItem) => {
           return Object.keys(item).reduce((result: GeneralMenuItem, key) => {
             // Removing keys that have a falsy value to avoid undesirable
             // menubar behavior

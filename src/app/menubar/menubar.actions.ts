@@ -2,22 +2,15 @@ import { Action } from '@ngrx/store';
 
 import { GeneralMenuItem } from 'app/menubar/menubar.models';
 
-import { type } from '../util';
-
-export const MenubarActionTypes = {
-  GET_MENUBAR: type('GET_MENUBAR'),
-  RECEIVE_MENUBAR: type('RECEIVE_MENUBAR'),
-};
+export const GET_MENUBAR = '[Menubar] Get Menubar';
+export const RECEIVE_MENUBAR = '[Menubar] Receive Menubar';
 
 export class GetMenubarAction implements Action {
-  type = MenubarActionTypes.GET_MENUBAR;
-
-  constructor(public payload: GeneralMenuItem[]) {
-  }
+  readonly type = GET_MENUBAR;
 }
 
 export class ReceiveMenubarAction implements Action {
-  type = MenubarActionTypes.RECEIVE_MENUBAR;
+  readonly type = RECEIVE_MENUBAR;
 
   constructor(public payload: GeneralMenuItem[]) {
   }

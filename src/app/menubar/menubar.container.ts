@@ -25,7 +25,7 @@ export class MenubarContainer implements OnInit {
     this.items$ = this.store.select(state => state.menubar.menuItems)
       .map(menuItems => {
         if ( menuItems === null ) {
-          this.store.dispatch(new GetMenubarAction(null));
+          this.store.dispatch(new GetMenubarAction());
           return [];
         }
         return menuItems;
