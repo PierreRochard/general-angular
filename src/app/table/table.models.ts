@@ -30,8 +30,8 @@ export interface DatatableColumn {
 }
 
 export interface MultiselectOutput {
-  added: string[];
-  removed: string[];
+  added: DatatableColumn[];
+  removed: DatatableColumn[];
   schemaName?: string;
   tableName?: string;
 }

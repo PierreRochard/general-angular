@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DatatableColumn, MultiselectOutput } from 'app/table/table.models';
+import { SelectItem } from 'primeng/primeng';
 
 @Component({
   selector: 'app-columns-multiselect-component',
@@ -17,10 +18,11 @@ export class ColumnsMultiselectComponent {
   public defaultLabel = 'Columns';
 
   _selectedColumns = [];
-  @Input() set selectedColumns(value: any) {
-    let filteredColumns: string[];
-    let removedColumns: string[];
-    let addedColumns: string[];
+  @Input()
+  set selectedColumns(value: DatatableColumn[]) {
+    let filteredColumns: SelectItem[];
+    let removedColumns: DatatableColumn[];
+    let addedColumns: DatatableColumn[];
     let columnsUpdate: MultiselectOutput;
 
     if (typeof value[0] === 'string' || value.length === 0) {
@@ -33,15 +35,28 @@ export class ColumnsMultiselectComponent {
       this._selectedColumns = value;
       this.onChange.emit(columnsUpdate);
     } else {
-      filteredColumns = value.filter(c => c.is_visible).map(c => c.value);
+      filteredColumns = value.filter(c => c.is_visible).map(c => {
+        return {'label': c.custom_name, 'value': c.column_name}
+      });
       this._selectedColumns = [...filteredColumns];
     }
   }
+
   get selectedColumns() {
     return this._selectedColumns
   }
 
-  @Input() columns: DatatableColumn[];
+  _columns = [];
+  @Input()
+  set columns(value: DatatableColumn[]) {
+    this._columns = value.map(c => {
+      return {'label': c.custom_name, 'value': c.column_name}
+    })
+  }
+
+  get columns() {
+    return this._columns;
+  }
 
   @Output() onChange = new EventEmitter<MultiselectOutput>();
 }
