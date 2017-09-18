@@ -14,7 +14,7 @@ export class WebsocketService {
     // this.store.select(getRecords);
   };
 
-  connect(url) {
+  connect(url: string) {
     this.ws = new $WebSocket(url);
     return this.ws.getDataStream()
       .subscribe(

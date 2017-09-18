@@ -52,15 +52,15 @@ export class TableContainer implements OnDestroy, OnInit {
   public areRecordsLoading$: Observable<boolean>;
   public columns$: Observable<any[]>;
   public records$: Observable<any[]>;
-  public rowLimit$: Observable<number>;
-  public rowOffset$: Observable<number>;
-  public schemaName$: Observable<string>;
+  public rowLimit$: Observable<number | null>;
+  public rowOffset$: Observable<number | null>;
+  public schemaName$: Observable<string | null>;
   public selectedPathName$: Observable<string>;
   public selectedRouteParams$: Observable<RouteParams>;
-  public sortColumn$: Observable<string>;
-  public sortOrder$: Observable<number>;
-  public tableName$: Observable<string>;
-  public totalRecords$: Observable<number>;
+  public sortColumn$: Observable<string | null>;
+  public sortOrder$: Observable<number | null>;
+  public tableName$: Observable<string | null>;
+  public totalRecords$: Observable<number | null>;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
@@ -91,7 +91,12 @@ export class TableContainer implements OnDestroy, OnInit {
 
   onEditCancel(event: EditEvent) {
     console.log(event);
-    this.store.dispatch(new GetDatatableAction(event.table_name));
+    const routeParams: RouteParams = {
+      selectedObjectName: event.table_name,
+      selectedSchemaName: event.schema_name,
+      selectedObjectType: 'table'
+    };
+    this.store.dispatch(new GetDatatableAction(routeParams));
   }
 
   onEditComplete(event: EditEvent) {

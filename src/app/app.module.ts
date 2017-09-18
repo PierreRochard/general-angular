@@ -31,8 +31,6 @@ import { TableEffects } from './table/table.effects';
 
 import { RestClient } from './rest/rest.service';
 
-import { SchemaEffects } from './schema/schema.effects';
-
 import { reducers, metaReducers } from './app.reducers';
 import { routing } from './app.routing';
 import { AppComponent } from './app.component';
@@ -60,7 +58,7 @@ import { CustomRouterStateSerializer } from './router/router.serializer';
     BrowserModule,
     BrowserAnimationsModule,
     EffectsModule.forRoot([AuthEffects, FormEffects, MenubarEffects, RestEffects,
-      RouterEffects, SchemaEffects, TableEffects, WebsocketEffects]),
+      RouterEffects, TableEffects, WebsocketEffects]),
     FieldsetModule,
     GrowlModule,
     HttpModule,

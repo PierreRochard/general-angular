@@ -40,14 +40,14 @@ export class AuthEffects {
     .ofType(AuthActionTypes.ADD_TOKEN)
     .switchMap(() => [
       new Go({path: ['/']}),
-      new GetMenubarAction(null)]);
+      new GetMenubarAction()]);
 
   @Effect()
   removeToken$ = this.actions$
     .ofType(AuthActionTypes.REMOVE_TOKEN)
     .switchMap(() => [
       new Go({path: ['/']}),
-      new GetMenubarAction(null)]);
+      new GetMenubarAction()]);
 
   constructor(private actions$: Actions,
               private authService: AuthService, ) {

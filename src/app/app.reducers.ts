@@ -8,7 +8,6 @@ import {AuthState, authReducer} from './auth/auth.reducers';
 import {FormState, formReducer} from './form/form.reducers';
 import {MenubarState, menubarReducer} from './menubar/menubar.reducers';
 import {RestState, restReducer} from './rest/rest.reducers';
-import {SchemaState, schemaReducer} from './schema/schema.reducers';
 import {TableState, tableReducer} from './table/table.reducers';
 import {routerReducer, RouterReducerState} from '@ngrx/router-store';
 import { RouterStateUrl } from './router/router.serializer';
@@ -19,7 +18,6 @@ export interface AppState {
   menubar: MenubarState;
   rest: RestState;
   routerReducer: RouterReducerState<RouterStateUrl>;
-  schema: SchemaState;
   table: TableState;
 }
 
@@ -29,7 +27,6 @@ export const reducers: ActionReducerMap<AppState> = {
   menubar: menubarReducer,
   rest: restReducer,
   routerReducer: routerReducer,
-  schema: schemaReducer,
   table: tableReducer,
 };
 
@@ -60,11 +57,6 @@ export const getRestState = (state: AppState) => state.rest;
 export const getResponse = (state: RestState) => state.response;
 export const getRestResponse = createSelector(getRestState, getResponse);
 
-// Schema
-export const getSchemaState = (state: AppState) => state.schema;
-export const getPathNames = createSelector(getSchemaState, (state: SchemaState) => Object.keys(state.paths));
-export const getDefinitions = createSelector(getSchemaState, (state: SchemaState) => state.definitions);
-export const getIsValid = createSelector(getSchemaState, (state: SchemaState) => state.isValid);
 
 export const getRouterState = (state: AppState) => state.routerReducer;
 export const getCurrentUrl = createSelector(getRouterState, (state: RouterReducerState<RouterStateUrl>) => state.state && state.state.url);

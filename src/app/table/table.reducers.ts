@@ -3,7 +3,7 @@ import {DatatableColumn} from './table.models';
 
 
 export interface TableState {
-  areRecordsLoading: boolean | null;
+  areRecordsLoading: boolean;
   columns: DatatableColumn[];
   records: any[];
   rowCount: number | null;
