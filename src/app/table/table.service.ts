@@ -76,7 +76,7 @@ export class TableService {
 
   update_record(updateData: RecordsUpdate): Observable<Response> {
     const params: URLSearchParams = new URLSearchParams();
-    const data = {};
+    const data: any = {};
     data[updateData['column_name']] = updateData.data;
     params.set('id', 'eq.' + updateData.record_id);
     return this.restClient.patch('admin', '/' + updateData.table_name, data, params)

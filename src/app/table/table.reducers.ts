@@ -3,17 +3,17 @@ import {DatatableColumn} from './table.models';
 
 
 export interface TableState {
-  areRecordsLoading: boolean;
+  areRecordsLoading: boolean | null;
   columns: DatatableColumn[];
   records: any[];
-  rowCount: number;
-  rowLimit: number;
-  rowOffset: number;
-  schemaName: string;
+  rowCount: number | null;
+  rowLimit: number | null;
+  rowOffset: number | null;
+  schemaName: string | null;
   selectedRecords: any[];
-  sortColumn: string;
-  sortOrder: number;
-  tableName: string;
+  sortColumn: string | null;
+  sortOrder: number | null;
+  tableName: string | null;
 }
 
 const initialState: TableState = {
@@ -24,7 +24,7 @@ const initialState: TableState = {
   rowLimit: null,
   rowOffset: 0,
   schemaName: null,
-  selectedRecords: null,
+  selectedRecords: [],
   sortColumn: null,
   sortOrder: 1,
   tableName: null

@@ -1,4 +1,4 @@
-import { LazyLoadEvent } from 'primeng/primeng';
+import { Column, LazyLoadEvent } from 'primeng/primeng';
 
 export interface Datatable {
   custom_name: string;
@@ -41,6 +41,19 @@ export interface ColumnsVisibilityUpdate {
   isVisible: boolean;
   schemaName: string;
   tableName: string;
+}
+
+export interface ColumnResizeEvent {
+  element: HTMLElement;
+  delta: number;
+}
+
+export interface EditEvent {
+  column: Column;
+  data: any;
+  index: number;
+  schema_name: string;
+  table_name: string;
 }
 
 export interface RecordsUpdate {

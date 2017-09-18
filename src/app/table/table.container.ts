@@ -20,7 +20,7 @@ import {
   UpdateSortAction,
   SelectTableAction,
 } from './table.actions';
-import { MultiselectOutput } from './table.models';
+import { EditEvent, MultiselectOutput } from './table.models';
 import { Subject } from 'rxjs/Subject';
 
 @Component({
@@ -89,12 +89,12 @@ export class TableContainer implements OnDestroy, OnInit {
     });
   }
 
-  onEditCancel(event) {
+  onEditCancel(event: EditEvent) {
     console.log(event);
     this.store.dispatch(new GetDatatableAction(event.table_name));
   }
 
-  onEditComplete(event) {
+  onEditComplete(event: EditEvent) {
     const update_payload = {
       column_name: event.column.field,
       data: event.data[event.column.field],

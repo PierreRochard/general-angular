@@ -17,7 +17,7 @@ import { SelectItem } from 'primeng/primeng';
 export class ColumnsMultiselectComponent {
   public defaultLabel = 'Columns';
 
-  _selectedColumns = [];
+  _selectedColumns: SelectItem[] = [];
   @Input()
   set selectedColumns(value: DatatableColumn[]) {
     let filteredColumns: SelectItem[];
@@ -46,7 +46,7 @@ export class ColumnsMultiselectComponent {
     return this._selectedColumns
   }
 
-  _columns = [];
+  _columns: SelectItem[] = [];
   @Input()
   set columns(value: DatatableColumn[]) {
     this._columns = value.map(c => {
@@ -54,7 +54,7 @@ export class ColumnsMultiselectComponent {
     })
   }
 
-  get columns() {
+  get columns():  SelectItem[]  {
     return this._columns;
   }
 

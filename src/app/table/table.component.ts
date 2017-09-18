@@ -6,8 +6,10 @@ import {
 import { SelectItem } from 'primeng/components/common/selectitem';
 
 import {
+  ColumnResizeEvent,
   DatatableColumn,
   DatatableUpdate,
+  EditEvent,
   MultiselectOutput,
 } from 'app/table/table.models';
 
@@ -32,7 +34,7 @@ export class TableComponent {
 
   @Input() areRecordsLoading: boolean;
   @Input() columns: DatatableColumn[];
-  _records;
+  _records: any[];
   @Input()
   set records(value: any[]) {
     this._records = JSON.parse(JSON.stringify(value));
@@ -58,16 +60,16 @@ export class TableComponent {
   @Output() onSort = new EventEmitter<DatatableUpdate>();
   @Output() onMultiselect = new EventEmitter<MultiselectOutput>();
 
-  _onColumnResize(event) {
+  _onColumnResize(event: ColumnResizeEvent) {
     console.log(event);
   }
 
-  _onEditCancel(event) {
+  _onEditCancel(event: EditEvent) {
     event.table_name = this.tableName;
     this.onEditCancel.emit(event);
   }
 
-  _onEditComplete(field, value, row_id) {
+  _onEditComplete(field: string, value: any, row_id: string) {
     console.log(field);
     console.log(value);
     console.log(row_id);

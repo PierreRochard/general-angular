@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Response } from '@angular/http';
 
 import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
@@ -17,7 +18,7 @@ import {
   UpdateRowCountAction,
   GetRecordsAction,
   GetDatatableColumnsAction, GetDatatableAction, UpdatePaginationAction,
-  UpdateSortAction, UpdateColumnsVisibilityAction, UpdateRecordAction,
+  UpdateSortAction, UpdateColumnsVisibilityAction,
   SelectTableAction, UpdateTableNameAction,
 } from './table.actions';
 import { TableService } from './table.service';
@@ -115,7 +116,7 @@ export class TableEffects {
           new GetDatatableColumnsAction(response.json()[0].table_name),
         ];
       })
-      .catch(error => {
+      .catch(() => {
         return of(new GetDatatableColumnsAction(action.payload.dataTable));
       }),
     );
@@ -124,8 +125,8 @@ export class TableEffects {
   getRecords$: Observable<Action> = this.actions$
     .ofType(TableActionTypes.GET_RECORDS)
     .switchMap((action: GetRecordsAction) => this.tableService.get_records(action.payload)
-      .mergeMap(response => {
-        const rowCountString = response.headers.get('content-range').split('/')[1];
+      .mergeMap((response: Response) => {
+        const rowCountString = response.headers!.get('content-range')!.split('/')[1];
         const rowCount = parseInt(rowCountString, 10);
         return [
           new ReceiveRecordsAction(response.json()),
