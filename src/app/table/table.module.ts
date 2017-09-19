@@ -12,7 +12,7 @@ import { PasswordModule } from 'primeng/components/password/password';
 import { TableContainer } from './table.container';
 import { TableComponent } from './table.component';
 import { TableService } from './table.service';
-import { ColumnsMultiselectComponent } from './columns.multiselect.component';
+// import { ColumnsMultiselectComponent } from './columns.multiselect.component';
 
 @NgModule({
   imports: [
@@ -27,7 +27,7 @@ import { ColumnsMultiselectComponent } from './columns.multiselect.component';
     ReactiveFormsModule,
   ],
   declarations: [
-    ColumnsMultiselectComponent,
+    // ColumnsMultiselectComponent,
     TableComponent,
     TableContainer,
   ],

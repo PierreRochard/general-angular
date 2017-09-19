@@ -1,0 +1,56 @@
+[
+  {
+    "label": "Settings",
+    "icon": "fa-cogs",
+    "routerLink": [],
+    "items": [
+      {
+        "label": "Datatable Columns",
+        "icon": "fa-table",
+        "routerLink": [
+          "/",
+          "admin",
+          "datatable_columns"
+        ]
+      },
+      {
+        "label": "Datatables",
+        "icon": "fa-table",
+        "routerLink": [
+          "/",
+          "admin",
+          "datatables"
+        ]
+      },
+      {
+        "label": "Form Fields",
+        "icon": "fa-table",
+        "routerLink": [
+          "/",
+          "admin",
+          "form_fields"
+        ]
+      },
+      {
+        "label": "Forms",
+        "icon": "fa-table",
+        "routerLink": [
+          "/",
+          "admin",
+          "forms"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Logout",
+    "icon": "fa-sign-out",
+    "routerLink": [
+      "/",
+      "auth",
+      "rpc",
+      "logout"
+    ],
+    "items": []
+  }
+]

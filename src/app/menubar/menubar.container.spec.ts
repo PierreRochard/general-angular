@@ -16,18 +16,17 @@ import { PasswordModule } from 'primeng/components/password/password';
 
 import { AppState, metaReducers, reducers } from '../app.reducers';
 
-import { FormContainer } from './form.container';
-import { ReceiveFormSettingsAction } from './form.actions';
-import { FormComponent } from './form.component';
-import { FormService } from './form.service';
-import { FormElementComponent } from './form-element.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MenubarContainer } from './menubar.container';
+import { ReceiveMenubarAction } from './menubar.actions';
+
+const menubarAdminMockData = require('../../../mock_data/menubar.admin.mock.json');
+const menubarAnonMockData = require('../../../mock_data/menubar.anon.mock.json');
 
 
-describe('Component: FormContainer', () => {
+fdescribe('Component: MenubarContainer', () => {
 
-  let cp: FormContainer;
-  let fixture: ComponentFixture<FormContainer>;
+  let cp: MenubarContainer;
+  let fixture: ComponentFixture<MenubarContainer>;
   let ne: HTMLElement;
   let de: DebugElement;
 
@@ -45,9 +44,7 @@ describe('Component: FormContainer', () => {
   beforeEach(async(() => {
     const testBed = TestBed.configureTestingModule({
       declarations: [
-        FormContainer,
-        FormComponent,
-        FormElementComponent
+        MenubarContainer,
       ],
       imports: [
         StoreModule.forRoot(reducers, {metaReducers: metaReducers}),
@@ -56,23 +53,20 @@ describe('Component: FormContainer', () => {
         FieldsetModule,
         InputTextModule,
         PasswordModule,
-        ReactiveFormsModule,
-        BrowserAnimationsModule
+        ReactiveFormsModule
       ],
       providers: [
-        FormService,
-
       ],
     });
     testBed.compileComponents();
     store = testBed.get(Store);
 
-    const action = new ReceiveFormSettingsAction(form_settings_data);
+    const action = new ReceiveMenubarAction(form_settings_data);
     store.dispatch(action);
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FormContainer);
+    fixture = TestBed.createComponent(MenubarContainer);
 
     cp = fixture.componentInstance;
     de = fixture.debugElement;
