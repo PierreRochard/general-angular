@@ -31,7 +31,6 @@ const initialState: TableState = {
 };
 
 export function tableReducer(state = initialState, action: TableActions): TableState {
-  console.log(action);
   switch (action.type) {
     case TableActionTypes.ADD_RECORD:
       return Object.assign({}, state, {

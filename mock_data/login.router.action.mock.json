@@ -1,0 +1,25 @@
+{
+  "routerState": {
+    "url": "/auth/rpc/login",
+    "queryParams": {},
+    "params": {
+      "selectedObjectName": "login",
+      "selectedSchemaName": "auth",
+      "selectedObjectType": "form"
+    }
+  },
+  "event": {
+    "id": 1,
+    "url": "/auth/rpc/login",
+    "urlAfterRedirects": "/auth/rpc/login",
+    "state": {
+      "url": "/auth/rpc/login",
+      "queryParams": {},
+      "params": {
+        "selectedObjectName": "login",
+        "selectedSchemaName": "auth",
+        "selectedObjectType": "form"
+      }
+    }
+  }
+}

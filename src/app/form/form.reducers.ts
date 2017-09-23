@@ -22,6 +22,7 @@ const initialState: FormState = {
 };
 
 export function formReducer(state = initialState, action: FormActions): FormState {
+  console.log(JSON.stringify(action));
   switch (action.type) {
     case SELECT_FORM:
       return Object.assign({}, state, {
@@ -33,7 +34,6 @@ export function formReducer(state = initialState, action: FormActions): FormStat
         fieldSettings: action.payload,
       });
     case RECEIVE_FORM_SETTINGS:
-      console.log(action.payload[0]);
       return Object.assign({}, state, {
         formSettings: action.payload[0],
       });

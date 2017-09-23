@@ -64,7 +64,6 @@ import { CustomRouterStateSerializer } from './router/router.serializer';
     HttpModule,
     routing,
     StoreModule.forRoot(reducers, {metaReducers: metaReducers}),
-    routing,
     StoreRouterConnectingModule,
   ],
   providers: [

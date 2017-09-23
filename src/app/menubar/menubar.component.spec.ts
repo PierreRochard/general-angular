@@ -18,7 +18,7 @@ import { By } from '@angular/platform-browser';
 const menubarAnonMenuitemsMockData = require('../../../mock_data/menubar.anon.menuitems.mock.json');
 
 
-fdescribe('Component: MenubarContainer', () => {
+describe('Component: MenubarContainer', () => {
 
   let component: MenubarComponent;
   let fixture: ComponentFixture<MenubarComponent>;
