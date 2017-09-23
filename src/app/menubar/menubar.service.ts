@@ -1,16 +1,16 @@
-import {Injectable} from '@angular/core';
-import {Response, URLSearchParams} from '@angular/http';
+import { Injectable } from '@angular/core';
+import { Response } from '@angular/http';
 
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 
-import {RestClient} from 'app/rest/rest.service';
+import { RestClient } from 'app/rest/rest.service';
 
 @Injectable()
 export class MenubarService {
   get(): Observable<Response> {
-    const params: URLSearchParams = new URLSearchParams();
-    params.set('select', 'label, icon, routerLink, items{label, icon, routerLink}');
-    return this.restClient.get('admin', '/menubar', params);
+    return this.restClient.get('admin', '/menubar');
   };
-  constructor(private restClient: RestClient) {}
+
+  constructor(private restClient: RestClient) {
+  }
 }

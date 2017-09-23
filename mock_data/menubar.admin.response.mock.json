@@ -1,0 +1,65 @@
+[
+  {
+    "label": "Settings",
+    "icon": "fa-cogs",
+    "routerLink": null,
+    "items": [
+      {
+        "id": "2a2e1722-317c-42c3-bff2-3fd6675a6770",
+        "icon": "fa-table",
+        "user": "kXYfMlDqdaFReje",
+        "items": null,
+        "label": "Forms",
+        "routerLink": [
+          "/",
+          "admin",
+          "forms"
+        ],
+        "submenu_id": "445c787a-6356-496f-a609-be58efc095cd",
+        "order_index": 0
+      },
+      {
+        "id": "fcc3f3cb-3d43-4c9a-a978-d606a869503e",
+        "icon": "fa-table",
+        "user": "kXYfMlDqdaFReje",
+        "items": null,
+        "label": "Form Fields",
+        "routerLink": [
+          "/",
+          "admin",
+          "form_fields"
+        ],
+        "submenu_id": "445c787a-6356-496f-a609-be58efc095cd",
+        "order_index": 0
+      },
+      {
+        "id": "b59bb413-ad8c-4e05-9eab-aaaef6c9e9d0",
+        "icon": "fa-table",
+        "user": "kXYfMlDqdaFReje",
+        "items": null,
+        "label": "Datatables",
+        "routerLink": [
+          "/",
+          "admin",
+          "datatables"
+        ],
+        "submenu_id": "445c787a-6356-496f-a609-be58efc095cd",
+        "order_index": 0
+      },
+      {
+        "id": "2b7a6dc1-e4a0-490b-b9de-29a846b40580",
+        "icon": "fa-table",
+        "user": "kXYfMlDqdaFReje",
+        "items": null,
+        "label": "Datatable Columns",
+        "routerLink": [
+          "/",
+          "admin",
+          "datatable_columns"
+        ],
+        "submenu_id": "445c787a-6356-496f-a609-be58efc095cd",
+        "order_index": 0
+      }
+    ]
+  }
+]

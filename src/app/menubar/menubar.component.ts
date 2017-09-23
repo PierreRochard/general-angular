@@ -1,14 +1,14 @@
 import { Component, Input } from '@angular/core';
 
-import {MenuItem} from 'primeng/primeng';
+import { MenuItem } from 'primeng/components/common/menuitem';
 
 
 @Component({
   selector: 'app-menubar-component',
-  template: `<p-menubar
-              *ngIf="items.length > 0"
-              [model]="items">
-             </p-menubar>`,
+  template: `
+    <p-menubar
+      [model]="items">
+    </p-menubar>`,
 })
 export class MenubarComponent {
   @Input() items: MenuItem[];

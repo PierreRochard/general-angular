@@ -1,0 +1,13 @@
+[
+  {
+    "label": "Login",
+    "icon": "fa-pencil-square-o",
+    "routerLink": [
+      "/",
+      "auth",
+      "rpc",
+      "login"
+    ],
+    "items": null
+  }
+]

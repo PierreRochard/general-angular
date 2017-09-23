@@ -23,7 +23,6 @@ export class MenubarEffects {
       })
       .catch(error => {
         const unauthorizedCode = 401;
-        console.log('error');
         if (error.status === unauthorizedCode) {
           return of(new RemoveTokenAction(''))
         }
