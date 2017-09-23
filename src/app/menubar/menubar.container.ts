@@ -17,15 +17,16 @@ import {GetMenubarAction} from './menubar.actions';
   `,
 })
 export class MenubarContainer implements OnInit {
-  items$: Observable<MenuItem[]>;
+  items$: Observable<MenuItem[] | null>;
 
   constructor(private store: Store<AppState>) {}
 
   ngOnInit() {
     this.items$ = this.store.select(state => state.menubar.menuItems)
       .map(menuItems => {
+        console.log(menuItems);
         if ( menuItems === null ) {
-          this.store.dispatch(new GetMenubarAction());
+          // this.store.dispatch(new GetMenubarAction());
           return [];
         }
         return menuItems;

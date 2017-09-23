@@ -18,9 +18,14 @@ import { AppState, metaReducers, reducers } from '../app.reducers';
 
 import { MenubarContainer } from './menubar.container';
 import { ReceiveMenubarAction } from './menubar.actions';
+import { MenubarComponent } from 'app/menubar/menubar.component';
+import { MenubarModule } from 'primeng/primeng';
 
 const menubarAdminMockData = require('../../../mock_data/menubar.admin.mock.json');
 const menubarAnonMockData = require('../../../mock_data/menubar.anon.mock.json');
+
+import 'rxjs/add/operator/map';
+import { RouterTestingModule } from '@angular/router/testing';
 
 
 fdescribe('Component: MenubarContainer', () => {
@@ -32,19 +37,11 @@ fdescribe('Component: MenubarContainer', () => {
 
   let store: Store<AppState>;
 
-
-  const form_settings_data = [{
-    id: 1,
-    custom_name: 'Login',
-    form_name: 'login',
-    schema_name: 'auth',
-    user_id: '4bbed106-90a6-4371-91c9-c074f3cdf4bb',
-  }];
-
   beforeEach(async(() => {
     const testBed = TestBed.configureTestingModule({
       declarations: [
         MenubarContainer,
+        MenubarComponent,
       ],
       imports: [
         StoreModule.forRoot(reducers, {metaReducers: metaReducers}),
@@ -53,16 +50,15 @@ fdescribe('Component: MenubarContainer', () => {
         FieldsetModule,
         InputTextModule,
         PasswordModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        RouterTestingModule,
+        MenubarModule,
       ],
-      providers: [
-      ],
+      providers: [],
     });
     testBed.compileComponents();
     store = testBed.get(Store);
 
-    const action = new ReceiveMenubarAction(form_settings_data);
-    store.dispatch(action);
   }));
 
   beforeEach(() => {
@@ -72,13 +68,20 @@ fdescribe('Component: MenubarContainer', () => {
     de = fixture.debugElement;
     ne = fixture.nativeElement;
 
+    const action = new ReceiveMenubarAction(menubarAnonMockData);
+    store.dispatch(action);
+
     fixture.detectChanges();
   });
 
-  it('will subscribe to formSettings$', () => {
+  it('will subscribe to items$', () => {
 
-    cp.formSettings$.subscribe(data => {
-      expect(data).toBe(form_settings_data[0]);
+    cp.items$.subscribe(data => {
+      expect(data).toEqual([{
+        label: 'Login',
+        icon: 'fa-pencil-square-o',
+        routerLink: ['/', 'auth', 'rpc', 'login'],
+      }]);
     });
   });
 
