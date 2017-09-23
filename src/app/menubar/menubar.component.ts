@@ -11,5 +11,5 @@ import { MenuItem } from 'primeng/components/common/menuitem';
     </p-menubar>`,
 })
 export class MenubarComponent {
-  @Input() items: MenuItem[];
+  @Input() items: MenuItem[] = [];
 }

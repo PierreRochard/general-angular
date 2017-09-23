@@ -25,7 +25,6 @@ fdescribe('Component: MenubarContainer', () => {
   let nativeElement: HTMLElement;
   let testNativeElement: HTMLElement;
   let debugElement: DebugElement;
-  let testDebugElement: DebugElement;
 
   let getDebugElement: Function;
   let getNativeElement: Function;
@@ -63,6 +62,11 @@ fdescribe('Component: MenubarContainer', () => {
     fixture.detectChanges();
   });
 
+  it('should render PrimeNG menubar component', () => {
+    testNativeElement = getNativeElement('p-menubar');
+    expect(testNativeElement).toBeDefined();
+  });
+
   describe(' unloaded ', () => {
 
     beforeEach(() => {
@@ -70,9 +74,9 @@ fdescribe('Component: MenubarContainer', () => {
       fixture.detectChanges();
     });
 
-    it('should subscribe to items$', () => {
-      console.log(nativeElement);
-      expect(nativeElement).toEqual(null);
+    it('should render Loading menuitem', () => {
+      testNativeElement = getNativeElement('.ui-menuitem-text');
+      expect(testNativeElement.textContent).toEqual(menubarLoadingState[0].label);
     });
 
   });
@@ -84,8 +88,9 @@ fdescribe('Component: MenubarContainer', () => {
       fixture.detectChanges();
     });
 
-    it('should subscribe to items$', () => {
-      expect(nativeElement).toEqual(null);
+    it('should render Login menuitem', () => {
+      testNativeElement = getNativeElement('.ui-menuitem-text');
+      expect(testNativeElement.textContent).toEqual(menubarAnonMenuitemsMockData[0].label);
     });
   })
 
