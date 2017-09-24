@@ -18,7 +18,7 @@ import {
   UpdateColumnsVisibilityAction,
   UpdatePaginationAction,
   UpdateSortAction,
-  SelectTableAction,
+  SelectTableAction, GetSelectItemsAction,
 } from './table.actions';
 import {
   Datatable, DatatableColumn, EditEvent,
@@ -38,6 +38,7 @@ import { Subject } from 'rxjs/Subject';
                              [records]="records$ | async"
                              [rowLimit]="rowLimit$ | async"
                              [rowOffset]="rowOffset$ | async"
+                             [selectItems]="selectItems$ | async"
                              [sortColumn]="sortColumn$ | async"
                              [sortOrder]="sortOrder$ | async"
                              [tableName]="tableName$ | async"
@@ -63,6 +64,7 @@ export class TableContainer implements OnDestroy, OnInit {
   public schemaName$: Observable<string | null>;
   public selectedPathName$: Observable<string>;
   public selectedRouteParams$: Observable<RouteParams>;
+  public selectItems$: Observable<any[]>;
   public sortColumn$: Observable<string | null>;
   public sortOrder$: Observable<number | null>;
   public tableName$: Observable<string | null>;
@@ -83,6 +85,7 @@ export class TableContainer implements OnDestroy, OnInit {
     this.schemaName$ = this.store.select(state => state.table.schemaName);
     this.selectedPathName$ = this.store.select(getCurrentUrl);
     this.selectedRouteParams$ = this.store.select(getCurrentParams);
+    this.selectItems$ = this.store.select(state => state.table.selectItems);
     this.sortColumn$ = this.store.select(state => state.table.sortColumn);
     this.sortOrder$ = this.store.select(state => state.table.sortOrder);
     this.tableName$ = this.store.select(state => state.table.tableName);
@@ -97,11 +100,10 @@ export class TableContainer implements OnDestroy, OnInit {
   }
 
   onDropdownFocus(column: DatatableColumn) {
-    console.log(column);
+    this.store.dispatch(new GetSelectItemsAction(column));
   }
 
   onEditCancel(event: EditEvent) {
-    console.log(event);
     const routeParams: RouteParams = {
       selectedObjectName: event.table_name,
       selectedSchemaName: event.schema_name,

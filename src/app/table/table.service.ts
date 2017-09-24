@@ -9,7 +9,7 @@ import { AppState } from '../app.reducers';
 import { RestClient } from 'app/rest/rest.service';
 
 import { AreRecordsLoadingAction } from './table.actions';
-import { ColumnsVisibilityUpdate, Datatable, DatatableUpdate, RecordsUpdate } from './table.models';
+import { ColumnsVisibilityUpdate, Datatable, DatatableColumn, DatatableUpdate, RecordsUpdate } from './table.models';
 
 @Injectable()
 export class TableService {
@@ -73,6 +73,13 @@ export class TableService {
 
     return this.restClient.get(datatable.schema_name, '/' + datatable.table_name, params);
   };
+
+  get_select_items(column: DatatableColumn): Observable<Response> {
+    const params: URLSearchParams = new URLSearchParams();
+    const endpointName = '/' + column.select_item_table_name;
+    params.set('select', [column.select_item_label_column_name, column.select_item_value_column_name].join(','));
+    return this.restClient.get(column.select_item_schema_name, endpointName, params)
+  }
 
   update_record(updateData: RecordsUpdate): Observable<Response> {
     const params: URLSearchParams = new URLSearchParams();

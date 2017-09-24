@@ -1,9 +1,12 @@
+import { SelectItem } from 'primeng/components/common/selectitem';
+
 import {
   ADD_RECORD,
   ARE_RECORDS_LOADING,
   DESELECT_RECORDS,
   DESELECT_RECORD,
   GET_DATATABLE_COLUMNS,
+  GET_SELECT_ITEMS,
   RECEIVE_DATATABLE,
   RECEIVE_DATATABLE_COLUMNS,
   RECEIVE_RECORDS,
@@ -12,7 +15,7 @@ import {
   SELECT_RECORDS,
   TableActions,
   UPDATE_ROW_COUNT,
-  UPDATE_TABLE_NAME
+  UPDATE_TABLE_NAME, RECEIVE_SELECT_ITEMS
 } from './table.actions';
 import { Datatable, DatatableColumn } from './table.models';
 
@@ -27,6 +30,8 @@ export interface TableState {
   rowOffset: number | null;
   schemaName: string | null;
   selectedRecords: any[];
+  selectItems: SelectItem[] | null;
+  selectItemsColumn: DatatableColumn | null;
   sortColumn: string | null;
   sortOrder: number | null;
   tableName: string | null;
@@ -42,12 +47,15 @@ const initialState: TableState = {
   rowOffset: 0,
   schemaName: null,
   selectedRecords: [],
+  selectItems: null,
+  selectItemsColumn: null,
   sortColumn: null,
   sortOrder: 1,
   tableName: null
 };
 
 export function tableReducer(state = initialState, action: TableActions): TableState {
+  console.log(action);
   switch (action.type) {
     case ADD_RECORD:
       return Object.assign({}, state, {
@@ -69,6 +77,10 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       return Object.assign({}, state, {
         records: []
       });
+    case GET_SELECT_ITEMS:
+      return Object.assign({}, state, {
+        selectItemsColumn: action.payload
+      });
     case RECEIVE_DATATABLE:
       return Object.assign({}, state, {
         datatable: action.payload,
@@ -85,6 +97,15 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       return Object.assign({}, state, {
         records: action.payload,
         areRecordsLoading: false
+      });
+    case RECEIVE_SELECT_ITEMS:
+      return Object.assign({}, state, {
+        selectItems: action.payload.map((si: any) => {
+          return {
+            'value': si[state.selectItemsColumn.select_item_value_column_name],
+            'label': si[state.selectItemsColumn.select_item_label_column_name]
+          }
+        })
       });
     case REMOVE_RECORD:
       return Object.assign({}, state, {

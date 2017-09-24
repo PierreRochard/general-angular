@@ -50,6 +50,7 @@ export class TableComponent {
   @Input() schemaName: string;
   @Input() sortColumn: string;
   @Input() sortOrder: number;
+  @Input() selectItems: SelectItem[];
   @Input() tableName: string;
   @Input() totalRecords: number;
 
@@ -65,7 +66,7 @@ export class TableComponent {
   _onColumnResize(event: ColumnResizeEvent): void {
     console.log(event);
   }
-  
+
   _onEditCancel(event: EditEvent): void {
     event.table_name = this.tableName;
     this.onEditCancel.emit(event);

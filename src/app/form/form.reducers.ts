@@ -22,7 +22,6 @@ const initialState: FormState = {
 };
 
 export function formReducer(state = initialState, action: FormActions): FormState {
-  console.log(JSON.stringify(action));
   switch (action.type) {
     case SELECT_FORM:
       return Object.assign({}, state, {
