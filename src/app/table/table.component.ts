@@ -6,7 +6,7 @@ import {
 import { SelectItem } from 'primeng/components/common/selectitem';
 
 import {
-  ColumnResizeEvent,
+  ColumnResizeEvent, Datatable,
   DatatableColumn,
   DatatableUpdate,
   EditEvent,
@@ -17,7 +17,7 @@ import {
   selector: 'app-table-component',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class TableComponent {
   public options: SelectItem[] = [{label: '1', value: '1'}, {
@@ -34,6 +34,7 @@ export class TableComponent {
 
   @Input() areRecordsLoading: boolean;
   @Input() columns: DatatableColumn[];
+  @Input() datatable: Datatable;
   _records: any[];
   @Input()
   set records(value: any[]) {
@@ -52,6 +53,7 @@ export class TableComponent {
   @Input() tableName: string;
   @Input() totalRecords: number;
 
+  @Output() onDropdownFocus = new EventEmitter<DatatableColumn>();
   @Output() onEditCancel = new EventEmitter<any>();
   @Output() onEditComplete = new EventEmitter<any>();
   @Output() onFilterAdded = new EventEmitter<any>();
@@ -60,23 +62,27 @@ export class TableComponent {
   @Output() onSort = new EventEmitter<DatatableUpdate>();
   @Output() onMultiselect = new EventEmitter<MultiselectOutput>();
 
-  _onColumnResize(event: ColumnResizeEvent) {
+  _onColumnResize(event: ColumnResizeEvent): void {
     console.log(event);
   }
 
-  _onEditCancel(event: EditEvent) {
+  // _onDropdownFocus(dropdownColumn: DatatableColumn): void {
+  //   this._onDropdownFocus.e
+  // }
+
+  _onEditCancel(event: EditEvent): void {
     event.table_name = this.tableName;
     this.onEditCancel.emit(event);
   }
 
-  _onEditComplete(field: string, value: any, row_id: string) {
+  _onEditComplete(field: string, value: any, row_id: string): void {
     console.log(field);
     console.log(value);
     console.log(row_id);
     // this.onEditComplete.emit(event);
   }
 
-  _onLazyLoad(event: DatatableUpdate) {
+  _onLazyLoad(event: DatatableUpdate): void {
     event.tableName = this.tableName;
     event.schemaName = this.schemaName;
     if (event.first !== this.rowOffset || event.rows !== this.rowLimit) {
@@ -99,7 +105,7 @@ export class TableComponent {
     //   .map(c => this.onFilterAdded.emit({column_name: c, table_name: this.table_name, filter_value: event.filters[c].value}));
   }
 
-  _onMultiselect(event: MultiselectOutput) {
+  _onMultiselect(event: MultiselectOutput): void {
     event.tableName = this.tableName;
     this.onMultiselect.emit(event)
   }

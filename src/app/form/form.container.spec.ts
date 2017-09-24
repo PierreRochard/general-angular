@@ -36,7 +36,7 @@ import { routing } from '../app.routing';
 import { HomeContainer } from '../home/home.container';
 import { TableContainer } from '../table/table.container';
 
-const loginRouterActionMockData: RouterStateSnapshot = require('../../../mock_data/login.router.action.mock.json');
+const loginRouterActionMockData: RouterStateSnapshot = require('../../../mock_data/form/login.router.action.mock.json');
 
 
 xdescribe('Component: FormContainer', () => {

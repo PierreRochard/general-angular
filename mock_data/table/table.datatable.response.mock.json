@@ -1,0 +1,14 @@
+[
+  {
+    "id": 8,
+    "custom_name": "Clients",
+    "order_index": 1,
+    "row_limit": 10,
+    "row_offset": 0,
+    "schema_name": "test",
+    "sort_column": "id",
+    "sort_order": 1,
+    "table_name": "clients",
+    "user_id": "1840e030-186e-4be3-a517-79762a96427d"
+  }
+]

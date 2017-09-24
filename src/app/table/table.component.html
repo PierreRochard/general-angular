@@ -41,7 +41,7 @@
     [field]="column.column_name"
     [header]="column.custom_name"
     [hidden]="!column.is_visible"
-    [styleClass]="'general-column'"
+    [style]="{'overflow':'visible'}"
     [sortable]="column.is_sortable"
     [filter]="column.is_filterable"
     [filterMatchMode]="column.filter_match_mode"
@@ -71,6 +71,7 @@
                   [required]="true"
                   [style]="{'width':'100%'}"
                   (onChange)="_onEditComplete(column.column_name, $event.value, row.id)"
+                  (onFocus)="onDropdownFocus.emit(column)"
       >
       </p-dropdown>
 

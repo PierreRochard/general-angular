@@ -5,6 +5,7 @@ import {
   ComponentFixture,
   TestBed,
 } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import 'rxjs/add/operator/map';
@@ -13,12 +14,11 @@ import { MenubarModule } from 'primeng/components/menubar/menubar';
 
 import { menubarLoadingState } from './menubar.constants';
 import { MenubarComponent } from './menubar.component';
-import { By } from '@angular/platform-browser';
 
-const menubarAnonMenuitemsMockData = require('../../../mock_data/menubar.anon.menuitems.mock.json');
+const menubarAnonMenuitemsMockData = require('../../../mock_data/menubar/menubar.anon.menuitems.mock.json');
 
 
-describe('Component: MenubarContainer', () => {
+describe('Component: MenubarComponent', () => {
 
   let component: MenubarComponent;
   let fixture: ComponentFixture<MenubarComponent>;

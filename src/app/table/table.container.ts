@@ -20,7 +20,10 @@ import {
   UpdateSortAction,
   SelectTableAction,
 } from './table.actions';
-import { EditEvent, MultiselectOutput } from './table.models';
+import {
+  Datatable, DatatableColumn, EditEvent,
+  MultiselectOutput,
+} from './table.models';
 import { Subject } from 'rxjs/Subject';
 
 @Component({
@@ -31,6 +34,7 @@ import { Subject } from 'rxjs/Subject';
       <div class="ui-g-12">
         <app-table-component [areRecordsLoading]="areRecordsLoading$ | async"
                              [columns]="columns$ | async"
+                             [datatable]="datatable$ | async"
                              [records]="records$ | async"
                              [rowLimit]="rowLimit$ | async"
                              [rowOffset]="rowOffset$ | async"
@@ -38,6 +42,7 @@ import { Subject } from 'rxjs/Subject';
                              [sortOrder]="sortOrder$ | async"
                              [tableName]="tableName$ | async"
                              [totalRecords]="totalRecords$ | async"
+                             (onDropdownFocus)="onDropdownFocus($event)"
                              (onEditCancel)="onEditCancel($event)"
                              (onEditComplete)="onEditComplete($event)"
                              (onPagination)="onPagination($event)"
@@ -50,7 +55,8 @@ import { Subject } from 'rxjs/Subject';
 })
 export class TableContainer implements OnDestroy, OnInit {
   public areRecordsLoading$: Observable<boolean>;
-  public columns$: Observable<any[]>;
+  public columns$: Observable<DatatableColumn[]>;
+  public datatable$: Observable<Datatable | null>;
   public records$: Observable<any[]>;
   public rowLimit$: Observable<number | null>;
   public rowOffset$: Observable<number | null>;
@@ -69,6 +75,7 @@ export class TableContainer implements OnDestroy, OnInit {
 
   ngOnInit() {
     this.columns$ = this.store.select(state => state.table.columns);
+    this.datatable$ = this.store.select(state => state.table.datatable);
     this.records$ = this.store.select(state => state.table.records);
     this.areRecordsLoading$ = this.store.select(state => state.table.areRecordsLoading);
     this.rowLimit$ = this.store.select(state => state.table.rowLimit);
@@ -85,8 +92,12 @@ export class TableContainer implements OnDestroy, OnInit {
       .filter(selectedRouteParams => selectedRouteParams.selectedObjectType === 'table')
       .takeUntil(this.ngUnsubscribe)
       .subscribe(selectedRouteParams => {
-      this.store.dispatch(new SelectTableAction(selectedRouteParams));
-    });
+        this.store.dispatch(new SelectTableAction(selectedRouteParams));
+      });
+  }
+
+  onDropdownFocus(column: DatatableColumn) {
+    console.log(column);
   }
 
   onEditCancel(event: EditEvent) {
@@ -94,7 +105,7 @@ export class TableContainer implements OnDestroy, OnInit {
     const routeParams: RouteParams = {
       selectedObjectName: event.table_name,
       selectedSchemaName: event.schema_name,
-      selectedObjectType: 'table'
+      selectedObjectType: 'table',
     };
     this.store.dispatch(new GetDatatableAction(routeParams));
   }

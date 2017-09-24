@@ -19,8 +19,8 @@ import { MenubarContainer } from './menubar.container';
 import { menubarLoadingState } from './menubar.constants';
 import { MenubarComponent } from './menubar.component';
 
-const menubarAnonResponseMockData = require('../../../mock_data/menubar.anon.response.mock.json');
-const menubarAnonMenuitemsMockData = require('../../../mock_data/menubar.anon.menuitems.mock.json');
+const menubarAnonResponseMockData = require('../../../mock_data/menubar/menubar.anon.response.mock.json');
+const menubarAnonMenuitemsMockData = require('../../../mock_data/menubar/menubar.anon.menuitems.mock.json');
 
 
 describe('Component: MenubarContainer', () => {

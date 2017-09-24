@@ -1,10 +1,11 @@
 import {TableActions, TableActionTypes} from './table.actions';
-import {DatatableColumn} from './table.models';
+import { Datatable, DatatableColumn } from './table.models';
 
 
 export interface TableState {
   areRecordsLoading: boolean;
   columns: DatatableColumn[];
+  datatable: Datatable | null;
   records: any[];
   rowCount: number | null;
   rowLimit: number | null;
@@ -19,6 +20,7 @@ export interface TableState {
 const initialState: TableState = {
   areRecordsLoading: true,
   columns: [],
+  datatable: null,
   records: [],
   rowCount: null,
   rowLimit: null,
@@ -54,6 +56,7 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       });
     case TableActionTypes.RECEIVE_DATATABLE:
       return Object.assign({}, state, {
+        datatable: action.payload,
         rowLimit: action.payload.row_limit,
         rowOffset: action.payload.row_offset,
         sortColumn: action.payload.sort_column,
