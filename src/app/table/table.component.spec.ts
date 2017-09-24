@@ -23,13 +23,14 @@ const recordsMockData: any[] = require('../../../mock_data/table/table.records.r
 
 const datatableMockData: Datatable = datatableMockDatas[0];
 
-fdescribe('Component: TableComponent', () => {
+describe('Component: TableComponent', () => {
 
   let component: TableComponent;
   let fixture: ComponentFixture<TableComponent>;
   let nativeElement: HTMLElement;
   let debugElement: DebugElement;
 
+  let testDebugElement: DebugElement;
   let testNativeElement: HTMLElement;
 
   let getDebugElement: Function;
@@ -89,28 +90,17 @@ fdescribe('Component: TableComponent', () => {
       component.sortOrder = datatableMockData.sort_order;
       component.tableName = datatableMockData.table_name;
       component.totalRecords = recordsMockData.length;
+      spyOn(component.onDropdownFocus, 'emit').and.callThrough();
       fixture.detectChanges();
     });
 
-    it('should render Loading menuitem', () => {
-      console.log(nativeElement);
-      testNativeElement = getNativeElement('.ui-column-title');
-      expect(testNativeElement.textContent).toEqual('');
+    it('should call onDropdownFocus when clicked', () => {
+      testNativeElement = getNativeElement('.ui-dropdown');
+      testNativeElement.click();
+      fixture.detectChanges();
+      expect(component.onDropdownFocus.emit).toHaveBeenCalled();
     });
 
   });
-  //
-  // describe(' for anon ', () => {
-  //
-  //   beforeEach(() => {
-  //     component.items = menubarAnonMenuitemsMockData;
-  //     fixture.detectChanges();
-  //   });
-  //
-  //   it('should render Login menuitem', () => {
-  //     testNativeElement = getNativeElement('.ui-menuitem-text');
-  //     expect(testNativeElement.textContent).toEqual(menubarAnonMenuitemsMockData[0].label);
-  //   });
-  // })
 
 });

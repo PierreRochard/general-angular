@@ -60,7 +60,9 @@
       </div>
     </ng-template>
 
-    <ng-template let-col let-row="rowData" pTemplate="editor"
+    <ng-template let-col
+                 let-row="rowData"
+                 pTemplate="editor"
                  *ngIf="column.input_type !== 'text'">
       <p-dropdown *ngIf="column.input_type === 'dropdown'"
                   [autoWidth]="false"

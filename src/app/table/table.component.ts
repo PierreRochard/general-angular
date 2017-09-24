@@ -65,11 +65,7 @@ export class TableComponent {
   _onColumnResize(event: ColumnResizeEvent): void {
     console.log(event);
   }
-
-  // _onDropdownFocus(dropdownColumn: DatatableColumn): void {
-  //   this._onDropdownFocus.e
-  // }
-
+  
   _onEditCancel(event: EditEvent): void {
     event.table_name = this.tableName;
     this.onEditCancel.emit(event);

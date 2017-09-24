@@ -25,6 +25,10 @@ export interface DatatableColumn {
   is_sortable: boolean;
   is_visible: boolean;
   schema_name: string;
+  select_item_schema_name: string;
+  select_item_table_name: string;
+  select_item_label_column_name: string;
+  select_item_value_column_name: string;
   table_name: string;
   user_id: string;
 }
