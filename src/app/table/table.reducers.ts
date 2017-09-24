@@ -1,4 +1,19 @@
-import {TableActions, TableActionTypes} from './table.actions';
+import {
+  ADD_RECORD,
+  ARE_RECORDS_LOADING,
+  DESELECT_RECORDS,
+  DESELECT_RECORD,
+  GET_DATATABLE_COLUMNS,
+  RECEIVE_DATATABLE,
+  RECEIVE_DATATABLE_COLUMNS,
+  RECEIVE_RECORDS,
+  REMOVE_RECORD,
+  REMOVE_RECORDS,
+  SELECT_RECORDS,
+  TableActions,
+  UPDATE_ROW_COUNT,
+  UPDATE_TABLE_NAME
+} from './table.actions';
 import { Datatable, DatatableColumn } from './table.models';
 
 
@@ -34,27 +49,27 @@ const initialState: TableState = {
 
 export function tableReducer(state = initialState, action: TableActions): TableState {
   switch (action.type) {
-    case TableActionTypes.ADD_RECORD:
+    case ADD_RECORD:
       return Object.assign({}, state, {
         records: [action.payload, ...state.records]
       });
-    case TableActionTypes.ARE_RECORDS_LOADING:
+    case ARE_RECORDS_LOADING:
       return Object.assign({}, state, {
         tableRecordsAreLoading: action.payload
       });
-    case TableActionTypes.DESELECT_RECORD:
+    case DESELECT_RECORD:
       return Object.assign({}, state, {
         selectedRecords: state.selectedRecords.filter(record => record.id !== action.payload.id)
       });
-    case TableActionTypes.DESELECT_RECORDS:
+    case DESELECT_RECORDS:
       return Object.assign({}, state, {
         selectedRecords: []
       });
-    case TableActionTypes.GET_DATATABLE_COLUMNS:
+    case GET_DATATABLE_COLUMNS:
       return Object.assign({}, state, {
         records: []
       });
-    case TableActionTypes.RECEIVE_DATATABLE:
+    case RECEIVE_DATATABLE:
       return Object.assign({}, state, {
         datatable: action.payload,
         rowLimit: action.payload.row_limit,
@@ -62,32 +77,32 @@ export function tableReducer(state = initialState, action: TableActions): TableS
         sortColumn: action.payload.sort_column,
         sortOrder: action.payload.sort_order,
       });
-    case TableActionTypes.RECEIVE_DATATABLE_COLUMNS:
+    case RECEIVE_DATATABLE_COLUMNS:
       return Object.assign({}, state, {
         columns: action.payload
       });
-    case TableActionTypes.RECEIVE_RECORDS:
+    case RECEIVE_RECORDS:
       return Object.assign({}, state, {
         records: action.payload,
         areRecordsLoading: false
       });
-    case TableActionTypes.REMOVE_RECORD:
+    case REMOVE_RECORD:
       return Object.assign({}, state, {
         records: state.records.filter(record => record.id !== action.payload.id)
       });
-    case TableActionTypes.REMOVE_RECORDS:
+    case REMOVE_RECORDS:
       return Object.assign({}, state, {
         records: []
       });
-    case TableActionTypes.SELECT_RECORDS:
+    case SELECT_RECORDS:
       return Object.assign({}, state, {
         selectedRecords: action.payload
       });
-    case TableActionTypes.UPDATE_ROW_COUNT:
+    case UPDATE_ROW_COUNT:
       return Object.assign({}, state, {
         rowCount: action.payload
       });
-    case TableActionTypes.UPDATE_TABLE_NAME_ACTION:
+    case UPDATE_TABLE_NAME:
       return Object.assign({}, state, {
         tableName: action.payload.selectedObjectName,
         schemaName: action.payload.selectedSchemaName

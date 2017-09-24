@@ -13,13 +13,13 @@ import {
   ReceiveDatatableAction,
   ReceiveDatatableColumnsAction,
   ReceiveRecordsAction,
-  TableActionTypes,
   AreRecordsLoadingAction,
   UpdateRowCountAction,
   GetRecordsAction,
   GetDatatableColumnsAction, GetDatatableAction, UpdatePaginationAction,
   UpdateSortAction, UpdateColumnsVisibilityAction,
-  SelectTableAction, UpdateTableNameAction,
+  SelectTableAction, UpdateTableNameAction, SELECT_TABLE, GET_DATATABLE, UPDATE_PAGINATION, UPDATE_SORT, GET_DATATABLE_COLUMNS,
+  UPDATE_COLUMNS_VISIBILITY, GET_RECORDS,
 } from './table.actions';
 import { TableService } from './table.service';
 import { Datatable } from './table.models';
@@ -30,7 +30,7 @@ export class TableEffects {
 
   @Effect()
   selectTable$ = this.actions$
-    .ofType(TableActionTypes.SELECT_TABLE)
+    .ofType(SELECT_TABLE)
     .map((action: SelectTableAction) => action.payload)
     .mergeMap((routeParams: RouteParams) => {
       return [
@@ -42,7 +42,7 @@ export class TableEffects {
 
   @Effect()
   getDatatable$ = this.actions$
-    .ofType(TableActionTypes.GET_DATATABLE)
+    .ofType(GET_DATATABLE)
     .switchMap((action: GetDatatableAction) => {
       return this.tableService.get_datatable(action.payload.selectedSchemaName,
         action.payload.selectedObjectName)
@@ -60,7 +60,7 @@ export class TableEffects {
 
   @Effect()
   updatePagination$ = this.actions$
-    .ofType(TableActionTypes.UPDATE_PAGINATION)
+    .ofType(UPDATE_PAGINATION)
     .switchMap((action: UpdatePaginationAction) => this.tableService.update_pagination(action.payload)
       .mergeMap(response => {
         const datatable: Datatable = response.json()[0];
@@ -76,7 +76,7 @@ export class TableEffects {
 
   @Effect()
   updateSort$ = this.actions$
-    .ofType(TableActionTypes.UPDATE_SORT)
+    .ofType(UPDATE_SORT)
     .switchMap((action: UpdateSortAction) => this.tableService.update_sort(action.payload)
       .mergeMap(response => {
         const datatable: Datatable = response.json()[0];
@@ -92,7 +92,7 @@ export class TableEffects {
 
   @Effect()
   getDatatableColumns$ = this.actions$
-    .ofType(TableActionTypes.GET_DATATABLE_COLUMNS)
+    .ofType(GET_DATATABLE_COLUMNS)
     .switchMap((action: GetDatatableColumnsAction) => {
       return this.tableService.get_datatable_columns(action.payload.selectedSchemaName,
         action.payload.selectedObjectName)
@@ -109,7 +109,7 @@ export class TableEffects {
 
   @Effect()
   updateColumnsVisibility$ = this.actions$
-    .ofType(TableActionTypes.UPDATE_COLUMNS_VISIBILITY)
+    .ofType(UPDATE_COLUMNS_VISIBILITY)
     .switchMap((action: UpdateColumnsVisibilityAction) => this.tableService.update_columns_visibility(action.payload)
       .mergeMap(response => {
         return [
@@ -123,7 +123,7 @@ export class TableEffects {
 
   @Effect()
   getRecords$: Observable<Action> = this.actions$
-    .ofType(TableActionTypes.GET_RECORDS)
+    .ofType(GET_RECORDS)
     .switchMap((action: GetRecordsAction) => this.tableService.get_records(action.payload)
       .mergeMap((response: Response) => {
         const rowCountString = response.headers!.get('content-range')!.split('/')[1];
