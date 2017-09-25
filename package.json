@@ -28,7 +28,7 @@
     "@ngrx/store": "^4.0.3",
     "@ngrx/store-devtools": "^4.0.0",
     "@ngrx/store-log-monitor": "^3.0.2",
-    "angular2-websocket": "^0.9.3",
+    "angular2-websocket": "^0.9.5",
     "core-js": "^2.5.1",
     "font-awesome": "^4.7.0",
     "ngrx-store-localstorage": "^0.2.2",
