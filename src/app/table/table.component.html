@@ -72,7 +72,7 @@
                   [placeholder]="row[column.column_name]"
                   [required]="true"
                   [style]="{'width':'100%'}"
-                  (onChange)="_onEditComplete(column.column_name, $event.value, row.id)"
+                  (onBlur)="_onEditComplete(column.column_name, $event.value, row.id)"
                   (onFocus)="onDropdownFocus.emit(column)"
       >
       </p-dropdown>
