@@ -9,7 +9,6 @@ import {
   ColumnResizeEvent, Datatable,
   DatatableColumn,
   DatatableUpdate,
-  EditEvent,
   MultiselectOutput,
 } from 'app/table/table.models';
 
@@ -20,10 +19,6 @@ import {
   encapsulation: ViewEncapsulation.None,
 })
 export class TableComponent {
-  public options: SelectItem[] = [{label: '1', value: '1'}, {
-    label: '2',
-    value: '1',
-  }];
   public dataKey = 'id';
   public paginator = true;
   public reorderableColumns = false;

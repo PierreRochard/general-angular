@@ -16,10 +16,12 @@ import { DropdownModule } from 'primeng/components/dropdown/dropdown';
 
 import { TableComponent } from './table.component';
 import { Datatable, DatatableColumn } from './table.models';
+import { SelectItem } from 'primeng/primeng';
 
 const columnsMockData: DatatableColumn[] = require('../../../mock_data/table/table.columns.response.mock.json');
 const datatableMockDatas: Datatable[] = require('../../../mock_data/table/table.datatable.response.mock.json');
 const recordsMockData: any[] = require('../../../mock_data/table/table.records.response.mock.json');
+const selectItemsMockData: SelectItem[] = require('../../../mock_data/table/table.selectitems.mock.json');
 
 const datatableMockData: Datatable = datatableMockDatas[0];
 
@@ -32,6 +34,9 @@ describe('Component: TableComponent', () => {
 
   let testDebugElement: DebugElement;
   let testNativeElement: HTMLElement;
+
+  let subTestDebugElement: DebugElement;
+  let subTestNativeElement: HTMLElement;
 
   let getDebugElement: Function;
   let getNativeElement: Function;
@@ -46,7 +51,7 @@ describe('Component: TableComponent', () => {
         CommonModule,
         DataTableModule,
         DropdownModule,
-        RouterTestingModule
+        RouterTestingModule,
       ],
       providers: [],
     });
@@ -86,21 +91,47 @@ describe('Component: TableComponent', () => {
       component.rowLimit = datatableMockData.row_limit;
       component.rowOffset = datatableMockData.row_offset;
       component.schemaName = datatableMockData.schema_name;
+      component.selectItems = selectItemsMockData;
       component.sortColumn = datatableMockData.sort_column;
       component.sortOrder = datatableMockData.sort_order;
       component.tableName = datatableMockData.table_name;
       component.totalRecords = recordsMockData.length;
       spyOn(component.onDropdownFocus, 'emit').and.callThrough();
+      spyOn(component.onEditComplete, 'emit').and.callThrough();
       fixture.detectChanges();
     });
 
-    it('should call onDropdownFocus when clicked', () => {
-      testNativeElement = getNativeElement('.ui-dropdown');
-      testNativeElement.click();
-      fixture.detectChanges();
-      expect(component.onDropdownFocus.emit).toHaveBeenCalled();
-    });
+    describe('dropdown editing', () => {
+      beforeEach(() => {
+        testNativeElement = getNativeElement('.ui-dropdown');
+        testNativeElement.click();
+        fixture.detectChanges();
+      });
 
+      it('should emit to onDropdownFocus when clicked', () => {
+        expect(component.onDropdownFocus.emit).toHaveBeenCalled();
+      });
+
+      it('should render dropdown search', () => {
+        expect(getNativeElement('.ui-dropdown-filter')).toBeDefined();
+      });
+
+      it('should render dropdown label', () => {
+        expect(getNativeElement('.ui-dropdown-item').textContent.trim())
+          .toEqual('Testing Value 1');
+      });
+
+      it('should emit to onEditComplete when clicked', () => {
+        subTestNativeElement = getNativeElement('.ui-dropdown-item');
+        subTestNativeElement.click();
+        fixture.detectChanges();
+        expect(component.onEditComplete.emit).toHaveBeenCalledWith(
+          {
+            'column': columnsMockData[1],
+            'row': recordsMockData[0],
+            'value': selectItemsMockData[0].value,
+          });
+      });
+    });
   });
-
 });

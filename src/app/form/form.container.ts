@@ -32,7 +32,6 @@ import { RouteParams } from '../router/router.models';
 export class FormContainer implements OnDestroy, OnInit {
   public formFieldSettings$: Observable<FormField[]>;
   public formSettings$: Observable<any>;
-  public selectedPathName$: Observable<string>;
   public selectedRouteParams$: Observable<RouteParams>;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -44,7 +43,6 @@ export class FormContainer implements OnDestroy, OnInit {
 
     this.formFieldSettings$ = this.store.select(state => state.form.fieldSettings);
     this.formSettings$ = this.store.select(state => state.form.formSettings);
-    this.selectedPathName$ = this.store.select(getCurrentUrl);
     this.selectedRouteParams$ = this.store.select(getCurrentParams);
 
     this.selectedRouteParams$

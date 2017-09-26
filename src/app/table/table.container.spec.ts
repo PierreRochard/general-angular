@@ -7,6 +7,7 @@ import {
 } from '@angular/core/testing';
 
 import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs/Observable';
 
 import { Store, StoreModule } from '@ngrx/store';
 
@@ -16,11 +17,21 @@ import { AppState, metaReducers, reducers } from '../app.reducers';
 import { Datatable, DatatableColumn } from './table.models';
 import { TableComponent } from 'app/table/table.component';
 import { TableContainer } from './table.container';
+import { RouteParams } from 'app/router/router.models';
 
 const columnsMockData: DatatableColumn[] = require('../../../mock_data/table/table.columns.response.mock.json');
 const datatableMockDatas: Datatable[] = require('../../../mock_data/table/table.datatable.response.mock.json');
 const recordsMockData: any[] = require('../../../mock_data/table/table.records.response.mock.json');
 
+export class DataStub {
+  public static get(): Observable<RouteParams> {
+    return Observable.of({
+      'selectedObjectName': 'login',
+      'selectedSchemaName': 'auth',
+      'selectedObjectType': 'form',
+    });
+  }
+}
 
 describe('Component: TableContainer', () => {
 

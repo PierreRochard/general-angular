@@ -35,16 +35,30 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { routing } from '../app.routing';
 import { HomeContainer } from '../home/home.container';
 import { TableContainer } from '../table/table.container';
+import { AppFormModule } from './form.module';
+import { AppTableModule } from '../table/table.module';
+import { Observable } from 'rxjs/Observable';
+import { RouteParams } from '../router/router.models';
 
 const loginRouterActionMockData: RouterStateSnapshot = require('../../../mock_data/form/login.router.action.mock.json');
+
+export class DataStub {
+  public static get(): Observable<RouteParams> {
+    return Observable.of({
+      'selectedObjectName': 'login',
+      'selectedSchemaName': 'auth',
+      'selectedObjectType': 'form',
+    });
+  }
+}
 
 
 xdescribe('Component: FormContainer', () => {
 
-  let cp: FormContainer;
+  let component: FormContainer;
   let fixture: ComponentFixture<FormContainer>;
-  let ne: HTMLElement;
-  let de: DebugElement;
+  let nativeElement: HTMLElement;
+  let debugElement: DebugElement;
 
   let store: Store<AppState>;
 
@@ -60,21 +74,11 @@ xdescribe('Component: FormContainer', () => {
   beforeEach(async(() => {
     const testBed = TestBed.configureTestingModule({
       declarations: [
-        FormContainer,
-        FormComponent,
-        FormElementComponent,
-        HomeContainer,
-        TableContainer
       ],
       imports: [
+        AppFormModule,
         StoreModule.forRoot(reducers, {metaReducers: metaReducers}),
-        ButtonModule,
-        CommonModule,
-        FieldsetModule,
-        InputTextModule,
-        PasswordModule,
-        ReactiveFormsModule,
-        routing,
+        RouterTestingModule,
         BrowserAnimationsModule,
         EffectsModule.forRoot([RouterEffects]),
       ],
@@ -86,7 +90,6 @@ xdescribe('Component: FormContainer', () => {
     testBed.compileComponents();
     store = testBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();
-    store.dispatch(new Go({'path': ['/', 'auth', 'rpc', 'login']}));
     const action = new ReceiveFormSettingsAction(form_settings_data);
     store.dispatch(action);
   }));
@@ -94,16 +97,16 @@ xdescribe('Component: FormContainer', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FormContainer);
 
-    cp = fixture.componentInstance;
-    de = fixture.debugElement;
-    ne = fixture.nativeElement;
+    component = fixture.componentInstance;
+    debugElement = fixture.debugElement;
+    nativeElement = fixture.nativeElement;
 
     fixture.detectChanges();
   });
 
   it('will subscribe to formSettings$', () => {
 
-    cp.formSettings$.subscribe(data => {
+    component.formSettings$.subscribe(data => {
       expect(data).toBe(form_settings_data[0]);
     });
   });
