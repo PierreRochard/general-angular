@@ -86,7 +86,7 @@ export class TableService {
     const data: any = {};
     data[updateData['column_name']] = updateData.data;
     params.set('id', 'eq.' + updateData.record_id);
-    return this.restClient.patch('admin', '/' + updateData.table_name, data, params)
+    return this.restClient.patch(updateData.schema_name, '/' + updateData.table_name, data, params)
   };
 
 

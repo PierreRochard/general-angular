@@ -7,8 +7,6 @@
   [lazy]="true"
   [loading]="areRecordsLoading"
   (onColResize)="_onColumnResize($event)"
-  (onEditComplete)="_onEditComplete($event.column.field, $event.data[$event.column.field], $event.data.id)"
-  (onEditCancel)="_onEditCancel($event)"
   (onLazyLoad)="_onLazyLoad($event)"
   [reorderableColumns]="reorderableColumns"
   [resizableColumns]="true"
@@ -66,13 +64,13 @@
                  *ngIf="column.input_type !== 'text'">
       <p-dropdown *ngIf="column.input_type === 'dropdown'"
                   [autoWidth]="false"
-                  [editable]="true"
+                  [editable]="false"
                   [filter]="true"
                   [options]="selectItems"
-                  [placeholder]="row[column.column_name]"
+                  [placeholder]="column.custom_name"
                   [required]="true"
                   [style]="{'width':'100%'}"
-                  (onBlur)="_onEditComplete(column.column_name, $event.value, row.id)"
+                  (onChange)="onEditComplete.emit({'column': column, 'row': row, 'value': $event.value})"
                   (onFocus)="onDropdownFocus.emit(column)"
       >
       </p-dropdown>

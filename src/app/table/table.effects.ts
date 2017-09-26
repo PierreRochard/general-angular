@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { of } from 'rxjs/observable/of';
 
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 
 
 import {
@@ -20,11 +20,14 @@ import {
   UpdateSortAction, UpdateColumnsVisibilityAction,
   SelectTableAction, UpdateTableNameAction,
   SELECT_TABLE, GET_DATATABLE, GET_SELECT_ITEMS, UPDATE_PAGINATION, UPDATE_SORT,
-  GET_DATATABLE_COLUMNS, UPDATE_COLUMNS_VISIBILITY, GET_RECORDS, GetSelectItemsAction, ReceiveSelectItemsAction,
+  GET_DATATABLE_COLUMNS, UPDATE_COLUMNS_VISIBILITY, GET_RECORDS,
+  GetSelectItemsAction, ReceiveSelectItemsAction, UPDATE_RECORD,
+  UpdateRecordAction,
 } from './table.actions';
 import { TableService } from './table.service';
 import { Datatable } from './table.models';
 import { RouteParams } from '../router/router.models';
+import { AppState } from '../app.reducers';
 
 @Injectable()
 export class TableEffects {
@@ -152,22 +155,25 @@ export class TableEffects {
     });
 
 
-  // @Effect()
-  // updateRecord$ = this.actions$
-  //   .ofType(TableActionTypes.UPDATE_RECORD)
-  //   .switchMap((action: UpdateRecordAction) => this.tableService.update_record(action.payload)
-  //     .mergeMap(response => {
-  //       const tableName = response.url.split('/').slice(-1)[0].split('?')[0];
-  //       return [
-  //         new GetDatatableAction(tableName),
-  //       ];
-  //     })
-  //     .catch(error => {
-  //       return of(new ReceiveDatatableAction(error));
-  //     }),
-  //   );
+  @Effect()
+  updateRecord$ = this.actions$
+    .ofType(UPDATE_RECORD)
+    .withLatestFrom(this.store)
+    .switchMap(([action, state]: [UpdateRecordAction, AppState]) => {
+     return this.tableService.update_record(action.payload)
+          .mergeMap(() => {
+            return [
+              new GetRecordsAction(state.table.datatable),
+            ];
+          })
+          .catch(error => {
+            return of(new ReceiveDatatableAction(error));
+          })
+      }
+    );
 
   constructor(private actions$: Actions,
+              private store: Store<AppState>,
               private tableService: TableService) {
   }
 }

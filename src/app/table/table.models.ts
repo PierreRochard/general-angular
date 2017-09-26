@@ -61,10 +61,11 @@ export interface EditEvent {
 }
 
 export interface RecordsUpdate {
-  column_name: string;
   data: any;
   record_id: any;
+  column_name: string;
   table_name: string;
+  schema_name: string;
 }
 
 export interface DatatableUpdate extends LazyLoadEvent {

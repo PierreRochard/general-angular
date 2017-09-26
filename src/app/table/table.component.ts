@@ -67,18 +67,6 @@ export class TableComponent {
     console.log(event);
   }
 
-  _onEditCancel(event: EditEvent): void {
-    event.table_name = this.tableName;
-    this.onEditCancel.emit(event);
-  }
-
-  _onEditComplete(field: string, value: any, row_id: string): void {
-    console.log(field);
-    console.log(value);
-    console.log(row_id);
-    // this.onEditComplete.emit(event);
-  }
-
   _onLazyLoad(event: DatatableUpdate): void {
     event.tableName = this.tableName;
     event.schemaName = this.schemaName;

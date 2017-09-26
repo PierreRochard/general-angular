@@ -112,14 +112,16 @@ export class TableContainer implements OnDestroy, OnInit {
     this.store.dispatch(new GetDatatableAction(routeParams));
   }
 
-  onEditComplete(event: EditEvent) {
+  onEditComplete(edit: {column: DatatableColumn, row: any, value: string}) {
+    const {column, row, value} = edit;
+    console.log(edit);
     const update_payload = {
-      column_name: event.column.field,
-      data: event.data[event.column.field],
-      record_id: event.data.id,
-      table_name: event.table_name,
+      data: value,
+      record_id: row.id,
+      column_name: column.column_name,
+      table_name: column.table_name,
+      schema_name: column.schema_name,
     };
-    console.log(update_payload);
     this.store.dispatch(new UpdateRecordAction(update_payload));
   }
 
