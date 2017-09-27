@@ -30,8 +30,6 @@ import { Subject } from 'rxjs/Subject';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-table-container',
   template: `
-    <div class="ui-g">
-      <div class="ui-g-12">
         <app-table-component [areRecordsLoading]="areRecordsLoading$ | async"
                              [columns]="columns$ | async"
                              [datatable]="datatable$ | async"
@@ -50,9 +48,7 @@ import { Subject } from 'rxjs/Subject';
                              (onSort)="onSort($event)"
                              (onMultiselect)="updateColumns($event)"
         >
-        </app-table-component>
-      </div>
-    </div>`,
+        </app-table-component>`,
 })
 export class TableContainer implements OnDestroy, OnInit {
   public areRecordsLoading$: Observable<boolean>;
@@ -62,7 +58,6 @@ export class TableContainer implements OnDestroy, OnInit {
   public rowLimit$: Observable<number | null>;
   public rowOffset$: Observable<number | null>;
   public schemaName$: Observable<string | null>;
-  public selectedPathName$: Observable<string>;
   public selectedRouteParams$: Observable<RouteParams>;
   public selectItems$: Observable<any[]>;
   public sortColumn$: Observable<string | null>;
@@ -83,7 +78,6 @@ export class TableContainer implements OnDestroy, OnInit {
     this.rowLimit$ = this.store.select(state => state.table.rowLimit);
     this.rowOffset$ = this.store.select(state => state.table.rowOffset);
     this.schemaName$ = this.store.select(state => state.table.schemaName);
-    this.selectedPathName$ = this.store.select(getCurrentUrl);
     this.selectedRouteParams$ = this.store.select(getCurrentParams);
     this.selectItems$ = this.store.select(state => state.table.selectItems);
     this.sortColumn$ = this.store.select(state => state.table.sortColumn);

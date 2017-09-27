@@ -1,81 +1,85 @@
-<p-dataTable
-  [dataKey]="dataKey"
-  [editable]="true"
-  [first]="rowOffset"
-  [globalFilter]="gb"
-  [paginator]="paginator"
-  [lazy]="true"
-  [loading]="areRecordsLoading"
-  (onColResize)="_onColumnResize($event)"
-  (onLazyLoad)="_onLazyLoad($event)"
-  [reorderableColumns]="reorderableColumns"
-  [resizableColumns]="true"
-  [responsive]="true"
-  [rows]="rowLimit"
-  [rowHover]="true"
-  [rowsPerPageOptions]="rowsPerPage"
-  [sortField]="sortColumn"
-  [sortOrder]="sortOrder"
-  [totalRecords]="totalRecords"
-  [value]="records"
->
-  <p-header>
-    <div class="ui-helper-clearfix" style="width:100%;">
-      <input #gb type="text" placeholder="Global search"
-             style="float:left;">
-      <div style="float:right;">
-        <!--<app-columns-multiselect-component-->
-          <!--[columns]="columns"-->
-          <!--[selectedColumns]="columns"-->
-          <!--(onChange)="_onMultiselect($event)"-->
-        <!--&gt;-->
-        <!--</app-columns-multiselect-component>-->
-      </div>
-    </div>
-  </p-header>
-  <p-column
-    *ngFor="let column of columns"
-    [editable]="column.can_update"
-    [field]="column.column_name"
-    [header]="column.custom_name"
-    [hidden]="!column.is_visible"
-    [style]="{'overflow':'visible'}"
-    [sortable]="column.is_sortable"
-    [filter]="column.is_filterable"
-    [filterMatchMode]="column.filter_match_mode"
-  >
-    <ng-template let-row="rowData" pTemplate="body">
-      <div [ngSwitch]="column.data_type">
+<div class="ui-g">
+  <div class="ui-g-12">
+    <p-dataTable
+      [dataKey]="dataKey"
+      [editable]="true"
+      [first]="rowOffset"
+      [globalFilter]="gb"
+      [paginator]="paginator"
+      [lazy]="true"
+      [loading]="areRecordsLoading"
+      (onColResize)="_onColumnResize($event)"
+      (onLazyLoad)="_onLazyLoad($event)"
+      [reorderableColumns]="reorderableColumns"
+      [resizableColumns]="true"
+      [responsive]="true"
+      [rows]="rowLimit"
+      [rowHover]="true"
+      [rowsPerPageOptions]="rowsPerPage"
+      [sortField]="sortColumn"
+      [sortOrder]="sortOrder"
+      [totalRecords]="totalRecords"
+      [value]="records"
+    >
+      <p-header>
+        <div class="ui-helper-clearfix" style="width:100%;">
+          <input #gb type="text" placeholder="Global search"
+                 style="float:left;">
+          <div style="float:right;">
+            <!--<app-columns-multiselect-component-->
+            <!--[columns]="columns"-->
+            <!--[selectedColumns]="columns"-->
+            <!--(onChange)="_onMultiselect($event)"-->
+            <!--&gt;-->
+            <!--</app-columns-multiselect-component>-->
+          </div>
+        </div>
+      </p-header>
+      <p-column
+        *ngFor="let column of columns"
+        [editable]="column.can_update"
+        [field]="column.column_name"
+        [header]="column.custom_name"
+        [hidden]="!column.is_visible"
+        [style]="{'overflow':'visible'}"
+        [sortable]="column.is_sortable"
+        [filter]="column.is_filterable"
+        [filterMatchMode]="column.filter_match_mode"
+      >
+        <ng-template let-row="rowData" pTemplate="body">
+          <div [ngSwitch]="column.data_type">
           <span *ngSwitchCase="'timestamp without time zone'">
             {{row[column.column_name] | date:column.format_pattern}}
           </span>
-        <span *ngSwitchCase="'numeric'">
+            <span *ngSwitchCase="'numeric'">
             {{row[column.column_name] | number:column.format_pattern}}
           </span>
-        <span *ngSwitchDefault>
+            <span *ngSwitchDefault>
             {{row[column.column_name]}}
           </span>
-      </div>
-    </ng-template>
+          </div>
+        </ng-template>
 
-    <ng-template let-col
-                 let-row="rowData"
-                 pTemplate="editor"
-                 *ngIf="column.input_type !== 'text'">
-      <p-dropdown *ngIf="column.input_type === 'dropdown'"
-                  [autoWidth]="false"
-                  [editable]="false"
-                  [filter]="true"
-                  [options]="selectItems"
-                  [placeholder]="column.custom_name"
-                  [required]="true"
-                  [style]="{'width':'100%'}"
-                  (onChange)="onEditComplete.emit({'column': column, 'row': row, 'value': $event.value})"
-                  (onFocus)="onDropdownFocus.emit(column)"
-      >
-      </p-dropdown>
+        <ng-template let-col
+                     let-row="rowData"
+                     pTemplate="editor"
+                     *ngIf="column.input_type !== 'text'">
+          <p-dropdown *ngIf="column.input_type === 'dropdown'"
+                      [autoWidth]="false"
+                      [editable]="false"
+                      [filter]="true"
+                      [options]="selectItems"
+                      [placeholder]="column.custom_name"
+                      [required]="true"
+                      [style]="{'width':'100%'}"
+                      (onChange)="onEditComplete.emit({'column': column, 'row': row, 'value': $event.value})"
+                      (onFocus)="onDropdownFocus.emit(column)"
+          >
+          </p-dropdown>
 
-    </ng-template>
+        </ng-template>
 
-  </p-column>
-</p-dataTable>
+      </p-column>
+    </p-dataTable>
+  </div>
+</div>

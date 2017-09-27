@@ -12,7 +12,8 @@ export class Go implements Action {
     path: any[];
     query?: object;
     extras?: NavigationExtras;
-  }) {}
+  }) {
+  }
 }
 
 export class Back implements Action {
