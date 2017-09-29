@@ -22,9 +22,10 @@ import { FormContainer } from './form.container';
 import { FormService } from './form.service';
 import { AppFormModule } from './form.module';
 import { FormState } from './form.reducers';
+import { SelectFormAction } from './form.actions';
 
-const routerMockData: RouterReducerState<RouterStateUrl> = require('../../../mock_data/form/login.router.mock.json');
-const formMockData: FormState = require('../../../mock_data/form/login.form.mock.json');
+const loginRouterMockData: RouterReducerState<RouterStateUrl> = require('../../../mock_data/form/login.router.mock.json');
+const loginFormMockData: FormState = require('../../../mock_data/form/login.form.mock.json');
 
 
 fdescribe('Component: FormContainer', () => {
@@ -43,9 +44,8 @@ fdescribe('Component: FormContainer', () => {
         AppFormModule,
         StoreModule.forRoot(reducers, {
           initialState: {
-            form: formMockData,
-            routerReducer: routerMockData,
-            table: null,
+            form: loginFormMockData,
+            routerReducer: loginRouterMockData,
           },
         }),
         RouterTestingModule,
@@ -57,7 +57,6 @@ fdescribe('Component: FormContainer', () => {
     });
     testBed.compileComponents();
     store = testBed.get(Store);
-    spyOn(store, 'dispatch').and.callThrough();
   }));
 
   beforeEach(() => {
@@ -67,15 +66,31 @@ fdescribe('Component: FormContainer', () => {
     debugElement = fixture.debugElement;
     nativeElement = fixture.nativeElement;
 
+    spyOn(store, 'dispatch').and.callThrough();
+
     fixture.detectChanges();
   });
+  describe('login form initialize', () => {
+    it('will subscribe to formFieldSettings$', () => {
+      component.formFieldSettings$.subscribe(data => {
+        expect(data).toEqual(loginFormMockData.fieldSettings);
+      });
+    });
 
-  it('will subscribe to formSettings$', () => {
+    it('will subscribe to formSettings$', () => {
+      component.formSettings$.subscribe(data => {
+        expect(data).toEqual(loginFormMockData.formSettings);
+      });
+    });
 
-    component.formSettings$.subscribe(data => {
-      expect(data).toEqual(formMockData.formSettings);
+    it('will subscribe to selectedRouteParams$', () => {
+      component.selectedRouteParams$.subscribe(data => {
+        expect(data).toEqual(loginRouterMockData.state.params);
+      });
+    });
+    it('will dispatch SelectFormAction', () => {
+      expect(store.dispatch).toHaveBeenCalledWith(new SelectFormAction(loginRouterMockData.state.params));
     });
   });
-
 
 });

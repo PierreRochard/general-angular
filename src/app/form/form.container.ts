@@ -7,7 +7,7 @@ import { Subject } from 'rxjs/Subject';
 
 import { SendPostRequestAction } from '../rest/rest.actions';
 
-import { AppState, getCurrentParams, getCurrentUrl } from '../app.reducers';
+import { AppState, getCurrentParams } from '../app.reducers';
 import { FormField } from './form.models';
 import { SelectFormAction } from './form.actions'
 import {
