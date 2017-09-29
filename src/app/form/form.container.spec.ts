@@ -28,7 +28,7 @@ const loginRouterMockData: RouterReducerState<RouterStateUrl> = require('../../.
 const loginFormMockData: FormState = require('../../../mock_data/form/login.form.mock.json');
 
 
-fdescribe('Component: FormContainer', () => {
+describe('Component: FormContainer', () => {
 
   let component: FormContainer;
   let fixture: ComponentFixture<FormContainer>;
