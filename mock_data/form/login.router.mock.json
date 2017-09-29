@@ -1,0 +1,13 @@
+{
+  "state": {
+    "url": "/auth/rpc/login",
+    "queryParams": {},
+    "params": {
+      "selectedObjectName": "login",
+      "selectedSchemaName": "auth",
+      "selectedObjectType": "form"
+    }
+  },
+  "navigationId": 1
+}
+

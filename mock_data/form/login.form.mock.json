@@ -1,0 +1,31 @@
+{
+  "schemaName": "auth",
+  "formName": "login",
+  "formSettings": {
+    "id": 1,
+    "custom_name": "Login",
+    "form_name": "login",
+    "schema_name": "auth",
+    "user_id": "4bbed106-90a6-4371-91c9-c074f3cdf4bb"
+  },
+  "fieldSettings": [
+    {
+      "id": 1,
+      "custom_name": "Email",
+      "field_name": "email",
+      "field_type": "text",
+      "form_name": "login",
+      "schema_name": "auth",
+      "user_id": "4bbed106-90a6-4371-91c9-c074f3cdf4bb"
+    },
+    {
+      "id": 2,
+      "custom_name": "Password",
+      "field_name": "password",
+      "field_type": "text",
+      "form_name": "login",
+      "schema_name": "auth",
+      "user_id": "4bbed106-90a6-4371-91c9-c074f3cdf4bb"
+    }
+  ]
+}
