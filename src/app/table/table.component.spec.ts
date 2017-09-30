@@ -91,12 +91,12 @@ describe('Component: TableComponent', () => {
       component.rowLimit = datatableMockData.row_limit;
       component.rowOffset = datatableMockData.row_offset;
       component.schemaName = datatableMockData.schema_name;
-      component.selectItems = selectItemsMockData;
+      component.suggestions = selectItemsMockData;
       component.sortColumn = datatableMockData.sort_column;
       component.sortOrder = datatableMockData.sort_order;
       component.tableName = datatableMockData.table_name;
       component.totalRecords = recordsMockData.length;
-      spyOn(component.getSelectItems, 'emit').and.callThrough();
+      spyOn(component.getSuggestions, 'emit').and.callThrough();
       spyOn(component.onEditComplete, 'emit').and.callThrough();
       fixture.detectChanges();
     });
@@ -108,8 +108,8 @@ describe('Component: TableComponent', () => {
         fixture.detectChanges();
       });
 
-      it('should emit to getSelectItems when clicked', () => {
-        expect(component.getSelectItems.emit).toHaveBeenCalled();
+      it('should emit to getSuggestions when clicked', () => {
+        expect(component.getSuggestions.emit).toHaveBeenCalled();
       });
 
       it('should render dropdown search', () => {

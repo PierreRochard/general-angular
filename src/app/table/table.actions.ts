@@ -4,7 +4,7 @@ import { RouteParams } from '../router/router.models';
 
 import {
   Datatable, DatatableColumn, RecordsUpdate,
-  SelectItemQuery,
+  SuggestionsQuery,
 } from './table.models';
 
 export const ADD_RECORD = '[Table] Add Record';
@@ -15,12 +15,12 @@ export const EDIT_CANCEL = '[Table] Edit Cancel';
 export const GET_DATATABLE = '[Table] Get Datatable';
 export const GET_DATATABLE_COLUMNS = '[Table] Get Datatable Columns';
 export const GET_RECORDS = '[Table] Get Records';
-export const GET_SELECT_ITEMS = '[Table] Get Select Items';
+export const GET_SUGGESTIONS = '[Table] Get Select Items';
 export const INITIALIZE_SETTINGS = '[Table] Initialize Settings';
 export const RECEIVE_DATATABLE = '[Table] Receive Datatable';
 export const RECEIVE_DATATABLE_COLUMNS = '[Table] Receive Datatable Columns';
 export const RECEIVE_RECORDS = '[Table] Receive Records';
-export const RECEIVE_SELECT_ITEMS = '[Table] Receive Select Items';
+export const RECEIVE_SUGGESTIONS = '[Table] Receive Select Items';
 export const REMOVE_RECORD = '[Table] Remove Record';
 export const REMOVE_RECORDS = '[Table] Remove Records';
 export const SELECT_RECORDS = '[Table] Select Records';
@@ -72,9 +72,9 @@ export class GetRecordsAction implements Action {
   constructor(public payload: Datatable) { }
 }
 
-export class GetSelectItemsAction implements Action {
-  type = GET_SELECT_ITEMS;
-  constructor(public payload: SelectItemQuery) { }
+export class GetSuggestions implements Action {
+  type = GET_SUGGESTIONS;
+  constructor(public payload: SuggestionsQuery) { }
 }
 
 export class InitializeSettingsAction implements Action {
@@ -97,8 +97,8 @@ export class ReceiveRecordsAction implements Action {
   constructor(public payload: any[]) {}
 }
 
-export class ReceiveSelectItemsAction implements Action {
-  type = RECEIVE_SELECT_ITEMS;
+export class ReceiveSuggestionsAction implements Action {
+  type = RECEIVE_SUGGESTIONS;
   constructor(public payload: any[]) {}
 }
 

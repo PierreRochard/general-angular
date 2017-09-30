@@ -6,7 +6,7 @@ import {
   DESELECT_RECORDS,
   DESELECT_RECORD,
   GET_DATATABLE_COLUMNS,
-  GET_SELECT_ITEMS,
+  GET_SUGGESTIONS,
   RECEIVE_DATATABLE,
   RECEIVE_DATATABLE_COLUMNS,
   RECEIVE_RECORDS,
@@ -15,7 +15,7 @@ import {
   SELECT_RECORDS,
   TableActions,
   UPDATE_ROW_COUNT,
-  UPDATE_TABLE_NAME, RECEIVE_SELECT_ITEMS,
+  UPDATE_TABLE_NAME, RECEIVE_SUGGESTIONS,
 } from './table.actions';
 import { Datatable, DatatableColumn } from './table.models';
 
@@ -30,8 +30,8 @@ export interface TableState {
   rowOffset: number | null;
   schemaName: string | null;
   selectedRecords: any[];
-  selectItems: SelectItem[];
-  selectItemsColumn: DatatableColumn | null;
+  suggestions: string[];
+  suggestionsColumn: DatatableColumn | null;
   sortColumn: string | null;
   sortOrder: number | null;
   tableName: string | null;
@@ -47,8 +47,8 @@ const initialState: TableState = {
   rowOffset: 0,
   schemaName: null,
   selectedRecords: [],
-  selectItems: [],
-  selectItemsColumn: null,
+  suggestions: [],
+  suggestionsColumn: null,
   sortColumn: null,
   sortOrder: 1,
   tableName: null,
@@ -77,9 +77,9 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       return Object.assign({}, state, {
         records: [],
       });
-    case GET_SELECT_ITEMS:
+    case GET_SUGGESTIONS:
       return Object.assign({}, state, {
-        selectItemsColumn: action.payload.column,
+        suggestionsColumn: action.payload.column,
       });
     case RECEIVE_DATATABLE:
       return Object.assign({}, state, {
@@ -98,14 +98,12 @@ export function tableReducer(state = initialState, action: TableActions): TableS
         records: action.payload,
         areRecordsLoading: false,
       });
-    case RECEIVE_SELECT_ITEMS:
+    case RECEIVE_SUGGESTIONS:
+      console.log(state.suggestionsColumn);
       return Object.assign({}, state, {
-        selectItems: [
+        suggestions: [
           ...action.payload.map((si: any) => {
-            return {
-              'value': si[state.selectItemsColumn.select_item_value_column_name],
-              'label': si[state.selectItemsColumn.select_item_label_column_name],
-            }
+            return si[state.suggestionsColumn.select_item_label_column_name];
           })],
       });
     case REMOVE_RECORD:

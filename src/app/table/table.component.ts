@@ -9,7 +9,7 @@ import {
   DatatableColumn,
   DatatableUpdate,
   MultiselectOutput,
-  SelectItemQuery,
+  SuggestionsQuery,
 } from 'app/table/table.models';
 import { DataTable } from 'primeng/primeng';
 
@@ -51,11 +51,11 @@ export class TableComponent {
   @Input() schemaName: string;
   @Input() sortColumn: string;
   @Input() sortOrder: number;
-  @Input() selectItems: SelectItem[];
+  @Input() suggestions: string[];
   @Input() tableName: string;
   @Input() totalRecords: number;
 
-  @Output() getSelectItems = new EventEmitter<SelectItemQuery>();
+  @Output() getSuggestions = new EventEmitter<SuggestionsQuery>();
   @Output() onEditCancel = new EventEmitter<any>();
   @Output() onEditComplete = new EventEmitter<any>();
   @Output() onFilterAdded = new EventEmitter<any>();
@@ -76,17 +76,8 @@ export class TableComponent {
   }
 
   updateRecord(event: any) {
-    console.log('updateRecord', JSON.stringify(event));
-    this.onEditComplete.emit(event);
-  }
-
-  selectItemValue(label: string) {
-    const selectItem = this.selectItems.filter((s: SelectItem) => s.label === label);
-    if (selectItem.length) {
-      return selectItem[0].value;
-    } else {
-      return null
-    }
+    console.log('updateRecord', event);
+    // this.onEditComplete.emit(event);
   }
 
   _onColumnResize(event: ColumnResizeEvent): void {

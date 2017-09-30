@@ -9,6 +9,7 @@
       [lazy]="true"
       [loading]="areRecordsLoading"
       (onColResize)="_onColumnResize($event)"
+      (onEditComplete)="updateRecord($event)"
       (onLazyLoad)="_onLazyLoad($event)"
       [reorderableColumns]="reorderableColumns"
       [resizableColumns]="true"
@@ -62,17 +63,15 @@
 
         <ng-template let-col
                      let-row="rowData"
+                     let-index="rowIndex"
                      pTemplate="editor"
                      *ngIf="column.input_type !== 'text'">
           <p-autoComplete
-            (completeMethod)="getSelectItems.emit({'column': column, 'value': $event.query})"
-            [dataKey]="'value'"
-            [field]="'label'"
-            [ngModel]="selectItemValue(row[column.column_name])"
-            (onKeyUp)="handleEscapeKey($event, col, rowData, rowIndex)"
-            (onSelect)="updateRecord({'column': column, 'row': row, 'value': $event.value})"
+            (completeMethod)="getSuggestions.emit({'column': column, 'value': $event.query})"
+            [(ngModel)]="row[col.field]"
+            (keydown)="dt.onCellEditorKeydown($event, col, row, index)"
             [placeholder]="column.custom_name"
-            [suggestions]="selectItems"
+            [suggestions]="suggestions"
           ></p-autoComplete>
         </ng-template>
 

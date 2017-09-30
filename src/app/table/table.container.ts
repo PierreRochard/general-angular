@@ -18,11 +18,11 @@ import {
   UpdateColumnsVisibilityAction,
   UpdatePaginationAction,
   UpdateSortAction,
-  SelectTableAction, GetSelectItemsAction,
+  SelectTableAction, GetSuggestions,
 } from './table.actions';
 import {
   Datatable, DatatableColumn, EditEvent,
-  MultiselectOutput, SelectItemQuery,
+  MultiselectOutput, SuggestionsQuery,
 } from './table.models';
 import { Subject } from 'rxjs/Subject';
 
@@ -36,12 +36,12 @@ import { Subject } from 'rxjs/Subject';
                          [records]="records$ | async"
                          [rowLimit]="rowLimit$ | async"
                          [rowOffset]="rowOffset$ | async"
-                         [selectItems]="selectItems$ | async"
+                         [suggestions]="suggestions$ | async"
                          [sortColumn]="sortColumn$ | async"
                          [sortOrder]="sortOrder$ | async"
                          [tableName]="tableName$ | async"
                          [totalRecords]="totalRecords$ | async"
-                         (getSelectItems)="getSelectItems($event)"
+                         (getSuggestions)="getSuggestions($event)"
                          (onEditCancel)="onEditCancel($event)"
                          (onEditComplete)="onEditComplete($event)"
                          (onPagination)="onPagination($event)"
@@ -59,7 +59,7 @@ export class TableContainer implements OnDestroy, OnInit {
   public rowOffset$: Observable<number | null>;
   public schemaName$: Observable<string | null>;
   public selectedRouteParams$: Observable<RouteParams>;
-  public selectItems$: Observable<any[]>;
+  public suggestions$: Observable<string[]>;
   public sortColumn$: Observable<string | null>;
   public sortOrder$: Observable<number | null>;
   public tableName$: Observable<string | null>;
@@ -79,7 +79,7 @@ export class TableContainer implements OnDestroy, OnInit {
     this.rowOffset$ = this.store.select(state => state.table.rowOffset);
     this.schemaName$ = this.store.select(state => state.table.schemaName);
     this.selectedRouteParams$ = this.store.select(getCurrentParams);
-    this.selectItems$ = this.store.select(state => state.table.selectItems);
+    this.suggestions$ = this.store.select(state => state.table.suggestions);
     this.sortColumn$ = this.store.select(state => state.table.sortColumn);
     this.sortOrder$ = this.store.select(state => state.table.sortOrder);
     this.tableName$ = this.store.select(state => state.table.tableName);
@@ -93,8 +93,8 @@ export class TableContainer implements OnDestroy, OnInit {
       });
   }
 
-  getSelectItems(query: SelectItemQuery) {
-    this.store.dispatch(new GetSelectItemsAction(query));
+  getSuggestions(query: SuggestionsQuery) {
+    this.store.dispatch(new GetSuggestions(query));
   }
 
   onEditCancel(event: EditEvent) {

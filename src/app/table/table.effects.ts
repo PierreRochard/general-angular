@@ -19,9 +19,9 @@ import {
   GetDatatableColumnsAction, GetDatatableAction, UpdatePaginationAction,
   UpdateSortAction, UpdateColumnsVisibilityAction,
   SelectTableAction, UpdateTableNameAction,
-  SELECT_TABLE, GET_DATATABLE, GET_SELECT_ITEMS, UPDATE_PAGINATION, UPDATE_SORT,
+  SELECT_TABLE, GET_DATATABLE, GET_SUGGESTIONS, UPDATE_PAGINATION, UPDATE_SORT,
   GET_DATATABLE_COLUMNS, UPDATE_COLUMNS_VISIBILITY, GET_RECORDS,
-  GetSelectItemsAction, ReceiveSelectItemsAction, UPDATE_RECORD,
+  GetSuggestions, ReceiveSuggestionsAction, UPDATE_RECORD,
   UpdateRecordAction,
 } from './table.actions';
 import { TableService } from './table.service';
@@ -144,12 +144,12 @@ export class TableEffects {
 
   @Effect()
   getSelectItems$ = this.actions$
-    .ofType(GET_SELECT_ITEMS)
-    .switchMap((action: GetSelectItemsAction) => {
-      return this.tableService.get_select_items(action.payload)
+    .ofType(GET_SUGGESTIONS)
+    .switchMap((action: GetSuggestions) => {
+      return this.tableService.get_suggestions(action.payload)
         .mergeMap(response => {
           return [
-            new ReceiveSelectItemsAction(response.json()),
+            new ReceiveSuggestionsAction(response.json()),
           ];
         })
     });

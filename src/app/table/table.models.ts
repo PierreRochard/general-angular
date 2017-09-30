@@ -73,7 +73,7 @@ export interface DatatableUpdate extends LazyLoadEvent {
   tableName: string;
 }
 
-export interface SelectItemQuery {
+export interface SuggestionsQuery {
   column: DatatableColumn;
   value: string;
 }
