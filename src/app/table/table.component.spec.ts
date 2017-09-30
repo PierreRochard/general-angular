@@ -96,7 +96,7 @@ describe('Component: TableComponent', () => {
       component.sortOrder = datatableMockData.sort_order;
       component.tableName = datatableMockData.table_name;
       component.totalRecords = recordsMockData.length;
-      spyOn(component.onDropdownFocus, 'emit').and.callThrough();
+      spyOn(component.getSelectItems, 'emit').and.callThrough();
       spyOn(component.onEditComplete, 'emit').and.callThrough();
       fixture.detectChanges();
     });
@@ -108,8 +108,8 @@ describe('Component: TableComponent', () => {
         fixture.detectChanges();
       });
 
-      it('should emit to onDropdownFocus when clicked', () => {
-        expect(component.onDropdownFocus.emit).toHaveBeenCalled();
+      it('should emit to getSelectItems when clicked', () => {
+        expect(component.getSelectItems.emit).toHaveBeenCalled();
       });
 
       it('should render dropdown search', () => {

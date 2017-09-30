@@ -72,3 +72,8 @@ export interface DatatableUpdate extends LazyLoadEvent {
   schemaName: string;
   tableName: string;
 }
+
+export interface SelectItemQuery {
+  column: DatatableColumn;
+  value: string;
+}

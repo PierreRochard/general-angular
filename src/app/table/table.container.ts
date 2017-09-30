@@ -22,7 +22,7 @@ import {
 } from './table.actions';
 import {
   Datatable, DatatableColumn, EditEvent,
-  MultiselectOutput,
+  MultiselectOutput, SelectItemQuery,
 } from './table.models';
 import { Subject } from 'rxjs/Subject';
 
@@ -30,25 +30,25 @@ import { Subject } from 'rxjs/Subject';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-table-container',
   template: `
-        <app-table-component [areRecordsLoading]="areRecordsLoading$ | async"
-                             [columns]="columns$ | async"
-                             [datatable]="datatable$ | async"
-                             [records]="records$ | async"
-                             [rowLimit]="rowLimit$ | async"
-                             [rowOffset]="rowOffset$ | async"
-                             [selectItems]="selectItems$ | async"
-                             [sortColumn]="sortColumn$ | async"
-                             [sortOrder]="sortOrder$ | async"
-                             [tableName]="tableName$ | async"
-                             [totalRecords]="totalRecords$ | async"
-                             (onDropdownFocus)="onDropdownFocus($event)"
-                             (onEditCancel)="onEditCancel($event)"
-                             (onEditComplete)="onEditComplete($event)"
-                             (onPagination)="onPagination($event)"
-                             (onSort)="onSort($event)"
-                             (onMultiselect)="updateColumns($event)"
-        >
-        </app-table-component>`,
+    <app-table-component [areRecordsLoading]="areRecordsLoading$ | async"
+                         [columns]="columns$ | async"
+                         [datatable]="datatable$ | async"
+                         [records]="records$ | async"
+                         [rowLimit]="rowLimit$ | async"
+                         [rowOffset]="rowOffset$ | async"
+                         [selectItems]="selectItems$ | async"
+                         [sortColumn]="sortColumn$ | async"
+                         [sortOrder]="sortOrder$ | async"
+                         [tableName]="tableName$ | async"
+                         [totalRecords]="totalRecords$ | async"
+                         (getSelectItems)="getSelectItems($event)"
+                         (onEditCancel)="onEditCancel($event)"
+                         (onEditComplete)="onEditComplete($event)"
+                         (onPagination)="onPagination($event)"
+                         (onSort)="onSort($event)"
+                         (onMultiselect)="updateColumns($event)"
+    >
+    </app-table-component>`,
 })
 export class TableContainer implements OnDestroy, OnInit {
   public areRecordsLoading$: Observable<boolean>;
@@ -93,8 +93,8 @@ export class TableContainer implements OnDestroy, OnInit {
       });
   }
 
-  onDropdownFocus(column: DatatableColumn) {
-    this.store.dispatch(new GetSelectItemsAction(column));
+  getSelectItems(query: SelectItemQuery) {
+    this.store.dispatch(new GetSelectItemsAction(query));
   }
 
   onEditCancel(event: EditEvent) {

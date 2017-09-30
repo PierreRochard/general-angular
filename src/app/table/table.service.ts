@@ -9,7 +9,10 @@ import { AppState } from '../app.reducers';
 import { RestClient } from 'app/rest/rest.service';
 
 import { AreRecordsLoadingAction } from './table.actions';
-import { ColumnsVisibilityUpdate, Datatable, DatatableColumn, DatatableUpdate, RecordsUpdate } from './table.models';
+import {
+  ColumnsVisibilityUpdate, Datatable, DatatableColumn, DatatableUpdate,
+  RecordsUpdate, SelectItemQuery,
+} from './table.models';
 
 @Injectable()
 export class TableService {
@@ -74,12 +77,13 @@ export class TableService {
     return this.restClient.get(datatable.schema_name, '/' + datatable.table_name, params);
   };
 
-  get_select_items(column: DatatableColumn): Observable<Response> {
+  get_select_items(query: SelectItemQuery): Observable<Response> {
     const params: URLSearchParams = new URLSearchParams();
-    const endpointName = '/' + column.select_item_table_name;
-    params.set('select', [column.select_item_label_column_name, column.select_item_value_column_name].join(','));
-    params.set('order', column.select_item_label_column_name);
-    return this.restClient.get(column.select_item_schema_name, endpointName, params)
+    const endpointName = '/' + query.column.select_item_table_name;
+    params.set('select', [query.column.select_item_label_column_name, query.column.select_item_value_column_name].join(','));
+    params.set('order', query.column.select_item_label_column_name);
+    params.set(query.column.select_item_label_column_name, 'ilike.*' + query.value + '*');
+    return this.restClient.get(query.column.select_item_schema_name, endpointName, params)
   }
 
   update_record(updateData: RecordsUpdate): Observable<Response> {

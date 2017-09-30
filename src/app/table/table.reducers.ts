@@ -79,7 +79,7 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       });
     case GET_SELECT_ITEMS:
       return Object.assign({}, state, {
-        selectItemsColumn: action.payload,
+        selectItemsColumn: action.payload.column,
       });
     case RECEIVE_DATATABLE:
       return Object.assign({}, state, {
@@ -101,7 +101,6 @@ export function tableReducer(state = initialState, action: TableActions): TableS
     case RECEIVE_SELECT_ITEMS:
       return Object.assign({}, state, {
         selectItems: [
-          {'value': null, 'label': null},
           ...action.payload.map((si: any) => {
             return {
               'value': si[state.selectItemsColumn.select_item_value_column_name],

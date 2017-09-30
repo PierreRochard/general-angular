@@ -5,7 +5,6 @@
       [dataKey]="dataKey"
       [editable]="true"
       [first]="rowOffset"
-      [globalFilter]="gb"
       [paginator]="paginator"
       [lazy]="true"
       [loading]="areRecordsLoading"
@@ -25,8 +24,7 @@
     >
       <p-header>
         <div class="ui-helper-clearfix" style="width:100%;">
-          <input #gb type="text" placeholder="Global search"
-                 style="float:left;">
+          {{datatable?.custom_name}}
           <div style="float:right;">
             <!--<app-columns-multiselect-component-->
             <!--[columns]="columns"-->
@@ -43,7 +41,7 @@
         [field]="column.column_name"
         [header]="column.custom_name"
         [hidden]="!column.is_visible"
-        [style]="{'overflow':'visible'}"
+        [style]="columnStyle"
         [sortable]="column.is_sortable"
         [filter]="column.is_filterable"
         [filterMatchMode]="column.filter_match_mode"
@@ -66,15 +64,15 @@
                      let-row="rowData"
                      pTemplate="editor"
                      *ngIf="column.input_type !== 'text'">
-          <p-autoComplete [ngModel]="selectItemValue(row[column.column_name])"
-                          [suggestions]="selectItems"
-                          (completeMethod)="onDropdownFocus.emit(column)"
-                          [dataKey]="'value'"
-                          [field]="'label'"
-                          (onKeyUp)="onKeyUp($event, col, rowData, rowIndex)"
-                          (onSelect)="updateRecord({'column': column, 'row': row, 'value': $event.value})"
-                          [placeholder]="column.custom_name"
-                          #autocomplete
+          <p-autoComplete
+            (completeMethod)="getSelectItems.emit({'column': column, 'value': $event.query})"
+            [dataKey]="'value'"
+            [field]="'label'"
+            [ngModel]="selectItemValue(row[column.column_name])"
+            (onKeyUp)="handleEscapeKey($event, col, rowData, rowIndex)"
+            (onSelect)="updateRecord({'column': column, 'row': row, 'value': $event.value})"
+            [placeholder]="column.custom_name"
+            [suggestions]="selectItems"
           ></p-autoComplete>
         </ng-template>
 

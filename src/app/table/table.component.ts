@@ -1,6 +1,5 @@
 import {
-  Component, EventEmitter, Input, Output, QueryList, ViewChild, ViewChildren,
-  ViewEncapsulation,
+  Component, EventEmitter, Input, Output, ViewChild, ViewEncapsulation,
 } from '@angular/core';
 
 import { SelectItem } from 'primeng/components/common/selectitem';
@@ -10,8 +9,8 @@ import {
   DatatableColumn,
   DatatableUpdate,
   MultiselectOutput,
+  SelectItemQuery,
 } from 'app/table/table.models';
-import { AutoComplete } from 'primeng/components/autocomplete/autocomplete';
 import { DataTable } from 'primeng/primeng';
 
 @Component({
@@ -21,6 +20,12 @@ import { DataTable } from 'primeng/primeng';
   encapsulation: ViewEncapsulation.None,
 })
 export class TableComponent {
+  public columnStyle: any = {
+    'overflow': 'visible',
+    'height': '38px',
+    'padding-top': '0px',
+    'padding-bottom': '0px',
+  };
   public dataKey = 'id';
   public paginator = true;
   public reorderableColumns = false;
@@ -50,7 +55,7 @@ export class TableComponent {
   @Input() tableName: string;
   @Input() totalRecords: number;
 
-  @Output() onDropdownFocus = new EventEmitter<DatatableColumn>();
+  @Output() getSelectItems = new EventEmitter<SelectItemQuery>();
   @Output() onEditCancel = new EventEmitter<any>();
   @Output() onEditComplete = new EventEmitter<any>();
   @Output() onFilterAdded = new EventEmitter<any>();
@@ -59,13 +64,14 @@ export class TableComponent {
   @Output() onSort = new EventEmitter<DatatableUpdate>();
   @Output() onMultiselect = new EventEmitter<MultiselectOutput>();
 
-  @ViewChildren('autocomplete') autoComplete: QueryList<AutoComplete>;
   @ViewChild('dt') dt: DataTable;
 
-  onKeyUp(event: any, col: any, rowData: any, rowIndex: any) {
-    console.log(event);
+  handleEscapeKey(event: any, col: any, rowData: any, rowIndex: any) {
+    // only need to forward escape key, everything else works
     if (event.keyCode === 27) {
       this.dt.onCellEditorKeydown(event, col, rowData, rowIndex)
+    } else {
+      console.log(event);
     }
   }
 

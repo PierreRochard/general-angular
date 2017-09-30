@@ -2,7 +2,10 @@ import { Action } from '@ngrx/store';
 
 import { RouteParams } from '../router/router.models';
 
-import { Datatable, DatatableColumn, RecordsUpdate } from './table.models';
+import {
+  Datatable, DatatableColumn, RecordsUpdate,
+  SelectItemQuery,
+} from './table.models';
 
 export const ADD_RECORD = '[Table] Add Record';
 export const ARE_RECORDS_LOADING = '[Table] Are Records Loading';
@@ -71,7 +74,7 @@ export class GetRecordsAction implements Action {
 
 export class GetSelectItemsAction implements Action {
   type = GET_SELECT_ITEMS;
-  constructor(public payload: DatatableColumn) { }
+  constructor(public payload: SelectItemQuery) { }
 }
 
 export class InitializeSettingsAction implements Action {
