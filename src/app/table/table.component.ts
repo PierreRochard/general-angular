@@ -1,5 +1,5 @@
 import {
-  Component, EventEmitter, Input, Output,
+  Component, EventEmitter, Input, Output, QueryList, ViewChild, ViewChildren,
   ViewEncapsulation,
 } from '@angular/core';
 
@@ -11,6 +11,8 @@ import {
   DatatableUpdate,
   MultiselectOutput,
 } from 'app/table/table.models';
+import { AutoComplete } from 'primeng/components/autocomplete/autocomplete';
+import { DataTable } from 'primeng/primeng';
 
 @Component({
   selector: 'app-table-component',
@@ -57,19 +59,19 @@ export class TableComponent {
   @Output() onSort = new EventEmitter<DatatableUpdate>();
   @Output() onMultiselect = new EventEmitter<MultiselectOutput>();
 
-  private dropdownUpdate: any;
+  @ViewChildren('autocomplete') autoComplete: QueryList<AutoComplete>;
+  @ViewChild('dt') dt: DataTable;
 
-  onDropdownBlur(event: any) {
-    if (this.dropdownUpdate) {
-      this.onEditComplete.emit(this.dropdownUpdate);
+  onKeyUp(event: any, col: any, rowData: any, rowIndex: any) {
+    console.log(event);
+    if (event.keyCode === 27) {
+      this.dt.onCellEditorKeydown(event, col, rowData, rowIndex)
     }
-    this.dropdownUpdate = null;
-    console.log('BLUR', JSON.stringify(event));
   }
 
-  onDropdownChange(event: any) {
-    this.dropdownUpdate = event;
-    console.log('CHANGE', JSON.stringify(event));
+  updateRecord(event: any) {
+    console.log('updateRecord', JSON.stringify(event));
+    this.onEditComplete.emit(event);
   }
 
   selectItemValue(label: string) {

@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { AutoCompleteModule } from 'primeng/components/autocomplete/autocomplete';
 import { ButtonModule } from 'primeng/components/button/button';
 import { DataTableModule } from 'primeng/components/datatable/datatable';
-import { DropdownModule } from 'primeng/components/dropdown/dropdown';
 import { InputTextModule } from 'primeng/components/inputtext/inputtext';
 import { MultiSelectModule } from 'primeng/components/multiselect/multiselect';
 import { PasswordModule } from 'primeng/components/password/password';
@@ -16,10 +16,10 @@ import { TableService } from './table.service';
 
 @NgModule({
   imports: [
+    AutoCompleteModule,
     ButtonModule,
     CommonModule,
     DataTableModule,
-    DropdownModule,
     FormsModule,
     InputTextModule,
     MultiSelectModule,

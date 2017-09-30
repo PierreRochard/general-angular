@@ -1,6 +1,7 @@
 <div class="ui-g">
   <div class="ui-g-12">
     <p-dataTable
+      #dt
       [dataKey]="dataKey"
       [editable]="true"
       [first]="rowOffset"
@@ -65,28 +66,16 @@
                      let-row="rowData"
                      pTemplate="editor"
                      *ngIf="column.input_type !== 'text'">
-          <p-dropdown *ngIf="column.input_type === 'dropdown'"
-                      [autoWidth]="false"
-                      [editable]="false"
-                      [filter]="true"
-                      [ngModel]="selectItemValue(row[column.column_name])"
-                      [options]="selectItems"
-                      [placeholder]="column.custom_name"
-                      [required]="false"
-                      [style]="{'width':'100%'}"
-                      (onBlur)="onDropdownBlur($event)"
-                      (onChange)="onDropdownChange({'column': column, 'row': row, 'value': $event.value})"
-                      (onFocus)="onDropdownFocus.emit(column)"
-                      (keyup.enter)="onDropdownBlur()"
-                      (change)="onDropdownBlur()"
-                      (click)="onDropdownBlur()"
-          >
-            <ng-template let-item pTemplate="item">
-              <div (keyup.enter)="onDropdownBlur()"
-                   (change)="onDropdownBlur()">{{item.label}}</div>
-            </ng-template>
-          </p-dropdown>
-
+          <p-autoComplete [ngModel]="selectItemValue(row[column.column_name])"
+                          [suggestions]="selectItems"
+                          (completeMethod)="onDropdownFocus.emit(column)"
+                          [dataKey]="'value'"
+                          [field]="'label'"
+                          (onKeyUp)="onKeyUp($event, col, rowData, rowIndex)"
+                          (onSelect)="updateRecord({'column': column, 'row': row, 'value': $event.value})"
+                          [placeholder]="column.custom_name"
+                          #autocomplete
+          ></p-autoComplete>
         </ng-template>
 
       </p-column>
