@@ -26,7 +26,6 @@ export class TableComponent {
   public rowsPerPage = [10, 20];
   public selectedRecords: any[] = [];
   public selectionMode = 'multiple';
-
   @Input() areRecordsLoading: boolean;
   @Input() columns: DatatableColumn[];
   @Input() datatable: Datatable;
@@ -57,6 +56,21 @@ export class TableComponent {
   @Output() onPagination = new EventEmitter<DatatableUpdate>();
   @Output() onSort = new EventEmitter<DatatableUpdate>();
   @Output() onMultiselect = new EventEmitter<MultiselectOutput>();
+
+  private dropdownUpdate: any;
+
+  onDropdownBlur(event: any) {
+    if (this.dropdownUpdate) {
+      this.onEditComplete.emit(this.dropdownUpdate);
+    }
+    this.dropdownUpdate = null;
+    console.log('BLUR', JSON.stringify(event));
+  }
+
+  onDropdownChange(event: any) {
+    this.dropdownUpdate = event;
+    console.log('CHANGE', JSON.stringify(event));
+  }
 
   selectItemValue(label: string) {
     const selectItem = this.selectItems.filter((s: SelectItem) => s.label === label);

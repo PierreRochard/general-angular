@@ -18,6 +18,7 @@
       [rowsPerPageOptions]="rowsPerPage"
       [sortField]="sortColumn"
       [sortOrder]="sortOrder"
+      [style]="{'overflow':'visible'}"
       [totalRecords]="totalRecords"
       [value]="records"
     >
@@ -73,9 +74,17 @@
                       [placeholder]="column.custom_name"
                       [required]="false"
                       [style]="{'width':'100%'}"
-                      (onChange)="onEditComplete.emit({'column': column, 'row': row, 'value': $event.value})"
+                      (onBlur)="onDropdownBlur($event)"
+                      (onChange)="onDropdownChange({'column': column, 'row': row, 'value': $event.value})"
                       (onFocus)="onDropdownFocus.emit(column)"
+                      (keyup.enter)="onDropdownBlur()"
+                      (change)="onDropdownBlur()"
+                      (click)="onDropdownBlur()"
           >
+            <ng-template let-item pTemplate="item">
+              <div (keyup.enter)="onDropdownBlur()"
+                   (change)="onDropdownBlur()">{{item.label}}</div>
+            </ng-template>
           </p-dropdown>
 
         </ng-template>
