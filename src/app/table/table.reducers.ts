@@ -15,7 +15,7 @@ import {
   SELECT_RECORDS,
   TableActions,
   UPDATE_ROW_COUNT,
-  UPDATE_TABLE_NAME, RECEIVE_SELECT_ITEMS
+  UPDATE_TABLE_NAME, RECEIVE_SELECT_ITEMS,
 } from './table.actions';
 import { Datatable, DatatableColumn } from './table.models';
 
@@ -30,7 +30,7 @@ export interface TableState {
   rowOffset: number | null;
   schemaName: string | null;
   selectedRecords: any[];
-  selectItems: SelectItem[] | null;
+  selectItems: SelectItem[];
   selectItemsColumn: DatatableColumn | null;
   sortColumn: string | null;
   sortOrder: number | null;
@@ -47,11 +47,11 @@ const initialState: TableState = {
   rowOffset: 0,
   schemaName: null,
   selectedRecords: [],
-  selectItems: null,
+  selectItems: [],
   selectItemsColumn: null,
   sortColumn: null,
   sortOrder: 1,
-  tableName: null
+  tableName: null,
 };
 
 export function tableReducer(state = initialState, action: TableActions): TableState {
@@ -59,27 +59,27 @@ export function tableReducer(state = initialState, action: TableActions): TableS
   switch (action.type) {
     case ADD_RECORD:
       return Object.assign({}, state, {
-        records: [action.payload, ...state.records]
+        records: [action.payload, ...state.records],
       });
     case ARE_RECORDS_LOADING:
       return Object.assign({}, state, {
-        tableRecordsAreLoading: action.payload
+        tableRecordsAreLoading: action.payload,
       });
     case DESELECT_RECORD:
       return Object.assign({}, state, {
-        selectedRecords: state.selectedRecords.filter(record => record.id !== action.payload.id)
+        selectedRecords: state.selectedRecords.filter(record => record.id !== action.payload.id),
       });
     case DESELECT_RECORDS:
       return Object.assign({}, state, {
-        selectedRecords: []
+        selectedRecords: [],
       });
     case GET_DATATABLE_COLUMNS:
       return Object.assign({}, state, {
-        records: []
+        records: [],
       });
     case GET_SELECT_ITEMS:
       return Object.assign({}, state, {
-        selectItemsColumn: action.payload
+        selectItemsColumn: action.payload,
       });
     case RECEIVE_DATATABLE:
       return Object.assign({}, state, {
@@ -91,42 +91,44 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       });
     case RECEIVE_DATATABLE_COLUMNS:
       return Object.assign({}, state, {
-        columns: action.payload
+        columns: action.payload,
       });
     case RECEIVE_RECORDS:
       return Object.assign({}, state, {
         records: action.payload,
-        areRecordsLoading: false
+        areRecordsLoading: false,
       });
     case RECEIVE_SELECT_ITEMS:
       return Object.assign({}, state, {
-        selectItems: action.payload.map((si: any) => {
-          return {
-            'value': si[state.selectItemsColumn.select_item_value_column_name],
-            'label': si[state.selectItemsColumn.select_item_label_column_name]
-          }
-        })
+        selectItems: [
+          {'value': null, 'label': null},
+          ...action.payload.map((si: any) => {
+            return {
+              'value': si[state.selectItemsColumn.select_item_value_column_name],
+              'label': si[state.selectItemsColumn.select_item_label_column_name],
+            }
+          })],
       });
     case REMOVE_RECORD:
       return Object.assign({}, state, {
-        records: state.records.filter(record => record.id !== action.payload.id)
+        records: state.records.filter(record => record.id !== action.payload.id),
       });
     case REMOVE_RECORDS:
       return Object.assign({}, state, {
-        records: []
+        records: [],
       });
     case SELECT_RECORDS:
       return Object.assign({}, state, {
-        selectedRecords: action.payload
+        selectedRecords: action.payload,
       });
     case UPDATE_ROW_COUNT:
       return Object.assign({}, state, {
-        rowCount: action.payload
+        rowCount: action.payload,
       });
     case UPDATE_TABLE_NAME:
       return Object.assign({}, state, {
         tableName: action.payload.selectedObjectName,
-        schemaName: action.payload.selectedSchemaName
+        schemaName: action.payload.selectedSchemaName,
       });
     default:
       return state;

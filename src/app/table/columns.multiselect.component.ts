@@ -1,6 +1,9 @@
 // import { Component, EventEmitter, Input, Output } from '@angular/core';
-// import { DatatableColumn, MultiselectOutput } from 'app/table/table.models';
+//
 // import { SelectItem } from 'primeng/primeng';
+//
+// import { DatatableColumn, MultiselectOutput } from 'app/table/table.models';
+//
 //
 // @Component({
 //   selector: 'app-columns-multiselect-component',

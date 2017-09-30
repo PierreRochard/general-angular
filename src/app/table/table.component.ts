@@ -58,6 +58,15 @@ export class TableComponent {
   @Output() onSort = new EventEmitter<DatatableUpdate>();
   @Output() onMultiselect = new EventEmitter<MultiselectOutput>();
 
+  selectItemValue(label: string) {
+    const selectItem = this.selectItems.filter((s: SelectItem) => s.label === label);
+    if (selectItem.length) {
+      return selectItem[0].value;
+    } else {
+      return null
+    }
+  }
+
   _onColumnResize(event: ColumnResizeEvent): void {
     console.log(event);
   }

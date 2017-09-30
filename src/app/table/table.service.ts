@@ -78,6 +78,7 @@ export class TableService {
     const params: URLSearchParams = new URLSearchParams();
     const endpointName = '/' + column.select_item_table_name;
     params.set('select', [column.select_item_label_column_name, column.select_item_value_column_name].join(','));
+    params.set('order', column.select_item_label_column_name);
     return this.restClient.get(column.select_item_schema_name, endpointName, params)
   }
 
