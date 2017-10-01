@@ -22,7 +22,7 @@ import {
 } from './table.actions';
 import {
   Datatable, DatatableColumn, EditEvent,
-  MultiselectOutput, SuggestionsQuery,
+  MultiselectOutput, RecordsUpdate, SuggestionsQuery,
 } from './table.models';
 import { Subject } from 'rxjs/Subject';
 
@@ -98,25 +98,16 @@ export class TableContainer implements OnDestroy, OnInit {
   }
 
   onEditCancel(event: EditEvent) {
-    const routeParams: RouteParams = {
-      selectedObjectName: event.table_name,
-      selectedSchemaName: event.schema_name,
-      selectedObjectType: 'table',
-    };
-    this.store.dispatch(new GetDatatableAction(routeParams));
+    // const routeParams: RouteParams = {
+    //   selectedObjectName: event.table_name,
+    //   selectedSchemaName: event.schema_name,
+    //   selectedObjectType: 'table',
+    // };
+    // this.store.dispatch(new GetDatatableAction(routeParams));
   }
 
-  onEditComplete(edit: {column: DatatableColumn, row: any, value: string}) {
-    const {column, row, value} = edit;
-    console.log(edit);
-    const update_payload = {
-      data: value,
-      record_id: row.id,
-      column_name: column.column_name,
-      table_name: column.table_name,
-      schema_name: column.schema_name,
-    };
-    this.store.dispatch(new UpdateRecordAction(update_payload));
+  onEditComplete(event: RecordsUpdate) {
+    this.store.dispatch(new UpdateRecordAction(event));
   }
 
   onPagination(event: LazyLoadEvent) {

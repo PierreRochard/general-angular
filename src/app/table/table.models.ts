@@ -56,12 +56,10 @@ export interface EditEvent {
   column: Column;
   data: any;
   index: number;
-  schema_name: string;
-  table_name: string;
 }
 
 export interface RecordsUpdate {
-  data: any;
+  value: any;
   record_id: any;
   column_name: string;
   table_name: string;

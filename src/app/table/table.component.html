@@ -68,6 +68,7 @@
                      *ngIf="column.input_type !== 'text'">
           <p-autoComplete
             (completeMethod)="getSuggestions.emit({'column': column, 'value': $event.query})"
+            [dropdown]="true"
             [(ngModel)]="row[col.field]"
             (keydown)="dt.onCellEditorKeydown($event, col, row, index)"
             [placeholder]="column.custom_name"

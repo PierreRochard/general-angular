@@ -82,8 +82,8 @@ describe('Component: TableContainer', () => {
     // });
     //
     // it('should subscribe to items$', () => {
-    //   component.items$.subscribe(data => {
-    //     expect(data).toEqual(menubarAnonMenuitemsMockData);
+    //   component.items$.subscribe(value => {
+    //     expect(value).toEqual(menubarAnonMenuitemsMockData);
     //   });
     // });
   })

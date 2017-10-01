@@ -2,13 +2,11 @@ import {
   Component, EventEmitter, Input, Output, ViewChild, ViewEncapsulation,
 } from '@angular/core';
 
-import { SelectItem } from 'primeng/components/common/selectitem';
-
 import {
   ColumnResizeEvent, Datatable,
   DatatableColumn,
-  DatatableUpdate,
-  MultiselectOutput,
+  DatatableUpdate, EditEvent,
+  MultiselectOutput, RecordsUpdate,
   SuggestionsQuery,
 } from 'app/table/table.models';
 import { DataTable } from 'primeng/primeng';
@@ -57,7 +55,7 @@ export class TableComponent {
 
   @Output() getSuggestions = new EventEmitter<SuggestionsQuery>();
   @Output() onEditCancel = new EventEmitter<any>();
-  @Output() onEditComplete = new EventEmitter<any>();
+  @Output() onEditComplete = new EventEmitter<RecordsUpdate>();
   @Output() onFilterAdded = new EventEmitter<any>();
   @Output() onFilterRemoved = new EventEmitter<any>();
   @Output() onPagination = new EventEmitter<DatatableUpdate>();
@@ -66,18 +64,16 @@ export class TableComponent {
 
   @ViewChild('dt') dt: DataTable;
 
-  handleEscapeKey(event: any, col: any, rowData: any, rowIndex: any) {
-    // only need to forward escape key, everything else works
-    if (event.keyCode === 27) {
-      this.dt.onCellEditorKeydown(event, col, rowData, rowIndex)
-    } else {
-      console.log(event);
-    }
-  }
 
-  updateRecord(event: any) {
-    console.log('updateRecord', event);
-    // this.onEditComplete.emit(event);
+  updateRecord(event: EditEvent) {
+    const update: RecordsUpdate = {
+      value: event.data[event.column.field],
+      record_id: event.data['id'],
+      column_name: event.column.field,
+      table_name: this.datatable.table_name,
+      schema_name: this.datatable.schema_name
+    };
+    this.onEditComplete.emit(update);
   }
 
   _onColumnResize(event: ColumnResizeEvent): void {

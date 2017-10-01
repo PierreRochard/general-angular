@@ -99,7 +99,6 @@ export function tableReducer(state = initialState, action: TableActions): TableS
         areRecordsLoading: false,
       });
     case RECEIVE_SUGGESTIONS:
-      console.log(state.suggestionsColumn);
       return Object.assign({}, state, {
         suggestions: [
           ...action.payload.map((si: any) => {

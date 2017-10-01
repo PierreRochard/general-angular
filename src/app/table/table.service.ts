@@ -89,7 +89,7 @@ export class TableService {
   update_record(updateData: RecordsUpdate): Observable<Response> {
     const params: URLSearchParams = new URLSearchParams();
     const data: any = {};
-    data[updateData['column_name']] = updateData.data;
+    data[updateData['column_name']] = updateData.value;
     params.set('id', 'eq.' + updateData.record_id);
     return this.restClient.patch(updateData.schema_name, '/' + updateData.table_name, data, params)
   };
