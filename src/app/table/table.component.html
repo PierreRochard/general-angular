@@ -70,7 +70,7 @@
             (completeMethod)="getSuggestions.emit({'column': column, 'value': $event.query})"
             [dropdown]="true"
             [(ngModel)]="row[col.field]"
-            (keydown)="dt.onCellEditorKeydown($event, col, row, index)"
+            (keydown)="onCellEditorKeydown($event, col, row, index)"
             [placeholder]="column.custom_name"
             [suggestions]="suggestions"
           ></p-autoComplete>

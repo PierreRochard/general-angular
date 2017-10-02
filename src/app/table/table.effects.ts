@@ -162,9 +162,7 @@ export class TableEffects {
     .switchMap(([action, state]: [UpdateRecordAction, AppState]) => {
      return this.tableService.update_record(action.payload)
           .mergeMap(() => {
-            return [
-              new GetRecordsAction(state.table.datatable),
-            ];
+            return [];
           })
           .catch(error => {
             return of(new ReceiveDatatableAction(error));

@@ -9,7 +9,7 @@ import {
   MultiselectOutput, RecordsUpdate,
   SuggestionsQuery,
 } from 'app/table/table.models';
-import { DataTable } from 'primeng/primeng';
+import { Column, DataTable } from 'primeng/primeng';
 
 @Component({
   selector: 'app-table-component',
@@ -64,6 +64,49 @@ export class TableComponent {
 
   @ViewChild('dt') dt: DataTable;
 
+  onCellEditorKeydown(event: any, column: Column, rowData: any, rowIndex: number) {
+    if (this.dt.editable) {
+      this.dt.onEdit.emit({
+        originalEvent: event,
+        column: column,
+        data: rowData,
+        index: rowIndex,
+      });
+
+      if (event.keyCode === 13) { // enter
+        this.dt.onEditComplete.emit({
+          column: column,
+          data: rowData,
+          index: rowIndex,
+        });
+        if (event.shiftKey) {
+          this.dt.moveToPreviousCell(event);
+        } else {
+          this.dt.moveToNextCell(event);
+        }
+      } else if (event.keyCode === 27) { // escape
+        this.dt.onEditCancel.emit({
+          column: column,
+          data: rowData,
+          index: rowIndex,
+        });
+        this.dt.domHandler.invokeElementMethod(event.target, 'blur');
+        this.dt.switchCellToViewMode(event.target);
+        event.preventDefault();
+      } else if (event.keyCode === 9) { // tab
+        this.dt.onEditComplete.emit({
+          column: column,
+          data: rowData,
+          index: rowIndex,
+        });
+        if (event.shiftKey) {
+          this.dt.moveToPreviousCell(event);
+        } else {
+          this.dt.moveToNextCell(event);
+        }
+      }
+    }
+  }
 
   updateRecord(event: EditEvent) {
     const update: RecordsUpdate = {
@@ -71,9 +114,12 @@ export class TableComponent {
       record_id: event.data['id'],
       column_name: event.column.field,
       table_name: this.datatable.table_name,
-      schema_name: this.datatable.schema_name
+      schema_name: this.datatable.schema_name,
     };
-    this.onEditComplete.emit(update);
+    const is_change = this.records.filter(r => r.id === update.record_id)[0][update.column_name] !== update.value;
+    if (is_change) {
+      this.onEditComplete.emit(update);
+    }
   }
 
   _onColumnResize(event: ColumnResizeEvent): void {
