@@ -159,6 +159,9 @@ export class TableEffects {
   updateRecord$ = this.actions$
     .ofType(UPDATE_RECORD)
     .withLatestFrom(this.store)
+    .filter(([action, state]: [UpdateRecordAction, AppState]) => {
+    return action.payload.value !== state.table.records.filter(r => r.id === action.payload.record_id)[0][action.payload.column_name]
+    })
     .switchMap(([action, state]: [UpdateRecordAction, AppState]) => {
      return this.tableService.update_record(action.payload)
           .mergeMap(() => {

@@ -116,10 +116,7 @@ export class TableComponent {
       table_name: this.datatable.table_name,
       schema_name: this.datatable.schema_name,
     };
-    const is_change = this.records.filter(r => r.id === update.record_id)[0][update.column_name] !== update.value;
-    if (is_change) {
-      this.onEditComplete.emit(update);
-    }
+    this.onEditComplete.emit(update);
   }
 
   _onColumnResize(event: ColumnResizeEvent): void {
