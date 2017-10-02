@@ -4,7 +4,7 @@
       #dt
       [dataKey]="dataKey"
       [editable]="true"
-      [first]="rowOffset"
+      [first]="datatable.row_offset"
       [paginator]="paginator"
       [lazy]="true"
       [loading]="areRecordsLoading"
@@ -14,11 +14,11 @@
       [reorderableColumns]="reorderableColumns"
       [resizableColumns]="true"
       [responsive]="true"
-      [rows]="rowLimit"
+      [rows]="datatable.row_limit"
       [rowHover]="true"
       [rowsPerPageOptions]="rowsPerPage"
-      [sortField]="sortColumn"
-      [sortOrder]="sortOrder"
+      [sortField]="datatable.sort_column"
+      [sortOrder]="datatable.sort_order"
       [style]="{'overflow':'visible'}"
       [totalRecords]="totalRecords"
       [value]="records"
@@ -36,6 +36,10 @@
           </div>
         </div>
       </p-header>
+      <p-column
+      *ngIf="datatable.can_delete"
+      >
+      </p-column>
       <p-column
         *ngFor="let column of columns"
         [editable]="column.can_update"

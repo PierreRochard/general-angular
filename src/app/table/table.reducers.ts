@@ -1,10 +1,9 @@
-import { SelectItem } from 'primeng/components/common/selectitem';
-
 import {
   ADD_RECORD,
   ARE_RECORDS_LOADING,
   DESELECT_RECORDS,
   DESELECT_RECORD,
+  GET_DATATABLE,
   GET_DATATABLE_COLUMNS,
   GET_SUGGESTIONS,
   RECEIVE_DATATABLE,
@@ -21,9 +20,11 @@ import { Datatable, DatatableColumn } from './table.models';
 
 
 export interface TableState {
+  areColumnsLoading: boolean;
   areRecordsLoading: boolean;
   columns: DatatableColumn[];
   datatable: Datatable | null;
+  isDatatableLoading: boolean;
   records: any[];
   rowCount: number | null;
   rowLimit: number | null;
@@ -38,9 +39,11 @@ export interface TableState {
 }
 
 const initialState: TableState = {
+  areColumnsLoading: true,
   areRecordsLoading: true,
   columns: [],
   datatable: null,
+  isDatatableLoading: true,
   records: [],
   rowCount: null,
   rowLimit: null,
@@ -73,8 +76,14 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       return Object.assign({}, state, {
         selectedRecords: [],
       });
+    case GET_DATATABLE:
+      return Object.assign({}, state, {
+        isDatatableLoading: true,
+        records: [],
+      });
     case GET_DATATABLE_COLUMNS:
       return Object.assign({}, state, {
+        areColumnsLoading: true,
         records: [],
       });
     case GET_SUGGESTIONS:
@@ -84,6 +93,7 @@ export function tableReducer(state = initialState, action: TableActions): TableS
     case RECEIVE_DATATABLE:
       return Object.assign({}, state, {
         datatable: action.payload,
+        isDatatableLoading: false,
         rowLimit: action.payload.row_limit,
         rowOffset: action.payload.row_offset,
         sortColumn: action.payload.sort_column,
@@ -91,6 +101,7 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       });
     case RECEIVE_DATATABLE_COLUMNS:
       return Object.assign({}, state, {
+        areColumnsLoading: false,
         columns: action.payload,
       });
     case RECEIVE_RECORDS:

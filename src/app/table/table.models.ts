@@ -1,6 +1,7 @@
 import { Column, LazyLoadEvent } from 'primeng/primeng';
 
 export interface Datatable {
+  can_delete: boolean;
   custom_name: string;
   order_index: number;
   row_limit: number;

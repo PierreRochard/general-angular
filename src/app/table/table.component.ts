@@ -44,13 +44,7 @@ export class TableComponent {
     return this._records;
   }
 
-  @Input() rowLimit: number;
-  @Input() rowOffset: number;
-  @Input() schemaName: string;
-  @Input() sortColumn: string;
-  @Input() sortOrder: number;
   @Input() suggestions: string[];
-  @Input() tableName: string;
   @Input() totalRecords: number;
 
   @Output() getSuggestions = new EventEmitter<SuggestionsQuery>();
@@ -124,30 +118,18 @@ export class TableComponent {
   }
 
   _onLazyLoad(event: DatatableUpdate): void {
-    event.tableName = this.tableName;
-    event.schemaName = this.schemaName;
-    if (event.first !== this.rowOffset || event.rows !== this.rowLimit) {
+    event.tableName = this.datatable.table_name;
+    event.schemaName = this.datatable.schema_name;
+    if (event.first !== this.datatable.row_offset || event.rows !== this.datatable.row_limit) {
       this.onPagination.emit(event);
     }
-    if (event.sortOrder !== this.sortOrder || event.sortField !== this.sortColumn) {
+    if (event.sortOrder !== this.datatable.sort_order || event.sortField !== this.datatable.sort_column) {
       this.onSort.emit(event);
     }
-    // TODO: WIP column filtering
-    // const newFilteredColumns = Object.keys(event.filters);
-    // const oldFilteredColumns = this.columns.filter(c => c.filter_value !== null && c.filter_value.length > 0).map(c => {
-    //   return c.value
-    // });
-    // const addedFilters = newFilteredColumns.filter(c => oldFilteredColumns.indexOf(c) === -1)
-    //   .map(c => this.onFilterAdded.emit({column_name: c, table_name: this.table_name, filter_value: event.filters[c].value}));
-    // const removedFilters = oldFilteredColumns.filter(c => newFilteredColumns.indexOf(c) === -1)
-    //   .map(c => this.onFilterRemoved.emit({column_name: c, table_name: this.table_name}));
-    // const newFilterValues = oldFilteredColumns.filter(c => newFilteredColumns.indexOf(c) > -1)
-    //   .filter(c => event.filters[c].value !== this.columns.find(col => col.value === c).filter_value)
-    //   .map(c => this.onFilterAdded.emit({column_name: c, table_name: this.table_name, filter_value: event.filters[c].value}));
   }
 
   _onMultiselect(event: MultiselectOutput): void {
-    event.tableName = this.tableName;
+    event.tableName = this.datatable.table_name;
     this.onMultiselect.emit(event)
   }
 }

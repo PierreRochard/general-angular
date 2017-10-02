@@ -4,17 +4,17 @@ import {
 } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 import { Store } from '@ngrx/store';
 
 import { LazyLoadEvent } from 'primeng/primeng';
 
-import { AppState, getCurrentParams, getCurrentUrl } from '../app.reducers';
+import { AppState, getCurrentParams } from '../app.reducers';
 import { RouteParams } from '../router/router.models';
 
 import {
   UpdateRecordAction,
-  GetDatatableAction,
   UpdateColumnsVisibilityAction,
   UpdatePaginationAction,
   UpdateSortAction,
@@ -24,45 +24,37 @@ import {
   Datatable, DatatableColumn, EditEvent,
   MultiselectOutput, RecordsUpdate, SuggestionsQuery,
 } from './table.models';
-import { Subject } from 'rxjs/Subject';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-table-container',
   template: `
-    <app-table-component [areRecordsLoading]="areRecordsLoading$ | async"
-                         [columns]="columns$ | async"
-                         [datatable]="datatable$ | async"
-                         [records]="records$ | async"
-                         [rowLimit]="rowLimit$ | async"
-                         [rowOffset]="rowOffset$ | async"
-                         [suggestions]="suggestions$ | async"
-                         [sortColumn]="sortColumn$ | async"
-                         [sortOrder]="sortOrder$ | async"
-                         [tableName]="tableName$ | async"
-                         [totalRecords]="totalRecords$ | async"
-                         (getSuggestions)="getSuggestions($event)"
-                         (onEditCancel)="onEditCancel($event)"
-                         (onEditComplete)="onEditComplete($event)"
-                         (onPagination)="onPagination($event)"
-                         (onSort)="onSort($event)"
-                         (onMultiselect)="updateColumns($event)"
+    <app-table-component
+      *ngIf="!(isDatatableLoading$ | async) && !(areColumnsLoading$ | async)"
+      [areRecordsLoading]="areRecordsLoading$ | async"
+      [columns]="columns$ | async"
+      [datatable]="datatable$ | async"
+      [records]="records$ | async"
+      [suggestions]="suggestions$ | async"
+      [totalRecords]="totalRecords$ | async"
+      (getSuggestions)="getSuggestions($event)"
+      (onEditCancel)="onEditCancel($event)"
+      (onEditComplete)="onEditComplete($event)"
+      (onPagination)="onPagination($event)"
+      (onSort)="onSort($event)"
+      (onMultiselect)="updateColumns($event)"
     >
     </app-table-component>`,
 })
 export class TableContainer implements OnDestroy, OnInit {
+  public areColumnsLoading$: Observable<boolean>;
   public areRecordsLoading$: Observable<boolean>;
   public columns$: Observable<DatatableColumn[]>;
   public datatable$: Observable<Datatable | null>;
+  public isDatatableLoading$: Observable<boolean>;
   public records$: Observable<any[]>;
-  public rowLimit$: Observable<number | null>;
-  public rowOffset$: Observable<number | null>;
-  public schemaName$: Observable<string | null>;
   public selectedRouteParams$: Observable<RouteParams>;
   public suggestions$: Observable<string[]>;
-  public sortColumn$: Observable<string | null>;
-  public sortOrder$: Observable<number | null>;
-  public tableName$: Observable<string | null>;
   public totalRecords$: Observable<number | null>;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -71,18 +63,14 @@ export class TableContainer implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
+    this.areColumnsLoading$ = this.store.select(state => state.table.areColumnsLoading);
+    this.areRecordsLoading$ = this.store.select(state => state.table.areRecordsLoading);
     this.columns$ = this.store.select(state => state.table.columns);
     this.datatable$ = this.store.select(state => state.table.datatable);
+    this.isDatatableLoading$ = this.store.select(state => state.table.isDatatableLoading);
     this.records$ = this.store.select(state => state.table.records);
-    this.areRecordsLoading$ = this.store.select(state => state.table.areRecordsLoading);
-    this.rowLimit$ = this.store.select(state => state.table.rowLimit);
-    this.rowOffset$ = this.store.select(state => state.table.rowOffset);
-    this.schemaName$ = this.store.select(state => state.table.schemaName);
     this.selectedRouteParams$ = this.store.select(getCurrentParams);
     this.suggestions$ = this.store.select(state => state.table.suggestions);
-    this.sortColumn$ = this.store.select(state => state.table.sortColumn);
-    this.sortOrder$ = this.store.select(state => state.table.sortOrder);
-    this.tableName$ = this.store.select(state => state.table.tableName);
     this.totalRecords$ = this.store.select(state => state.table.rowCount);
 
     this.selectedRouteParams$
