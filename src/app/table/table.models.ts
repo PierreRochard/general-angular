@@ -1,6 +1,7 @@
 import { Column, LazyLoadEvent } from 'primeng/primeng';
 
 export interface Datatable {
+  can_archive: boolean;
   can_delete: boolean;
   custom_name: string;
   order_index: number;
@@ -32,6 +33,7 @@ export interface DatatableColumn {
   select_item_value_column_name: string;
   table_name: string;
   user_id: string;
+  styles: any;
 }
 
 export interface MultiselectOutput {

@@ -17,15 +17,17 @@
       [rows]="datatable.row_limit"
       [rowHover]="true"
       [rowsPerPageOptions]="rowsPerPage"
+      [scrollable]="true"
+      [scrollWidth]="datatableWidth"
       [sortField]="datatable.sort_column"
       [sortOrder]="datatable.sort_order"
-      [style]="{'overflow':'visible'}"
+      [style]="{'overflow':'visible', 'margin':'auto'}"
       [totalRecords]="totalRecords"
       [value]="records"
     >
       <p-header>
         <div class="ui-helper-clearfix" style="width:100%;">
-          {{datatable?.custom_name}}
+          {{datatable.custom_name}}
           <div style="float:right;">
             <!--<app-columns-multiselect-component-->
             <!--[columns]="columns"-->
@@ -37,8 +39,20 @@
         </div>
       </p-header>
       <p-column
-      *ngIf="datatable.can_delete"
+        *ngIf="datatable.can_archive"
+        [style]="actionColumnStyles"
       >
+        <ng-template pTemplate="body" let-row="rowData">
+          <button
+            *ngIf="datatable.can_archive"
+            pButton
+            class="ui-button-secondary"
+            (click)="archiveRow(row)"
+            [icon]="'fa-archive'"
+            [iconPos]="'left'"
+            [label]="'Archive'"
+            type="button"></button>
+        </ng-template>
       </p-column>
       <p-column
         *ngFor="let column of columns"
@@ -46,7 +60,7 @@
         [field]="column.column_name"
         [header]="column.custom_name"
         [hidden]="!column.is_visible"
-        [style]="columnStyle"
+        [style]="column.styles"
         [sortable]="column.is_sortable"
         [filter]="column.is_filterable"
         [filterMatchMode]="column.filter_match_mode"

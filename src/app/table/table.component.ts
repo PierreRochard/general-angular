@@ -4,10 +4,8 @@ import {
 
 import {
   ColumnResizeEvent, Datatable,
-  DatatableColumn,
-  DatatableUpdate, EditEvent,
-  MultiselectOutput, RecordsUpdate,
-  SuggestionsQuery,
+  DatatableColumn, DatatableUpdate, EditEvent,
+  MultiselectOutput, RecordsUpdate, SuggestionsQuery,
 } from 'app/table/table.models';
 import { Column, DataTable } from 'primeng/primeng';
 
@@ -18,12 +16,6 @@ import { Column, DataTable } from 'primeng/primeng';
   encapsulation: ViewEncapsulation.None,
 })
 export class TableComponent {
-  public columnStyle: any = {
-    'overflow': 'visible',
-    'height': '38px',
-    'padding-top': '0px',
-    'padding-bottom': '0px',
-  };
   public dataKey = 'id';
   public paginator = true;
   public reorderableColumns = false;
@@ -57,6 +49,37 @@ export class TableComponent {
   @Output() onMultiselect = new EventEmitter<MultiselectOutput>();
 
   @ViewChild('dt') dt: DataTable;
+
+  archiveRow(event: any) {
+    console.log(event);
+  }
+
+  get actionColumnStyles(): any {
+    if (this.datatable.can_archive) {
+      return {
+        'height': '38px',
+        'overflow': 'visible',
+        'padding-top': '0px',
+        'padding-bottom': '0px',
+        'width': '120px',
+      };
+    } else {
+      return null;
+    }
+  }
+
+  get datatableWidth(): string {
+    const columnWidths = [...this.columns, {is_visible: true, styles: this.actionColumnStyles}]
+      .filter(c => c.is_visible)
+      .map(c => Number(c.styles.width.slice(0, -2)));
+    console.log(columnWidths);
+    let totalColumnWidths = columnWidths.reduce(function (sum, value): number {
+      return sum + value;
+    }, 0.0);
+    totalColumnWidths += 2;
+    console.log(totalColumnWidths);
+    return totalColumnWidths.toString() + 'px'
+  }
 
   onCellEditorKeydown(event: any, column: Column, rowData: any, rowIndex: number) {
     if (this.dt.editable) {
