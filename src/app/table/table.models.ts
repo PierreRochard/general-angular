@@ -1,5 +1,23 @@
 import { Column, LazyLoadEvent } from 'primeng/primeng';
 
+export interface ColumnResizeEvent {
+  element: HTMLElement;
+  delta: number;
+}
+
+export interface ColumnsVisibilityUpdate {
+  columns: string[];
+  isVisible: boolean;
+  schemaName: string;
+  tableName: string;
+}
+
+export interface EditEvent {
+  column: Column;
+  data: any;
+  index: number;
+}
+
 export interface Datatable {
   can_archive: boolean;
   can_delete: boolean;
@@ -36,29 +54,16 @@ export interface DatatableColumn {
   styles: any;
 }
 
+export interface DatatableUpdate extends LazyLoadEvent {
+  schemaName: string;
+  tableName: string;
+}
+
 export interface MultiselectOutput {
   added: DatatableColumn[];
   removed: DatatableColumn[];
   schemaName?: string;
   tableName?: string;
-}
-
-export interface ColumnsVisibilityUpdate {
-  columns: string[];
-  isVisible: boolean;
-  schemaName: string;
-  tableName: string;
-}
-
-export interface ColumnResizeEvent {
-  element: HTMLElement;
-  delta: number;
-}
-
-export interface EditEvent {
-  column: Column;
-  data: any;
-  index: number;
 }
 
 export interface RecordsUpdate {
@@ -69,9 +74,14 @@ export interface RecordsUpdate {
   schema_name: string;
 }
 
-export interface DatatableUpdate extends LazyLoadEvent {
-  schemaName: string;
-  tableName: string;
+export interface Styles {
+  height: string;
+  overflow: string;
+  'padding-bottom': string;
+  'padding-left': string;
+  'padding-right': string;
+  'padding-top': string;
+  width: string;
 }
 
 export interface SuggestionsQuery {

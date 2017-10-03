@@ -69,15 +69,15 @@ export class TableComponent {
   }
 
   get datatableWidth(): string {
-    const columnWidths = [...this.columns, {is_visible: true, styles: this.actionColumnStyles}]
-      .filter(c => c.is_visible)
+    const columnWidths = [...this.columns, {
+      is_visible: true,
+      styles: this.actionColumnStyles,
+    }].filter(c => c.is_visible)
       .map(c => Number(c.styles.width.slice(0, -2)));
-    console.log(columnWidths);
     let totalColumnWidths = columnWidths.reduce(function (sum, value): number {
       return sum + value;
     }, 0.0);
     totalColumnWidths += 2;
-    console.log(totalColumnWidths);
     return totalColumnWidths.toString() + 'px'
   }
 
