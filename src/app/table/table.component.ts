@@ -5,7 +5,7 @@ import {
 import {
   ColumnResizeEvent, Datatable,
   DatatableColumn, DatatableUpdate, EditEvent,
-  MultiselectOutput, RecordsUpdate, SuggestionsQuery,
+  MultiselectOutput, RecordDelete, RecordUpdate, SuggestionsQuery,
 } from 'app/table/table.models';
 import { Column, DataTable } from 'primeng/primeng';
 
@@ -40,8 +40,9 @@ export class TableComponent {
   @Input() totalRecords: number;
 
   @Output() getSuggestions = new EventEmitter<SuggestionsQuery>();
+  @Output() onDelete = new EventEmitter<RecordDelete>();
   @Output() onEditCancel = new EventEmitter<any>();
-  @Output() onEditComplete = new EventEmitter<RecordsUpdate>();
+  @Output() onEditComplete = new EventEmitter<RecordUpdate>();
   @Output() onFilterAdded = new EventEmitter<any>();
   @Output() onFilterRemoved = new EventEmitter<any>();
   @Output() onPagination = new EventEmitter<DatatableUpdate>();
@@ -50,8 +51,15 @@ export class TableComponent {
 
   @ViewChild('dt') dt: DataTable;
 
-  archiveRow(event: any) {
+  archiveRow(event: MouseEvent, row: any) {
     console.log(event);
+    console.log(row);
+    const recordDelete: RecordDelete = {
+      record_id: row['id'],
+      table_name: this.datatable.table_name,
+      schema_name: this.datatable.schema_name,
+    };
+    this.onDelete.emit(recordDelete);
   }
 
   get actionColumnStyles(): any {
@@ -126,7 +134,7 @@ export class TableComponent {
   }
 
   updateRecord(event: EditEvent) {
-    const update: RecordsUpdate = {
+    const update: RecordUpdate = {
       value: event.data[event.column.field],
       record_id: event.data['id'],
       column_name: event.column.field,

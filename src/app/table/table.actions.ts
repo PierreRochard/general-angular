@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 import { RouteParams } from '../router/router.models';
 
 import {
-  Datatable, DatatableColumn, RecordsUpdate,
+  Datatable, DatatableColumn, RecordUpdate,
   SuggestionsQuery,
 } from './table.models';
 
@@ -134,7 +134,7 @@ export class UpdatePaginationAction implements Action {
 
 export class UpdateRecordAction implements Action {
   type = UPDATE_RECORD;
-  constructor(public payload: RecordsUpdate) {}
+  constructor(public payload: RecordUpdate) {}
 }
 
 export class UpdateRowCountAction implements Action {

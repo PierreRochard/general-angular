@@ -51,7 +51,7 @@ export interface DatatableColumn {
   select_item_value_column_name: string;
   table_name: string;
   user_id: string;
-  styles: any;
+  styles: Styles;
 }
 
 export interface DatatableUpdate extends LazyLoadEvent {
@@ -66,7 +66,13 @@ export interface MultiselectOutput {
   tableName?: string;
 }
 
-export interface RecordsUpdate {
+export interface RecordDelete {
+  record_id: any;
+  table_name: string;
+  schema_name: string;
+}
+
+export interface RecordUpdate {
   value: any;
   record_id: any;
   column_name: string;

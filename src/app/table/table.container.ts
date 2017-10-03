@@ -22,7 +22,7 @@ import {
 } from './table.actions';
 import {
   Datatable, DatatableColumn, EditEvent,
-  MultiselectOutput, RecordsUpdate, SuggestionsQuery,
+  MultiselectOutput, RecordUpdate, SuggestionsQuery,
 } from './table.models';
 
 @Component({
@@ -38,6 +38,7 @@ import {
       [suggestions]="suggestions$ | async"
       [totalRecords]="totalRecords$ | async"
       (getSuggestions)="getSuggestions($event)"
+      (onDelete)="onDelete($event)"
       (onEditCancel)="onEditCancel($event)"
       (onEditComplete)="onEditComplete($event)"
       (onPagination)="onPagination($event)"
@@ -85,6 +86,10 @@ export class TableContainer implements OnDestroy, OnInit {
     this.store.dispatch(new GetSuggestions(query));
   }
 
+  onDelete(id: string) {
+
+  }
+
   onEditCancel(event: EditEvent) {
     // const routeParams: RouteParams = {
     //   selectedObjectName: event.table_name,
@@ -94,7 +99,7 @@ export class TableContainer implements OnDestroy, OnInit {
     // this.store.dispatch(new GetDatatableAction(routeParams));
   }
 
-  onEditComplete(event: RecordsUpdate) {
+  onEditComplete(event: RecordUpdate) {
     this.store.dispatch(new UpdateRecordAction(event));
   }
 

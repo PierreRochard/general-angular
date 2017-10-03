@@ -11,7 +11,7 @@ import { RestClient } from 'app/rest/rest.service';
 import { AreRecordsLoadingAction } from './table.actions';
 import {
   ColumnsVisibilityUpdate, Datatable, DatatableColumn, DatatableUpdate,
-  RecordsUpdate, SuggestionsQuery,
+  RecordUpdate, SuggestionsQuery,
 } from './table.models';
 
 @Injectable()
@@ -86,7 +86,7 @@ export class TableService {
     return this.restClient.get(query.column.select_item_schema_name, endpointName, params)
   }
 
-  update_record(updateData: RecordsUpdate): Observable<Response> {
+  update_record(updateData: RecordUpdate): Observable<Response> {
     const params: URLSearchParams = new URLSearchParams();
     const data: any = {};
     data[updateData['column_name']] = updateData.value;

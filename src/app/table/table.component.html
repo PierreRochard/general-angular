@@ -47,7 +47,7 @@
             *ngIf="datatable.can_archive"
             pButton
             class="ui-button-secondary"
-            (click)="archiveRow(row)"
+            (click)="archiveRow($event, row)"
             [icon]="'fa-archive'"
             [iconPos]="'left'"
             [label]="'Archive'"
