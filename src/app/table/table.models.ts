@@ -66,13 +66,13 @@ export interface MultiselectOutput {
   tableName?: string;
 }
 
-export interface RecordDelete {
+export interface DeleteRecord {
   record_id: any;
   table_name: string;
   schema_name: string;
 }
 
-export interface RecordUpdate {
+export interface UpdateRecord {
   value: any;
   record_id: any;
   column_name: string;

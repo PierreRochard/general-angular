@@ -3,12 +3,13 @@ import { Action } from '@ngrx/store';
 import { RouteParams } from '../router/router.models';
 
 import {
-  Datatable, DatatableColumn, RecordUpdate,
-  SuggestionsQuery,
+  Datatable, DatatableColumn, UpdateRecord,
+  SuggestionsQuery, DeleteRecord,
 } from './table.models';
 
 export const ADD_RECORD = '[Table] Add Record';
 export const ARE_RECORDS_LOADING = '[Table] Are Records Loading';
+export const DELETE_RECORD = '[Table] Delete Record';
 export const DESELECT_RECORD = '[Table] Deselect Record';
 export const DESELECT_RECORDS = '[Table] Deselect Records';
 export const EDIT_CANCEL = '[Table] Edit Cancel';
@@ -42,6 +43,11 @@ export class AreRecordsLoadingAction implements Action {
   constructor(public payload: any) {}
 }
 
+export class DeleteRecordAction implements Action {
+  type = DELETE_RECORD;
+  constructor(public payload: DeleteRecord) {}
+}
+
 export class DeselectRecordAction implements Action {
   type = DESELECT_RECORD;
   constructor(public payload: any) {}
@@ -72,7 +78,7 @@ export class GetRecordsAction implements Action {
   constructor(public payload: Datatable) { }
 }
 
-export class GetSuggestions implements Action {
+export class GetSuggestionsAction implements Action {
   type = GET_SUGGESTIONS;
   constructor(public payload: SuggestionsQuery) { }
 }
@@ -134,7 +140,7 @@ export class UpdatePaginationAction implements Action {
 
 export class UpdateRecordAction implements Action {
   type = UPDATE_RECORD;
-  constructor(public payload: RecordUpdate) {}
+  constructor(public payload: UpdateRecord) {}
 }
 
 export class UpdateRowCountAction implements Action {
@@ -156,6 +162,7 @@ export class UpdateTableNameAction implements Action {
 export type TableActions
   = AddRecordAction
   | AreRecordsLoadingAction
+  | DeleteRecordAction
   | DeselectRecordAction
   | DeselectRecordsAction
   | GetDatatableColumnsAction

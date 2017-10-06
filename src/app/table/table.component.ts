@@ -5,7 +5,7 @@ import {
 import {
   ColumnResizeEvent, Datatable,
   DatatableColumn, DatatableUpdate, EditEvent,
-  MultiselectOutput, RecordDelete, RecordUpdate, SuggestionsQuery,
+  MultiselectOutput, DeleteRecord, UpdateRecord, SuggestionsQuery,
 } from 'app/table/table.models';
 import { Column, DataTable } from 'primeng/primeng';
 
@@ -40,9 +40,9 @@ export class TableComponent {
   @Input() totalRecords: number;
 
   @Output() getSuggestions = new EventEmitter<SuggestionsQuery>();
-  @Output() onDelete = new EventEmitter<RecordDelete>();
+  @Output() onDelete = new EventEmitter<DeleteRecord>();
   @Output() onEditCancel = new EventEmitter<any>();
-  @Output() onEditComplete = new EventEmitter<RecordUpdate>();
+  @Output() onEditComplete = new EventEmitter<UpdateRecord>();
   @Output() onFilterAdded = new EventEmitter<any>();
   @Output() onFilterRemoved = new EventEmitter<any>();
   @Output() onPagination = new EventEmitter<DatatableUpdate>();
@@ -54,7 +54,7 @@ export class TableComponent {
   archiveRow(event: MouseEvent, row: any) {
     console.log(event);
     console.log(row);
-    const recordDelete: RecordDelete = {
+    const recordDelete: DeleteRecord = {
       record_id: row['id'],
       table_name: this.datatable.table_name,
       schema_name: this.datatable.schema_name,
@@ -62,25 +62,28 @@ export class TableComponent {
     this.onDelete.emit(recordDelete);
   }
 
-  get actionColumnStyles(): any {
+  get actionColumn(): any {
     if (this.datatable.can_archive) {
       return {
-        'height': '38px',
-        'overflow': 'visible',
-        'padding-top': '0px',
-        'padding-bottom': '0px',
-        'width': '120px',
-      };
+        is_visible: true,
+        styles: {
+          'height': '38px',
+          'overflow': 'visible',
+          'padding-top': '0px',
+          'padding-bottom': '0px',
+          'width': '120px',
+        },
+      }
     } else {
-      return null;
+      return [];
     }
   }
 
   get datatableWidth(): string {
-    const columnWidths = [...this.columns, {
-      is_visible: true,
-      styles: this.actionColumnStyles,
-    }].filter(c => c.is_visible)
+    const columnWidths = this.columns.concat(this.actionColumn).filter(c => {
+      console.log(c);
+      return c.is_visible;
+    })
       .map(c => Number(c.styles.width.slice(0, -2)));
     let totalColumnWidths = columnWidths.reduce(function (sum, value): number {
       return sum + value;
@@ -134,7 +137,7 @@ export class TableComponent {
   }
 
   updateRecord(event: EditEvent) {
-    const update: RecordUpdate = {
+    const update: UpdateRecord = {
       value: event.data[event.column.field],
       record_id: event.data['id'],
       column_name: event.column.field,

@@ -79,12 +79,14 @@ export function tableReducer(state = initialState, action: TableActions): TableS
     case GET_DATATABLE:
       return Object.assign({}, state, {
         isDatatableLoading: true,
+        datatable: null,
         records: [],
       });
     case GET_DATATABLE_COLUMNS:
       return Object.assign({}, state, {
         areColumnsLoading: true,
         records: [],
+        columns: []
       });
     case GET_SUGGESTIONS:
       return Object.assign({}, state, {

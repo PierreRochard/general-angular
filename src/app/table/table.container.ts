@@ -14,15 +14,17 @@ import { AppState, getCurrentParams } from '../app.reducers';
 import { RouteParams } from '../router/router.models';
 
 import {
+  DeleteRecordAction,
+  GetSuggestionsAction,
   UpdateRecordAction,
   UpdateColumnsVisibilityAction,
   UpdatePaginationAction,
   UpdateSortAction,
-  SelectTableAction, GetSuggestions,
+  SelectTableAction,
 } from './table.actions';
 import {
   Datatable, DatatableColumn, EditEvent,
-  MultiselectOutput, RecordUpdate, SuggestionsQuery,
+  MultiselectOutput, DeleteRecord, UpdateRecord, SuggestionsQuery,
 } from './table.models';
 
 @Component({
@@ -83,11 +85,11 @@ export class TableContainer implements OnDestroy, OnInit {
   }
 
   getSuggestions(query: SuggestionsQuery) {
-    this.store.dispatch(new GetSuggestions(query));
+    this.store.dispatch(new GetSuggestionsAction(query));
   }
 
-  onDelete(id: string) {
-
+  onDelete(deleteRecord: DeleteRecord) {
+    this.store.dispatch(new DeleteRecordAction(deleteRecord));
   }
 
   onEditCancel(event: EditEvent) {
@@ -99,7 +101,7 @@ export class TableContainer implements OnDestroy, OnInit {
     // this.store.dispatch(new GetDatatableAction(routeParams));
   }
 
-  onEditComplete(event: RecordUpdate) {
+  onEditComplete(event: UpdateRecord) {
     this.store.dispatch(new UpdateRecordAction(event));
   }
 

@@ -21,8 +21,8 @@ import {
   SelectTableAction, UpdateTableNameAction,
   SELECT_TABLE, GET_DATATABLE, GET_SUGGESTIONS, UPDATE_PAGINATION, UPDATE_SORT,
   GET_DATATABLE_COLUMNS, UPDATE_COLUMNS_VISIBILITY, GET_RECORDS,
-  GetSuggestions, ReceiveSuggestionsAction, UPDATE_RECORD,
-  UpdateRecordAction,
+  GetSuggestionsAction, ReceiveSuggestionsAction, UPDATE_RECORD,
+  UpdateRecordAction, DELETE_RECORD, DeleteRecordAction,
 } from './table.actions';
 import { TableService } from './table.service';
 import { Datatable } from './table.models';
@@ -31,6 +31,18 @@ import { AppState } from '../app.reducers';
 
 @Injectable()
 export class TableEffects {
+
+  @Effect()
+  deleteRecord$ = this.actions$
+    .ofType(DELETE_RECORD)
+    .withLatestFrom(this.store)
+      .switchMap(([action, state]: [DeleteRecordAction, AppState]) => {
+        return this.tableService.delete_record(action.payload)
+          .mergeMap(() => {
+            return [
+              new GetRecordsAction(state.table.datatable)];
+          })
+      });
 
   @Effect()
   selectTable$ = this.actions$
@@ -145,7 +157,7 @@ export class TableEffects {
   @Effect()
   getSelectItems$ = this.actions$
     .ofType(GET_SUGGESTIONS)
-    .switchMap((action: GetSuggestions) => {
+    .switchMap((action: GetSuggestionsAction) => {
       return this.tableService.get_suggestions(action.payload)
         .mergeMap(response => {
           return [
@@ -160,17 +172,18 @@ export class TableEffects {
     .ofType(UPDATE_RECORD)
     .withLatestFrom(this.store)
     .filter(([action, state]: [UpdateRecordAction, AppState]) => {
-    return action.payload.value !== state.table.records.filter(r => r.id === action.payload.record_id)[0][action.payload.column_name]
+      // Make sure the value actually changed
+      return action.payload.value !== state.table.records.filter(r => r.id === action.payload.record_id)[0][action.payload.column_name]
     })
     .switchMap(([action, state]: [UpdateRecordAction, AppState]) => {
-     return this.tableService.update_record(action.payload)
+        return this.tableService.update_record(action.payload)
           .mergeMap(() => {
             return [];
           })
           .catch(error => {
             return of(new ReceiveDatatableAction(error));
           })
-      }
+      },
     );
 
   constructor(private actions$: Actions,

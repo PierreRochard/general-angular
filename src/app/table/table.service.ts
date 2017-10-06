@@ -11,7 +11,7 @@ import { RestClient } from 'app/rest/rest.service';
 import { AreRecordsLoadingAction } from './table.actions';
 import {
   ColumnsVisibilityUpdate, Datatable, DatatableColumn, DatatableUpdate,
-  RecordUpdate, SuggestionsQuery,
+  UpdateRecord, SuggestionsQuery, DeleteRecord,
 } from './table.models';
 
 @Injectable()
@@ -23,43 +23,11 @@ export class TableService {
     return this.restClient.get('admin', '/datatables', params)
   };
 
-  update_pagination(updateData: DatatableUpdate): Observable<Response> {
-    const newOffset = updateData.first;
-    const newLimit = updateData.rows;
-    const data = {
-      row_offset: newOffset,
-      row_limit: newLimit
-    };
-    const params: URLSearchParams = new URLSearchParams();
-    params.set('table_name', 'eq.' + updateData.tableName);
-    return this.restClient.patch('admin', '/datatables', data, params)
-  };
-
-  update_sort(updateData: DatatableUpdate): Observable<Response> {
-    const data = {
-      sort_column: updateData.sortField,
-      sort_order: updateData.sortOrder
-    };
-    const params: URLSearchParams = new URLSearchParams();
-    params.set('table_name', 'eq.' + updateData.tableName);
-    return this.restClient.patch('admin', '/datatables', data, params)
-  }
-
   get_datatable_columns(schemaName: string, tableName: string): Observable<Response> {
     const params: URLSearchParams = new URLSearchParams();
     params.set('table_name', 'eq.' + tableName);
     params.set('schema_name', 'eq.' + schemaName);
     return this.restClient.get('admin', '/datatable_columns', params);
-  };
-
-  update_columns_visibility(updateData: ColumnsVisibilityUpdate): Observable<Response> {
-    const data = {
-      is_visible: updateData.isVisible
-    };
-    const params: URLSearchParams = new URLSearchParams();
-    params.set('table_name', 'eq.' + updateData.tableName);
-    params.set('value', 'in.' + updateData.columns.join(','));
-    return this.restClient.patch('admin', '/datatable_columns', data, params)
   };
 
   get_records(datatable: Datatable): Observable<Response> {
@@ -86,13 +54,49 @@ export class TableService {
     return this.restClient.get(query.column.select_item_schema_name, endpointName, params)
   }
 
-  update_record(updateData: RecordUpdate): Observable<Response> {
+  delete_record(deleteRecord: DeleteRecord): Observable<Response> {
+    return this.restClient.delete(deleteRecord.schema_name, '/' + deleteRecord.table_name, deleteRecord.record_id)
+  };
+
+  update_columns_visibility(updateData: ColumnsVisibilityUpdate): Observable<Response> {
+    const data = {
+      is_visible: updateData.isVisible,
+    };
+    const params: URLSearchParams = new URLSearchParams();
+    params.set('table_name', 'eq.' + updateData.tableName);
+    params.set('value', 'in.' + updateData.columns.join(','));
+    return this.restClient.patch('admin', '/datatable_columns', data, params)
+  };
+
+  update_pagination(updateData: DatatableUpdate): Observable<Response> {
+    const newOffset = updateData.first;
+    const newLimit = updateData.rows;
+    const data = {
+      row_offset: newOffset,
+      row_limit: newLimit,
+    };
+    const params: URLSearchParams = new URLSearchParams();
+    params.set('table_name', 'eq.' + updateData.tableName);
+    return this.restClient.patch('admin', '/datatables', data, params)
+  };
+
+  update_record(updateData: UpdateRecord): Observable<Response> {
     const params: URLSearchParams = new URLSearchParams();
     const data: any = {};
     data[updateData['column_name']] = updateData.value;
     params.set('id', 'eq.' + updateData.record_id);
     return this.restClient.patch(updateData.schema_name, '/' + updateData.table_name, data, params)
   };
+
+  update_sort(updateData: DatatableUpdate): Observable<Response> {
+    const data = {
+      sort_column: updateData.sortField,
+      sort_order: updateData.sortOrder,
+    };
+    const params: URLSearchParams = new URLSearchParams();
+    params.set('table_name', 'eq.' + updateData.tableName);
+    return this.restClient.patch('admin', '/datatables', data, params)
+  }
 
 
   constructor(private restClient: RestClient,
