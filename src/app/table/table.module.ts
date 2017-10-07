@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AutoCompleteModule } from 'primeng/components/autocomplete/autocomplete';
 import { ButtonModule } from 'primeng/components/button/button';
+import { ContextMenuModule } from 'primeng/components/contextmenu/contextmenu';
 import { DataTableModule } from 'primeng/components/datatable/datatable';
 import { InputTextModule } from 'primeng/components/inputtext/inputtext';
 import { MultiSelectModule } from 'primeng/components/multiselect/multiselect';
@@ -12,13 +13,13 @@ import { PasswordModule } from 'primeng/components/password/password';
 import { TableContainer } from './table.container';
 import { TableComponent } from './table.component';
 import { TableService } from './table.service';
-// import { ColumnsMultiselectComponent } from './columns.multiselect.component';
 
 @NgModule({
   imports: [
     AutoCompleteModule,
     ButtonModule,
     CommonModule,
+    ContextMenuModule,
     DataTableModule,
     FormsModule,
     InputTextModule,
@@ -27,7 +28,6 @@ import { TableService } from './table.service';
     ReactiveFormsModule,
   ],
   declarations: [
-    // ColumnsMultiselectComponent,
     TableComponent,
     TableContainer,
   ],

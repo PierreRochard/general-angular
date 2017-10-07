@@ -19,10 +19,8 @@ export class TableComponent {
   public dataKey = 'id';
   public paginator = true;
   public reorderableColumns = false;
-  public resizableColumns = true;
   public rowsPerPage = [10, 20];
-  public selectedRecords: any[] = [];
-  public selectionMode = 'multiple';
+
   @Input() areRecordsLoading: boolean;
   @Input() columns: DatatableColumn[];
   @Input() datatable: Datatable;
@@ -72,6 +70,7 @@ export class TableComponent {
           'padding-top': '0px',
           'padding-bottom': '0px',
           'width': '120px',
+          'text-align': 'center'
         },
       }
     } else {
@@ -81,7 +80,6 @@ export class TableComponent {
 
   get datatableWidth(): string {
     const columnWidths = this.columns.concat(this.actionColumn).filter(c => {
-      console.log(c);
       return c.is_visible;
     })
       .map(c => Number(c.styles.width.slice(0, -2)));
@@ -89,6 +87,8 @@ export class TableComponent {
       return sum + value;
     }, 0.0);
     totalColumnWidths += 2;
+    totalColumnWidths = Math.max(totalColumnWidths, 400);
+    totalColumnWidths = Math.min(totalColumnWidths, 1100);
     return totalColumnWidths.toString() + 'px'
   }
 

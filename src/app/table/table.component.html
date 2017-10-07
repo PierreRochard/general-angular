@@ -28,19 +28,11 @@
       <p-header>
         <div class="ui-helper-clearfix" style="width:100%;">
           {{datatable.custom_name}}
-          <div style="float:right;">
-            <!--<app-columns-multiselect-component-->
-            <!--[columns]="columns"-->
-            <!--[selectedColumns]="columns"-->
-            <!--(onChange)="_onMultiselect($event)"-->
-            <!--&gt;-->
-            <!--</app-columns-multiselect-component>-->
-          </div>
         </div>
       </p-header>
       <p-column
         *ngIf="datatable.can_archive"
-        [style]="actionColumnStyles"
+        [style]="actionColumn.styles"
       >
         <ng-template pTemplate="body" let-row="rowData">
           <button
@@ -82,9 +74,17 @@
         <ng-template let-col
                      let-row="rowData"
                      let-index="rowIndex"
-                     pTemplate="editor"
-                     *ngIf="column.input_type !== 'text'">
+                     pTemplate="editor">
+
+          <input
+            *ngIf="column.input_type === 'text'"
+            pInputText
+            [(ngModel)]="row[col.field]"
+            (keydown)="onCellEditorKeydown($event, col, row, index)"
+            placeholder="{{column.custom_name}}"
+            >
           <p-autoComplete
+            *ngIf="column.input_type === 'dropdown'"
             (completeMethod)="getSuggestions.emit({'column': column, 'value': $event.query})"
             [dropdown]="true"
             [(ngModel)]="row[col.field]"
