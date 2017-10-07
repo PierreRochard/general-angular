@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AutoCompleteModule } from 'primeng/components/autocomplete/autocomplete';
 import { ButtonModule } from 'primeng/components/button/button';
-import { ContextMenuModule } from 'primeng/components/contextmenu/contextmenu';
 import { DataTableModule } from 'primeng/components/datatable/datatable';
 import { InputTextModule } from 'primeng/components/inputtext/inputtext';
 import { MultiSelectModule } from 'primeng/components/multiselect/multiselect';
@@ -19,7 +18,6 @@ import { TableService } from './table.service';
     AutoCompleteModule,
     ButtonModule,
     CommonModule,
-    ContextMenuModule,
     DataTableModule,
     FormsModule,
     InputTextModule,
