@@ -42,16 +42,20 @@ export interface DatatableColumn {
   format_pattern: string;
   input_type: string;
   is_filterable: boolean;
+  is_multiple: boolean;
   is_sortable: boolean;
   is_visible: boolean;
   schema_name: string;
+  select_item_label_column_name: string;
   select_item_schema_name: string;
   select_item_table_name: string;
-  select_item_label_column_name: string;
   select_item_value_column_name: string;
+  styles: Styles;
+  suggestion_column_name: string;
+  suggestion_schema_name: string;
+  suggestion_table_name: string;
   table_name: string;
   user_id: string;
-  styles: Styles;
 }
 
 export interface DatatableUpdate extends LazyLoadEvent {

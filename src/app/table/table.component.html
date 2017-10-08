@@ -84,9 +84,11 @@
             placeholder="{{column.custom_name}}"
             >
           <p-autoComplete
-            *ngIf="column.input_type === 'dropdown'"
+            *ngIf="column.input_type === 'autocomplete'"
             (completeMethod)="getSuggestions.emit({'column': column, 'value': $event.query})"
             [dropdown]="true"
+            [field]="column.select_item_label_column_name"
+            [multiple]="column.is_multiple"
             [(ngModel)]="row[col.field]"
             (keydown)="onCellEditorKeydown($event, col, row, index)"
             [placeholder]="column.custom_name"
