@@ -3,8 +3,7 @@ import {
 } from '@angular/core';
 
 import {
-  ColumnResizeEvent, Datatable,
-  DatatableColumn, DatatableUpdate, EditEvent,
+  Datatable, DatatableColumn, DatatableUpdate, EditEvent,
   MultiselectOutput, DeleteRecord, UpdateRecord, SuggestionsQuery,
 } from 'app/table/table.models';
 import { Column, DataTable } from 'primeng/primeng';
@@ -16,10 +15,18 @@ import { Column, DataTable } from 'primeng/primeng';
   encapsulation: ViewEncapsulation.None,
 })
 export class TableComponent {
+  // todo: move these into table settings
   public dataKey = 'id';
+  public editable = true;
+  public lazy = true;
   public paginator = true;
   public reorderableColumns = false;
+  public resizableColumns = true;
+  public responsive = true;
+  public rowHover = true;
   public rowsPerPage = [10, 20];
+  public scrollable = true;
+  public style = {'overflow': 'visible', 'margin': 'auto'};
 
   @Input() areRecordsLoading: boolean;
   @Input() columns: DatatableColumn[];
@@ -49,17 +56,6 @@ export class TableComponent {
 
   @ViewChild('dt') dt: DataTable;
 
-  archiveRow(event: MouseEvent, row: any) {
-    console.log(event);
-    console.log(row);
-    const recordDelete: DeleteRecord = {
-      record_id: row['id'],
-      table_name: this.datatable.table_name,
-      schema_name: this.datatable.schema_name,
-    };
-    this.onDelete.emit(recordDelete);
-  }
-
   get actionColumn(): any {
     if (this.datatable.can_archive) {
       return {
@@ -70,12 +66,23 @@ export class TableComponent {
           'padding-top': '0px',
           'padding-bottom': '0px',
           'width': '120px',
-          'text-align': 'center'
+          'text-align': 'center',
         },
       }
     } else {
       return [];
     }
+  }
+
+  archiveRow(event: MouseEvent, row: any) {
+    console.log(event);
+    console.log(row);
+    const recordDelete: DeleteRecord = {
+      record_id: row['id'],
+      table_name: this.datatable.table_name,
+      schema_name: this.datatable.schema_name,
+    };
+    this.onDelete.emit(recordDelete);
   }
 
   get datatableWidth(): string {
@@ -136,6 +143,17 @@ export class TableComponent {
     }
   }
 
+  onLazyLoad(event: DatatableUpdate): void {
+    event.tableName = this.datatable.table_name;
+    event.schemaName = this.datatable.schema_name;
+    if (event.first !== this.datatable.row_offset || event.rows !== this.datatable.row_limit) {
+      this.onPagination.emit(event);
+    }
+    if (event.sortOrder !== this.datatable.sort_order || event.sortField !== this.datatable.sort_column) {
+      this.onSort.emit(event);
+    }
+  }
+
   updateRecord(event: EditEvent) {
     const update: UpdateRecord = {
       value: event.data[event.column.field],
@@ -147,23 +165,4 @@ export class TableComponent {
     this.onEditComplete.emit(update);
   }
 
-  _onColumnResize(event: ColumnResizeEvent): void {
-    console.log(event);
-  }
-
-  _onLazyLoad(event: DatatableUpdate): void {
-    event.tableName = this.datatable.table_name;
-    event.schemaName = this.datatable.schema_name;
-    if (event.first !== this.datatable.row_offset || event.rows !== this.datatable.row_limit) {
-      this.onPagination.emit(event);
-    }
-    if (event.sortOrder !== this.datatable.sort_order || event.sortField !== this.datatable.sort_column) {
-      this.onSort.emit(event);
-    }
-  }
-
-  _onMultiselect(event: MultiselectOutput): void {
-    event.tableName = this.datatable.table_name;
-    this.onMultiselect.emit(event)
-  }
 }
