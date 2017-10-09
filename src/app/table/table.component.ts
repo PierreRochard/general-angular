@@ -34,6 +34,7 @@ export class TableComponent {
   _records: any[];
   @Input()
   set records(value: any[]) {
+    console.log(value);
     this._records = JSON.parse(JSON.stringify(value));
   };
 

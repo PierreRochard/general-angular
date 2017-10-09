@@ -43,6 +43,7 @@ export interface DatatableColumn {
   input_type: string;
   is_filterable: boolean;
   is_multiple: boolean;
+  is_select_item: boolean;
   is_sortable: boolean;
   is_visible: boolean;
   schema_name: string;

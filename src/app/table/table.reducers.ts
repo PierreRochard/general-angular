@@ -113,10 +113,7 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       });
     case RECEIVE_SUGGESTIONS:
       return Object.assign({}, state, {
-        suggestions: [
-          ...action.payload.map((si: any) => {
-            return si[state.suggestionsColumn.suggestion_column_name];
-          })],
+        suggestions: action.payload,
       });
     case REMOVE_RECORD:
       return Object.assign({}, state, {

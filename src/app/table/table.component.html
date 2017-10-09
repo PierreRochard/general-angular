@@ -58,15 +58,46 @@
       >
         <ng-template let-row="rowData" pTemplate="body">
           <div [ngSwitch]="column.data_type">
-          <span *ngSwitchCase="'timestamp without time zone'">
-            {{row[column.column_name] | date:column.format_pattern}}
-          </span>
+
+            <span *ngSwitchCase="'timestamp without time zone'">
+              {{row[column.column_name] | date:column.format_pattern}}
+            </span>
+
             <span *ngSwitchCase="'numeric'">
-            {{row[column.column_name] | number:column.format_pattern}}
-          </span>
+              {{row[column.column_name] | number:column.format_pattern}}
+            </span>
+
+            <span *ngSwitchCase="'json'">
+
+              <span *ngIf="column.is_select_item">
+                <span *ngIf="column.is_multiple">
+                   <span *ngFor="let item of row[column.column_name]">
+                      {{item[column.select_item_label_column_name]}}
+                   </span>
+                </span>
+                <span *ngIf="!column.is_multiple">
+                      {{row[column.column_name][column.select_item_label_column_name]}}
+                </span>
+              </span>
+
+              <span *ngIf="!column.is_select_item">
+                {{row[column.column_name] | json}}
+              </span>
+            </span>
+
+            <!--<span *ngSwitchCase="'ARRAY'">-->
+              <!--<span *ngFor="let item of row[column.column_name]">-->
+                <!--<span *ngIf="column.is_select_item">-->
+                  <!--{{item[column.select_item_label_column_name] | json}}-->
+                <!--</span>-->
+                <!--<span *ngIf="!column.is_select_item">-->
+                  <!--{{item | json}}-->
+                <!--</span>-->
+              <!--</span>-->
+            <!--</span>-->
             <span *ngSwitchDefault>
-            {{row[column.column_name]}}
-          </span>
+              {{row[column.column_name]}}
+            </span>
           </div>
         </ng-template>
 
@@ -81,18 +112,24 @@
             [(ngModel)]="row[col.field]"
             (keydown)="onCellEditorKeydown($event, col, row, index)"
             placeholder="{{column.custom_name}}"
-            >
+          >
           <p-autoComplete
             *ngIf="column.input_type === 'autocomplete'"
             (completeMethod)="getSuggestions.emit({'column': column, 'value': $event.query})"
             [dropdown]="true"
-            [field]="column.select_item_label_column_name"
             [multiple]="column.is_multiple"
             [(ngModel)]="row[col.field]"
             (keydown)="onCellEditorKeydown($event, col, row, index)"
             [placeholder]="column.custom_name"
             [suggestions]="suggestions"
-          ></p-autoComplete>
+          >
+            <ng-template let-tmpSelectedItem pTemplate="selectedItem">
+              {{tmpSelectedItem[column.select_item_label_column_name]}} tmpSelectedItem
+            </ng-template>
+            <ng-template let-tmpItem pTemplate="item">
+              {{tmpItem[column.select_item_label_column_name]}} tmpItem
+            </ng-template>
+          </p-autoComplete>
         </ng-template>
 
       </p-column>
