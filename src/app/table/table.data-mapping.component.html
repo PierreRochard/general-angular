@@ -1,0 +1,55 @@
+<div class="ui-g">
+  <div class="ui-g-2">
+  </div>
+  <div class="ui-g-8">
+    <p-fieldset [legend]="header">
+      <div class="ui-g">
+        <div class="ui-g-1">
+        </div>
+        <div class="ui-g-5">
+          <p-autoComplete
+            (completeMethod)="getKeywordSuggestions.emit({'column': keyword_input.column, 'value': $event.query})"
+            [dropdown]="keyword_input.is_dropdown"
+            [multiple]="keyword_input.is_multiple"
+            [(ngModel)]="keyword_input.data"
+            (keydown)="onCellEditorKeydown($event)"
+            [placeholder]="keyword_input.custom_name"
+            [suggestions]="suggestions"
+          >
+            <ng-template let-tmpSelectedItem pTemplate="selectedItem">
+              {{tmpSelectedItem[column.select_item_label_column_name]}}
+              tmpSelectedItem
+            </ng-template>
+            <ng-template let-tmpItem pTemplate="item">
+              {{tmpItem[column.select_item_label_column_name]}} tmpItem
+            </ng-template>
+          </p-autoComplete>
+        </div>
+
+        <div class="ui-g-5">
+          <p-autoComplete
+            (completeMethod)="getMappingSuggestions.emit({'column': mapping_input.column, 'value': $event.query})"
+            [dropdown]="mapping_input.is_dropdown"
+            [multiple]="mapping_input.is_multiple"
+            [(ngModel)]="mapping_input.data"
+            (keydown)="onCellEditorKeydown($event)"
+            [placeholder]="mapping_input.custom_name"
+            [suggestions]="suggestions"
+          >
+            <ng-template let-tmpSelectedItem pTemplate="selectedItem">
+              {{tmpSelectedItem[column.select_item_label_column_name]}}
+              tmpSelectedItem
+            </ng-template>
+            <ng-template let-tmpItem pTemplate="item">
+              {{tmpItem[column.select_item_label_column_name]}} tmpItem
+            </ng-template>
+          </p-autoComplete>
+        </div>
+        <div class="ui-g-1">
+        </div>
+      </div>
+    </p-fieldset>
+  </div>
+  <div class="ui-g-2">
+  </div>
+</div>

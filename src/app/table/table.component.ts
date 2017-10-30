@@ -101,45 +101,43 @@ export class TableComponent {
   }
 
   onCellEditorKeydown(event: any, column: Column, rowData: any, rowIndex: number) {
-    if (this.dt.editable) {
-      this.dt.onEdit.emit({
-        originalEvent: event,
+    this.dt.onEdit.emit({
+      originalEvent: event,
+      column: column,
+      data: rowData,
+      index: rowIndex,
+    });
+
+    if (event.keyCode === 13) { // enter
+      this.dt.onEditComplete.emit({
         column: column,
         data: rowData,
         index: rowIndex,
       });
-
-      if (event.keyCode === 13) { // enter
-        this.dt.onEditComplete.emit({
-          column: column,
-          data: rowData,
-          index: rowIndex,
-        });
-        if (event.shiftKey) {
-          this.dt.moveToPreviousCell(event);
-        } else {
-          this.dt.moveToNextCell(event);
-        }
-      } else if (event.keyCode === 27) { // escape
-        this.dt.onEditCancel.emit({
-          column: column,
-          data: rowData,
-          index: rowIndex,
-        });
-        this.dt.domHandler.invokeElementMethod(event.target, 'blur');
-        this.dt.switchCellToViewMode(event.target);
-        event.preventDefault();
-      } else if (event.keyCode === 9) { // tab
-        this.dt.onEditComplete.emit({
-          column: column,
-          data: rowData,
-          index: rowIndex,
-        });
-        if (event.shiftKey) {
-          this.dt.moveToPreviousCell(event);
-        } else {
-          this.dt.moveToNextCell(event);
-        }
+      if (event.shiftKey) {
+        this.dt.moveToPreviousCell(event);
+      } else {
+        this.dt.moveToNextCell(event);
+      }
+    } else if (event.keyCode === 27) { // escape
+      this.dt.onEditCancel.emit({
+        column: column,
+        data: rowData,
+        index: rowIndex,
+      });
+      this.dt.domHandler.invokeElementMethod(event.target, 'blur');
+      this.dt.switchCellToViewMode(event.target);
+      event.preventDefault();
+    } else if (event.keyCode === 9) { // tab
+      this.dt.onEditComplete.emit({
+        column: column,
+        data: rowData,
+        index: rowIndex,
+      });
+      if (event.shiftKey) {
+        this.dt.moveToPreviousCell(event);
+      } else {
+        this.dt.moveToNextCell(event);
       }
     }
   }
