@@ -14,7 +14,8 @@ export class RestClient {
 
   static createEndpoint(schemaName: string, endpoint: string) {
     const _domain = '.rochard.org';
-    return 'https://' + schemaName + _domain + endpoint
+    const _schemaName = schemaName.replace('_', '');
+    return 'https://' + _schemaName + _domain + endpoint
   }
 
   static createAuthorizationHeader(headers: Headers, token: string | null) {
