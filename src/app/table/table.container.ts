@@ -32,7 +32,11 @@ import {
   selector: 'app-table-container',
   template: `
     <app-table-data-mapping-component
-      *ngIf="!(isDatatableLoading$ | async)">
+      *ngIf="!(isDatatableLoading$ | async)"
+      [suggestions]="suggestions$ | async"
+      (getKeywordSuggestions)="getSuggestions($event)"
+      (getMappingSuggestions)="getSuggestions($event)"
+    >
     </app-table-data-mapping-component>
     <app-table-component
       *ngIf="!(isDatatableLoading$ | async) && !(areColumnsLoading$ | async)"

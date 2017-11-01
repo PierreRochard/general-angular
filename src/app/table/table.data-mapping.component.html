@@ -10,6 +10,7 @@
           <p-autoComplete
             (completeMethod)="getKeywordSuggestions.emit({'column': keyword_input.column, 'value': $event.query})"
             [dropdown]="keyword_input.is_dropdown"
+            [field]="keyword_input.column.suggestion_column_name"
             [multiple]="keyword_input.is_multiple"
             [(ngModel)]="keyword_input.data"
             (keydown)="onCellEditorKeydown($event)"
@@ -17,11 +18,11 @@
             [suggestions]="suggestions"
           >
             <ng-template let-tmpSelectedItem pTemplate="selectedItem">
-              {{tmpSelectedItem[column.select_item_label_column_name]}}
+              {{tmpSelectedItem[keyword_input.column.suggestion_column_name]}}
               tmpSelectedItem
             </ng-template>
             <ng-template let-tmpItem pTemplate="item">
-              {{tmpItem[column.select_item_label_column_name]}} tmpItem
+              {{tmpItem[keyword_input.column.suggestion_column_name]}} tmpItem
             </ng-template>
           </p-autoComplete>
         </div>
@@ -30,6 +31,7 @@
           <p-autoComplete
             (completeMethod)="getMappingSuggestions.emit({'column': mapping_input.column, 'value': $event.query})"
             [dropdown]="mapping_input.is_dropdown"
+            [field]="mapping_input.column.suggestion_column_name"
             [multiple]="mapping_input.is_multiple"
             [(ngModel)]="mapping_input.data"
             (keydown)="onCellEditorKeydown($event)"
@@ -37,11 +39,11 @@
             [suggestions]="suggestions"
           >
             <ng-template let-tmpSelectedItem pTemplate="selectedItem">
-              {{tmpSelectedItem[column.select_item_label_column_name]}}
+              {{tmpSelectedItem[mapping_input.column.suggestion_column_name]}}
               tmpSelectedItem
             </ng-template>
             <ng-template let-tmpItem pTemplate="item">
-              {{tmpItem[column.select_item_label_column_name]}} tmpItem
+              {{tmpItem[mapping_input.column.suggestion_column_name]}} tmpItem
             </ng-template>
           </p-autoComplete>
         </div>

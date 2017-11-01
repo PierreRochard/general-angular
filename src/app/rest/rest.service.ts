@@ -14,7 +14,9 @@ export class RestClient {
 
   static createEndpoint(schemaName: string, endpoint: string) {
     const _domain = '.rochard.org';
-    const _schemaName = schemaName.replace('_', '');
+    console.log(schemaName);
+    const _schemaName = schemaName.replace(/_/g, '');
+    console.log(_schemaName);
     return 'https://' + _schemaName + _domain + endpoint
   }
 

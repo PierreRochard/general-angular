@@ -34,9 +34,9 @@ export class TableDataMappingComponent {
         'select_item_table_name': null,
         'select_item_label_column_name': null,
         'select_item_value_column_name': null,
-        'suggestion_column_name': null,
-        'suggestion_schema_name': null,
-        'suggestion_table_name': null,
+        'suggestion_column_name': 'description',
+        'suggestion_schema_name': 'banking',
+        'suggestion_table_name': 'transactions',
         'table_name': 'transactions',
         'user_id': '1840e030-186e-4be3-a517-79762a96427d',
         'styles': {
@@ -56,7 +56,41 @@ export class TableDataMappingComponent {
     is_multiple: false,
     custom_name: 'Mapping',
     data: null,
-    // column: {''},
+    column: {
+      'id': 74,
+      'can_update': false,
+      'column_name': 'name',
+      'custom_name': 'Name',
+      'data_type': 'character varying',
+      'filter_match_mode': 'contains',
+      'filter_value': null,
+      'format_pattern': null,
+      'input_type': 'text',
+      'is_filterable': false,
+      'is_multiple': false,
+      'is_select_item': false,
+      'is_sortable': true,
+      'is_visible': true,
+      'schema_name': 'chart_of_accounts',
+      'select_item_schema_name': null,
+      'select_item_table_name': null,
+      'select_item_label_column_name': null,
+      'select_item_value_column_name': null,
+      'suggestion_column_name': 'name',
+      'suggestion_schema_name': 'chart_of_accounts',
+      'suggestion_table_name': 'expense_subaccounts',
+      'table_name': 'expense_subaccounts',
+      'user_id': '1840e030-186e-4be3-a517-79762a96427d',
+      'styles': {
+        'height': 'auto',
+        'overflow': 'visible',
+        'padding-bottom': 'auto',
+        'padding-left': 'auto',
+        'padding-right': 'auto',
+        'padding-top': 'auto',
+        'width': '200px'
+      }
+    }
   };
 
   @Input() suggestions: string[];

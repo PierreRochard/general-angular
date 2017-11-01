@@ -158,6 +158,7 @@ export class TableEffects {
   getSelectItems$ = this.actions$
     .ofType(GET_SUGGESTIONS)
     .switchMap((action: GetSuggestionsAction) => {
+    console.log(action.payload);
       return this.tableService.get_suggestions(action.payload)
         .mergeMap(response => {
           return [

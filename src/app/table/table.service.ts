@@ -50,6 +50,7 @@ export class TableService {
     const endpointName = '/' + query.column.suggestion_table_name;
     params.set('select', [query.column.suggestion_column_name, 'id'].join(','));
     params.set('order', query.column.suggestion_column_name);
+    params.set('limit', '10');
     params.set(query.column.suggestion_column_name, 'ilike.*' + query.value + '*');
     return this.restClient.get(query.column.suggestion_schema_name, endpointName, params)
   }
