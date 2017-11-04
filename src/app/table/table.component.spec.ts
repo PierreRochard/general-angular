@@ -88,13 +88,6 @@ describe('Component: TableComponent', () => {
       component.columns = columnsMockData;
       component.datatable = datatableMockData;
       component.records = recordsMockData;
-      component.rowLimit = datatableMockData.row_limit;
-      component.rowOffset = datatableMockData.row_offset;
-      component.schemaName = datatableMockData.schema_name;
-      component.suggestions = selectItemsMockData;
-      component.sortColumn = datatableMockData.sort_column;
-      component.sortOrder = datatableMockData.sort_order;
-      component.tableName = datatableMockData.table_name;
       component.totalRecords = recordsMockData.length;
       spyOn(component.getSuggestions, 'emit').and.callThrough();
       spyOn(component.onEditComplete, 'emit').and.callThrough();

@@ -16,9 +16,9 @@ export class MenubarEffects {
   sendGetRequest$ = this.actions$
     .ofType(GET_MENUBAR)
     .switchMap(() => this.menubarService.get()
-      .mergeMap(response => {
+      .mergeMap((response: any) => {
         return [
-          new ReceiveMenubarAction(response.json()),
+          new ReceiveMenubarAction(response.body),
         ];
       })
       .catch(error => {

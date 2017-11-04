@@ -33,9 +33,9 @@ export class FormEffects {
     .switchMap((action: GetFormSettingsAction) => {
       return this.formService.get_form_settings(action.payload.selectedSchemaName,
         action.payload.selectedObjectName)
-        .mergeMap(response => {
+        .mergeMap((response: any) => {
           return [
-            new ReceiveFormSettingsAction(response.json()),
+            new ReceiveFormSettingsAction(response.body),
           ];
         })
         .catch(error => {
@@ -49,9 +49,9 @@ export class FormEffects {
     .switchMap((action: GetFormFieldSettingsAction) => {
       return this.formService.get_form_field_settings(action.payload.selectedSchemaName,
         action.payload.selectedObjectName)
-        .mergeMap(response => {
+        .mergeMap((response: any) => {
           return [
-            new ReceiveFormFieldSettingsAction(response.json()),
+            new ReceiveFormFieldSettingsAction(response.body),
           ];
         })
         .catch(error => {

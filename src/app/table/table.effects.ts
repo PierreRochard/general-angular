@@ -62,8 +62,8 @@ export class TableEffects {
     .switchMap((action: GetDatatableAction) => {
       return this.tableService.get_datatable(action.payload.selectedSchemaName,
         action.payload.selectedObjectName)
-        .mergeMap(response => {
-          const datatable: Datatable = response.json()[0];
+        .mergeMap((response: any) => {
+          const datatable: Datatable = response.body[0];
           return [
             new ReceiveDatatableAction(datatable),
             new GetRecordsAction(datatable),
@@ -78,8 +78,8 @@ export class TableEffects {
   updatePagination$ = this.actions$
     .ofType(UPDATE_PAGINATION)
     .switchMap((action: UpdatePaginationAction) => this.tableService.update_pagination(action.payload)
-      .mergeMap(response => {
-        const datatable: Datatable = response.json()[0];
+      .mergeMap((response: any) => {
+        const datatable: Datatable = response.body[0];
         return [
           new ReceiveDatatableAction(datatable),
           new GetRecordsAction(datatable),
@@ -94,8 +94,9 @@ export class TableEffects {
   updateSort$ = this.actions$
     .ofType(UPDATE_SORT)
     .switchMap((action: UpdateSortAction) => this.tableService.update_sort(action.payload)
-      .mergeMap(response => {
-        const datatable: Datatable = response.json()[0];
+      .mergeMap((response: any) => {
+        console.log(response);
+        const datatable: Datatable = response.body[0];
         return [
           new ReceiveDatatableAction(datatable),
           new GetRecordsAction(datatable),
@@ -112,9 +113,9 @@ export class TableEffects {
     .switchMap((action: GetDatatableColumnsAction) => {
       return this.tableService.get_datatable_columns(action.payload.selectedSchemaName,
         action.payload.selectedObjectName)
-        .mergeMap(response => {
+        .mergeMap((response: any) => {
           return [
-            new ReceiveDatatableColumnsAction(response.json()),
+            new ReceiveDatatableColumnsAction(response.body),
           ];
         })
         .catch(error => {
@@ -127,9 +128,9 @@ export class TableEffects {
   updateColumnsVisibility$ = this.actions$
     .ofType(UPDATE_COLUMNS_VISIBILITY)
     .switchMap((action: UpdateColumnsVisibilityAction) => this.tableService.update_columns_visibility(action.payload)
-      .mergeMap(response => {
+      .mergeMap((response: any) => {
         return [
-          new GetDatatableColumnsAction(response.json()[0].table_name),
+          new GetDatatableColumnsAction(response.body[0].table_name),
         ];
       })
       .catch(() => {
@@ -141,11 +142,11 @@ export class TableEffects {
   getRecords$: Observable<Action> = this.actions$
     .ofType(GET_RECORDS)
     .switchMap((action: GetRecordsAction) => this.tableService.get_records(action.payload)
-      .mergeMap((response: Response) => {
+      .mergeMap((response: any) => {
         const rowCountString = response.headers!.get('content-range')!.split('/')[1];
         const rowCount = parseInt(rowCountString, 10);
         return [
-          new ReceiveRecordsAction(response.json()),
+          new ReceiveRecordsAction(response.body),
           new UpdateRowCountAction(rowCount),
           new AreRecordsLoadingAction(false),
         ];
@@ -160,9 +161,9 @@ export class TableEffects {
     .switchMap((action: GetSuggestionsAction) => {
     console.log(action.payload);
       return this.tableService.get_suggestions(action.payload)
-        .mergeMap(response => {
+        .mergeMap((response: any) => {
           return [
-            new ReceiveSuggestionsAction(response.json()),
+            new ReceiveSuggestionsAction(response.body),
           ];
         })
     });

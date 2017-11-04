@@ -22,13 +22,13 @@ export class GrowlContainer {
   constructor(private store: Store<AppState>) {
     this.messages$ = store.select(getRestResponse)
       .filter(response => response !== null)
-      .map((response: Response) => {
+      .map((response: any) => {
         let severity = 'info';
         let summary = '';
         let detail = '';
         let response_message = '';
-        if (response.json()) {
-          response_message = response.json().message;
+        if (response) {
+          response_message = response.message;
         }
         if (response.status === 0) {
           summary = 'Unable to connect to the API';

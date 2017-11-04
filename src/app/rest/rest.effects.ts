@@ -13,7 +13,6 @@ import { RestClient } from './rest.service';
 
 import { of } from 'rxjs/observable/of';
 import { Action } from '@ngrx/store';
-import { Response } from '@angular/http';
 import { Go } from '../router/router.actions';
 
 @Injectable()
@@ -74,10 +73,10 @@ export class RestEffects {
     .switchMap((action): Action[] => {
       let response_url: any;
       let response_data: any | Promise<any>;
-      const response: Response = action.payload;
+      const response: any = action.payload;
       switch (response.status) {
         case 200:
-          response_data = action.payload.json();
+          response_data = action.payload.body;
           response_url = action.payload.url;
           if (response_url === 'https://api.rochard.org/rpc/login') {
             return [new AddTokenAction(response_data[0].token)];
@@ -86,7 +85,7 @@ export class RestEffects {
         case 204:
           return [];
         case 401:
-          if (response.json().message === 'JWT expired') {
+          if (response.message === 'JWT expired') {
             return [
               new RemoveTokenAction(''),
               new Go({path: ['/rpc/login']}),

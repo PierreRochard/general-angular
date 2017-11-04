@@ -26,8 +26,8 @@ export class AuthEffects {
     .map((action: SendLoginPostRequestAction) => action.payload)
     .switchMap((payload: PostLoginRequestPayload) => {
       return this.authService.post_login(payload.schemaName, payload.formName, payload.data)
-        .map(response => {
-          const token = response.json()[0].token;
+        .map((response: any) => {
+          const token = response.body[0]['token'];
           return new AddTokenAction(token);
         })
         .catch(error => {

@@ -26,7 +26,7 @@ export class SendDeleteRequestAction implements Action {
 }
 export class ReceivedResponseAction implements Action {
   type = RestActionTypes.RECEIVED_RESPONSE;
-  constructor(public payload: Response) {}
+  constructor(public payload: any) {}
 }
 
 export type RestActions

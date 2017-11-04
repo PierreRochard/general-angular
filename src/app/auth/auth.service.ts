@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -9,7 +8,7 @@ import { LoginData } from './auth.models';
 
 @Injectable()
 export class AuthService {
-  post_login(schemaName: string, formName: string, loginData: LoginData): Observable<Response> {
+  post_login(schemaName: string, formName: string, loginData: LoginData): Observable<Object> {
     const loginPath = '/rpc/' + formName;
     return this.restClient.post(schemaName, loginPath, loginData);
   };

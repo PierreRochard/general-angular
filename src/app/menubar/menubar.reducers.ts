@@ -12,6 +12,7 @@ const initialState: MenubarState = {
 export function menubarReducer(state = initialState, action: MenubarActions): MenubarState {
   switch (action.type) {
     case RECEIVE_MENUBAR:
+      console.log(action);
       return Object.assign({}, state, {
         menuItems: action.payload.map((item: GeneralMenuItem) => {
           return Object.keys(item).reduce((result: GeneralMenuItem, key) => {

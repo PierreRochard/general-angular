@@ -9,7 +9,7 @@ import { Column } from 'primeng/primeng';
 export class TableDataMappingComponent {
   public header = 'Transaction Mapping';
   public keyword_input: any = {
-    is_dropdown: true,
+    is_dropdown: false,
     is_multiple: false,
     custom_name: 'Keyword',
     data: null,
@@ -49,10 +49,13 @@ export class TableDataMappingComponent {
           'width': '350px',
         },
       },
+    style: {
+      width: '100%'
+    }
   };
 
   public mapping_input: any = {
-    is_dropdown: true,
+    is_dropdown: false,
     is_multiple: false,
     custom_name: 'Mapping',
     data: null,
@@ -90,6 +93,9 @@ export class TableDataMappingComponent {
         'padding-top': 'auto',
         'width': '200px'
       }
+    },
+    style: {
+      width: '100%'
     }
   };
 

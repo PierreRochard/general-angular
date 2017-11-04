@@ -16,6 +16,8 @@
             (keydown)="onCellEditorKeydown($event)"
             [placeholder]="keyword_input.custom_name"
             [suggestions]="suggestions"
+            [style]="keyword_input.style"
+            [inputStyle]="keyword_input.style"
           >
             <ng-template let-tmpSelectedItem pTemplate="selectedItem">
               {{tmpSelectedItem[keyword_input.column.suggestion_column_name]}}
@@ -37,6 +39,8 @@
             (keydown)="onCellEditorKeydown($event)"
             [placeholder]="mapping_input.custom_name"
             [suggestions]="suggestions"
+            [style]="mapping_input.style"
+            [inputStyle]="mapping_input.style"
           >
             <ng-template let-tmpSelectedItem pTemplate="selectedItem">
               {{tmpSelectedItem[mapping_input.column.suggestion_column_name]}}

@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response, URLSearchParams } from '@angular/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpParams,
+  HttpResponse,
+} from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -14,69 +19,74 @@ export class RestClient {
 
   static createEndpoint(schemaName: string, endpoint: string) {
     const _domain = '.rochard.org';
-    console.log(schemaName);
     const _schemaName = schemaName.replace(/_/g, '');
-    console.log(_schemaName);
     return 'https://' + _schemaName + _domain + endpoint
   }
 
-  static createAuthorizationHeader(headers: Headers, token: string | null) {
+  static createAuthorizationHeader(headers: HttpHeaders, token: string | null) {
     if (!!token) {
-      headers.append('Authorization', 'Bearer ' + token);
+      headers = headers.set('Authorization', 'Bearer ' + token);
     }
     return headers;
   }
 
-  get(schemaName: string, endpoint: string, params?: URLSearchParams): Observable<Response> {
+  get(schemaName: string, endpoint: string, params?: HttpParams): Observable<Object> {
     return this.store.take(1).switchMap(state => {
-        const headers = RestClient.createAuthorizationHeader(new Headers(), state.auth.token);
-        headers.append('prefer', 'return=representation');
-        headers.append('prefer', 'count=exact');
+        let headers = RestClient.createAuthorizationHeader(new HttpHeaders(), state.auth.token);
+        headers = headers.set('prefer', 'return=representation');
+        headers = headers.set('prefer', 'count=exact');
         return this.http.get(RestClient.createEndpoint(schemaName, endpoint),
           {
             headers: headers,
-            search: params
+            observe: 'response',
+            params: params,
           }).timeout(this._timeout);
-      }
+      },
     );
   };
 
-  post(schemaName: string, endpoint: string, data: any): Observable<Response> {
+  post(schemaName: string, endpoint: string, data: any): Observable<Object> {
     return this.store.take(1).switchMap(state => {
-        const headers = RestClient.createAuthorizationHeader(new Headers(), state.auth.token);
-        headers.append('prefer', 'return=representation');
-        return this.http.post(RestClient.createEndpoint(schemaName, endpoint), data, {headers: headers}).timeout(this._timeout);
-      }
+        let headers = RestClient.createAuthorizationHeader(new HttpHeaders(), state.auth.token);
+        headers = headers.set('prefer', 'return=representation');
+        return this.http.post(RestClient.createEndpoint(schemaName, endpoint), data,
+          {
+            headers: headers,
+            observe: 'response',
+          }).timeout(this._timeout);
+      },
     );
   };
 
-  delete(schemaName: string, endpoint: string, id: string): Observable<Response> {
+  delete(schemaName: string, endpoint: string, id: string): Observable<Object> {
     return this.store.take(1).switchMap(state => {
-      const params: URLSearchParams = new URLSearchParams();
-      const headers = RestClient.createAuthorizationHeader(new Headers(), state.auth.token);
-      headers.append('prefer', 'return=minimal');
+      const params: HttpParams = new HttpParams();
+      let headers = RestClient.createAuthorizationHeader(new HttpHeaders(), state.auth.token);
+      headers = headers.set('prefer', 'return=minimal');
       params.set('id', 'eq.' + id);
       return this.http.delete(RestClient.createEndpoint(schemaName, endpoint), {
         headers: headers,
-        search: params
+        observe: 'response',
+        params: params,
       }).timeout(this._timeout);
     });
   }
 
-  patch(schemaName: string, endpoint: string, data: any, params: URLSearchParams): Observable<Response> {
+  patch(schemaName: string, endpoint: string, data: any, params: HttpParams): Observable<Object> {
     return this.store.take(1).switchMap(state => {
-      const headers = RestClient.createAuthorizationHeader(new Headers(), state.auth.token);
-      headers.append('prefer', 'return=representation');
+      let headers = RestClient.createAuthorizationHeader(new HttpHeaders(), state.auth.token);
+      headers = headers.set('prefer', 'return=representation');
       return this.http.patch(RestClient.createEndpoint(schemaName, endpoint), data,
         {
           headers: headers,
-          search: params
+          observe: 'response',
+          params: params,
         }).timeout(this._timeout);
     });
   }
 
-  constructor(private http: Http,
-              private store: Store<AppState>, ) {
+  constructor(private http: HttpClient,
+              private store: Store<AppState>) {
   }
 
 }

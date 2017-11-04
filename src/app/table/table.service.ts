@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Response, URLSearchParams } from '@angular/http';
+import { HttpParams, HttpResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -16,28 +16,28 @@ import {
 
 @Injectable()
 export class TableService {
-  get_datatable(schemaName: string, tableName: string): Observable<Response> {
-    const params: URLSearchParams = new URLSearchParams();
-    params.set('table_name', 'eq.' + tableName);
-    params.set('schema_name', 'eq.' + schemaName);
+  get_datatable(schemaName: string, tableName: string): Observable<Object> {
+    let params: HttpParams = new HttpParams();
+    params = params.set('table_name', 'eq.' + tableName);
+    params = params.set('schema_name', 'eq.' + schemaName);
     return this.restClient.get('admin', '/datatables', params)
   };
 
-  get_datatable_columns(schemaName: string, tableName: string): Observable<Response> {
-    const params: URLSearchParams = new URLSearchParams();
-    params.set('table_name', 'eq.' + tableName);
-    params.set('schema_name', 'eq.' + schemaName);
+  get_datatable_columns(schemaName: string, tableName: string): Observable<Object> {
+    let params: HttpParams = new HttpParams();
+    params = params.set('table_name', 'eq.' + tableName);
+    params = params.set('schema_name', 'eq.' + schemaName);
     return this.restClient.get('admin', '/datatable_columns', params);
   };
 
-  get_records(datatable: Datatable): Observable<Response> {
-    const params: URLSearchParams = new URLSearchParams();
+  get_records(datatable: Datatable): Observable<Object> {
+    let params: HttpParams = new HttpParams();
     let sortDirection: string;
-    params.set('limit', datatable.row_limit.toString());
-    params.set('offset', datatable.row_offset.toString());
+    params = params.set('limit', datatable.row_limit.toString());
+    params = params.set('offset', datatable.row_offset.toString());
     if (datatable.sort_column !== null) {
       sortDirection = datatable.sort_order === 1 ? 'asc' : 'desc';
-      params.set('order', datatable.sort_column + '.' + sortDirection);
+      params = params.set('order', datatable.sort_column + '.' + sortDirection);
     }
 
     this.store.dispatch(new AreRecordsLoadingAction(true));
@@ -45,57 +45,57 @@ export class TableService {
     return this.restClient.get(datatable.schema_name, '/' + datatable.table_name, params);
   };
 
-  get_suggestions(query: SuggestionsQuery): Observable<Response> {
-    const params: URLSearchParams = new URLSearchParams();
+  get_suggestions(query: SuggestionsQuery): Observable<Object> {
+    let params: HttpParams = new HttpParams();
     const endpointName = '/' + query.column.suggestion_table_name;
-    params.set('select', [query.column.suggestion_column_name, 'id'].join(','));
-    params.set('order', query.column.suggestion_column_name);
-    params.set('limit', '10');
-    params.set(query.column.suggestion_column_name, 'ilike.*' + query.value + '*');
+    params = params.set('select', [query.column.suggestion_column_name, 'id'].join(','));
+    params = params.set('order', query.column.suggestion_column_name);
+    params = params.set('limit', '10');
+    params = params.set(query.column.suggestion_column_name, 'ilike.*' + query.value + '*');
     return this.restClient.get(query.column.suggestion_schema_name, endpointName, params)
   }
 
-  delete_record(deleteRecord: DeleteRecord): Observable<Response> {
+  delete_record(deleteRecord: DeleteRecord): Observable<Object> {
     return this.restClient.delete(deleteRecord.schema_name, '/' + deleteRecord.table_name, deleteRecord.record_id)
   };
 
-  update_columns_visibility(updateData: ColumnsVisibilityUpdate): Observable<Response> {
+  update_columns_visibility(updateData: ColumnsVisibilityUpdate): Observable<Object> {
     const data = {
       is_visible: updateData.isVisible,
     };
-    const params: URLSearchParams = new URLSearchParams();
-    params.set('table_name', 'eq.' + updateData.tableName);
-    params.set('value', 'in.' + updateData.columns.join(','));
+    let params: HttpParams = new HttpParams();
+    params = params.set('table_name', 'eq.' + updateData.tableName);
+    params = params.set('value', 'in.' + updateData.columns.join(','));
     return this.restClient.patch('admin', '/datatable_columns', data, params)
   };
 
-  update_pagination(updateData: DatatableUpdate): Observable<Response> {
+  update_pagination(updateData: DatatableUpdate): Observable<Object> {
     const newOffset = updateData.first;
     const newLimit = updateData.rows;
     const data = {
       row_offset: newOffset,
       row_limit: newLimit,
     };
-    const params: URLSearchParams = new URLSearchParams();
-    params.set('table_name', 'eq.' + updateData.tableName);
+    let params: HttpParams = new HttpParams();
+    params = params.set('table_name', 'eq.' + updateData.tableName);
     return this.restClient.patch('admin', '/datatables', data, params)
   };
 
-  update_record(updateData: UpdateRecord): Observable<Response> {
-    const params: URLSearchParams = new URLSearchParams();
+  update_record(updateData: UpdateRecord): Observable<Object> {
+    let params: HttpParams = new HttpParams();
     const data: any = {};
     data[updateData['column_name']] = updateData.value;
-    params.set('id', 'eq.' + updateData.record_id);
+    params = params.set('id', 'eq.' + updateData.record_id);
     return this.restClient.patch(updateData.schema_name, '/' + updateData.table_name, data, params)
   };
 
-  update_sort(updateData: DatatableUpdate): Observable<Response> {
+  update_sort(updateData: DatatableUpdate): Observable<Object> {
     const data = {
       sort_column: updateData.sortField,
       sort_order: updateData.sortOrder,
     };
-    const params: URLSearchParams = new URLSearchParams();
-    params.set('table_name', 'eq.' + updateData.tableName);
+    let params: HttpParams = new HttpParams();
+    params = params.set('table_name', 'eq.' + updateData.tableName);
     return this.restClient.patch('admin', '/datatables', data, params)
   }
 
