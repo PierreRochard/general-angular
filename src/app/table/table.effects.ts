@@ -22,12 +22,14 @@ import {
   SELECT_TABLE, GET_DATATABLE, GET_SUGGESTIONS, UPDATE_PAGINATION, UPDATE_SORT,
   GET_DATATABLE_COLUMNS, UPDATE_COLUMNS_VISIBILITY, GET_RECORDS,
   GetSuggestionsAction, ReceiveSuggestionsAction, UPDATE_RECORD,
-  UpdateRecordAction, DELETE_RECORD, DeleteRecordAction,
+  UpdateRecordAction, DELETE_RECORD, DeleteRecordAction, UPDATE_KEYWORD,
+  UpdateKeywordAction,
 } from './table.actions';
 import { TableService } from './table.service';
-import { Datatable } from './table.models';
+import { Datatable, DatatableColumn } from './table.models';
 import { RouteParams } from '../router/router.models';
 import { AppState } from '../app.reducers';
+import { Data } from '@angular/router';
 
 @Injectable()
 export class TableEffects {
@@ -36,13 +38,13 @@ export class TableEffects {
   deleteRecord$ = this.actions$
     .ofType(DELETE_RECORD)
     .withLatestFrom(this.store)
-      .switchMap(([action, state]: [DeleteRecordAction, AppState]) => {
-        return this.tableService.delete_record(action.payload)
-          .mergeMap(() => {
-            return [
-              new GetRecordsAction(state.table.datatable)];
-          })
-      });
+    .switchMap(([action, state]: [DeleteRecordAction, AppState]) => {
+      return this.tableService.delete_record(action.payload)
+        .mergeMap(() => {
+          return [
+            new GetRecordsAction(state.table.datatable)];
+        })
+    });
 
   @Effect()
   selectTable$ = this.actions$
@@ -156,10 +158,35 @@ export class TableEffects {
       }));
 
   @Effect()
+  getKeywordRecords$: Observable<Action> = this.actions$
+    .ofType(UPDATE_KEYWORD)
+    .withLatestFrom(this.store)
+    .switchMap(([action, state]: [UpdateKeywordAction, AppState]) => {
+        const datatable: Datatable = state.table.datatable;
+        const column: DatatableColumn = action.payload.column;
+        column.filter_value = action.payload.value;
+        datatable.filter_columns = [action.payload.column];
+        return this.tableService.get_records(datatable)
+          .mergeMap((response: any) => {
+            const rowCountString = response.headers!.get('content-range')!.split('/')[1];
+            const rowCount = parseInt(rowCountString, 10);
+            return [
+              new ReceiveRecordsAction(response.body),
+              new UpdateRowCountAction(rowCount),
+              new AreRecordsLoadingAction(false),
+            ];
+          })
+          .catch(error => {
+            return of(new ReceiveRecordsAction(error));
+          })
+      }
+    );
+
+  @Effect()
   getSelectItems$ = this.actions$
     .ofType(GET_SUGGESTIONS)
     .switchMap((action: GetSuggestionsAction) => {
-    console.log(action.payload);
+      console.log(action.payload);
       return this.tableService.get_suggestions(action.payload)
         .mergeMap((response: any) => {
           return [

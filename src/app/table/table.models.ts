@@ -30,6 +30,7 @@ export interface Datatable {
   sort_order: number;
   table_name: string;
   user_id: string;
+  filter_columns: Array<DatatableColumn>;
 }
 
 export interface DatatableColumn {

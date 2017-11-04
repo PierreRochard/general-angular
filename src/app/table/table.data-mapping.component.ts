@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SuggestionsQuery } from './table.models';
-import { Column } from 'primeng/primeng';
 
 @Component({
   selector: 'app-table-data-mapping-component',
@@ -34,9 +33,9 @@ export class TableDataMappingComponent {
         'select_item_table_name': null,
         'select_item_label_column_name': null,
         'select_item_value_column_name': null,
-        'suggestion_column_name': 'description',
-        'suggestion_schema_name': 'banking',
-        'suggestion_table_name': 'transactions',
+        'suggestion_column_name': 'keyword',
+        'suggestion_schema_name': 'bookkeeping',
+        'suggestion_table_name': 'mappings',
         'table_name': 'transactions',
         'user_id': '1840e030-186e-4be3-a517-79762a96427d',
         'styles': {

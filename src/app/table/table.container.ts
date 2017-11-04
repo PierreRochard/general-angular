@@ -18,6 +18,7 @@ import {
   GetSuggestionsAction,
   UpdateRecordAction,
   UpdateColumnsVisibilityAction,
+  UpdateKeywordAction,
   UpdatePaginationAction,
   UpdateSortAction,
   SelectTableAction,
@@ -34,7 +35,7 @@ import {
     <app-table-data-mapping-component
       *ngIf="!(isDatatableLoading$ | async)"
       [suggestions]="suggestions$ | async"
-      (getKeywordSuggestions)="getSuggestions($event)"
+      (getKeywordSuggestions)="getKeywordSuggestions($event)"
       (getMappingSuggestions)="getSuggestions($event)"
     >
     </app-table-data-mapping-component>
@@ -92,6 +93,11 @@ export class TableContainer implements OnDestroy, OnInit {
   }
 
   getSuggestions(query: SuggestionsQuery) {
+    this.store.dispatch(new GetSuggestionsAction(query));
+  }
+
+  getKeywordSuggestions(query: SuggestionsQuery) {
+    this.store.dispatch(new UpdateKeywordAction(query));
     this.store.dispatch(new GetSuggestionsAction(query));
   }
 

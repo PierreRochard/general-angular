@@ -39,7 +39,10 @@ export class TableService {
       sortDirection = datatable.sort_order === 1 ? 'asc' : 'desc';
       params = params.set('order', datatable.sort_column + '.' + sortDirection);
     }
-
+    datatable.filter_columns.map(column => {
+        params = params.set(column.column_name, 'ilike.*' + column.filter_value + '*');
+      },
+    );
     this.store.dispatch(new AreRecordsLoadingAction(true));
 
     return this.restClient.get(datatable.schema_name, '/' + datatable.table_name, params);

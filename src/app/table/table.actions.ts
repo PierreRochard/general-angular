@@ -27,6 +27,7 @@ export const REMOVE_RECORDS = '[Table] Remove Records';
 export const SELECT_RECORDS = '[Table] Select Records';
 export const SELECT_TABLE = '[Table] Select Table';
 export const UPDATE_COLUMNS_VISIBILITY = '[Table] Update Columns Visibility';
+export const UPDATE_KEYWORD= '[Table] Update Keyword';
 export const UPDATE_PAGINATION = '[Table] Update Pagination';
 export const UPDATE_RECORD = '[Table] Update Record';
 export const UPDATE_ROW_COUNT = '[Table] Update Row Count';
@@ -130,6 +131,11 @@ export class SelectTableAction implements Action {
 
 export class UpdateColumnsVisibilityAction implements Action {
   type = UPDATE_COLUMNS_VISIBILITY;
+  constructor(public payload: any) {}
+}
+
+export class UpdateKeywordAction implements Action {
+  type = UPDATE_KEYWORD;
   constructor(public payload: any) {}
 }
 
