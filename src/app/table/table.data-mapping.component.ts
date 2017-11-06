@@ -98,6 +98,13 @@ export class TableDataMappingComponent {
     }
   };
 
+  public mapping_table: any = {
+    'schema_name': 'bookkeeping',
+    'table_name': 'mappings',
+    'keyword_column_name': 'keyword',
+    'mapping_column_name': 'negative_debit_subaccount_id'
+  };
+
   @Input() suggestions: string[];
 
   @Output() getKeywordSuggestions = new EventEmitter<SuggestionsQuery>();

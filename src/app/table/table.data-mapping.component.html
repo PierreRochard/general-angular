@@ -13,7 +13,6 @@
             [field]="keyword_input.column.suggestion_column_name"
             [multiple]="keyword_input.is_multiple"
             [(ngModel)]="keyword_input.data"
-            (keydown)="onCellEditorKeydown($event)"
             [placeholder]="keyword_input.custom_name"
             [suggestions]="suggestions"
             [style]="keyword_input.style"

@@ -14,7 +14,7 @@ import {
   SELECT_RECORDS,
   TableActions,
   UPDATE_ROW_COUNT,
-  UPDATE_TABLE_NAME, RECEIVE_SUGGESTIONS,
+  UPDATE_TABLE_NAME, RECEIVE_SUGGESTIONS, UPDATE_KEYWORD,
 } from './table.actions';
 import { Datatable, DatatableColumn } from './table.models';
 
@@ -86,7 +86,7 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       return Object.assign({}, state, {
         areColumnsLoading: true,
         records: [],
-        columns: []
+        columns: [],
       });
     case GET_SUGGESTIONS:
       return Object.assign({}, state, {
@@ -126,6 +126,13 @@ export function tableReducer(state = initialState, action: TableActions): TableS
     case SELECT_RECORDS:
       return Object.assign({}, state, {
         selectedRecords: action.payload,
+      });
+    case UPDATE_KEYWORD:
+      console.log(action.payload);
+      return Object.assign({}, state, {
+        datatable: Object.assign({}, state.datatable, {
+          filter_columns: [action.payload.column],
+        }),
       });
     case UPDATE_ROW_COUNT:
       return Object.assign({}, state, {

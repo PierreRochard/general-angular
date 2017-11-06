@@ -39,8 +39,11 @@ export class TableService {
       sortDirection = datatable.sort_order === 1 ? 'asc' : 'desc';
       params = params.set('order', datatable.sort_column + '.' + sortDirection);
     }
+    console.log(datatable);
     datatable.filter_columns.map(column => {
-        params = params.set(column.column_name, 'ilike.*' + column.filter_value + '*');
+        if (column.filter_value !== null) {
+          params = params.set(column.column_name, 'ilike.*' + column.filter_value + '*');
+        }
       },
     );
     this.store.dispatch(new AreRecordsLoadingAction(true));
@@ -71,6 +74,16 @@ export class TableService {
     params = params.set('value', 'in.' + updateData.columns.join(','));
     return this.restClient.patch('admin', '/datatable_columns', data, params)
   };
+
+  update_keyword(updateData: any): Observable<Object> {
+    const data = {
+      filter_columns: [updateData.column],
+    };
+    let params: HttpParams = new HttpParams();
+    params = params.set('table_name', 'eq.' + updateData.column.table_name);
+    params = params.set('schema_name', 'eq.' + updateData.column.schema_name);
+    return this.restClient.patch('admin', '/datatables', data, params)
+  }
 
   update_pagination(updateData: DatatableUpdate): Observable<Object> {
     const newOffset = updateData.first;

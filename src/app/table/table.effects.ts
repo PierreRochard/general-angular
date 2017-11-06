@@ -93,6 +93,22 @@ export class TableEffects {
     );
 
   @Effect()
+  updateKeyword$ = this.actions$
+    .ofType(UPDATE_KEYWORD)
+    .switchMap((action: UpdateKeywordAction) => this.tableService.update_keyword(action.payload)
+      .mergeMap((response: any) => {
+        const datatable: Datatable = response.body[0];
+        return [
+          new ReceiveDatatableAction(datatable),
+          new GetRecordsAction(datatable),
+        ];
+      })
+      .catch(error => {
+        return of(new ReceiveDatatableAction(error));
+      }),
+    );
+
+  @Effect()
   updateSort$ = this.actions$
     .ofType(UPDATE_SORT)
     .switchMap((action: UpdateSortAction) => this.tableService.update_sort(action.payload)
