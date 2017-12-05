@@ -33,7 +33,7 @@ import {
   selector: 'app-table-container',
   template: `
     <app-table-data-mapping-component
-      *ngIf="!(isDatatableLoading$ | async)"
+      *ngIf="!(isDatatableLoading$ | async) && hasDataMapping"
       [suggestions]="suggestions$ | async"
       (getKeywordSuggestions)="getKeywordSuggestions($event)"
       (getMappingSuggestions)="getSuggestions($event)"
@@ -60,6 +60,7 @@ import {
 export class TableContainer implements OnDestroy, OnInit {
   public areColumnsLoading$: Observable<boolean>;
   public areRecordsLoading$: Observable<boolean>;
+  public hasDataMapping: boolean = false;
   public columns$: Observable<DatatableColumn[]>;
   public datatable$: Observable<Datatable | null>;
   public isDatatableLoading$: Observable<boolean>;
