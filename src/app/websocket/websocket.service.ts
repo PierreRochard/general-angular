@@ -18,7 +18,7 @@ export class WebsocketService {
     this.ws = new $WebSocket(url);
     return this.ws.getDataStream()
       .subscribe(
-        response => {
+        (response: any) => {
           const message = JSON.parse(response.data);
           switch (message.type) {
             case 'INSERT':
@@ -32,7 +32,7 @@ export class WebsocketService {
               break;
           }
         },
-        error => console.log('Error: ' + error.message),
+        (error: any) => console.log('Error: ' + error.message),
         () => console.log('Completed'),
       );
   }
