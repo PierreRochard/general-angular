@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import {filter, map, mergeMap, switchMap, withLatestFrom} from 'rxjs/operators';
+import {catchError, filter, map, mergeMap, switchMap, withLatestFrom} from 'rxjs/operators';
 
 import {
   ReceiveDatatableAction,
@@ -34,11 +34,11 @@ export class TableEffects {
     ofType(DELETE_RECORD),
     withLatestFrom(this.store),
     switchMap(([action, state]: [DeleteRecordAction, AppState]) => {
-      return this.tableService.delete_record(action.payload)
-        .mergeMap(() => {
+      return this.tableService.delete_record(action.payload).pipe(
+        mergeMap(() => {
           return [
             new GetRecordsAction(state.table.datatable)];
-        })
+        }))
     }));
 
   @Effect()
@@ -58,66 +58,66 @@ export class TableEffects {
     ofType(GET_DATATABLE),
     switchMap((action: GetDatatableAction) => {
       return this.tableService.get_datatable(action.payload.selectedSchemaName,
-        action.payload.selectedObjectName)
-        .mergeMap((response: any) => {
+        action.payload.selectedObjectName).pipe(
+        mergeMap((response: any) => {
           const datatable: Datatable = response.body[0];
           return [
             new ReceiveDatatableAction(datatable),
             new GetRecordsAction(datatable),
           ];
-        })
-        .catch((error: any) => {
+        }),
+        catchError((error: any) => {
           return of(new ReceiveDatatableAction(error));
-        })
+        }))
     }));
 
   @Effect()
   updatePagination$ = this.actions$.pipe(
     ofType(UPDATE_PAGINATION),
-    switchMap((action: UpdatePaginationAction) => this.tableService.update_pagination(action.payload)
-      .mergeMap((response: any) => {
+    switchMap((action: UpdatePaginationAction) => this.tableService.update_pagination(action.payload).pipe(
+      mergeMap((response: any) => {
         const datatable: Datatable = response.body[0];
         return [
           new ReceiveDatatableAction(datatable),
           new GetRecordsAction(datatable),
         ];
-      })
-      .catch((error: any) => {
-        return of(new ReceiveDatatableAction(error));
       }),
+      catchError((error: any) => {
+        return of(new ReceiveDatatableAction(error));
+      })),
     ));
 
   @Effect()
   updateKeyword$ = this.actions$.pipe(
     ofType(UPDATE_KEYWORD),
-    switchMap((action: UpdateKeywordAction) => this.tableService.update_keyword(action.payload)
-      .mergeMap((response: any) => {
+    switchMap((action: UpdateKeywordAction) => this.tableService.update_keyword(action.payload).pipe(
+      mergeMap((response: any) => {
         const datatable: Datatable = response.body[0];
         return [
           new ReceiveDatatableAction(datatable),
           new GetRecordsAction(datatable),
         ];
-      })
-      .catch((error: any) => {
-        return of(new ReceiveDatatableAction(error));
       }),
+      catchError((error: any) => {
+        return of(new ReceiveDatatableAction(error));
+      })),
     ));
 
   @Effect()
   updateSort$ = this.actions$.pipe(
     ofType(UPDATE_SORT),
-    switchMap((action: UpdateSortAction) => this.tableService.update_sort(action.payload)
-      .mergeMap((response: any) => {
+    switchMap((action: UpdateSortAction) => this.tableService.update_sort(action.payload).pipe(
+      mergeMap((response: any) => {
         console.log(response);
         const datatable: Datatable = response.body[0];
         return [
           new ReceiveDatatableAction(datatable),
           new GetRecordsAction(datatable),
         ];
-      })
-      .catch((error: any) => {
-        return of(new ReceiveDatatableAction(error));
       }),
+      catchError((error: any) => {
+        return of(new ReceiveDatatableAction(error));
+      })),
     ));
 
   @Effect()
@@ -125,37 +125,37 @@ export class TableEffects {
     ofType(GET_DATATABLE_COLUMNS),
     switchMap((action: GetDatatableColumnsAction) => {
       return this.tableService.get_datatable_columns(action.payload.selectedSchemaName,
-        action.payload.selectedObjectName)
-        .mergeMap((response: any) => {
+        action.payload.selectedObjectName).pipe(
+        mergeMap((response: any) => {
           return [
             new ReceiveDatatableColumnsAction(response.body),
           ];
-        })
-        .catch((error: any) => {
+        }),
+        catchError((error: any) => {
           return of(new ReceiveDatatableColumnsAction(error));
-        })
+        }))
     }));
 
 
   @Effect()
   updateColumnsVisibility$ = this.actions$.pipe(
     ofType(UPDATE_COLUMNS_VISIBILITY),
-    switchMap((action: UpdateColumnsVisibilityAction) => this.tableService.update_columns_visibility(action.payload)
-      .mergeMap((response: any) => {
+    switchMap((action: UpdateColumnsVisibilityAction) => this.tableService.update_columns_visibility(action.payload).pipe(
+      mergeMap((response: any) => {
         return [
           new GetDatatableColumnsAction(response.body[0].table_name),
         ];
-      })
-      .catch(() => {
-        return of(new GetDatatableColumnsAction(action.payload.dataTable));
       }),
+      catchError(() => {
+        return of(new GetDatatableColumnsAction(action.payload.dataTable));
+      })),
     ));
 
   @Effect()
   getRecords$: Observable<Action> = this.actions$.pipe(
     ofType(GET_RECORDS),
-    switchMap((action: GetRecordsAction) => this.tableService.get_records(action.payload)
-      .mergeMap((response: any) => {
+    switchMap((action: GetRecordsAction) => this.tableService.get_records(action.payload).pipe(
+      mergeMap((response: any) => {
         const rowCountString = response.headers!.get('content-range')!.split('/')[1];
         const rowCount = parseInt(rowCountString, 10);
         return [
@@ -163,10 +163,10 @@ export class TableEffects {
           new UpdateRowCountAction(rowCount),
           new AreRecordsLoadingAction(false),
         ];
-      })
-      .catch((error: any) => {
+      }),
+      catchError((error: any) => {
         return of(new ReceiveRecordsAction(error));
-      })));
+      }))));
 
   @Effect()
   getKeywordRecords$: Observable<Action> = this.actions$.pipe(
@@ -177,8 +177,8 @@ export class TableEffects {
         const column: DatatableColumn = action.payload.column;
         column.filter_value = action.payload.value;
         datatable.filter_columns = [action.payload.column];
-        return this.tableService.get_records(datatable)
-          .mergeMap((response: any) => {
+        return this.tableService.get_records(datatable).pipe(
+          mergeMap((response: any) => {
             const rowCountString = response.headers!.get('content-range')!.split('/')[1];
             const rowCount = parseInt(rowCountString, 10);
             return [
@@ -186,10 +186,10 @@ export class TableEffects {
               new UpdateRowCountAction(rowCount),
               new AreRecordsLoadingAction(false),
             ];
-          })
-          .catch((error: any) => {
+          }),
+          catchError((error: any) => {
             return of(new ReceiveRecordsAction(error));
-          })
+          }))
       }
     ));
 

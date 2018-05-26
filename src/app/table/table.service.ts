@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
@@ -10,7 +10,7 @@ import { RestClient } from 'app/rest/rest.service';
 
 import { AreRecordsLoadingAction } from './table.actions';
 import {
-  ColumnsVisibilityUpdate, Datatable, DatatableColumn, DatatableUpdate,
+  ColumnsVisibilityUpdate, Datatable, DatatableUpdate,
   UpdateRecord, SuggestionsQuery, DeleteRecord,
 } from './table.models';
 

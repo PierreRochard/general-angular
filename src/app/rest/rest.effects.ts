@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
+import { of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 import {
   AddTokenAction, RemoveTokenAction,
@@ -11,43 +14,41 @@ import {
 } from './rest.actions';
 import { RestClient } from './rest.service';
 
-import { of } from 'rxjs/observable/of';
-import { Action } from '@ngrx/store';
 import { Go } from '../router/router.actions';
 
 @Injectable()
 export class RestEffects {
 
   @Effect()
-  sendGetRequest$ = this.actions$
-    .ofType(RestActionTypes.SEND_GET_REQUEST)
-    .switchMap((action: SendGetRequestAction) => this.http
+  sendGetRequest$ = this.actions$.pipe(
+    ofType(RestActionTypes.SEND_GET_REQUEST),
+    switchMap((action: SendGetRequestAction) => this.http
       .get(action.payload.schema,
         action.payload.path)
-      .mergeMap(response => {
+      .mergeMap((response: any) => {
         return [
           new ReceivedResponseAction(response),
         ];
       })
-      .catch(error => {
+      .catch((error: any) => {
         return of(new ReceivedResponseAction(error));
       }),
-    );
+    ));
 
   @Effect()
-  sendPostRequest$ = this.actions$
-    .ofType(RestActionTypes.SEND_POST_REQUEST)
-    .switchMap((action: SendPostRequestAction) => {
+  sendPostRequest$ = this.actions$.pipe(
+    ofType(RestActionTypes.SEND_POST_REQUEST),
+    switchMap((action: SendPostRequestAction) => {
       return this.http.post(action.payload.schema,
         action.payload.path,
         action.payload.data)
-        .map(response => {
+        .map((response: any) => {
           return new ReceivedResponseAction(response);
         })
-        .catch(error => {
+        .catch((error: any) => {
           return of(new ReceivedResponseAction(error));
         });
-    });
+    }));
 
   // Fix route store selector getCurrentUrl
   // @Effect()
@@ -67,10 +68,10 @@ export class RestEffects {
   //   });
 
   @Effect()
-  processResponse$ = this.actions$
-    .ofType(RestActionTypes.RECEIVED_RESPONSE)
-    .map((action: ReceivedResponseAction) => action)
-    .switchMap((action): Action[] => {
+  processResponse$ = this.actions$.pipe(
+    ofType(RestActionTypes.RECEIVED_RESPONSE),
+    map((action: ReceivedResponseAction) => action),
+    switchMap((action): Action[] => {
       let response_url: any;
       let response_data: any | Promise<any>;
       const response: any = action.payload;
@@ -96,7 +97,7 @@ export class RestEffects {
         default:
           return [];
       }
-    });
+    }));
 
   constructor(private actions$: Actions,
               private http: RestClient, ) {
