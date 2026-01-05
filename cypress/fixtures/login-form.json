@@ -1,0 +1,9 @@
+{
+  "forms": [
+    { "form_name": "login", "custom_name": "Login" }
+  ],
+  "fields": [
+    { "field_name": "username", "custom_name": "Username" },
+    { "field_name": "password", "custom_name": "Password", "field_type": "password" }
+  ]
+}

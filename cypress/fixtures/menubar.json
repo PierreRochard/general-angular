@@ -1,0 +1,4 @@
+[
+  { "label": "Home", "routerLink": "/" },
+  { "label": "Accounts", "routerLink": "/chart_of_accounts/accounts" }
+]

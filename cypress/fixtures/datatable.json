@@ -1,0 +1,58 @@
+{
+  "datatable": {
+    "can_archive": true,
+    "can_delete": true,
+    "custom_name": "Accounts",
+    "order_index": 0,
+    "row_limit": 10,
+    "row_offset": 0,
+    "schema_name": "chart_of_accounts",
+    "sort_column": "name",
+    "sort_order": 1,
+    "table_name": "accounts",
+    "user_id": "user-1",
+    "filter_columns": []
+  },
+  "columns": [
+    {
+      "can_update": true,
+      "column_name": "name",
+      "custom_name": "Name",
+      "data_type": "text",
+      "filter_match_mode": "contains",
+      "filter_value": "",
+      "format_pattern": "",
+      "input_type": "text",
+      "is_filterable": true,
+      "is_multiple": false,
+      "is_select_item": false,
+      "is_sortable": true,
+      "is_visible": true,
+      "schema_name": "chart_of_accounts",
+      "select_item_label_column_name": "",
+      "select_item_schema_name": "",
+      "select_item_table_name": "",
+      "select_item_value_column_name": "",
+      "styles": {
+        "height": "auto",
+        "overflow": "visible",
+        "padding-bottom": "0px",
+        "padding-left": "0px",
+        "padding-right": "0px",
+        "padding-top": "0px",
+        "width": "200px"
+      },
+      "suggestion_column_name": "",
+      "suggestion_schema_name": "",
+      "suggestion_table_name": "",
+      "table_name": "accounts",
+      "user_id": "user-1"
+    }
+  ],
+  "records": [
+    { "id": 1, "name": "Cash" },
+    { "id": 2, "name": "Receivables – International" },
+    { "id": 3, "name": "Česká Spořitelna" }
+  ],
+  "emptyRecords": []
+}

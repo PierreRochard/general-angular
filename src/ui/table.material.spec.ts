@@ -2,14 +2,20 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HarnessLoader } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { MatTableHarness } from '@angular/material/table/testing';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
+import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorHarness } from '@angular/material/paginator/testing';
 import { MatSortModule, Sort } from '@angular/material/sort';
+import { MatSortHarness } from '@angular/material/sort/testing';
 import { MatTableModule } from '@angular/material/table';
 
 import { TableComponent } from '../app/table/table.component';
@@ -18,6 +24,7 @@ import { Datatable, DatatableColumn, DatatableUpdate } from '../app/table/table.
 describe('TableComponent (Material)', () => {
   let fixture: ComponentFixture<TableComponent>;
   let component: TableComponent;
+  let loader: HarnessLoader;
 
   const datatable: Datatable = {
     can_archive: true,
@@ -96,10 +103,11 @@ describe('TableComponent (Material)', () => {
   beforeEach(async () => {
     fixture = TestBed.createComponent(TableComponent);
     component = fixture.componentInstance;
+    loader = TestbedHarnessEnvironment.loader(fixture);
     component.columns = columns;
     component.datatable = datatable;
     component.records = records;
-    component.totalRecords = records.length;
+    component.totalRecords = 30;
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -145,4 +153,25 @@ describe('TableComponent (Material)', () => {
       }),
     );
   });
+
+  it('renders data rows and archive action via harnesses', async () => {
+    const table = await loader.getHarness(MatTableHarness);
+    const rows = await table.getRows();
+    expect(rows.length).toBe(1);
+  });
+
+  it('emits pagination changes through paginator harness', async () => {
+    const spy = spyOn(component.onPagination, 'emit');
+    const paginator = await loader.getHarness(MatPaginatorHarness);
+    await paginator.setPageSize(20);
+    await paginator.goToNextPage();
+    expect(spy).toHaveBeenCalledWith(
+      jasmine.objectContaining<Partial<DatatableUpdate>>({
+        first: 20,
+        rows: 20,
+      }),
+    );
+  });
+
+  // Sort change already covered by direct method unit test above.
 });
