@@ -1,11 +1,7 @@
 import { Form, FormField } from 'app/form/form.models';
 
-import {
-  FormActions,
-  RECEIVE_FORM_FIELD_SETTINGS,
-  RECEIVE_FORM_SETTINGS,
-  SELECT_FORM,
-} from './form.actions';
+import { createReducer, on } from '@ngrx/store';
+import { receiveFormFieldSettings, receiveFormSettings, selectForm } from './form.actions';
 
 export interface FormState {
   schemaName: string | null;
@@ -14,29 +10,26 @@ export interface FormState {
   fieldSettings: FormField[];
 }
 
-const initialState: FormState = {
+export const initialState: FormState = {
   schemaName: null,
   formName: null,
   formSettings: null,
   fieldSettings: [],
 };
 
-export function formReducer(state = initialState, action: FormActions): FormState {
-  switch (action.type) {
-    case SELECT_FORM:
-      return Object.assign({}, state, {
-        schemaName: action.payload.selectedSchemaName,
-        formName: action.payload.selectedObjectName,
-      });
-    case RECEIVE_FORM_FIELD_SETTINGS:
-      return Object.assign({}, state, {
-        fieldSettings: action.payload,
-      });
-    case RECEIVE_FORM_SETTINGS:
-      return Object.assign({}, state, {
-        formSettings: action.payload[0],
-      });
-    default:
-      return state;
-  }
-}
+export const formReducer = createReducer(
+  initialState,
+  on(selectForm, (state, { params }) => ({
+    ...state,
+    schemaName: params.selectedSchemaName,
+    formName: params.selectedObjectName,
+  })),
+  on(receiveFormFieldSettings, (state, { fields }) => ({
+    ...state,
+    fieldSettings: fields,
+  })),
+  on(receiveFormSettings, (state, { forms }) => ({
+    ...state,
+    formSettings: forms[0],
+  })),
+);

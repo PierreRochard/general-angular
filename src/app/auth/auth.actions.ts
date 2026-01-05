@@ -1,33 +1,14 @@
-import { Action } from '@ngrx/store';
-
-import { type } from '../util';
+import { createAction, props } from '@ngrx/store';
 import { PostLoginRequestPayload } from './auth.models';
 
-export const AuthActionTypes = {
-  ADD_TOKEN: type('ADD_TOKEN'),
-  REMOVE_TOKEN: type('REMOVE_TOKEN'),
-  SEND_LOGIN_POST_REQUEST: type('SEND_LOGIN_POST_REQUEST'),
-};
+export const sendLoginPostRequest = createAction(
+  '[Auth] Send Login Post Request',
+  props<{ payload: PostLoginRequestPayload }>(),
+);
 
-export class SendLoginPostRequestAction implements Action {
-  type = AuthActionTypes.SEND_LOGIN_POST_REQUEST;
+export const addToken = createAction(
+  '[Auth] Add Token',
+  props<{ token: string }>(),
+);
 
-  constructor(public payload: PostLoginRequestPayload) {
-  }
-}
-
-export class AddTokenAction implements Action {
-  type = AuthActionTypes.ADD_TOKEN;
-
-  constructor(public payload: string) {
-  }
-}
-
-export class RemoveTokenAction implements Action {
-  type = AuthActionTypes.REMOVE_TOKEN;
-
-  constructor(public payload: string) {
-  }
-}
-
-export type AuthActions = AddTokenAction | RemoveTokenAction;
+export const removeToken = createAction('[Auth] Remove Token');

@@ -3,15 +3,19 @@
   "compilerOptions": {
     "outDir": "../out-tsc/spec",
     "types": [
-      "jest",
+      "jasmine",
       "node"
     ],
     "esModuleInterop": true,
-    "module": "commonjs",
-    "target": "es2018"
+    "allowJs": true,
+    "module": "es2022",
+    "moduleResolution": "bundler",
+    "target": "es2022",
+    "isolatedModules": true
   },
   "files": [
-    "polyfills.ts"
+    "polyfills.ts",
+    "test.ts"
   ],
   "include": [
     "**/*.spec.ts"

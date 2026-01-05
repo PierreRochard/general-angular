@@ -1,34 +1,21 @@
-import {Action} from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 
-import {type} from '../util';
+export const sendGetRequest = createAction(
+  '[Rest] Send Get Request',
+  props<{ schema: string; path: string }>(),
+);
 
-export const RestActionTypes = {
-  SEND_GET_REQUEST:    type('SEND_GET_REQUEST'),
-  SEND_POST_REQUEST:   type('SEND_POST_REQUEST'),
-  SEND_DELETE_REQUEST: type('SEND_DELETE_REQUEST'),
-  RECEIVED_RESPONSE:   type('RECEIVED_RESPONSE'),
-  RECEIVED_SCHEMA:     type('RECEIVED_SCHEMA'),
-};
+export const sendPostRequest = createAction(
+  '[Rest] Send Post Request',
+  props<{ schemaName: string; formName: string; data: any }>(),
+);
 
-export class SendGetRequestAction implements Action {
-  type = RestActionTypes.SEND_GET_REQUEST;
-  constructor(public payload: any) {}
-}
-export class SendPostRequestAction implements Action {
-  type = RestActionTypes.SEND_POST_REQUEST;
-  constructor(public payload: any) {}
-}
-export class SendDeleteRequestAction implements Action {
-  type = RestActionTypes.SEND_DELETE_REQUEST;
-  constructor(public payload: any) {}
-}
-export class ReceivedResponseAction implements Action {
-  type = RestActionTypes.RECEIVED_RESPONSE;
-  constructor(public payload: any) {}
-}
+export const sendDeleteRequest = createAction(
+  '[Rest] Send Delete Request',
+  props<{ schema: string; path: string; payload?: any }>(),
+);
 
-export type RestActions
-  = SendGetRequestAction
-  | SendPostRequestAction
-  | SendDeleteRequestAction
-  | ReceivedResponseAction;
+export const receivedResponse = createAction(
+  '[Rest] Received Response',
+  props<{ response: any }>(),
+);

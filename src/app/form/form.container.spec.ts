@@ -13,7 +13,7 @@ import { FormContainer } from './form.container';
 import { FormService } from './form.service';
 import { AppFormModule } from './form.module';
 import { FormState } from './form.reducers';
-import { SelectFormAction } from './form.actions';
+import { selectForm } from './form.actions';
 
 const loginRouterMockData: RouterReducerState<RouterStateUrl> = require('../../../mock_data/form/login.router.mock.json');
 const loginFormMockData: FormState = require('../../../mock_data/form/login.form.mock.json');
@@ -47,7 +47,7 @@ describe('Component: FormContainer', () => {
       ],
     });
     testBed.compileComponents();
-    store = testBed.get(Store);
+    store = TestBed.inject(Store);
   }));
 
   beforeEach(() => {
@@ -80,7 +80,7 @@ describe('Component: FormContainer', () => {
       });
     });
     it('will dispatch SelectFormAction', () => {
-      expect(store.dispatch).toHaveBeenCalledWith(new SelectFormAction(loginRouterMockData.state.params));
+      expect(store.dispatch).toHaveBeenCalledWith(selectForm({ params: loginRouterMockData.state.params }));
     });
   });
 

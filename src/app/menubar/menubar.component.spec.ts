@@ -5,9 +5,14 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { MatButtonModule } from '@angular/material/button';
+import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatToolbarHarness } from '@angular/material/toolbar/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { HarnessLoader } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 
 import { menubarLoadingState } from './menubar.constants';
 import { MenubarComponent } from './menubar.component';
@@ -22,6 +27,7 @@ describe('Component: MenubarComponent', () => {
   let nativeElement: HTMLElement;
   let testNativeElement: HTMLElement;
   let debugElement: DebugElement;
+  let loader: HarnessLoader;
 
   let getDebugElement: Function;
   let getNativeElement: Function;
@@ -40,12 +46,14 @@ beforeEach(waitForAsync(() => {
         RouterTestingModule
       ],
       providers: [],
+      schemas: [NO_ERRORS_SCHEMA],
     });
     testBed.compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MenubarComponent);
+    loader = TestbedHarnessEnvironment.loader(fixture);
 
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
@@ -59,10 +67,11 @@ beforeEach(waitForAsync(() => {
       return getDebugElement(selector).nativeElement;
     };
 
-    fixture.detectChanges();
   });
 
   it('should render PrimeNG menubar component', () => {
+    component.items = menubarLoadingState;
+    fixture.detectChanges();
     testNativeElement = getNativeElement('mat-toolbar');
     expect(testNativeElement).toBeDefined();
   });
@@ -91,6 +100,16 @@ beforeEach(waitForAsync(() => {
     it('should render Login menuitem', () => {
       testNativeElement = getNativeElement('button');
       expect(testNativeElement.textContent).toContain(menubarAnonMenuitemsMockData[0].label);
+    });
+
+    it('exposes toolbar and login button via Material harnesses', async () => {
+      const toolbar = await loader.getHarness(MatToolbarHarness);
+      const rows = await toolbar.getRowsAsText();
+      expect(rows[0]).toContain('Data Browser');
+
+      const buttons = await loader.getAllHarnesses(MatButtonHarness);
+      const buttonTexts = await Promise.all(buttons.map(btn => btn.getText()));
+      expect(buttonTexts.some(text => text.includes('Login'))).toBeTrue();
     });
   })
 

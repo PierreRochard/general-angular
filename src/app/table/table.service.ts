@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../app.reducers';
 import { RestClient } from 'app/rest/rest.service';
 
-import { AreRecordsLoadingAction } from './table.actions';
+import { setRecordsLoading } from './table.actions';
 import {
   ColumnsVisibilityUpdate, Datatable, DatatableUpdate,
   UpdateRecord, SuggestionsQuery, DeleteRecord,
@@ -45,7 +45,7 @@ export class TableService {
         }
       },
     );
-    this.store.dispatch(new AreRecordsLoadingAction(true));
+    this.store.dispatch(setRecordsLoading({ isLoading: true }));
 
     return this.restClient.get(datatable.schema_name, '/' + datatable.table_name, params);
   };

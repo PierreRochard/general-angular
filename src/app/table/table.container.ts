@@ -12,48 +12,61 @@ import { AppState, getCurrentParams } from '../app.reducers';
 import { RouteParams } from '../router/router.models';
 
 import {
-  DeleteRecordAction,
-  GetSuggestionsAction,
-  UpdateRecordAction,
-  UpdateColumnsVisibilityAction,
-  UpdateKeywordAction,
-  UpdatePaginationAction,
-  UpdateSortAction,
-  SelectTableAction,
+  deleteRecord,
+  getSuggestions,
+  updateRecord,
+  updateColumnsVisibility,
+  updateKeyword,
+  updatePagination,
+  updateSort,
+  selectTable,
 } from './table.actions';
 import {
   Datatable, DatatableColumn, EditEvent,
   MultiselectOutput, DeleteRecord, UpdateRecord, SuggestionsQuery, DatatableUpdate,
 } from './table.models';
+import {
+  selectAreColumnsLoading,
+  selectAreRecordsLoading,
+  selectColumns,
+  selectDatatable,
+  selectIsDatatableLoading,
+  selectRecords,
+  selectRowCount,
+  selectSuggestions,
+} from './table.selectors';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-table-container',
-  template: `
-    <app-table-data-mapping-component
-      *ngIf="(isDatatableLoading$ | async) === false"
-      [suggestions]="suggestions$ | async"
-      (getKeywordSuggestions)="getKeywordSuggestions($event)"
-      (getMappingSuggestions)="getSuggestions($event)"
-    >
-    </app-table-data-mapping-component>
-    <app-table-component
-      *ngIf="(isDatatableLoading$ | async) === false && (areColumnsLoading$ | async) === false"
-      [areRecordsLoading]="areRecordsLoading$ | async"
-      [columns]="columns$ | async"
-      [datatable]="datatable$ | async"
-      [records]="records$ | async"
-      [suggestions]="suggestions$ | async"
-      [totalRecords]="totalRecords$ | async"
-      (getSuggestions)="getSuggestions($event)"
-      (onDelete)="onDelete($event)"
-      (onEditCancel)="onEditCancel($event)"
-      (onEditComplete)="onEditComplete($event)"
-      (onPagination)="onPagination($event)"
-      (onSort)="onSort($event)"
-      (onMultiselect)="updateColumns($event)"
-    >
-    </app-table-component>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-table-container',
+    template: `
+    @if ((isDatatableLoading$ | async) === false) {
+      <app-table-data-mapping-component
+        [suggestions]="suggestions$ | async"
+        (getKeywordSuggestions)="getKeywordSuggestions($event)"
+        (getMappingSuggestions)="getSuggestions($event)"
+        >
+      </app-table-data-mapping-component>
+    }
+    @if ((isDatatableLoading$ | async) === false && (areColumnsLoading$ | async) === false) {
+      <app-table-component
+        [areRecordsLoading]="areRecordsLoading$ | async"
+        [columns]="columns$ | async"
+        [datatable]="datatable$ | async"
+        [records]="records$ | async"
+        [suggestions]="suggestions$ | async"
+        [totalRecords]="totalRecords$ | async"
+        (getSuggestions)="getSuggestions($event)"
+        (onDelete)="onDelete($event)"
+        (onEditCancel)="onEditCancel($event)"
+        (onEditComplete)="onEditComplete($event)"
+        (onPagination)="onPagination($event)"
+        (onSort)="onSort($event)"
+        (onMultiselect)="updateColumns($event)"
+        >
+      </app-table-component>
+    }`,
+    standalone: false
 })
 export class TableContainer implements OnDestroy, OnInit {
   public areColumnsLoading$: Observable<boolean>;
@@ -72,37 +85,37 @@ export class TableContainer implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
-    this.areColumnsLoading$ = this.store.select(state => state.table.areColumnsLoading);
-    this.areRecordsLoading$ = this.store.select(state => state.table.areRecordsLoading);
-    this.columns$ = this.store.select(state => state.table.columns);
-    this.datatable$ = this.store.select(state => state.table.datatable);
-    this.isDatatableLoading$ = this.store.select(state => state.table.isDatatableLoading);
-    this.records$ = this.store.select(state => state.table.records);
+    this.areColumnsLoading$ = this.store.select(selectAreColumnsLoading);
+    this.areRecordsLoading$ = this.store.select(selectAreRecordsLoading);
+    this.columns$ = this.store.select(selectColumns);
+    this.datatable$ = this.store.select(selectDatatable);
+    this.isDatatableLoading$ = this.store.select(selectIsDatatableLoading);
+    this.records$ = this.store.select(selectRecords);
     this.selectedRouteParams$ = this.store.select(getCurrentParams);
-    this.suggestions$ = this.store.select(state => state.table.suggestions);
-    this.totalRecords$ = this.store.select(state => state.table.rowCount);
+    this.suggestions$ = this.store.select(selectSuggestions);
+    this.totalRecords$ = this.store.select(selectRowCount);
 
     this.selectedRouteParams$
       .pipe(
-        filter(selectedRouteParams => selectedRouteParams.selectedObjectType === 'table'),
+        filter(selectedRouteParams => !!selectedRouteParams && selectedRouteParams.selectedObjectType === 'table'),
         takeUntil(this.ngUnsubscribe),
       )
       .subscribe(selectedRouteParams => {
-        this.store.dispatch(new SelectTableAction(selectedRouteParams));
+        this.store.dispatch(selectTable({ params: selectedRouteParams }));
       });
   }
 
   getSuggestions(query: SuggestionsQuery) {
-    this.store.dispatch(new GetSuggestionsAction(query));
+    this.store.dispatch(getSuggestions({ query }));
   }
 
   getKeywordSuggestions(query: SuggestionsQuery) {
-    this.store.dispatch(new UpdateKeywordAction(query));
-    this.store.dispatch(new GetSuggestionsAction(query));
+    this.store.dispatch(updateKeyword({ column: query.column, value: query.value }));
+    this.store.dispatch(getSuggestions({ query }));
   }
 
-  onDelete(deleteRecord: DeleteRecord) {
-    this.store.dispatch(new DeleteRecordAction(deleteRecord));
+  onDelete(deletePayload: DeleteRecord) {
+    this.store.dispatch(deleteRecord({ delete: deletePayload }));
   }
 
   onEditCancel(event: EditEvent) {
@@ -115,29 +128,27 @@ export class TableContainer implements OnDestroy, OnInit {
   }
 
   onEditComplete(event: UpdateRecord) {
-    this.store.dispatch(new UpdateRecordAction(event));
+    this.store.dispatch(updateRecord({ update: event }));
   }
 
   onPagination(event: DatatableUpdate) {
-    this.store.dispatch(new UpdatePaginationAction(event));
+    this.store.dispatch(updatePagination({ update: event }));
   }
 
   onSort(event: DatatableUpdate) {
-    this.store.dispatch(new UpdateSortAction(event));
+    this.store.dispatch(updateSort({ update: event }));
   }
 
   updateColumns(event: MultiselectOutput) {
     if (event.added.length > 0) {
-      this.store.dispatch(new UpdateColumnsVisibilityAction({
+      this.store.dispatch(updateColumnsVisibility({
         columns: event.added,
-        tableName: event.tableName,
         isVisible: true,
       }));
     }
     if (event.removed.length > 0) {
-      this.store.dispatch(new UpdateColumnsVisibilityAction({
+      this.store.dispatch(updateColumnsVisibility({
         columns: event.removed,
-        tableName: event.tableName,
         isVisible: false,
       }));
     }

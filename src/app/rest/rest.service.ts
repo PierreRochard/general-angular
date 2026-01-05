@@ -1,29 +1,39 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-import { switchMap, take, timeout } from 'rxjs/operators';
+import { retry, switchMap, take, timeout } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 
 import { AppState } from '../app.reducers';
+import { REST_CONFIG, RestConfig } from './rest.config';
 
 @Injectable()
 export class RestClient {
 
-  private _timeout = 3000;
-
-  static createEndpoint(schemaName: string, endpoint: string) {
-    const _domain = '.rochard.org';
-    const _schemaName = schemaName.replace(/_/g, '');
-    return 'https://' + _schemaName + _domain + endpoint
+  constructor(private http: HttpClient,
+              private store: Store<AppState>,
+              @Inject(REST_CONFIG) private restConfig: RestConfig) {
   }
 
-  static createAuthorizationHeader(headers: HttpHeaders, token: string | null) {
+  private createEndpoint(schemaName: string, endpoint: string) {
+    const sanitizedSchema = schemaName.replace(/_/g, '');
+    return this.restConfig.apiBaseTemplate.replace('{schema}', sanitizedSchema) + endpoint;
+  }
+
+  private static createAuthorizationHeader(headers: HttpHeaders, token: string | null) {
     if (!!token) {
       headers = headers.set('Authorization', 'Bearer ' + token);
     }
     return headers;
+  }
+
+  private withCommonConfig<T>(request$: Observable<T>): Observable<T> {
+    return request$.pipe(
+      timeout(this.restConfig.defaultTimeoutMs),
+      retry({ count: this.restConfig.retryCount, delay: this.restConfig.retryDelayMs }),
+    );
   }
 
   get(schemaName: string, endpoint: string, params?: HttpParams): Observable<Object> {
@@ -33,11 +43,11 @@ export class RestClient {
         let headers = RestClient.createAuthorizationHeader(new HttpHeaders(), state.auth.token);
         headers = headers.set('prefer', 'return=representation');
         headers = headers.set('prefer', 'count=exact');
-        return this.http.get(RestClient.createEndpoint(schemaName, endpoint), {
+        return this.withCommonConfig(this.http.get(this.createEndpoint(schemaName, endpoint), {
           headers: headers,
           observe: 'response',
           params: params,
-        }).pipe(timeout(this._timeout));
+        }));
       }));
   };
 
@@ -47,10 +57,10 @@ export class RestClient {
       switchMap(state => {
         let headers = RestClient.createAuthorizationHeader(new HttpHeaders(), state.auth.token);
         headers = headers.set('prefer', 'return=representation');
-        return this.http.post(RestClient.createEndpoint(schemaName, endpoint), data, {
+        return this.withCommonConfig(this.http.post(this.createEndpoint(schemaName, endpoint), data, {
           headers: headers,
           observe: 'response',
-        }).pipe(timeout(this._timeout));
+        }));
       }));
   };
 
@@ -62,11 +72,11 @@ export class RestClient {
       let headers = RestClient.createAuthorizationHeader(new HttpHeaders(), state.auth.token);
       headers = headers.set('prefer', 'return=minimal');
       params = params.set('id', 'eq.' + id);
-      return this.http.delete(RestClient.createEndpoint(schemaName, endpoint), {
+      return this.withCommonConfig(this.http.delete(this.createEndpoint(schemaName, endpoint), {
         headers: headers,
         observe: 'response',
         params: params
-      }).pipe(timeout(this._timeout));
+      }));
     }));
   }
 
@@ -76,16 +86,11 @@ export class RestClient {
       switchMap(state => {
       let headers = RestClient.createAuthorizationHeader(new HttpHeaders(), state.auth.token);
       headers = headers.set('prefer', 'return=representation');
-      return this.http.patch(RestClient.createEndpoint(schemaName, endpoint), data, {
+      return this.withCommonConfig(this.http.patch(this.createEndpoint(schemaName, endpoint), data, {
         headers: headers,
         observe: 'response',
         params: params
-      }).pipe(timeout(this._timeout));
+      }));
     }));
   }
-
-  constructor(private http: HttpClient,
-              private store: Store<AppState>) {
-  }
-
 }

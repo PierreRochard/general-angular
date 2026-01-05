@@ -6,9 +6,11 @@ import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import {
-  ReceiveFormFieldSettingsAction,
-  GetFormFieldSettingsAction, GetFormSettingsAction, ReceiveFormSettingsAction,
-  GET_FORM_FIELD_SETTINGS, GET_FORM_SETTINGS, SELECT_FORM, SelectFormAction,
+  getFormFieldSettings,
+  getFormSettings,
+  receiveFormFieldSettings,
+  receiveFormSettings,
+  selectForm,
 } from './form.actions';
 import { FormService } from './form.service';
 import { RouteParams } from '../router/router.models';
@@ -17,47 +19,44 @@ import { RouteParams } from '../router/router.models';
 @Injectable()
 export class FormEffects {
 
-  
   selectForm$ = createEffect(() => this.actions$.pipe(
-    ofType(SELECT_FORM),
-    map((action: SelectFormAction) => action.payload),
+    ofType(selectForm),
+    map(action => action.params),
     mergeMap((routeParams: RouteParams) => {
       return [
-        new GetFormSettingsAction(routeParams),
-        new GetFormFieldSettingsAction(routeParams),
+        getFormSettings({ params: routeParams }),
+        getFormFieldSettings({ params: routeParams }),
       ];
     })));
 
-  
   getFormSettings$ = createEffect(() => this.actions$.pipe(
-    ofType(GET_FORM_SETTINGS),
-    switchMap((action: GetFormSettingsAction) => {
-      return this.formService.get_form_settings(action.payload.selectedSchemaName,
-        action.payload.selectedObjectName).pipe(
+    ofType(getFormSettings),
+    switchMap((action) => {
+      return this.formService.get_form_settings(action.params.selectedSchemaName,
+        action.params.selectedObjectName).pipe(
         mergeMap((response: any) => {
           return [
-            new ReceiveFormSettingsAction(response.body),
+            receiveFormSettings({ forms: response.body }),
           ];
         }),
         catchError(error => {
-          return of(new ReceiveFormSettingsAction(error));
+          return of(receiveFormSettings({ forms: error }));
         }),
       )
     })));
 
-  
   getFormFieldSettings$ = createEffect(() => this.actions$.pipe(
-    ofType(GET_FORM_FIELD_SETTINGS),
-    switchMap((action: GetFormFieldSettingsAction) => {
-      return this.formService.get_form_field_settings(action.payload.selectedSchemaName,
-        action.payload.selectedObjectName).pipe(
+    ofType(getFormFieldSettings),
+    switchMap((action) => {
+      return this.formService.get_form_field_settings(action.params.selectedSchemaName,
+        action.params.selectedObjectName).pipe(
         mergeMap((response: any) => {
           return [
-            new ReceiveFormFieldSettingsAction(response.body),
+            receiveFormFieldSettings({ fields: response.body }),
           ];
         }),
         catchError(error => {
-          return of(new ReceiveFormFieldSettingsAction(error));
+          return of(receiveFormFieldSettings({ fields: error }));
         }),
       )
     })));

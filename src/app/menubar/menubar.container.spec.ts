@@ -7,10 +7,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { AppState, metaReducers, reducers } from '../app.reducers';
 
-import { GetMenubarAction, ReceiveMenubarAction } from './menubar.actions';
+import { getMenubar, receiveMenubar } from './menubar.actions';
 import { MenubarContainer } from './menubar.container';
 import { menubarLoadingState } from './menubar.constants';
 import { MenubarComponent } from './menubar.component';
@@ -41,12 +43,14 @@ describe('Component: MenubarContainer', () => {
         MatIconModule,
         MatMenuModule,
         MatToolbarModule,
+        RouterTestingModule,
         StoreModule.forRoot(reducers, {metaReducers: metaReducers}),
       ],
       providers: [],
+      schemas: [NO_ERRORS_SCHEMA],
     });
     testBed.compileComponents();
-    store = testBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   }));
 
@@ -68,8 +72,8 @@ describe('Component: MenubarContainer', () => {
       });
     });
 
-    it('should dispatch a GetMenubarAction', () => {
-      expect(store.dispatch).toHaveBeenCalledWith(new GetMenubarAction());
+    it('should dispatch a getMenubar action', () => {
+      expect(store.dispatch).toHaveBeenCalledWith(getMenubar());
     });
 
   });
@@ -77,7 +81,7 @@ describe('Component: MenubarContainer', () => {
   describe(' for anon ', () => {
 
     beforeEach(() => {
-      action = new ReceiveMenubarAction(menubarAnonResponseMockData);
+      action = receiveMenubar({ items: menubarAnonResponseMockData });
       store.dispatch(action);
     });
 

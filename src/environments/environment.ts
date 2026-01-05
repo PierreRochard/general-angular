@@ -4,5 +4,11 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  restConfig: {
+    apiBaseTemplate: 'https://{schema}.rochard.org',
+    defaultTimeoutMs: 5000,
+    retryCount: 2,
+    retryDelayMs: 200,
+  }
 };

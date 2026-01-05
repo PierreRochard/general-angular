@@ -22,10 +22,11 @@ import {
 } from 'app/table/table.models';
 
 @Component({
-  selector: 'app-table-component',
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+    selector: 'app-table-component',
+    templateUrl: './table.component.html',
+    styleUrls: ['./table.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class TableComponent implements OnChanges {
   @Input() areRecordsLoading = false;

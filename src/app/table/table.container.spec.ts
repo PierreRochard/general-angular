@@ -51,7 +51,7 @@ describe('Component: TableContainer', () => {
       providers: [],
     });
     testBed.compileComponents();
-    store = testBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   }));
 
@@ -65,22 +65,8 @@ describe('Component: TableContainer', () => {
     fixture.detectChanges();
   });
 
-  describe(' initialize ', () => {
-
+  it('should create the table container', () => {
+    expect(component).toBeTruthy();
   });
-
-  describe(' for anon ', () => {
-
-    // beforeEach(() => {
-    //   action = new ReceiveMenubarAction(menubarAnonResponseMockData);
-    //   store.dispatch(action);
-    // });
-    //
-    // it('should subscribe to items$', () => {
-    //   component.items$.subscribe(value => {
-    //     expect(value).toEqual(menubarAnonMenuitemsMockData);
-    //   });
-    // });
-  })
 
 });

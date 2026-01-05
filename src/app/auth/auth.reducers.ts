@@ -1,21 +1,16 @@
-import {AuthActions, AuthActionTypes} from './auth.actions';
+import { createReducer, on } from '@ngrx/store';
+import { addToken, removeToken } from './auth.actions';
 
 export interface AuthState {
   token: string | null;
 }
 
-const initialState: AuthState = {
+export const initialState: AuthState = {
   token: null,
 };
 
-export function authReducer (state = initialState, action: AuthActions): AuthState {
-  switch (action.type) {
-    case AuthActionTypes.ADD_TOKEN:
-      return Object.assign({}, state, { token: action.payload });
-    case AuthActionTypes.REMOVE_TOKEN:
-      return Object.assign({}, state, { token: null});
-    default:
-      return state;
-  }
-}
-
+export const authReducer = createReducer<AuthState>(
+  initialState,
+  on(addToken, (state, { token }) => ({ ...state, token })),
+  on(removeToken, state => ({ ...state, token: null as null })),
+);

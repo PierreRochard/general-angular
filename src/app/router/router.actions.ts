@@ -1,30 +1,11 @@
-import { Action } from '@ngrx/store';
 import { NavigationExtras } from '@angular/router';
+import { createAction, props } from '@ngrx/store';
 
-export const GO = '[Router] Go';
-export const BACK = '[Router] Back';
-export const FORWARD = '[Router] Forward';
+export const go = createAction(
+  '[Router] Go',
+  props<{ path: any[]; query?: object; extras?: NavigationExtras }>(),
+);
 
-export class Go implements Action {
-  readonly type = GO;
+export const back = createAction('[Router] Back');
 
-  constructor(public payload: {
-    path: any[];
-    query?: object;
-    extras?: NavigationExtras;
-  }) {
-  }
-}
-
-export class Back implements Action {
-  readonly type = BACK;
-}
-
-export class Forward implements Action {
-  readonly type = FORWARD;
-}
-
-export type Actions
-  = Go
-  | Back
-  | Forward;
+export const forward = createAction('[Router] Forward');

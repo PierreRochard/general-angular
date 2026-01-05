@@ -5,6 +5,7 @@ export interface PostLoginRequestPayload {
 }
 
 export interface LoginData {
-  email: string;
-  password: string;
+  email?: string;
+  password?: string;
+  [key: string]: string | undefined;
 }

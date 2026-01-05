@@ -1,39 +1,39 @@
-import {RestActions, RestActionTypes} from './rest.actions';
+import { createReducer, on } from '@ngrx/store';
+import { receivedResponse, sendGetRequest, sendPostRequest } from './rest.actions';
 
 
 export interface RestState {
   posting: boolean;
   receivedForm: boolean;
   getting: boolean;
+  received: boolean;
   response: any | null;
 }
 
-const initialState: RestState = {
+export const initialState: RestState = {
   posting: false,
   receivedForm: false,
   getting: false,
+  received: false,
   response: null
 };
 
-export function restReducer (state = initialState, action: RestActions): RestState {
-  switch (action.type) {
-    case RestActionTypes.SEND_GET_REQUEST:
-      return Object.assign({}, state, {
-        getting: true,
-        received: false,
-      });
-    case RestActionTypes.SEND_POST_REQUEST:
-      return Object.assign({}, state, {
-        posting: true,
-        received: false,
-      });
-    case RestActionTypes.RECEIVED_RESPONSE:
-      return Object.assign({}, state, {
-        posting: false,
-        received: true,
-        response: action.payload,
-      });
-    default:
-      return state;
-  }
-}
+export const restReducer = createReducer(
+  initialState,
+  on(sendGetRequest, state => ({
+    ...state,
+    getting: true,
+    received: false,
+  })),
+  on(sendPostRequest, state => ({
+    ...state,
+    posting: true,
+    received: false,
+  })),
+  on(receivedResponse, (state, { response }) => ({
+    ...state,
+    posting: false,
+    received: true,
+    response,
+  })),
+);

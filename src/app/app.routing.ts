@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {FormContainer} from './form/form.container';
 import {HomeContainer} from './home/home.container';
 import {TableContainer} from './table/table.container';
+import { AuthGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
   {
@@ -16,6 +17,7 @@ export const routes: Routes = [
   {
     component: TableContainer,
     path: ':selectedSchemaName/:selectedObjectName',
+    canActivate: [AuthGuard],
   },
 ];
 

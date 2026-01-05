@@ -1,17 +1,19 @@
 <form
   class="form-shell"
   [formGroup]="form"
-  (ngSubmit)="onSubmit.emit(form.value)">
+  (ngSubmit)="submitForm()">
   <mat-card>
     <mat-card-title>{{ formSettings.custom_name }}</mat-card-title>
     <mat-card-content>
       <div class="field-grid">
-        <app-dynamic-form-element
-          *ngFor="let formFieldSetting of formFieldSettings"
-          [formFieldName]="formFieldSetting.field_name"
-          [formFieldLabel]="formFieldSetting.custom_name"
-          [formGroup]="form">
-        </app-dynamic-form-element>
+        @for (formFieldSetting of formFieldSettings; track formFieldSetting) {
+          <app-dynamic-form-element
+            [formFieldName]="formFieldSetting.field_name"
+            [formFieldLabel]="formFieldSetting.custom_name"
+            [formFieldType]="formFieldSetting.field_type"
+            [formGroup]="form">
+          </app-dynamic-form-element>
+        }
       </div>
     </mat-card-content>
     <mat-card-actions align="end">

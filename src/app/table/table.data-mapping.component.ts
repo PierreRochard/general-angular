@@ -2,8 +2,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SuggestionsQuery } from './table.models';
 
 @Component({
-  selector: 'app-table-data-mapping-component',
-  templateUrl: './table.data-mapping.component.html',
+    selector: 'app-table-data-mapping-component',
+    templateUrl: './table.data-mapping.component.html',
+    standalone: false
 })
 export class TableDataMappingComponent {
   public header = 'Transaction Mapping';

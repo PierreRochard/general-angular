@@ -94,7 +94,12 @@ describe('Form and Table flows', () => {
       body: [{ id: 1, name: 'Cash' }],
     }).as('getRecords');
 
-    cy.visit('/chart_of_accounts/accounts');
+    const persistedState = JSON.stringify({ auth: { token: 'fake-token' } });
+    cy.visit('/chart_of_accounts/accounts', {
+      onBeforeLoad: (win) => {
+        win.localStorage.setItem('appState', persistedState);
+      },
+    });
     cy.wait(['@getDatatable', '@getColumns', '@getRecords']);
     cy.contains('Accounts', { timeout: 10000 }).should('exist');
     cy.get('table[mat-table]', { timeout: 10000 }).within(() => {

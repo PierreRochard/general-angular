@@ -7,18 +7,21 @@ export interface GrowlMessage {
 }
 
 @Component({
-  selector: 'app-growl-component',
-  template: `
-    <div class="growl-list" *ngIf="messages?.length">
-      <mat-card
-        *ngFor="let message of messages"
-        [ngClass]="message.severity">
-        <mat-card-title>{{ message.summary }}</mat-card-title>
-        <mat-card-content>{{ message.detail }}</mat-card-content>
-      </mat-card>
-    </div>
-  `,
-  styles: [`
+    selector: 'app-growl-component',
+    template: `
+    @if (messages?.length) {
+      <div class="growl-list">
+        @for (message of messages; track message) {
+          <mat-card
+            [ngClass]="message.severity">
+            <mat-card-title>{{ message.summary }}</mat-card-title>
+            <mat-card-content>{{ message.detail }}</mat-card-content>
+          </mat-card>
+        }
+      </div>
+    }
+    `,
+    styles: [`
     .growl-list {
       position: fixed;
       right: 16px;
@@ -34,7 +37,8 @@ export interface GrowlMessage {
     .success mat-card-title { color: #1b5e20; }
     .error mat-card-title { color: #c62828; }
     .warn mat-card-title { color: #ff8f00; }
-  `]
+  `],
+    standalone: false
 })
 export class GrowlComponent {
   @Input() messages: GrowlMessage[];

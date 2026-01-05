@@ -11,9 +11,11 @@
         [matAutocomplete]="keywordAuto"
         (input)="getKeywordSuggestions.emit({ column: keyword_input.column, value: $any($event.target).value })" />
       <mat-autocomplete #keywordAuto="matAutocomplete">
-        <mat-option *ngFor="let suggestion of suggestions" [value]="suggestion">
-          {{ suggestion }}
-        </mat-option>
+        @for (suggestion of suggestions; track suggestion) {
+          <mat-option [value]="suggestion">
+            {{ suggestion }}
+          </mat-option>
+        }
       </mat-autocomplete>
     </mat-form-field>
 
@@ -28,9 +30,11 @@
         (keydown)="onCellEditorKeydown($event)"
         (input)="getMappingSuggestions.emit({ column: mapping_input.column, value: $any($event.target).value })" />
       <mat-autocomplete #mappingAuto="matAutocomplete">
-        <mat-option *ngFor="let suggestion of suggestions" [value]="suggestion">
-          {{ suggestion }}
-        </mat-option>
+        @for (suggestion of suggestions; track suggestion) {
+          <mat-option [value]="suggestion">
+            {{ suggestion }}
+          </mat-option>
+        }
       </mat-autocomplete>
     </mat-form-field>
   </mat-card-content>

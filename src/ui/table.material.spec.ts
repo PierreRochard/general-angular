@@ -11,16 +11,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { readFileSync } from 'fs';
-import * as path from 'path';
 
 import { TableComponent } from '../app/table/table.component';
 import { Datatable, DatatableColumn, DatatableUpdate } from '../app/table/table.models';
-
-const tableTemplate = readFileSync(
-  path.join(__dirname, '../app/table/table.component.html'),
-  'utf8',
-);
 
 describe('TableComponent (Material)', () => {
   let fixture: ComponentFixture<TableComponent>;
@@ -98,9 +91,6 @@ describe('TableComponent (Material)', () => {
         MatTableModule,
       ],
     }).compileComponents();
-    TestBed.overrideComponent(TableComponent, {
-      set: { template: tableTemplate, styleUrls: [] },
-    });
   }));
 
   beforeEach(async () => {
@@ -123,11 +113,11 @@ describe('TableComponent (Material)', () => {
   });
 
   it('emits sort changes', () => {
-    const spy = jest.spyOn(component.onSort, 'emit');
+    const spy = spyOn(component.onSort, 'emit');
     const sort: Sort = { active: 'name', direction: 'desc' };
     component.onSortChange(sort);
     expect(spy).toHaveBeenCalledWith(
-      expect.objectContaining<Partial<DatatableUpdate>>({
+      jasmine.objectContaining<Partial<DatatableUpdate>>({
         sortField: 'name',
         sortOrder: -1,
       }),
@@ -135,10 +125,10 @@ describe('TableComponent (Material)', () => {
   });
 
   it('emits pagination changes', () => {
-    const spy = jest.spyOn(component.onPagination, 'emit');
+    const spy = spyOn(component.onPagination, 'emit');
     component.onPageChange({ pageIndex: 1, pageSize: 10, length: 20 } as any);
     expect(spy).toHaveBeenCalledWith(
-      expect.objectContaining<Partial<DatatableUpdate>>({
+      jasmine.objectContaining<Partial<DatatableUpdate>>({
         first: 10,
         rows: 10,
       }),
@@ -146,10 +136,10 @@ describe('TableComponent (Material)', () => {
   });
 
   it('emits archive action', () => {
-    const spy = jest.spyOn(component.onDelete, 'emit');
+    const spy = spyOn(component.onDelete, 'emit');
     component.archiveRow(records[0]);
     expect(spy).toHaveBeenCalledWith(
-      expect.objectContaining({
+      jasmine.objectContaining({
         record_id: 1,
         table_name: datatable.table_name,
       }),

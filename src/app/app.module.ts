@@ -39,6 +39,10 @@ import { MenubarEffects } from './menubar/menubar.effects';
 import { RouterEffects } from './router/router.effects';
 import { CustomRouterStateSerializer } from './router/router.serializer';
 import { MatCardModule } from '@angular/material/card';
+import { AUTH_INTERCEPTOR_PROVIDER } from './auth/auth.interceptor';
+import { REST_CONFIG } from './rest/rest.config';
+import { environment } from '../environments/environment';
+import { HttpErrorInterceptorProvider } from './rest/http-error.interceptor';
 
 @NgModule({ bootstrap: [AppComponent],
     declarations: [
@@ -58,6 +62,9 @@ import { MatCardModule } from '@angular/material/card';
         routing,
         StoreModule.forRoot(reducers, { metaReducers: metaReducers }),
         StoreRouterConnectingModule.forRoot({ stateKey: 'router' })], providers: [
+        { provide: REST_CONFIG, useValue: environment.restConfig },
+        AUTH_INTERCEPTOR_PROVIDER,
+        HttpErrorInterceptorProvider,
         RestClient,
         WebsocketService,
         { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer },

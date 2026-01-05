@@ -4,7 +4,7 @@ import { Subject, fromEvent, takeUntil } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { AppState } from '../app.reducers';
-import { AddRecordAction, DeselectRecordAction, RemoveRecordAction } from '../table/table.actions';
+import { addRecord, deselectRecord, removeRecord } from '../table/table.actions';
 
 @Injectable()
 export class WebsocketService implements OnDestroy {
@@ -36,11 +36,11 @@ export class WebsocketService implements OnDestroy {
         }
         switch (message.type) {
           case 'INSERT':
-            this.store.dispatch(new AddRecordAction(message.row));
+            this.store.dispatch(addRecord({ record: message.row }));
             break;
           case 'DELETE':
-            this.store.dispatch(new RemoveRecordAction(message.row));
-            this.store.dispatch(new DeselectRecordAction(message.row));
+            this.store.dispatch(removeRecord({ record: message.row }));
+            this.store.dispatch(deselectRecord({ record: message.row }));
             break;
           default:
             break;

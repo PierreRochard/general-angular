@@ -1,33 +1,36 @@
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
 
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { Observable, Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
 
-import { SendPostRequestAction } from '../rest/rest.actions';
+import { sendPostRequest } from '../rest/rest.actions';
 
 import { AppState, getCurrentParams } from '../app.reducers';
 import { FormField } from './form.models';
-import { SelectFormAction } from './form.actions'
+import { selectForm } from './form.actions'
 import {
-  RemoveTokenAction,
-  SendLoginPostRequestAction,
+  removeToken,
+  sendLoginPostRequest,
 } from '../auth/auth.actions';
-import { Go } from '../router/router.actions';
+import { go } from '../router/router.actions';
 import { RouteParams } from '../router/router.models';
+import { selectFormFieldSettings, selectFormSettings } from './form.selectors';
 
 
 @Component({
-  selector: 'app-form-container',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <app-form-component
-      *ngIf="(formFieldSettings$ | async) !== null && (formSettings$ | async) !== null"
-      [formSettings]="formSettings$ | async"
-      [formFieldSettings]="formFieldSettings$ | async"
-      (onSubmit)="onSubmit($event)">
-    </app-form-component>`,
+    selector: 'app-form-container',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
+    @if ((formFieldSettings$ | async) !== null && (formSettings$ | async) !== null) {
+      <app-form-component
+        [formSettings]="formSettings$ | async"
+        [formFieldSettings]="formFieldSettings$ | async"
+        (onSubmit)="onSubmit($event)">
+      </app-form-component>
+    }`,
+    standalone: false
 })
 export class FormContainer implements OnDestroy, OnInit {
   public formFieldSettings$: Observable<FormField[]>;
@@ -41,8 +44,8 @@ export class FormContainer implements OnDestroy, OnInit {
 
   ngOnInit() {
 
-    this.formFieldSettings$ = this.store.select(state => state.form.fieldSettings);
-    this.formSettings$ = this.store.select(state => state.form.formSettings);
+    this.formFieldSettings$ = this.store.select(selectFormFieldSettings);
+    this.formSettings$ = this.store.select(selectFormSettings);
     this.selectedRouteParams$ = this.store.select(getCurrentParams);
 
     this.selectedRouteParams$
@@ -52,33 +55,34 @@ export class FormContainer implements OnDestroy, OnInit {
       )
       .subscribe(selectedRouteParams => {
       if (selectedRouteParams.selectedObjectName === 'logout') {
-        this.store.dispatch(new RemoveTokenAction(''));
-        this.store.dispatch(new Go({path: ['/']}));
+        this.store.dispatch(removeToken());
+        this.store.dispatch(go({path: ['/']}));
       } else {
-        this.store.dispatch(new SelectFormAction(selectedRouteParams));
+        this.store.dispatch(selectForm({ params: selectedRouteParams }));
       }
     })
   }
 
-  public onSubmit(formValue: any) {
-    Object.keys(formValue).filter(key => formValue[key] === '')
-      .map(key => delete formValue[key]);
+  public onSubmit(formValue: Record<string, string>) {
+    const trimmed = Object.keys(formValue).reduce<Record<string, string>>((acc, key) => {
+      const value = formValue[key];
+      if (value !== '') {
+        acc[key] = value;
+      }
+      return acc;
+    }, {});
     this.selectedRouteParams$.pipe(take(1)).subscribe(selectedRouteParams => {
-        let postAction: Action;
-        const post = {
-          schemaName: selectedRouteParams.selectedSchemaName,
-          formName: selectedRouteParams.selectedObjectName,
-          data: formValue,
-        };
-        if (post.formName === 'login') {
-          postAction = new SendLoginPostRequestAction(post);
-          this.store.dispatch(postAction)
-        } else {
-          postAction = new SendPostRequestAction(post);
-          this.store.dispatch(postAction)
-        }
-      },
-    );
+      const post = {
+        schemaName: selectedRouteParams.selectedSchemaName,
+        formName: selectedRouteParams.selectedObjectName,
+        data: trimmed,
+      };
+      if (post.formName === 'login') {
+        this.store.dispatch(sendLoginPostRequest({ payload: post }))
+      } else {
+        this.store.dispatch(sendPostRequest(post))
+      }
+    });
   }
 
   ngOnDestroy() {

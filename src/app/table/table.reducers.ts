@@ -1,20 +1,22 @@
+import { createReducer, on } from '@ngrx/store';
 import {
-  ADD_RECORD,
-  ARE_RECORDS_LOADING,
-  DESELECT_RECORDS,
-  DESELECT_RECORD,
-  GET_DATATABLE,
-  GET_DATATABLE_COLUMNS,
-  GET_SUGGESTIONS,
-  RECEIVE_DATATABLE,
-  RECEIVE_DATATABLE_COLUMNS,
-  RECEIVE_RECORDS,
-  REMOVE_RECORD,
-  REMOVE_RECORDS,
-  SELECT_RECORDS,
-  TableActions,
-  UPDATE_ROW_COUNT,
-  UPDATE_TABLE_NAME, RECEIVE_SUGGESTIONS, UPDATE_KEYWORD,
+  addRecord,
+  deselectRecord,
+  deselectRecords,
+  getDatatable,
+  getDatatableColumns,
+  getSuggestions,
+  receiveDatatable,
+  receiveDatatableColumns,
+  receiveRecords,
+  receiveSuggestions,
+  removeRecord,
+  removeTableRecords,
+  selectRecords,
+  setRecordsLoading,
+  updateKeyword,
+  updateRowCount,
+  updateTableName,
 } from './table.actions';
 import { Datatable, DatatableColumn } from './table.models';
 
@@ -38,18 +40,18 @@ export interface TableState {
   tableName: string | null;
 }
 
-const initialState: TableState = {
+export const initialState: TableState = {
   areColumnsLoading: true,
   areRecordsLoading: true,
-  columns: [],
-  datatable: null,
+  columns: [] as DatatableColumn[],
+  datatable: null as Datatable | null,
   isDatatableLoading: true,
-  records: [],
+  records: [] as any[],
   rowCount: null,
   rowLimit: null,
   rowOffset: 0,
   schemaName: null,
-  selectedRecords: [],
+  selectedRecords: [] as any[],
   suggestions: [],
   suggestionsColumn: null,
   sortColumn: null,
@@ -57,91 +59,68 @@ const initialState: TableState = {
   tableName: null,
 };
 
-export function tableReducer(state = initialState, action: TableActions): TableState {
-  switch (action.type) {
-    case ADD_RECORD:
-      return Object.assign({}, state, {
-        records: [action.payload, ...state.records],
-      });
-    case ARE_RECORDS_LOADING:
-      return Object.assign({}, state, {
-        areRecordsLoading: action.payload,
-      });
-    case DESELECT_RECORD:
-      return Object.assign({}, state, {
-        selectedRecords: state.selectedRecords.filter(record => record.id !== action.payload.id),
-      });
-    case DESELECT_RECORDS:
-      return Object.assign({}, state, {
-        selectedRecords: [],
-      });
-    case GET_DATATABLE:
-      return Object.assign({}, state, {
-        isDatatableLoading: true,
-        datatable: null,
-        records: [],
-      });
-    case GET_DATATABLE_COLUMNS:
-      return Object.assign({}, state, {
-        areColumnsLoading: true,
-        records: [],
-        columns: [],
-      });
-    case GET_SUGGESTIONS:
-      return Object.assign({}, state, {
-        suggestionsColumn: action.payload.column,
-      });
-    case RECEIVE_DATATABLE:
-      return Object.assign({}, state, {
-        datatable: action.payload,
-        isDatatableLoading: false,
-        rowLimit: action.payload.row_limit,
-        rowOffset: action.payload.row_offset,
-        sortColumn: action.payload.sort_column,
-        sortOrder: action.payload.sort_order,
-      });
-    case RECEIVE_DATATABLE_COLUMNS:
-      return Object.assign({}, state, {
-        areColumnsLoading: false,
-        columns: action.payload,
-      });
-    case RECEIVE_RECORDS:
-      return Object.assign({}, state, {
-        records: action.payload,
-        areRecordsLoading: false,
-      });
-    case RECEIVE_SUGGESTIONS:
-      return Object.assign({}, state, {
-        suggestions: action.payload,
-      });
-    case REMOVE_RECORD:
-      return Object.assign({}, state, {
-        records: state.records.filter(record => record.id !== action.payload.id),
-      });
-    case REMOVE_RECORDS:
-      return Object.assign({}, state, {
-        records: [],
-      });
-    case SELECT_RECORDS:
-      return Object.assign({}, state, {
-        selectedRecords: action.payload,
-      });
-    case UPDATE_KEYWORD:
-      return Object.assign({}, state, {
-        datatable: Object.assign({}, state.datatable, {
-          filter_columns: [action.payload.column],
-        }),
-      });
-    case UPDATE_ROW_COUNT:
-      return Object.assign({}, state, {
-        rowCount: action.payload,
-      });
-    case UPDATE_TABLE_NAME:
-      return Object.assign({}, state, {
-        tableName: action.payload.selectedObjectName,
-        schemaName: action.payload.selectedSchemaName,
-      });
-    default:
-      return state;
-  }
-}
+export const tableReducer = createReducer<TableState>(
+  initialState,
+  on(addRecord, (state, { record }) => ({ ...state, records: [record, ...state.records] })),
+  on(setRecordsLoading, (state, { isLoading }) => ({ ...state, areRecordsLoading: isLoading })),
+  on(deselectRecord, (state, { record }) => ({
+    ...state,
+    selectedRecords: state.selectedRecords.filter(r => r.id !== record.id),
+  })),
+  on(deselectRecords, state => ({ ...state, selectedRecords: [] as any[] })),
+  on(getDatatable, state => ({
+    ...state,
+    isDatatableLoading: true,
+    datatable: null as Datatable | null,
+    records: [] as any[],
+  })),
+  on(getDatatableColumns, state => ({
+    ...state,
+    areColumnsLoading: true,
+    records: [] as any[],
+    columns: [] as DatatableColumn[],
+  })),
+  on(getSuggestions, (state, { query }) => ({
+    ...state,
+    suggestionsColumn: query.column,
+  })),
+  on(receiveDatatable, (state, { datatable }) => ({
+    ...state,
+    datatable,
+    isDatatableLoading: false,
+    rowLimit: datatable.row_limit,
+    rowOffset: datatable.row_offset,
+    sortColumn: datatable.sort_column,
+    sortOrder: datatable.sort_order,
+  })),
+  on(receiveDatatableColumns, (state, { columns }) => ({
+    ...state,
+    areColumnsLoading: false,
+    columns,
+  })),
+  on(receiveRecords, (state, { records }) => ({
+    ...state,
+    records,
+    areRecordsLoading: false,
+  })),
+  on(receiveSuggestions, (state, { suggestions }) => ({
+    ...state,
+    suggestions,
+  })),
+  on(removeRecord, (state, { record }) => ({
+    ...state,
+    records: state.records.filter(r => r.id !== record.id),
+  })),
+  on(removeTableRecords, state => ({ ...state, records: [] as any[] })),
+  on(selectRecords, (state, { records }) => ({ ...state, selectedRecords: records })),
+  on(updateKeyword, (state, { column }) => ({
+    ...state,
+    datatable: state.datatable ? { ...state.datatable, filter_columns: [column] } : null,
+  })),
+  on(updateRowCount, (state, { rowCount }) => ({ ...state, rowCount })),
+  on(updateTableName, (state, { params }) => ({
+    ...state,
+    tableName: params.selectedObjectName,
+    schemaName: params.selectedSchemaName,
+  })),
+);

@@ -82,5 +82,11 @@ export const getRestResponse = createSelector(getRestState, getResponse);
 
 
 export const getRouterState = (state: AppState) => state.router;
-export const getCurrentUrl = createSelector(getRouterState, (state: RouterReducerState<RouterStateUrl>) => state.state && state.state.url);
-export const getCurrentParams = createSelector(getRouterState, (state: RouterReducerState<RouterStateUrl>) => state.state && state.state.params);
+export const getCurrentUrl = createSelector(
+  getRouterState,
+  (state: RouterReducerState<RouterStateUrl> | undefined) => state?.state?.url ?? null,
+);
+export const getCurrentParams = createSelector(
+  getRouterState,
+  (state: RouterReducerState<RouterStateUrl> | undefined) => state?.state?.params ?? null,
+);

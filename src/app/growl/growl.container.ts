@@ -9,10 +9,11 @@ import { GrowlMessage } from './growl.component';
 
 
 @Component({
-  selector: 'app-growl-container',
-  template: `<app-growl-component
+    selector: 'app-growl-container',
+    template: `<app-growl-component
                 [messages]="messages$ | async">
               </app-growl-component>`,
+    standalone: false
 })
 export class GrowlContainer {
   messages$: Observable<GrowlMessage[]>;
