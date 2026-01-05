@@ -1,4 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
-@import url('../node_modules/primeng/resources/themes/omega/theme.css');
-@import url('../node_modules/primeng/resources/primeng.min.css');
-@import url('../node_modules/font-awesome/css/font-awesome.min.css');
+/* Global styles */
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import '../node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: #f6f8fb;
+}
+
+.page-shell {
+  padding: 16px;
+}

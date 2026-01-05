@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { ReceivedResponseAction } from '../rest/rest.actions';
 
@@ -20,34 +21,35 @@ import { PostLoginRequestPayload } from './auth.models';
 @Injectable()
 export class AuthEffects {
 
-  @Effect()
-  sendPostRequest$ = this.actions$
-    .ofType(AuthActionTypes.SEND_LOGIN_POST_REQUEST)
-    .map((action: SendLoginPostRequestAction) => action.payload)
-    .switchMap((payload: PostLoginRequestPayload) => {
-      return this.authService.post_login(payload.schemaName, payload.formName, payload.data)
-        .map((response: any) => {
+  
+  sendPostRequest$ = createEffect(() => this.actions$.pipe(
+    ofType(AuthActionTypes.SEND_LOGIN_POST_REQUEST),
+    map((action: SendLoginPostRequestAction) => action.payload),
+    switchMap((payload: PostLoginRequestPayload) => {
+      return this.authService.post_login(payload.schemaName, payload.formName, payload.data).pipe(
+        map((response: any) => {
           const token = response.body[0]['token'];
           return new AddTokenAction(token);
-        })
-        .catch(error => {
+        }),
+        catchError(error => {
           return of(new ReceivedResponseAction(error));
-        });
-    });
+        }),
+      );
+    })));
 
-  @Effect()
-  addToken$ = this.actions$
-    .ofType(AuthActionTypes.ADD_TOKEN)
-    .switchMap(() => [
+  
+  addToken$ = createEffect(() => this.actions$.pipe(
+    ofType(AuthActionTypes.ADD_TOKEN),
+    switchMap(() => [
       new Go({path: ['/']}),
-      new GetMenubarAction()]);
+      new GetMenubarAction()])));
 
-  @Effect()
-  removeToken$ = this.actions$
-    .ofType(AuthActionTypes.REMOVE_TOKEN)
-    .switchMap(() => [
+  
+  removeToken$ = createEffect(() => this.actions$.pipe(
+    ofType(AuthActionTypes.REMOVE_TOKEN),
+    switchMap(() => [
       new Go({path: ['/']}),
-      new GetMenubarAction()]);
+      new GetMenubarAction()])));
 
   constructor(private actions$: Actions,
               private authService: AuthService, ) {

@@ -1,5 +1,12 @@
-import { MenuItem } from 'primeng/primeng';
-
-export interface GeneralMenuItem extends MenuItem {
-  [key: string]: { [k: string]: any; } | string | MenuItem[] | MenuItem[][] | boolean | undefined | ((event?: any) => void);
+export interface MenuEntry {
+  label: string;
+  icon?: string;
+  routerLink?: string | any[];
+  url?: string;
+  disabled?: boolean;
+  children?: MenuEntry[];
+  command?: (event?: any) => void;
+  [key: string]: unknown;
 }
+
+export type GeneralMenuItem = MenuEntry;

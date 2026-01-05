@@ -1,16 +1,12 @@
 import { DebugElement } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  async,
-  ComponentFixture,
-  TestBed,
-} from '@angular/core/testing';
-
-import 'rxjs/add/operator/map';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { Store, StoreModule } from '@ngrx/store';
-
-import { MenubarModule } from 'primeng/components/menubar/menubar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { AppState, metaReducers, reducers } from '../app.reducers';
 
@@ -33,7 +29,7 @@ describe('Component: MenubarContainer', () => {
   let store: Store<AppState>;
   let action;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     const testBed = TestBed.configureTestingModule({
       declarations: [
         MenubarContainer,
@@ -41,7 +37,10 @@ describe('Component: MenubarContainer', () => {
       ],
       imports: [
         CommonModule,
-        MenubarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatMenuModule,
+        MatToolbarModule,
         StoreModule.forRoot(reducers, {metaReducers: metaReducers}),
       ],
       providers: [],

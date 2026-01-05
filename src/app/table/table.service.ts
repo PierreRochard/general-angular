@@ -39,7 +39,6 @@ export class TableService {
       sortDirection = datatable.sort_order === 1 ? 'asc' : 'desc';
       params = params.set('order', datatable.sort_column + '.' + sortDirection);
     }
-    console.log(datatable);
     datatable.filter_columns.map(column => {
         if (column.filter_value !== null) {
           params = params.set(column.column_name, 'ilike.*' + column.filter_value + '*');

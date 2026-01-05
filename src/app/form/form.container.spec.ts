@@ -1,16 +1,7 @@
 import { DebugElement } from '@angular/core';
-import {
-  async,
-  ComponentFixture,
-  TestBed,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/takeUntil';
 
 import { Store, StoreModule } from '@ngrx/store';
 import { RouterReducerState } from '@ngrx/router-store';
@@ -37,7 +28,7 @@ describe('Component: FormContainer', () => {
 
   let store: Store<AppState>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     const testBed = TestBed.configureTestingModule({
       declarations: [],
       imports: [
@@ -45,7 +36,7 @@ describe('Component: FormContainer', () => {
         StoreModule.forRoot(reducers, {
           initialState: {
             form: loginFormMockData,
-            routerReducer: loginRouterMockData,
+            router: loginRouterMockData,
           },
         }),
         RouterTestingModule,

@@ -1,60 +1,37 @@
-<div class="ui-g">
-  <div class="ui-g-2">
-  </div>
-  <div class="ui-g-8">
-    <p-fieldset [legend]="header">
-      <div class="ui-g">
-        <div class="ui-g-1">
-        </div>
-        <div class="ui-g-5">
-          <p-autoComplete
-            (completeMethod)="getKeywordSuggestions.emit({'column': keyword_input.column, 'value': $event.query})"
-            [dropdown]="keyword_input.is_dropdown"
-            [field]="keyword_input.column.suggestion_column_name"
-            [multiple]="keyword_input.is_multiple"
-            [(ngModel)]="keyword_input.data"
-            [placeholder]="keyword_input.custom_name"
-            [suggestions]="suggestions"
-            [style]="keyword_input.style"
-            [inputStyle]="keyword_input.style"
-          >
-            <ng-template let-tmpSelectedItem pTemplate="selectedItem">
-              {{tmpSelectedItem[keyword_input.column.suggestion_column_name]}}
-              tmpSelectedItem
-            </ng-template>
-            <ng-template let-tmpItem pTemplate="item">
-              {{tmpItem[keyword_input.column.suggestion_column_name]}} tmpItem
-            </ng-template>
-          </p-autoComplete>
-        </div>
+<mat-card>
+  <mat-card-title>{{ header }}</mat-card-title>
+  <mat-card-content class="mapping-grid">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ keyword_input.custom_name }}</mat-label>
+      <input
+        matInput
+        type="text"
+        [placeholder]="keyword_input.custom_name"
+        [(ngModel)]="keyword_input.data"
+        [matAutocomplete]="keywordAuto"
+        (input)="getKeywordSuggestions.emit({ column: keyword_input.column, value: $any($event.target).value })" />
+      <mat-autocomplete #keywordAuto="matAutocomplete">
+        <mat-option *ngFor="let suggestion of suggestions" [value]="suggestion">
+          {{ suggestion }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
 
-        <div class="ui-g-5">
-          <p-autoComplete
-            (completeMethod)="getMappingSuggestions.emit({'column': mapping_input.column, 'value': $event.query})"
-            [dropdown]="mapping_input.is_dropdown"
-            [field]="mapping_input.column.suggestion_column_name"
-            [multiple]="mapping_input.is_multiple"
-            [(ngModel)]="mapping_input.data"
-            (keydown)="onCellEditorKeydown($event)"
-            [placeholder]="mapping_input.custom_name"
-            [suggestions]="suggestions"
-            [style]="mapping_input.style"
-            [inputStyle]="mapping_input.style"
-          >
-            <ng-template let-tmpSelectedItem pTemplate="selectedItem">
-              {{tmpSelectedItem[mapping_input.column.suggestion_column_name]}}
-              tmpSelectedItem
-            </ng-template>
-            <ng-template let-tmpItem pTemplate="item">
-              {{tmpItem[mapping_input.column.suggestion_column_name]}} tmpItem
-            </ng-template>
-          </p-autoComplete>
-        </div>
-        <div class="ui-g-1">
-        </div>
-      </div>
-    </p-fieldset>
-  </div>
-  <div class="ui-g-2">
-  </div>
-</div>
+    <mat-form-field appearance="outline">
+      <mat-label>{{ mapping_input.custom_name }}</mat-label>
+      <input
+        matInput
+        type="text"
+        [placeholder]="mapping_input.custom_name"
+        [(ngModel)]="mapping_input.data"
+        [matAutocomplete]="mappingAuto"
+        (keydown)="onCellEditorKeydown($event)"
+        (input)="getMappingSuggestions.emit({ column: mapping_input.column, value: $any($event.target).value })" />
+      <mat-autocomplete #mappingAuto="matAutocomplete">
+        <mat-option *ngFor="let suggestion of suggestions" [value]="suggestion">
+          {{ suggestion }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </mat-card-content>
+</mat-card>

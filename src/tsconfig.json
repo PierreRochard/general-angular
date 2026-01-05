@@ -3,14 +3,15 @@
     "alwaysStrict": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
-    "baseUrl": "",
+    "baseUrl": "./",
     "declaration": false,
-    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["es7", "dom"],
-    "mapRoot": "./",
-    "module": "es6",
+    "lib": [
+      "es7",
+      "dom"
+    ],
+    "module": "es2020",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": false,
     "noImplicitAny": true,
@@ -22,9 +23,17 @@
     "pretty": true,
     "sourceMap": true,
     "strictNullChecks": false,
-    "target": "es5",
+    "target": "ES2022",
     "typeRoots": [
       "../node_modules/@types"
-    ]
-  }
+    ],
+    "useDefineForClassFields": false
+  },
+  "files": [
+    "main.ts",
+    "polyfills.ts"
+  ],
+  "include": [
+    "src/**/*.d.ts"
+  ]
 }

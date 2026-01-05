@@ -3,12 +3,10 @@ import {
   OnInit,
 } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Observable, Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
-
-import { LazyLoadEvent } from 'primeng/primeng';
 
 import { AppState, getCurrentParams } from '../app.reducers';
 import { RouteParams } from '../router/router.models';
@@ -25,7 +23,7 @@ import {
 } from './table.actions';
 import {
   Datatable, DatatableColumn, EditEvent,
-  MultiselectOutput, DeleteRecord, UpdateRecord, SuggestionsQuery,
+  MultiselectOutput, DeleteRecord, UpdateRecord, SuggestionsQuery, DatatableUpdate,
 } from './table.models';
 
 @Component({
@@ -33,14 +31,14 @@ import {
   selector: 'app-table-container',
   template: `
     <app-table-data-mapping-component
-      *ngIf="!(isDatatableLoading$ | async)"
+      *ngIf="(isDatatableLoading$ | async) === false"
       [suggestions]="suggestions$ | async"
       (getKeywordSuggestions)="getKeywordSuggestions($event)"
       (getMappingSuggestions)="getSuggestions($event)"
     >
     </app-table-data-mapping-component>
     <app-table-component
-      *ngIf="!(isDatatableLoading$ | async) && !(areColumnsLoading$ | async)"
+      *ngIf="(isDatatableLoading$ | async) === false && (areColumnsLoading$ | async) === false"
       [areRecordsLoading]="areRecordsLoading$ | async"
       [columns]="columns$ | async"
       [datatable]="datatable$ | async"
@@ -85,8 +83,10 @@ export class TableContainer implements OnDestroy, OnInit {
     this.totalRecords$ = this.store.select(state => state.table.rowCount);
 
     this.selectedRouteParams$
-      .filter(selectedRouteParams => selectedRouteParams.selectedObjectType === 'table')
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(
+        filter(selectedRouteParams => selectedRouteParams.selectedObjectType === 'table'),
+        takeUntil(this.ngUnsubscribe),
+      )
       .subscribe(selectedRouteParams => {
         this.store.dispatch(new SelectTableAction(selectedRouteParams));
       });
@@ -118,11 +118,11 @@ export class TableContainer implements OnDestroy, OnInit {
     this.store.dispatch(new UpdateRecordAction(event));
   }
 
-  onPagination(event: LazyLoadEvent) {
+  onPagination(event: DatatableUpdate) {
     this.store.dispatch(new UpdatePaginationAction(event));
   }
 
-  onSort(event: LazyLoadEvent) {
+  onSort(event: DatatableUpdate) {
     this.store.dispatch(new UpdateSortAction(event));
   }
 
@@ -144,7 +144,6 @@ export class TableContainer implements OnDestroy, OnInit {
   }
 
   ngOnDestroy() {
-    console.log('destroy');
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }

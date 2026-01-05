@@ -3,6 +3,7 @@ import { Params, RouterStateSnapshot } from '@angular/router';
 import { RouterStateSerializer } from '@ngrx/router-store';
 
 import { RouteParams } from './router.models';
+import { Injectable } from "@angular/core";
 
 export interface RouterStateUrl {
   url: string;
@@ -10,6 +11,7 @@ export interface RouterStateUrl {
   params: RouteParams;
 }
 
+@Injectable()
 export class CustomRouterStateSerializer implements RouterStateSerializer<RouterStateUrl> {
   serialize(routerState: RouterStateSnapshot): RouterStateUrl {
     const {url} = routerState;

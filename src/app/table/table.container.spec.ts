@@ -1,13 +1,8 @@
 import { DebugElement } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  async,
-  ComponentFixture,
-  TestBed,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 
 import { Store, StoreModule } from '@ngrx/store';
 
@@ -25,7 +20,7 @@ const recordsMockData: any[] = require('../../../mock_data/table/table.records.r
 
 export class DataStub {
   public static get(): Observable<RouteParams> {
-    return Observable.of({
+    return of({
       'selectedObjectName': 'login',
       'selectedSchemaName': 'auth',
       'selectedObjectType': 'form',
@@ -43,7 +38,7 @@ describe('Component: TableContainer', () => {
   let store: Store<AppState>;
   let action;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     const testBed = TestBed.configureTestingModule({
       declarations: [
         TableContainer,

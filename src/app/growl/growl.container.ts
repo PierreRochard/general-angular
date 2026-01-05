@@ -1,13 +1,11 @@
 import {Component} from '@angular/core';
-import {Response} from '@angular/http';
-
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
 import {Store} from '@ngrx/store';
 
-import {Message} from 'primeng/primeng';
-
 import {AppState, getRestResponse} from '../app.reducers';
+import { GrowlMessage } from './growl.component';
 
 
 @Component({
@@ -17,12 +15,13 @@ import {AppState, getRestResponse} from '../app.reducers';
               </app-growl-component>`,
 })
 export class GrowlContainer {
-  messages$: Observable<Message[]>;
+  messages$: Observable<GrowlMessage[]>;
 
   constructor(private store: Store<AppState>) {
     this.messages$ = store.select(getRestResponse)
-      .filter(response => response !== null)
-      .map((response: any) => {
+      .pipe(
+        filter(response => response !== null),
+        map((response: any) => {
         let severity = 'info';
         let summary = '';
         let detail = '';
@@ -45,6 +44,6 @@ export class GrowlContainer {
         return [{severity: severity,
                  summary: summary,
                  detail: detail}];
-    });
+    }));
   }
 }

@@ -1,16 +1,13 @@
 import { DebugElement } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  async,
-  ComponentFixture,
-  TestBed,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import 'rxjs/add/operator/map';
-
-import { MenubarModule } from 'primeng/components/menubar/menubar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { menubarLoadingState } from './menubar.constants';
 import { MenubarComponent } from './menubar.component';
@@ -29,14 +26,17 @@ describe('Component: MenubarComponent', () => {
   let getDebugElement: Function;
   let getNativeElement: Function;
 
-  beforeEach(async(() => {
+beforeEach(waitForAsync(() => {
     const testBed = TestBed.configureTestingModule({
       declarations: [
         MenubarComponent,
       ],
       imports: [
         CommonModule,
-        MenubarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatMenuModule,
+        MatToolbarModule,
         RouterTestingModule
       ],
       providers: [],
@@ -63,7 +63,7 @@ describe('Component: MenubarComponent', () => {
   });
 
   it('should render PrimeNG menubar component', () => {
-    testNativeElement = getNativeElement('p-menubar');
+    testNativeElement = getNativeElement('mat-toolbar');
     expect(testNativeElement).toBeDefined();
   });
 
@@ -75,8 +75,8 @@ describe('Component: MenubarComponent', () => {
     });
 
     it('should render Loading menuitem', () => {
-      testNativeElement = getNativeElement('.ui-menuitem-text');
-      expect(testNativeElement.textContent).toEqual(menubarLoadingState[0].label);
+      testNativeElement = getNativeElement('button');
+      expect(testNativeElement.textContent).toContain(menubarLoadingState[0].label);
     });
 
   });
@@ -89,8 +89,8 @@ describe('Component: MenubarComponent', () => {
     });
 
     it('should render Login menuitem', () => {
-      testNativeElement = getNativeElement('.ui-menuitem-text');
-      expect(testNativeElement.textContent).toEqual(menubarAnonMenuitemsMockData[0].label);
+      testNativeElement = getNativeElement('button');
+      expect(testNativeElement.textContent).toContain(menubarAnonMenuitemsMockData[0].label);
     });
   })
 

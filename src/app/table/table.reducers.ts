@@ -58,7 +58,6 @@ const initialState: TableState = {
 };
 
 export function tableReducer(state = initialState, action: TableActions): TableState {
-  console.log(action);
   switch (action.type) {
     case ADD_RECORD:
       return Object.assign({}, state, {
@@ -66,7 +65,7 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       });
     case ARE_RECORDS_LOADING:
       return Object.assign({}, state, {
-        tableRecordsAreLoading: action.payload,
+        areRecordsLoading: action.payload,
       });
     case DESELECT_RECORD:
       return Object.assign({}, state, {
@@ -128,7 +127,6 @@ export function tableReducer(state = initialState, action: TableActions): TableS
         selectedRecords: action.payload,
       });
     case UPDATE_KEYWORD:
-      console.log(action.payload);
       return Object.assign({}, state, {
         datatable: Object.assign({}, state.datatable, {
           filter_columns: [action.payload.column],
@@ -147,4 +145,3 @@ export function tableReducer(state = initialState, action: TableActions): TableS
       return state;
   }
 }
-

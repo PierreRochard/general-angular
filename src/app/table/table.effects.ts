@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import {catchError, filter, map, mergeMap, switchMap, withLatestFrom} from 'rxjs/operators';
@@ -29,8 +29,8 @@ import { AppState } from '../app.reducers';
 @Injectable()
 export class TableEffects {
 
-  @Effect()
-  deleteRecord$ = this.actions$.pipe(
+  
+  deleteRecord$ = createEffect(() => this.actions$.pipe(
     ofType(DELETE_RECORD),
     withLatestFrom(this.store),
     switchMap(([action, state]: [DeleteRecordAction, AppState]) => {
@@ -39,10 +39,10 @@ export class TableEffects {
           return [
             new GetRecordsAction(state.table.datatable)];
         }))
-    }));
+    })));
 
-  @Effect()
-  selectTable$ = this.actions$.pipe(
+  
+  selectTable$ = createEffect(() => this.actions$.pipe(
     ofType(SELECT_TABLE),
     map((action: SelectTableAction) => action.payload),
     mergeMap((routeParams: RouteParams) => {
@@ -51,10 +51,10 @@ export class TableEffects {
         new GetDatatableColumnsAction(routeParams),
         new UpdateTableNameAction(routeParams),
       ]
-    }));
+    })));
 
-  @Effect()
-  getDatatable$ = this.actions$.pipe(
+  
+  getDatatable$ = createEffect(() => this.actions$.pipe(
     ofType(GET_DATATABLE),
     switchMap((action: GetDatatableAction) => {
       return this.tableService.get_datatable(action.payload.selectedSchemaName,
@@ -69,10 +69,10 @@ export class TableEffects {
         catchError((error: any) => {
           return of(new ReceiveDatatableAction(error));
         }))
-    }));
+    })));
 
-  @Effect()
-  updatePagination$ = this.actions$.pipe(
+  
+  updatePagination$ = createEffect(() => this.actions$.pipe(
     ofType(UPDATE_PAGINATION),
     switchMap((action: UpdatePaginationAction) => this.tableService.update_pagination(action.payload).pipe(
       mergeMap((response: any) => {
@@ -85,10 +85,10 @@ export class TableEffects {
       catchError((error: any) => {
         return of(new ReceiveDatatableAction(error));
       })),
-    ));
+    )));
 
-  @Effect()
-  updateKeyword$ = this.actions$.pipe(
+  
+  updateKeyword$ = createEffect(() => this.actions$.pipe(
     ofType(UPDATE_KEYWORD),
     switchMap((action: UpdateKeywordAction) => this.tableService.update_keyword(action.payload).pipe(
       mergeMap((response: any) => {
@@ -101,14 +101,13 @@ export class TableEffects {
       catchError((error: any) => {
         return of(new ReceiveDatatableAction(error));
       })),
-    ));
+    )));
 
-  @Effect()
-  updateSort$ = this.actions$.pipe(
+  
+  updateSort$ = createEffect(() => this.actions$.pipe(
     ofType(UPDATE_SORT),
     switchMap((action: UpdateSortAction) => this.tableService.update_sort(action.payload).pipe(
       mergeMap((response: any) => {
-        console.log(response);
         const datatable: Datatable = response.body[0];
         return [
           new ReceiveDatatableAction(datatable),
@@ -118,10 +117,10 @@ export class TableEffects {
       catchError((error: any) => {
         return of(new ReceiveDatatableAction(error));
       })),
-    ));
+    )));
 
-  @Effect()
-  getDatatableColumns$ = this.actions$.pipe(
+  
+  getDatatableColumns$ = createEffect(() => this.actions$.pipe(
     ofType(GET_DATATABLE_COLUMNS),
     switchMap((action: GetDatatableColumnsAction) => {
       return this.tableService.get_datatable_columns(action.payload.selectedSchemaName,
@@ -134,11 +133,11 @@ export class TableEffects {
         catchError((error: any) => {
           return of(new ReceiveDatatableColumnsAction(error));
         }))
-    }));
+    })));
 
 
-  @Effect()
-  updateColumnsVisibility$ = this.actions$.pipe(
+  
+  updateColumnsVisibility$ = createEffect(() => this.actions$.pipe(
     ofType(UPDATE_COLUMNS_VISIBILITY),
     switchMap((action: UpdateColumnsVisibilityAction) => this.tableService.update_columns_visibility(action.payload).pipe(
       mergeMap((response: any) => {
@@ -149,10 +148,10 @@ export class TableEffects {
       catchError(() => {
         return of(new GetDatatableColumnsAction(action.payload.dataTable));
       })),
-    ));
+    )));
 
-  @Effect()
-  getRecords$: Observable<Action> = this.actions$.pipe(
+  
+  getRecords$: Observable<Action> = createEffect(() => this.actions$.pipe(
     ofType(GET_RECORDS),
     switchMap((action: GetRecordsAction) => this.tableService.get_records(action.payload).pipe(
       mergeMap((response: any) => {
@@ -166,10 +165,10 @@ export class TableEffects {
       }),
       catchError((error: any) => {
         return of(new ReceiveRecordsAction(error));
-      }))));
+      })))));
 
-  @Effect()
-  getKeywordRecords$: Observable<Action> = this.actions$.pipe(
+  
+  getKeywordRecords$: Observable<Action> = createEffect(() => this.actions$.pipe(
     ofType(UPDATE_KEYWORD),
     withLatestFrom(this.store),
     switchMap(([action, state]: [UpdateKeywordAction, AppState]) => {
@@ -191,24 +190,23 @@ export class TableEffects {
             return of(new ReceiveRecordsAction(error));
           }))
       }
-    ));
+    )));
 
-  @Effect()
-  getSelectItems$ = this.actions$.pipe(
+  
+  getSelectItems$ = createEffect(() => this.actions$.pipe(
     ofType(GET_SUGGESTIONS),
     switchMap((action: GetSuggestionsAction) => {
-      console.log(action.payload);
-      return this.tableService.get_suggestions(action.payload)
-        .mergeMap((response: any) => {
+      return this.tableService.get_suggestions(action.payload).pipe(
+        mergeMap((response: any) => {
           return [
             new ReceiveSuggestionsAction(response.body),
           ];
-        })
-    }));
+        }));
+    })));
 
 
-  @Effect()
-  updateRecord$ = this.actions$.pipe(
+  
+  updateRecord$ = createEffect(() => this.actions$.pipe(
     ofType(UPDATE_RECORD),
     withLatestFrom(this.store),
     filter(([action, state]: [UpdateRecordAction, AppState]) => {
@@ -216,13 +214,13 @@ export class TableEffects {
       return action.payload.value !== state.table.records.filter(r => r.id === action.payload.record_id)[0][action.payload.column_name]
     }),
     switchMap(([action, state]: [UpdateRecordAction, AppState]) => {
-        return this.tableService.update_record(action.payload)
-          .mergeMap((): any[] => [])
-          .catch((error: any) => {
+        return this.tableService.update_record(action.payload).pipe(
+          mergeMap((): any[] => []),
+          catchError((error: any) => {
             return of(new ReceiveDatatableAction(error));
-          })
+          }))
       },
-    ));
+    )));
 
   constructor(private actions$: Actions,
               private store: Store<AppState>,

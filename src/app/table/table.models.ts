@@ -1,5 +1,3 @@
-import { Column, LazyLoadEvent } from 'primeng/primeng';
-
 export interface ColumnResizeEvent {
   element: HTMLElement;
   delta: number;
@@ -13,7 +11,7 @@ export interface ColumnsVisibilityUpdate {
 }
 
 export interface EditEvent {
-  column: Column;
+  column: DatatableColumn;
   data: any;
   index: number;
 }
@@ -60,9 +58,13 @@ export interface DatatableColumn {
   user_id: string;
 }
 
-export interface DatatableUpdate extends LazyLoadEvent {
-  schemaName: string;
-  tableName: string;
+export interface DatatableUpdate {
+  first?: number;
+  rows?: number;
+  sortField?: string;
+  sortOrder?: number;
+  schemaName?: string;
+  tableName?: string;
 }
 
 export interface MultiselectOutput {

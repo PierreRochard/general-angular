@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import { StoreModule } from '@ngrx/store';
@@ -9,9 +9,6 @@ import {
   RouterStateSerializer,
   StoreRouterConnectingModule,
 } from '@ngrx/router-store';
-
-import { FieldsetModule } from 'primeng/components/fieldset/fieldset';
-import { GrowlModule } from 'primeng/components/growl/growl';
 
 import { RestEffects } from './rest/rest.effects';
 
@@ -41,36 +38,30 @@ import { AppMenubarModule } from './menubar/menubar.module';
 import { MenubarEffects } from './menubar/menubar.effects';
 import { RouterEffects } from './router/router.effects';
 import { CustomRouterStateSerializer } from './router/router.serializer';
+import { MatCardModule } from '@angular/material/card';
 
-@NgModule({
-  bootstrap: [AppComponent],
-  declarations: [
-    AppComponent,
-    HomeContainer,
-    GrowlContainer,
-    GrowlComponent,
-  ],
-  imports: [
-    AppAuthModule,
-    AppFormModule,
-    AppMenubarModule,
-    AppTableModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    EffectsModule.forRoot([AuthEffects, FormEffects, MenubarEffects, RestEffects,
-      RouterEffects, TableEffects, WebsocketEffects]),
-    FieldsetModule,
-    GrowlModule,
-    HttpClientModule,
-    routing,
-    StoreModule.forRoot(reducers, {metaReducers: metaReducers}),
-    StoreRouterConnectingModule,
-  ],
-  providers: [
-    RestClient,
-    WebsocketService,
-    {provide: RouterStateSerializer, useClass: CustomRouterStateSerializer},
-  ],
-})
+@NgModule({ bootstrap: [AppComponent],
+    declarations: [
+        AppComponent,
+        HomeContainer,
+        GrowlContainer,
+        GrowlComponent,
+    ], imports: [AppAuthModule,
+        AppFormModule,
+        AppMenubarModule,
+        AppTableModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        EffectsModule.forRoot([AuthEffects, FormEffects, MenubarEffects, RestEffects,
+            RouterEffects, TableEffects, WebsocketEffects]),
+        MatCardModule,
+        routing,
+        StoreModule.forRoot(reducers, { metaReducers: metaReducers }),
+        StoreRouterConnectingModule.forRoot({ stateKey: 'router' })], providers: [
+        RestClient,
+        WebsocketService,
+        { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer },
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule {
 }

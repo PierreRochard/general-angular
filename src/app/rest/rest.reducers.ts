@@ -1,5 +1,3 @@
-import {Response} from '@angular/http';
-
 import {RestActions, RestActionTypes} from './rest.actions';
 
 
@@ -7,7 +5,7 @@ export interface RestState {
   posting: boolean;
   receivedForm: boolean;
   getting: boolean;
-  response: Response | null;
+  response: any | null;
 }
 
 const initialState: RestState = {
@@ -39,4 +37,3 @@ export function restReducer (state = initialState, action: RestActions): RestSta
       return state;
   }
 }
-

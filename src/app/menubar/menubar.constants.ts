@@ -1,3 +1,3 @@
-import { MenuItem } from 'primeng/primeng';
+import { MenuEntry } from './menubar.models';
 
-export const menubarLoadingState: MenuItem[] = [{'label': 'Loading...', 'disabled': true}];
+export const menubarLoadingState: MenuEntry[] = [{ label: 'Loading...', disabled: true }];

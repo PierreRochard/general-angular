@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
-
-import { MenuItem } from 'primeng/primeng';
 
 import { AppState } from '../app.reducers';
 import { GetMenubarAction } from './menubar.actions';
 import { menubarLoadingState } from './menubar.constants';
+import { MenuEntry } from './menubar.models';
 
 
 @Component({
@@ -21,19 +21,19 @@ import { menubarLoadingState } from './menubar.constants';
   `,
 })
 export class MenubarContainer implements OnInit {
-  items$: Observable<MenuItem[] | null>;
+  items$: Observable<MenuEntry[] | null>;
 
   constructor(private store: Store<AppState>) {
   }
 
   ngOnInit() {
     this.items$ = this.store.select(state => state.menubar.menuItems)
-      .map(menuItems => {
+      .pipe(map(menuItems => {
         if (menuItems === null) {
           this.store.dispatch(new GetMenubarAction());
           return menubarLoadingState;
         }
         return menuItems;
-      });
+      }));
   }
 }

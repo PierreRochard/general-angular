@@ -1,5 +1,19 @@
-.general-column {
-  overflow-x: visible;
-  overflow-y: visible;
+.table-shell {
+  margin: 16px 0;
 }
 
+.table-container {
+  overflow: auto;
+}
+
+.cell-field {
+  width: 100%;
+}
+
+.actions-cell {
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}

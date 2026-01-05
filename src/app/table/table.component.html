@@ -1,138 +1,99 @@
-<div class="ui-g">
-  <div class="ui-g-12">
-    <p-dataTable
-      #dt
-      [dataKey]="dataKey"
-      [editable]="editable"
-      [first]="datatable.row_offset"
-      [lazy]="lazy"
-      [loading]="areRecordsLoading"
-      [paginator]="paginator"
-      [reorderableColumns]="reorderableColumns"
-      [resizableColumns]="resizableColumns"
-      [responsive]="responsive"
-      [rowHover]="rowHover"
-      [rows]="datatable.row_limit"
-      [rowsPerPageOptions]="rowsPerPage"
-      [scrollable]="scrollable"
-      [scrollWidth]="datatableWidth"
-      [sortField]="datatable.sort_column"
-      [sortOrder]="datatable.sort_order"
-      [style]="style"
-      [totalRecords]="totalRecords"
-      [value]="records"
-      (onEditComplete)="updateRecord($event)"
-      (onLazyLoad)="onLazyLoad($event)"
-    >
-      <p-header>
-        <div class="ui-helper-clearfix" style="width:100%;">
-          {{datatable.custom_name}}
-        </div>
-      </p-header>
-      <p-column
-        *ngIf="datatable.can_archive"
-        [style]="actionColumn.styles"
-      >
-        <ng-template pTemplate="body" let-row="rowData">
-          <button
-            *ngIf="datatable.can_archive"
-            pButton
-            class="ui-button-secondary"
-            (click)="archiveRow($event, row)"
-            [icon]="'fa-archive'"
-            [iconPos]="'left'"
-            [label]="'Archive'"
-            type="button"></button>
-        </ng-template>
-      </p-column>
-      <p-column
-        *ngFor="let column of columns"
-        [editable]="column.can_update"
-        [field]="column.column_name"
-        [header]="column.custom_name"
-        [hidden]="!column.is_visible"
-        [style]="column.styles"
-        [sortable]="column.is_sortable"
-        [filter]="column.is_filterable"
-        [filterMatchMode]="column.filter_match_mode"
-      >
-        <ng-template let-row="rowData" pTemplate="body">
-          <div [ngSwitch]="column.data_type">
+<div class="table-shell" *ngIf="datatable">
+  <mat-card>
+    <mat-card-title>{{ datatable.custom_name }}</mat-card-title>
+    <div class="table-container" [style.minWidth]="datatableWidth">
+      <table
+        mat-table
+        [dataSource]="records"
+        matSort
+        (matSortChange)="onSortChange($event)"
+        class="mat-elevation-z1">
 
-            <span *ngSwitchCase="'timestamp without time zone'">
-              {{row[column.column_name] | date:column.format_pattern}}
-            </span>
+        <ng-container *ngFor="let column of columns" [matColumnDef]="column.column_name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="!column.is_sortable">
+            {{ column.custom_name }}
+          </th>
+          <td mat-cell *matCellDef="let row" [class.hidden]="!column.is_visible">
+            <ng-container *ngIf="column.can_update; else readonlyCell">
+              <mat-form-field appearance="outline" class="cell-field">
+                <ng-container [ngSwitch]="column.input_type">
+                  <input
+                    *ngSwitchCase="'autocomplete'"
+                    matInput
+                    [placeholder]="column.custom_name"
+                    [(ngModel)]="row[column.column_name]"
+                    [matAutocomplete]="autoRef"
+                    (input)="getSuggestions.emit({ column: column, value: $any($event.target).value })"
+                    (keydown)="onCellEditorKeydown($event, column, row)"
+                    (blur)="emitUpdate(column, row)" />
+                  <mat-autocomplete #autoRef="matAutocomplete" (optionSelected)="emitUpdate(column, row)">
+                    <mat-option *ngFor="let suggestion of suggestions" [value]="suggestion">
+                      {{ suggestion }}
+                    </mat-option>
+                  </mat-autocomplete>
 
-            <span *ngSwitchCase="'numeric'">
-              {{row[column.column_name] | number:column.format_pattern}}
-            </span>
-
-            <span *ngSwitchCase="'json'">
-
-              <span *ngIf="column.is_select_item">
-                <span *ngIf="column.is_multiple">
-                   <span *ngFor="let item of row[column.column_name]">
-                      {{item[column.select_item_label_column_name]}}
-                   </span>
+                  <input
+                    *ngSwitchDefault
+                    matInput
+                    [type]="column.input_type === 'password' ? 'password' : 'text'"
+                    [placeholder]="column.custom_name"
+                    [(ngModel)]="row[column.column_name]"
+                    (keydown)="onCellEditorKeydown($event, column, row)"
+                    (blur)="emitUpdate(column, row)" />
+                </ng-container>
+              </mat-form-field>
+            </ng-container>
+            <ng-template #readonlyCell>
+              <div [ngSwitch]="column.data_type">
+                <span *ngSwitchCase="'timestamp without time zone'">
+                  {{ row[column.column_name] | date: column.format_pattern }}
                 </span>
-                <span *ngIf="!column.is_multiple">
-                      {{row[column.column_name][column.select_item_label_column_name]}}
+                <span *ngSwitchCase="'numeric'">
+                  {{ row[column.column_name] | number: column.format_pattern }}
                 </span>
-              </span>
-
-              <span *ngIf="!column.is_select_item">
-                {{row[column.column_name] | json}}
-              </span>
-            </span>
-
-            <!--<span *ngSwitchCase="'ARRAY'">-->
-              <!--<span *ngFor="let item of row[column.column_name]">-->
-                <!--<span *ngIf="column.is_select_item">-->
-                  <!--{{item[column.select_item_label_column_name] | json}}-->
-                <!--</span>-->
-                <!--<span *ngIf="!column.is_select_item">-->
-                  <!--{{item | json}}-->
-                <!--</span>-->
-              <!--</span>-->
-            <!--</span>-->
-            <span *ngSwitchDefault>
-              {{row[column.column_name]}}
-            </span>
-          </div>
-        </ng-template>
-
-        <ng-template let-col
-                     let-row="rowData"
-                     let-index="rowIndex"
-                     pTemplate="editor">
-
-          <input
-            *ngIf="column.input_type === 'text'"
-            pInputText
-            [(ngModel)]="row[col.field]"
-            (keydown)="onCellEditorKeydown($event, col, row, index)"
-            placeholder="{{column.custom_name}}"
-          >
-          <p-autoComplete
-            *ngIf="column.input_type === 'autocomplete'"
-            (completeMethod)="getSuggestions.emit({'column': column, 'value': $event.query})"
-            [dropdown]="true"
-            [multiple]="column.is_multiple"
-            [(ngModel)]="row[col.field]"
-            (keydown)="onCellEditorKeydown($event, col, row, index)"
-            [placeholder]="column.custom_name"
-            [suggestions]="suggestions"
-          >
-            <ng-template let-tmpSelectedItem pTemplate="selectedItem">
-              {{tmpSelectedItem[column.select_item_label_column_name]}} tmpSelectedItem
+                <span *ngSwitchCase="'json'">
+                  <span *ngIf="column.is_select_item">
+                    <ng-container *ngIf="column.is_multiple; else singleSelect">
+                      <span *ngFor="let item of row[column.column_name]">
+                        {{ item[column.select_item_label_column_name] }}
+                      </span>
+                    </ng-container>
+                    <ng-template #singleSelect>
+                      {{ row[column.column_name][column.select_item_label_column_name] }}
+                    </ng-template>
+                  </span>
+                  <span *ngIf="!column.is_select_item">
+                    {{ row[column.column_name] | json }}
+                  </span>
+                </span>
+                <span *ngSwitchDefault>
+                  {{ row[column.column_name] }}
+                </span>
+              </div>
             </ng-template>
-            <ng-template let-tmpItem pTemplate="item">
-              {{tmpItem[column.select_item_label_column_name]}} tmpItem
-            </ng-template>
-          </p-autoComplete>
-        </ng-template>
+          </td>
+        </ng-container>
 
-      </p-column>
-    </p-dataTable>
-  </div>
+        <ng-container matColumnDef="actions" *ngIf="datatable.can_archive">
+          <th mat-header-cell *matHeaderCellDef class="actions-header">Actions</th>
+          <td mat-cell *matCellDef="let row" class="actions-cell">
+            <button mat-stroked-button color="warn" (click)="archiveRow(row)">
+              <mat-icon aria-hidden="true">archive</mat-icon>
+              Archive
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+    <mat-paginator
+      [length]="totalRecords || 0"
+      [pageSize]="datatable.row_limit"
+      [pageIndex]="(datatable.row_offset || 0) / (datatable.row_limit || 1)"
+      [pageSizeOptions]="[10, 20, 50]"
+      (page)="onPageChange($event)">
+    </mat-paginator>
+  </mat-card>
 </div>

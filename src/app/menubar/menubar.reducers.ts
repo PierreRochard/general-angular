@@ -12,17 +12,16 @@ const initialState: MenubarState = {
 export function menubarReducer(state = initialState, action: MenubarActions): MenubarState {
   switch (action.type) {
     case RECEIVE_MENUBAR:
-      console.log(action);
       return Object.assign({}, state, {
         menuItems: action.payload.map((item: GeneralMenuItem) => {
-          return Object.keys(item).reduce((result: GeneralMenuItem, key) => {
-            // Removing keys that have a falsy value to avoid undesirable
-            // menubar behavior
-            if (item[key]) {
-              result[key] = item[key];
+          const cleaned: GeneralMenuItem = { ...item };
+          Object.keys(cleaned).forEach((key) => {
+            // Removing keys that have a falsy value to avoid undesirable menubar behavior
+            if (!cleaned[key]) {
+              delete (cleaned as any)[key];
             }
-            return result;
-          }, {})
+          });
+          return cleaned;
         })
       });
     default:

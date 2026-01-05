@@ -1,12 +1,25 @@
 import {
-  Component, EventEmitter, Input, Output, ViewChild, ViewEncapsulation,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+  ViewEncapsulation,
 } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
 
 import {
-  Datatable, DatatableColumn, DatatableUpdate, EditEvent,
-  MultiselectOutput, DeleteRecord, UpdateRecord, SuggestionsQuery,
+  Datatable,
+  DatatableColumn,
+  DatatableUpdate,
+  EditEvent,
+  MultiselectOutput,
+  DeleteRecord,
+  UpdateRecord,
+  SuggestionsQuery,
 } from 'app/table/table.models';
-import { Column, DataTable } from 'primeng/primeng';
 
 @Component({
   selector: 'app-table-component',
@@ -14,36 +27,21 @@ import { Column, DataTable } from 'primeng/primeng';
   styleUrls: ['./table.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class TableComponent {
-  // todo: move these into table settings
-  public dataKey = 'id';
-  public editable = true;
-  public lazy = true;
-  public paginator = true;
-  public reorderableColumns = false;
-  public resizableColumns = true;
-  public responsive = true;
-  public rowHover = true;
-  public rowsPerPage = [10, 20];
-  public scrollable = true;
-  public style = {'overflow': 'visible', 'margin': 'auto'};
-
-  @Input() areRecordsLoading: boolean;
-  @Input() columns: DatatableColumn[];
+export class TableComponent implements OnChanges {
+  @Input() areRecordsLoading = false;
+  @Input() columns: DatatableColumn[] = [];
   @Input() datatable: Datatable;
-  _records: any[];
+  private _records: any[] = [];
   @Input()
   set records(value: any[]) {
-    console.log(value);
-    this._records = JSON.parse(JSON.stringify(value));
-  };
-
-  get records() {
+    this._records = value ? JSON.parse(JSON.stringify(value)) : [];
+  }
+  get records(): any[] {
     return this._records;
   }
 
-  @Input() suggestions: string[];
-  @Input() totalRecords: number;
+  @Input() suggestions: string[] = [];
+  @Input() totalRecords: number | null = 0;
 
   @Output() getSuggestions = new EventEmitter<SuggestionsQuery>();
   @Output() onDelete = new EventEmitter<DeleteRecord>();
@@ -55,29 +53,27 @@ export class TableComponent {
   @Output() onSort = new EventEmitter<DatatableUpdate>();
   @Output() onMultiselect = new EventEmitter<MultiselectOutput>();
 
-  @ViewChild('dt') dt: DataTable;
+  displayedColumns: string[] = [];
 
-  get actionColumn(): any {
-    if (this.datatable.can_archive) {
-      return {
-        is_visible: true,
-        styles: {
-          'height': '38px',
-          'overflow': 'visible',
-          'padding-top': '0px',
-          'padding-bottom': '0px',
-          'width': '120px',
-          'text-align': 'center',
-        },
-      }
-    } else {
-      return [];
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['columns'] || changes['datatable']) {
+      this.updateDisplayedColumns();
     }
   }
 
-  archiveRow(event: MouseEvent, row: any) {
-    console.log(event);
-    console.log(row);
+  private updateDisplayedColumns(): void {
+    const visibleColumns = (this.columns || [])
+      .filter(col => col.is_visible)
+      .map(col => col.column_name);
+    this.displayedColumns = this.datatable?.can_archive
+      ? [...visibleColumns, 'actions']
+      : visibleColumns;
+  }
+
+  archiveRow(row: any): void {
+    if (!this.datatable) {
+      return;
+    }
     const recordDelete: DeleteRecord = {
       record_id: row['id'],
       table_name: this.datatable.table_name,
@@ -87,81 +83,90 @@ export class TableComponent {
   }
 
   get datatableWidth(): string {
-    const columnWidths = this.columns.concat(this.actionColumn).filter(c => {
-      return c.is_visible;
-    })
-      .map(c => Number(c.styles.width.slice(0, -2)));
-    let totalColumnWidths = columnWidths.reduce(function (sum, value): number {
-      return sum + value;
-    }, 0.0);
+    const columnWidths = (this.columns || []).concat(this.datatable?.can_archive ? [this.actionColumn] : [])
+      .filter((c: any) => c && c.is_visible)
+      .map(c => Number(String(c.styles?.width || '0').replace('px', '')));
+    let totalColumnWidths = columnWidths.reduce((sum, value): number => sum + value, 0.0);
     totalColumnWidths += 2;
     totalColumnWidths = Math.max(totalColumnWidths, 400);
     totalColumnWidths = Math.min(totalColumnWidths, 1100);
-    return totalColumnWidths.toString() + 'px'
+    return `${totalColumnWidths}px`;
   }
 
-  onCellEditorKeydown(event: any, column: Column, rowData: any, rowIndex: number) {
-    this.dt.onEdit.emit({
-      originalEvent: event,
-      column: column,
-      data: rowData,
-      index: rowIndex,
-    });
-
-    if (event.keyCode === 13) { // enter
-      this.dt.onEditComplete.emit({
-        column: column,
-        data: rowData,
-        index: rowIndex,
-      });
-      if (event.shiftKey) {
-        this.dt.moveToPreviousCell(event);
-      } else {
-        this.dt.moveToNextCell(event);
-      }
-    } else if (event.keyCode === 27) { // escape
-      this.dt.onEditCancel.emit({
-        column: column,
-        data: rowData,
-        index: rowIndex,
-      });
-      this.dt.domHandler.invokeElementMethod(event.target, 'blur');
-      this.dt.switchCellToViewMode(event.target);
-      event.preventDefault();
-    } else if (event.keyCode === 9) { // tab
-      this.dt.onEditComplete.emit({
-        column: column,
-        data: rowData,
-        index: rowIndex,
-      });
-      if (event.shiftKey) {
-        this.dt.moveToPreviousCell(event);
-      } else {
-        this.dt.moveToNextCell(event);
-      }
+  get actionColumn(): any {
+    if (this.datatable?.can_archive) {
+      return {
+        is_visible: true,
+        styles: {
+          height: '38px',
+          overflow: 'visible',
+          'padding-top': '0px',
+          'padding-bottom': '0px',
+          width: '120px',
+          'text-align': 'center',
+        },
+      };
     }
+    return [];
   }
 
-  onLazyLoad(event: DatatableUpdate): void {
-    event.tableName = this.datatable.table_name;
-    event.schemaName = this.datatable.schema_name;
-    if (event.first !== this.datatable.row_offset || event.rows !== this.datatable.row_limit) {
-      this.onPagination.emit(event);
+  onPageChange(event: PageEvent): void {
+    if (!this.datatable) {
+      return;
     }
-    if (event.sortOrder !== this.datatable.sort_order || event.sortField !== this.datatable.sort_column) {
-      this.onSort.emit(event);
-    }
+    const payload: DatatableUpdate = {
+      first: event.pageIndex * event.pageSize,
+      rows: event.pageSize,
+      schemaName: this.datatable.schema_name,
+      tableName: this.datatable.table_name,
+      sortField: this.datatable.sort_column,
+      sortOrder: this.datatable.sort_order,
+    };
+    this.onPagination.emit(payload);
   }
 
-  updateRecord(event: EditEvent) {
+  onSortChange(sort: Sort): void {
+    if (!this.datatable) {
+      return;
+    }
+    const payload: DatatableUpdate = {
+      first: this.datatable.row_offset,
+      rows: this.datatable.row_limit,
+      schemaName: this.datatable.schema_name,
+      tableName: this.datatable.table_name,
+      sortField: sort.active,
+      sortOrder: sort.direction === 'asc' ? 1 : -1,
+    };
+    this.onSort.emit(payload);
+  }
+
+  emitUpdate(column: DatatableColumn, rowData: any): void {
+    if (!this.datatable || !column || !rowData) {
+      return;
+    }
     const update: UpdateRecord = {
-      value: event.data[event.column.field],
-      record_id: event.data['id'],
-      column_name: event.column.field,
+      value: rowData[column.column_name],
+      record_id: rowData['id'],
+      column_name: column.column_name,
       table_name: this.datatable.table_name,
       schema_name: this.datatable.schema_name,
     };
     this.onEditComplete.emit(update);
   }
 
+  onCellEditorKeydown(event: KeyboardEvent, column: DatatableColumn, rowData: any): void {
+    const editEvent: EditEvent = {
+      column,
+      data: rowData,
+      index: 0,
+    };
+    this.onEditCancel.emit(editEvent);
+    if (event.key === 'Enter') {
+      this.emitUpdate(column, rowData);
+    } else if (event.key === 'Escape') {
+      event.preventDefault();
+    } else if (event.key === 'Tab') {
+      this.emitUpdate(column, rowData);
+    }
+  }
 }

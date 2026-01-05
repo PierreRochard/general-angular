@@ -2,8 +2,8 @@ import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/
 
 import { Action, Store } from '@ngrx/store';
 
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Observable, Subject } from 'rxjs';
+import { filter, take, takeUntil } from 'rxjs/operators';
 
 import { SendPostRequestAction } from '../rest/rest.actions';
 
@@ -46,8 +46,11 @@ export class FormContainer implements OnDestroy, OnInit {
     this.selectedRouteParams$ = this.store.select(getCurrentParams);
 
     this.selectedRouteParams$
-      .filter(selectedRouteParams => selectedRouteParams.selectedObjectType === 'form')
-      .takeUntil(this.ngUnsubscribe).subscribe(selectedRouteParams => {
+      .pipe(
+        filter(selectedRouteParams => selectedRouteParams.selectedObjectType === 'form'),
+        takeUntil(this.ngUnsubscribe),
+      )
+      .subscribe(selectedRouteParams => {
       if (selectedRouteParams.selectedObjectName === 'logout') {
         this.store.dispatch(new RemoveTokenAction(''));
         this.store.dispatch(new Go({path: ['/']}));
@@ -60,7 +63,7 @@ export class FormContainer implements OnDestroy, OnInit {
   public onSubmit(formValue: any) {
     Object.keys(formValue).filter(key => formValue[key] === '')
       .map(key => delete formValue[key]);
-    this.selectedRouteParams$.take(1).subscribe(selectedRouteParams => {
+    this.selectedRouteParams$.pipe(take(1)).subscribe(selectedRouteParams => {
         let postAction: Action;
         const post = {
           schemaName: selectedRouteParams.selectedSchemaName,

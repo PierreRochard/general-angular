@@ -1,7 +1,5 @@
-import {ActionReducer, ActionReducerMap, MetaReducer} from '@ngrx/store';
+import { ActionReducer, ActionReducerMap, createSelector, MetaReducer } from '@ngrx/store';
 // import {storeFreeze} from 'ngrx-store-freeze';
-import {LocalStorageConfig, localStorageSync} from 'ngrx-store-localstorage';
-import {createSelector} from 'reselect';
 
 import {environment} from '../environments/environment';
 import {AuthState, authReducer} from './auth/auth.reducers';
@@ -17,7 +15,7 @@ export interface AppState {
   form: FormState,
   menubar: MenubarState;
   rest: RestState;
-  routerReducer: RouterReducerState<RouterStateUrl>;
+  router: RouterReducerState<RouterStateUrl>;
   table: TableState;
 }
 
@@ -26,29 +24,54 @@ export const reducers: ActionReducerMap<AppState> = {
   form: formReducer,
   menubar: menubarReducer,
   rest: restReducer,
-  routerReducer: routerReducer,
+  router: routerReducer,
   table: tableReducer,
 };
 
-const localStorageConfig: LocalStorageConfig = {
-  keys: ['auth'],
-  rehydrate: true,
-  storage: localStorage,
-  removeOnUndefined: false,
-};
+const STORAGE_KEY = 'appState';
 
-export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
-   return localStorageSync(localStorageConfig)(reducer);
+function getPersistedState(): Partial<AppState> | undefined {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) {
+      return undefined;
+    }
+    return JSON.parse(raw);
+  } catch {
+    return undefined;
+  }
+}
+
+function persistState(state: AppState): void {
+  try {
+    const toPersist = {
+      auth: state.auth,
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(toPersist));
+  } catch {
+    // Ignore persistence errors (e.g., storage unavailable)
+  }
+}
+
+export function storageSyncMetaReducer(reducer: ActionReducer<any>): ActionReducer<any> {
+  return (state, action) => {
+    const hydratedState = state ?? getPersistedState();
+    const nextState = reducer(hydratedState, action);
+    if (nextState) {
+      persistState(nextState);
+    }
+    return nextState;
+  };
 }
 
 export const metaReducers: MetaReducer<any, any>[] = !environment.production
   ? [
     // storeFreeze,
-    localStorageSyncReducer
+    storageSyncMetaReducer
   ]
   : [
     // storeFreeze,
-    localStorageSyncReducer
+    storageSyncMetaReducer
   ];
 
 
@@ -58,6 +81,6 @@ export const getResponse = (state: RestState) => state.response;
 export const getRestResponse = createSelector(getRestState, getResponse);
 
 
-export const getRouterState = (state: AppState) => state.routerReducer;
+export const getRouterState = (state: AppState) => state.router;
 export const getCurrentUrl = createSelector(getRouterState, (state: RouterReducerState<RouterStateUrl>) => state.state && state.state.url);
 export const getCurrentParams = createSelector(getRouterState, (state: RouterReducerState<RouterStateUrl>) => state.state && state.state.params);
