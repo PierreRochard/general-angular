@@ -1,0 +1,9 @@
+{
+  "records": [
+    { "id": 1, "name": "Cash" },
+    { "id": 2, "name": "Receivables – International" },
+    { "id": 3, "name": "Česká Spořitelna" },
+    { "id": 4, "name": "Extremely Long Account Name That Should Wrap Or Truncate To Avoid Overflow In The UI" },
+    { "id": 5, "name": "" }
+  ]
+}

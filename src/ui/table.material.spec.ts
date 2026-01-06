@@ -12,6 +12,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatInputHarness } from '@angular/material/input/testing';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatPaginatorHarness } from '@angular/material/paginator/testing';
 import { MatSortModule, Sort } from '@angular/material/sort';
@@ -174,4 +175,27 @@ describe('TableComponent (Material)', () => {
   });
 
   // Sort change already covered by direct method unit test above.
+
+  it('updates editable cell on blur and autocomplete selection', async () => {
+    const freshFixture = TestBed.createComponent(TableComponent);
+    const freshLoader = TestbedHarnessEnvironment.loader(freshFixture);
+    const freshComponent = freshFixture.componentInstance;
+    freshComponent.columns = [{ ...columns[0], input_type: 'autocomplete' as any }];
+    freshComponent.datatable = datatable;
+    freshComponent.records = [{ id: 1, name: 'Cash' }];
+    freshComponent.suggestions = ['Cash', 'Card'];
+    freshComponent.displayedColumns = ['name', 'actions'];
+    freshFixture.detectChanges();
+    await freshFixture.whenStable();
+
+    const editSpy = spyOn(freshComponent.onEditComplete, 'emit');
+    const inputHarnesses = await freshLoader.getAllHarnesses(MatInputHarness);
+    expect(inputHarnesses.length).toBeGreaterThan(0);
+    await inputHarnesses[0].setValue('Card');
+    const input = await inputHarnesses[0].host();
+    await input.blur();
+    expect(editSpy).toHaveBeenCalledWith(
+      jasmine.objectContaining({ value: 'Card', record_id: 1, column_name: 'name' }),
+    );
+  });
 });

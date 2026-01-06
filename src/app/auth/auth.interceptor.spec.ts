@@ -47,6 +47,14 @@ describe('AuthInterceptor', () => {
     req.flush({ ok: true });
   });
 
+  it('leaves request untouched when no token', () => {
+    store.overrideSelector(selectToken, null);
+    http.get('/public').subscribe();
+    const req = httpMock.expectOne('/public');
+    expect(req.request.headers.has('Authorization')).toBeFalse();
+    req.flush({ ok: true });
+  });
+
   it('strips token and navigates on 401', () => {
     store.overrideSelector(selectToken, 'token-123');
     const dispatchSpy = spyOn(store, 'dispatch').and.callThrough();
@@ -63,5 +71,23 @@ describe('AuthInterceptor', () => {
 
     expect(dispatchSpy).toHaveBeenCalledWith(removeToken());
     expect(navigateSpy).toHaveBeenCalledWith(['/auth/rpc/login']);
+  });
+
+  it('rethrows non-401 errors without navigation/dispatch', () => {
+    store.overrideSelector(selectToken, 'token-123');
+    const dispatchSpy = spyOn(store, 'dispatch');
+    const navigateSpy = spyOn(router, 'navigate');
+    let error: HttpErrorResponse | undefined;
+
+    http.get('/secure').subscribe({
+      error: err => error = err,
+    });
+
+    const req = httpMock.expectOne('/secure');
+    req.flush({ message: 'boom' }, { status: 500, statusText: 'Server Error' });
+
+    expect(error?.status).toBe(500);
+    expect(dispatchSpy).not.toHaveBeenCalled();
+    expect(navigateSpy).not.toHaveBeenCalled();
   });
 });

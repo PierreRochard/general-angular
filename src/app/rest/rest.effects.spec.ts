@@ -125,5 +125,60 @@ describe('RestEffects', () => {
         done();
       }, 0);
     });
+
+    it('emits nothing on 200 response for non-login url', (done) => {
+      actions$.next(receivedResponse({
+        response: {
+          status: 200,
+          url: 'https://api.rochard.org/other',
+          body: [{ id: 1 }] as any,
+        } as any,
+      }));
+
+      const emitted: Action[] = [];
+      effects.processResponse$.subscribe(action => emitted.push(action));
+      setTimeout(() => {
+        expect(emitted.length).toBe(0);
+        done();
+      }, 0);
+    });
+
+    it('no-ops on non-expired 401 responses', (done) => {
+      actions$.next(receivedResponse({
+        response: { status: 401, message: 'Unauthorized' } as any,
+      }));
+
+      const emitted: Action[] = [];
+      effects.processResponse$.subscribe(action => emitted.push(action));
+      setTimeout(() => {
+        expect(emitted.length).toBe(0);
+        done();
+      }, 0);
+    });
+  });
+
+  describe('cancellation and sequencing', () => {
+    it('cancels in-flight GET when a newer one arrives', (done) => {
+      let firstCancelled = false;
+      restClient.get.and.callFake(() => new Observable<any>(() => () => { firstCancelled = true; }));
+      const latestResponse = { status: 200, body: [{ id: 2 }] as any };
+      restClient.get.and.returnValues(
+        new Observable<any>(() => () => { firstCancelled = true; }),
+        of(latestResponse),
+      );
+
+      const received: Action[] = [];
+      effects.sendGetRequest$.subscribe(action => {
+        received.push(action);
+        if (received.length === 1) {
+          expect(action).toEqual(receivedResponse({ response: latestResponse }));
+          expect(firstCancelled).toBeTrue();
+          done();
+        }
+      });
+
+      actions$.next(sendGetRequest({ schema: 'auth', path: '/first' }));
+      actions$.next(sendGetRequest({ schema: 'auth', path: '/second' }));
+    });
   });
 });

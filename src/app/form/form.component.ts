@@ -32,8 +32,15 @@ export class FormComponent implements OnChanges {
       return;
     }
     const controls = this.formFieldSettings.reduce<DynamicFormControls>((acc, settings) => {
+      const validators = [Validators.required];
+      if (settings.field_type === 'email') {
+        validators.push(Validators.email);
+      }
+      if (settings.field_type === 'password') {
+        validators.push(Validators.minLength(8));
+      }
       acc[settings.field_name] = this.fb.nonNullable.control('', {
-        validators: [Validators.required],
+        validators,
       });
       return acc;
     }, {});

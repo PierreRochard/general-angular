@@ -68,7 +68,9 @@ describe('Form and Table flows', () => {
     cy.get('@menubar').then(menubar => {
       cy.intercept('GET', 'https://admin.rochard.org/menubar', { statusCode: 200, body: menubar });
     });
-    cy.get('@datatable').then(({ datatable, columns, records, emptyRecords }) => {
+    cy.get('@datatable').then(({ datatable, columns, records }) => {
+      cy.fixture('edge-records').then(edge => {
+        const edgeRecords = edge.records;
       cy.intercept('GET', 'https://admin.rochard.org/datatables*', {
         statusCode: 200,
         body: [datatable],
@@ -82,6 +84,27 @@ describe('Form and Table flows', () => {
         headers: { 'content-range': '0-2/3' },
         body: records,
       }).as('getRecords');
+      cy.intercept('GET', 'https://chartofaccounts.rochard.org/accounts*page=1*', {
+        statusCode: 200,
+        headers: { 'content-range': '10-14/5' },
+        body: edgeRecords,
+      }).as('getEdgePage');
+      cy.intercept('GET', 'https://chartofaccounts.rochard.org/accounts*fail*', {
+        statusCode: 500,
+        body: { message: 'Server error' },
+      }).as('getRecordsFail');
+      cy.intercept('GET', 'https://chartofaccounts.rochard.org/accounts*slow*', (req) => {
+        req.reply({
+          delay: 1500,
+          statusCode: 200,
+          headers: { 'content-range': '0-0/0' },
+          body: [],
+        });
+      }).as('getRecordsSlow');
+      cy.intercept('POST', 'https://chartofaccounts.rochard.org/accounts*archive*', {
+        statusCode: 200,
+      }).as('archiveRecord');
+      });
     });
 
     const persistedState = JSON.stringify({ auth: { token: 'fake-token' } });
@@ -101,8 +124,21 @@ describe('Form and Table flows', () => {
     cy.get('mat-paginator').within(() => {
       cy.get('button.mat-mdc-icon-button[aria-label="Next page"]').click();
     });
+    cy.wait('@getEdgePage');
+    cy.contains('Extremely Long Account Name').should('exist');
+    cy.contains('Česká').should('exist');
 
     cy.get('button').contains('Archive').first().click();
+    cy.wait('@archiveRecord');
     cy.screenshot('table-after-archive');
+
+    // Error state
+    cy.intercept('GET', 'https://chartofaccounts.rochard.org/accounts*', {
+      statusCode: 500,
+      body: { message: 'Server error' },
+    }).as('getRecords500');
+    cy.reload();
+    cy.wait('@getRecords500');
+    cy.contains(/error|failed|server/i).should('exist');
   });
 });
