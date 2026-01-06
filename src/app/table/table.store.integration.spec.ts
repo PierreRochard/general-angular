@@ -4,18 +4,26 @@ import { firstValueFrom, take } from 'rxjs';
 
 import { TableState, tableReducer } from './table.reducers';
 import {
+  getDatatable,
   receiveDatatable,
   receiveDatatableColumns,
   receiveRecords,
+  removeRecord,
+  setRecordsLoading,
+  updateColumnsVisibility,
   updateKeyword,
+  updatePagination,
   updateRowCount,
+  updateSort,
   updateTableName,
 } from './table.actions';
 import {
+  selectAreRecordsLoading,
   selectColumns,
   selectDatatable,
   selectRecords,
   selectRowCount,
+  selectTableState,
 } from './table.selectors';
 
 describe('Table store integration', () => {
@@ -55,6 +63,10 @@ describe('Table store integration', () => {
   });
 
   it('maps datatable, columns, and records through selectors after dispatch', async () => {
+    store.dispatch(getDatatable({ params: { selectedObjectName: 'accounts', selectedSchemaName: 'chart_of_accounts', selectedObjectType: 'table' } as any }));
+    const loadingState = await firstValueFrom(store.select(selectTableState).pipe(take(1)));
+    expect(loadingState.isDatatableLoading).toBeTrue();
+
     store.dispatch(receiveDatatable({ datatable }));
     store.dispatch(receiveDatatableColumns({ columns }));
     store.dispatch(receiveRecords({ records }));
@@ -74,5 +86,75 @@ describe('Table store integration', () => {
     expect(selectedColumns).toEqual(columns);
     expect(selectedRecords).toEqual(records);
     expect(rowCount).toBe(50);
+    expect(selectedDatatable?.row_limit).toBe(10);
+  });
+
+  it('updates pagination and sort while keeping immutability', async () => {
+    store.dispatch(receiveDatatable({ datatable }));
+    store.dispatch(receiveRecords({ records }));
+    const prevState = await firstValueFrom(store.select(selectTableState));
+
+    store.dispatch(updatePagination({
+      update: {
+        first: 20,
+        rows: 10,
+        schemaName: datatable.schema_name,
+        tableName: datatable.table_name,
+        sortField: datatable.sort_column,
+        sortOrder: datatable.sort_order,
+      },
+    }));
+    store.dispatch(updateSort({
+      update: {
+        first: 20,
+        rows: 10,
+        schemaName: datatable.schema_name,
+        tableName: datatable.table_name,
+        sortField: 'name',
+        sortOrder: -1,
+      },
+    }));
+
+    const nextState = await firstValueFrom(store.select(selectTableState));
+    expect(nextState.rowOffset).toBe(20);
+    expect(nextState.rowLimit).toBe(10);
+    expect(nextState.sortOrder).toBe(-1);
+    expect(prevState.records).toEqual(records); // immutability check
+  });
+
+  it('removes records and updates row count on removeRecord', async () => {
+    store.dispatch(receiveDatatable({ datatable }));
+    store.dispatch(receiveRecords({ records }));
+    store.dispatch(updateRowCount({ rowCount: 2 }));
+
+    store.dispatch(removeRecord({ record: records[0] }));
+
+    const remainingRecords = await firstValueFrom(store.select(selectRecords).pipe(take(1)));
+    const rowCount = await firstValueFrom(store.select(selectRowCount).pipe(take(1)));
+    expect(remainingRecords.length).toBe(0);
+    expect(rowCount).toBe(1);
+  });
+
+  it('toggles visibility for columns', async () => {
+    store.dispatch(receiveDatatable({ datatable }));
+    store.dispatch(receiveDatatableColumns({ columns }));
+    store.dispatch(updateColumnsVisibility({ columns, isVisible: false }));
+    const hidden = await firstValueFrom(store.select(selectColumns));
+    expect(hidden[0].is_visible).toBeFalse();
+
+    store.dispatch(updateColumnsVisibility({ columns, isVisible: true }));
+    const visible = await firstValueFrom(store.select(selectColumns));
+    expect(visible[0].is_visible).toBeTrue();
+  });
+
+  it('resets loading flags on error paths', async () => {
+    store.dispatch(getDatatable({ params: { selectedObjectName: 'accounts', selectedSchemaName: 'chart_of_accounts', selectedObjectType: 'table' } as any }));
+    store.dispatch(setRecordsLoading({ isLoading: true }));
+    store.dispatch(setRecordsLoading({ isLoading: false }));
+
+    const loading = await firstValueFrom(store.select(selectAreRecordsLoading));
+    const state = await firstValueFrom(store.select(selectRecords));
+    expect(loading).toBeFalse();
+    expect(state).toEqual([]);
   });
 });

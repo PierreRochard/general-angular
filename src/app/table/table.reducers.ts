@@ -15,8 +15,11 @@ import {
   selectRecords,
   setRecordsLoading,
   updateKeyword,
+  updatePagination,
   updateRowCount,
+  updateSort,
   updateTableName,
+  updateColumnsVisibility,
 } from './table.actions';
 import { Datatable, DatatableColumn } from './table.models';
 
@@ -110,17 +113,40 @@ export const tableReducer = createReducer<TableState>(
   on(removeRecord, (state, { record }) => ({
     ...state,
     records: state.records.filter(r => r.id !== record.id),
+    rowCount: state.rowCount !== null ? Math.max(0, state.rowCount - 1) : state.rowCount,
   })),
-  on(removeTableRecords, state => ({ ...state, records: [] as any[] })),
+  on(removeTableRecords, state => ({ ...state, records: [] as any[], rowCount: 0 })),
   on(selectRecords, (state, { records }) => ({ ...state, selectedRecords: records })),
   on(updateKeyword, (state, { column }) => ({
     ...state,
     datatable: state.datatable ? { ...state.datatable, filter_columns: [column] } : null,
   })),
+  on(updatePagination, (state, { update }) => ({
+    ...state,
+    rowOffset: update.first,
+    rowLimit: update.rows,
+    sortColumn: update.sortField ?? state.sortColumn,
+    sortOrder: update.sortOrder ?? state.sortOrder,
+    areRecordsLoading: true,
+  })),
   on(updateRowCount, (state, { rowCount }) => ({ ...state, rowCount })),
+  on(updateSort, (state, { update }) => ({
+    ...state,
+    sortColumn: update.sortField,
+    sortOrder: update.sortOrder,
+    rowOffset: update.first,
+    rowLimit: update.rows,
+    areRecordsLoading: true,
+  })),
   on(updateTableName, (state, { params }) => ({
     ...state,
     tableName: params.selectedObjectName,
     schemaName: params.selectedSchemaName,
+  })),
+  on(updateColumnsVisibility, (state, { columns, isVisible }) => ({
+    ...state,
+    columns: state.columns.map(col => columns.find(c => c.column_name === col.column_name)
+      ? { ...col, is_visible: isVisible }
+      : col),
   })),
 );
